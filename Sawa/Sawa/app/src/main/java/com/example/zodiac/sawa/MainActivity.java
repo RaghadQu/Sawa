@@ -1,6 +1,8 @@
 package com.example.zodiac.sawa;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -30,13 +32,24 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        // Address the email and password field
+        //check if the user is already signed in
+        SharedPreferences sharedPreferences = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
+        String email = sharedPreferences.getString("email", "");
+        String isLogined = sharedPreferences.getString("isLogined", "");
+
+        if ((isLogined.equals("1"))) {
+            Intent i = new Intent(getApplicationContext(), Home.class);
+            startActivity(i);
+            finish();
+        }
+
+        // Address the email  and password field
         emailEditText = (EditText) findViewById(R.id.username);
         passEditText = (EditText) findViewById(R.id.password);
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("http://0963c12e.ngrok.io/Sawa/public/index.php/")
                 .addConverterFactory(GsonConverterFactory.create()).build();
-         service = retrofit.create(LoginAuth.class);
+        service = retrofit.create(LoginAuth.class);
     }
 
     public void checkLogin(View arg0) {
@@ -51,13 +64,20 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(Call<Authentication> call, Response<Authentication> response) {
                 int statusCode = response.code();
                 Authentication authResponse = response.body();
-                Log.d("HERE","--------------------- "+request.getEmail()+" " +request.getPassword());
-               if ( authResponse.getState()==1 ) {
+                SharedPreferences sharedPreferences = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
+                String email = sharedPreferences.getString("email", "");
+                if (authResponse.getState() == 1) {
+                    //Store user info in shared prefrences file
+                    sharedPreferences = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("email", emailEditText.getText().toString());
+                    editor.putString("password", passEditText.getText().toString());
+                    editor.putString("isLogined", "1");
+                    editor.apply();
                     Intent i = new Intent(getApplicationContext(), Home.class);
                     startActivity(i);
-                }
-                else
-                {
+                    finish();
+                } else {
                     emailEditText.setError("Invalid Email or Password");
                 }
             }
@@ -67,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-       // service.getAuth(request)
+        // service.getAuth(request)
     /*    final String email = emailEditText.getText().toString();
         if (!isValidEmail(email)) {
             //Set error message for email field
@@ -106,13 +126,13 @@ public class MainActivity extends AppCompatActivity {
         return false;
     }
 
-    public void forgot_pass(View arg0){
-        Intent i = new Intent(getApplicationContext(),RecoverPass.class);
+    public void forgot_pass(View arg0) {
+        Intent i = new Intent(getApplicationContext(), RecoverPass.class);
         startActivity(i);
     }
 
-    public void register(View arg0){
-        Intent i = new Intent(getApplicationContext(),Register.class);
+    public void register(View arg0) {
+        Intent i = new Intent(getApplicationContext(), Register.class);
         startActivity(i);
     }
 }
