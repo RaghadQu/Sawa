@@ -12,6 +12,9 @@ import com.example.zodiac.sawa.interfaces.SignAuth;
 import com.example.zodiac.sawa.models.SignRequest;
 import com.example.zodiac.sawa.models.SignResponse;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -25,21 +28,23 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class Register extends Activity {
 
 
-    private EditText nameEditText;
+    private EditText first_name;
+    private EditText last_name;
     private EditText emailEditText;
     private EditText mobileEditText;
-    private EditText locationEditText;
     private EditText passEditText;
     private EditText confPassEditText;
     SignAuth service;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register);
-        nameEditText = (EditText) findViewById(R.id.fullName);
+        first_name = (EditText) findViewById(R.id.first_name);
+        last_name = (EditText) findViewById(R.id.last_name);
+
         emailEditText = (EditText) findViewById(R.id.userEmailId);
         mobileEditText = (EditText) findViewById(R.id.mobileNumber);
-        locationEditText = (EditText) findViewById(R.id.location);
         passEditText = (EditText) findViewById(R.id.password);
         confPassEditText = (EditText) findViewById(R.id.confirmPassword);
 
@@ -50,41 +55,47 @@ public class Register extends Activity {
 
     }
 
-    public void Login(View arg0)
-    {
-       finish();
-      //  Intent i = new Intent(getApplicationContext(), MainActivity.class);
-       // startActivity(i);
+    public void Login(View arg0) {
+        finish();
+        //  Intent i = new Intent(getApplicationContext(), MainActivity.class);
+        // startActivity(i);
 
     }
 
-    public void SignUp (View arg0)
-    {
+    public void SignUp(View arg0) {
         SignRequest request = new SignRequest();
-        request.setName(nameEditText.getText().toString());
+        request.setFirstName(first_name.getText().toString());
+        request.setLastName(last_name.getText().toString());
+        request.setMobile(mobileEditText.getText().toString());
         request.setEmail(emailEditText.getText().toString());
-        request.setLocation(locationEditText.getText().toString());
         request.setPassword(passEditText.getText().toString());
+        Validation validation = new Validation();
+        boolean isValide = validation.isDataValide(first_name, last_name, emailEditText, mobileEditText, passEditText, confPassEditText);
 
-        final Call<SignResponse> signResponse = service.getState(request);
-        signResponse.enqueue(new Callback<com.example.zodiac.sawa.models.SignResponse>() {
+        if (isValide) {
+            final Call<SignResponse> signResponse = service.getState(request);
+            signResponse.enqueue(new Callback<com.example.zodiac.sawa.models.SignResponse>() {
 
 
-            @Override
-            public void onResponse(Call<SignResponse> call, Response<SignResponse> response) {
-                int statusCode = response.code();
-                SignResponse FinalRespone = response.body();
+                @Override
+                public void onResponse(Call<SignResponse> call, Response<SignResponse> response) {
+                    int statusCode = response.code();
+                    SignResponse FinalRespone = response.body();
 
-                Log.d("HERE","---------------------"+statusCode+FinalRespone.getState());
-            }
+                    Log.d("HERE", "---------------------" + statusCode + FinalRespone.getState());
+                }
 
-            @Override
-            public void onFailure(Call<SignResponse> call, Throwable t) {
-                Log.d("HERE","---------------------ERROR ");
+                @Override
+                public void onFailure(Call<SignResponse> call, Throwable t) {
+                    Log.d("HERE", "---------------------ERROR ");
 
-            }
-        });
+                }
+            });
+
+        }
+
 
     }
+
 
 }

@@ -9,31 +9,21 @@ import com.google.gson.annotations.SerializedName;
 public class SignRequest {
 
 
-    @SerializedName("first_name")
-    @Expose
-    private String name;
-
-    @SerializedName("last_name")
-    @Expose
-    private String location;
     @SerializedName("email")
     @Expose
     private String email;
- //   @SerializedName("mobile")
-    // @Expose
-   // private String mobile;
-
+    @SerializedName("first_name")
+    @Expose
+    private String firstName;
+    @SerializedName("last_name")
+    @Expose
+    private String lastName;
     @SerializedName("password")
     @Expose
     private String password;
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
+    @SerializedName("mobile")
+    @Expose
+    private String mobile;
 
     public String getEmail() {
         return email;
@@ -43,21 +33,20 @@ public class SignRequest {
         this.email = email;
     }
 
- //   public String getMobile() {
-
-    //return mobile;
-  //  }
-
-  /*  public void setMobile(String mobile) {
-        this.mobile = mobile;
-    }*/
-
-    public String getLocation() {
-        return location;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getPassword() {
@@ -68,5 +57,13 @@ public class SignRequest {
         this.password = password;
     }
 
-}
+    public String getMobile() {
+        return mobile;
+    }
 
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
+
+
+}
