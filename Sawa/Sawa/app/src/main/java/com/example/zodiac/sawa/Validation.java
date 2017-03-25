@@ -28,7 +28,7 @@ public class Validation {
             last_name.setError("Last name is required");
             isValide = false;
         } else if (last_name.getText().toString().contains(" ")) {
-            first_name.setError("Last name musn't conatain space");
+            first_name.setError("Last name musn't contain space");
             isValide = false;
         }
 
@@ -54,7 +54,7 @@ public class Validation {
             confPassword.setError("Password is required");
             isValide = false;
         } else if (password.getText().toString().length() < 8) {
-            password.setError("Password must contail at least 8 chracters");
+            password.setError("Password must contain at least 8 characters");
             isValide = false;
         } else if (!((confPassword.getText().toString()).equals(password.getText().toString()))) {
             confPassword.setError("Confirm password  doesn't match password!");

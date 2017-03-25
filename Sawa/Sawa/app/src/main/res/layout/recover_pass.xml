@@ -10,11 +10,11 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="210dp"
         android:text="Forgot your password ? Please enter your email address to reset it."
-        android:textSize="25dp"
+        android:textSize="18dp"
         android:textColor="#7c017c"
         android:textAlignment="center"/>
     <EditText
-        android:id="@+id/username"
+        android:id="@+id/userEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -25,7 +25,7 @@
         android:inputType="text"
         android:paddingLeft="0dp"
         android:textColor="#000"
-        android:textSize="70px"
+        android:textSize="15dp"
         android:textColorHint="#7c017c"
         />
 
@@ -39,7 +39,7 @@
         android:textColor="#FFF"
         android:background="@drawable/selector_xml_btn_yellow"
         android:layout_gravity="center_horizontal"
-        android:onClick="checkLogin"/>
+        android:onClick="resetPass"/>
 
 
 </LinearLayout>
