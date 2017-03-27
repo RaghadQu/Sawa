@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         String email = sharedPreferences.getString("email", "");
         String isLogined = sharedPreferences.getString("isLogined", "");
 
-        if ((isLogined.equals("1"))) {
+        if ((isLogined.equals("aa"))) {
             Intent i = new Intent(getApplicationContext(), Home.class);
             startActivity(i);
             finish();
@@ -135,4 +135,5 @@ public class MainActivity extends AppCompatActivity {
         Intent i = new Intent(getApplicationContext(), Register.class);
         startActivity(i);
     }
+
 }

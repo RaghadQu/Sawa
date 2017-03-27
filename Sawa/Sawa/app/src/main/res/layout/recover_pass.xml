@@ -2,44 +2,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="30dp"
     android:background="@mipmap/three">
 
-    <TextView
+    <FrameLayout
+        android:id="@+id/your_placeholder"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="210dp"
-        android:text="Forgot your password ? Please enter your email address to reset it."
-        android:textSize="18dp"
-        android:textColor="#7c017c"
-        android:textAlignment="center"/>
-    <EditText
-        android:id="@+id/userEmail"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:drawableLeft="@mipmap/email"
-        android:drawablePadding="5dp"
-        android:ems="20"
-        android:hint="Email"
-        android:inputType="text"
-        android:paddingLeft="0dp"
-        android:textColor="#000"
-        android:textSize="15dp"
-        android:textColorHint="#7c017c"
-        />
-
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="18dp"
-        android:text="Reset Password"
-        android:id="@+id/button"
-        android:textColor="#FFF"
-        android:background="@drawable/selector_xml_btn_yellow"
-        android:layout_gravity="center_horizontal"
-        android:onClick="resetPass"/>
-
+        android:layout_height="match_parent">
+    </FrameLayout>
 
 </LinearLayout>
