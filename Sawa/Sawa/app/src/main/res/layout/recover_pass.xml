@@ -2,11 +2,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="30dp"
     android:background="@mipmap/three">
 
-    <TextView
+    <FrameLayout
+        android:id="@+id/your_placeholder"
         android:layout_width="match_parent"
+<<<<<<< HEAD
         android:layout_height="wrap_content"
         android:layout_marginTop="210dp"
         android:text="Forgot your password ? Please enter your email address to reset it."
@@ -40,5 +41,9 @@
         android:background="@drawable/selector_xml_btn_yellow"
         android:layout_gravity="center_horizontal"
         android:onClick="resetPass"/>
+=======
+        android:layout_height="match_parent">
+    </FrameLayout>
+>>>>>>> c42b4d03850a5173912929a2c76e570b5009c9df
 
 </LinearLayout>

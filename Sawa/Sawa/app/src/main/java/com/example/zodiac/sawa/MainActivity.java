@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         String email = sharedPreferences.getString("email", "");
         String isLogined = sharedPreferences.getString("isLogined", "");
 
-        if ((isLogined.equals("1"))) {
+        if ((isLogined.equals("aa"))) {
             Intent i = new Intent(getApplicationContext(), Home.class);
             startActivity(i);
             finish();
@@ -117,6 +117,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(i);
     }
 
+<<<<<<< HEAD
     public int valid(String email,String password) {
         int flag = 0;
         if ((password.trim().equals(""))) {
@@ -147,3 +148,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     }
+=======
+}
+>>>>>>> c42b4d03850a5173912929a2c76e570b5009c9df

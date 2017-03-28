@@ -1,0 +1,56 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CheckCodeFragment">
+    <!-- TODO: Update blank fragment layout -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="30dp"
+        android:background="@mipmap/three"
+        android:gravity="center">
+
+            <EditText
+                android:id="@+id/code"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:hint="Code"
+                android:textColorHint="@color/purple"
+                android:textColor="@color/purple"
+                android:textSize="15dp"
+                />
+            <!--      <EditText
+                      android:id="@+id/newPass"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:layout_marginTop="-2dp"
+                      android:padding="10dp"
+                      android:hint="New Password"
+                      android:inputType="textPassword"
+                      android:textColorHint="@color/purple"
+                      android:textColor="@color/purple"
+                      android:textSize="15dp"
+                      android:layout_marginBottom="8dp"
+                      />-->
+        <Button
+            android:id="@+id/btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:layout_margin="4dp"
+            android:text="Next"
+            style="DefaultButtonText"
+            android:background="@drawable/selector_xml_btn_yellow"
+            android:textColor="#fff"
+            android:textSize="13dp"
+            android:layout_marginTop="10dp"
+
+
+            />
+    </LinearLayout>
+
+
+</FrameLayout>
