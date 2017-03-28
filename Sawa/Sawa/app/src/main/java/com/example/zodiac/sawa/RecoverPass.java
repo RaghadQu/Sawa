@@ -2,6 +2,8 @@ package com.example.zodiac.sawa;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -40,7 +42,7 @@ public class RecoverPass extends Activity {
         codeText = (EditText)dialog.findViewById(R.id.code);
         btn=(Button) dialog.findViewById(R.id.btn);
 
-    }
+     }
 
 
     public void resetPass( View arg0){

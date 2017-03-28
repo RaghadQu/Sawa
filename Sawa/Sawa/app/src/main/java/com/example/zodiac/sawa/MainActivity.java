@@ -53,11 +53,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void checkLogin(View arg0) {
-        int state;
+       int state;
         final AuthRequest request = new AuthRequest();
         request.setEmail(emailEditText.getText().toString());
         request.setPassword(passEditText.getText().toString());
-
+        if(valid(request.getEmail(),request.getPassword())==0){
         final Call<Authentication> AuthResponse = service.getState(request);
         AuthResponse.enqueue(new Callback<Authentication>() {
             @Override
@@ -86,26 +86,7 @@ public class MainActivity extends AppCompatActivity {
             public void onFailure(Call<Authentication> call, Throwable t) {
 
             }
-        });
-        // service.getAuth(request)
-    /*    final String email = emailEditText.getText().toString();
-        if (!isValidEmail(email)) {
-            //Set error message for email field
-            emailEditText.setError("Invalid Email");
-        }
-
-        final String pass = passEditText.getText().toString();
-        if (!isValidPassword(pass)) {
-            //Set error message for password field
-            passEditText.setError("Password cannot be empty");
-        }
-
-        if(isValidEmail(email) && isValidPassword(pass))
-        {
-            Intent i = new Intent(getApplicationContext(),Home.class);
-            startActivity(i);
-        }*/
-
+        });}
     }
 
     // validating email id
@@ -135,4 +116,34 @@ public class MainActivity extends AppCompatActivity {
         Intent i = new Intent(getApplicationContext(), Register.class);
         startActivity(i);
     }
-}
+
+    public int valid(String email,String password) {
+        int flag = 0;
+        if ((password.trim().equals(""))) {
+            passEditText.setError("Password is required");
+            flag = 1;
+        }
+
+         else if (password.length() < 8)
+        {
+            passEditText.setError("Password must contain at least 8 characters");
+            flag = 1;
+        }
+        if ((email.trim().equals(""))) {
+            emailEditText.setError("Email is required");
+            flag=1;
+        }
+        else
+        {
+            String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+            Pattern p = Pattern.compile(emailPattern);
+            Matcher m = p.matcher(email);
+            boolean b = m.matches();
+            if (!b) {
+            emailEditText.setError("Email is not valid");
+            flag=1;}
+        }
+        return flag;
+    }
+
+    }

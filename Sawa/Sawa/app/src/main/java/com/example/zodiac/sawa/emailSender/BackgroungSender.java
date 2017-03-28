@@ -14,8 +14,8 @@ import com.example.zodiac.sawa.emailSender.GMailSender;
 
     static String uniqueID;
     static String recievedEmail;
-    String sentEmail="";
-    String sentPassword="";
+    String sentEmail="SawaTeamG@gmail.com";
+    String sentPassword="SawaTeam2017";
     protected String doInBackground(String... urls) {
 
         GMailSender mailsender = new GMailSender(sentEmail, sentPassword);
