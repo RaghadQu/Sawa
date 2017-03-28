@@ -47,46 +47,47 @@ public class MainActivity extends AppCompatActivity {
         emailEditText = (EditText) findViewById(R.id.username);
         passEditText = (EditText) findViewById(R.id.password);
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://0963c12e.ngrok.io/Sawa/public/index.php/")
+                .baseUrl("http://b58799f1.ngrok.io/Sawa/public/index.php/")
                 .addConverterFactory(GsonConverterFactory.create()).build();
         service = retrofit.create(LoginAuth.class);
     }
 
     public void checkLogin(View arg0) {
-       int state;
+        int state;
         final AuthRequest request = new AuthRequest();
         request.setEmail(emailEditText.getText().toString());
         request.setPassword(passEditText.getText().toString());
-        if(valid(request.getEmail(),request.getPassword())==0){
-        final Call<Authentication> AuthResponse = service.getState(request);
-        AuthResponse.enqueue(new Callback<Authentication>() {
-            @Override
-            public void onResponse(Call<Authentication> call, Response<Authentication> response) {
-                int statusCode = response.code();
-                Authentication authResponse = response.body();
-                SharedPreferences sharedPreferences = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
-                String email = sharedPreferences.getString("email", "");
-                if (authResponse.getState() == 1) {
-                    //Store user info in shared prefrences file
-                    sharedPreferences = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putString("email", emailEditText.getText().toString());
-                    editor.putString("password", passEditText.getText().toString());
-                    editor.putString("isLogined", "1");
-                    editor.apply();
-                    Intent i = new Intent(getApplicationContext(), Home.class);
-                    startActivity(i);
-                    finish();
-                } else {
-                    emailEditText.setError("Invalid Email or Password");
+        if (valid(request.getEmail(), request.getPassword()) == 0) {
+            final Call<Authentication> AuthResponse = service.getState(request);
+            AuthResponse.enqueue(new Callback<Authentication>() {
+                @Override
+                public void onResponse(Call<Authentication> call, Response<Authentication> response) {
+                    int statusCode = response.code();
+                    Authentication authResponse = response.body();
+                    SharedPreferences sharedPreferences = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
+                    String email = sharedPreferences.getString("email", "");
+                    if (authResponse.getState() == 1) {
+                        //Store user info in shared prefrences file
+                        sharedPreferences = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString("email", emailEditText.getText().toString());
+                        editor.putString("password", passEditText.getText().toString());
+                        editor.putString("isLogined", "1");
+                        editor.apply();
+                        Intent i = new Intent(getApplicationContext(), Home.class);
+                        startActivity(i);
+                        finish();
+                    } else {
+                        emailEditText.setError("Invalid Email or Password");
+                    }
                 }
-            }
 
-            @Override
-            public void onFailure(Call<Authentication> call, Throwable t) {
+                @Override
+                public void onFailure(Call<Authentication> call, Throwable t) {
 
-            }
-        });}
+                }
+            });
+        }
     }
 
     // validating email id
@@ -117,37 +118,30 @@ public class MainActivity extends AppCompatActivity {
         startActivity(i);
     }
 
-<<<<<<< HEAD
-    public int valid(String email,String password) {
+    public int valid(String email, String password) {
         int flag = 0;
         if ((password.trim().equals(""))) {
             passEditText.setError("Password is required");
             flag = 1;
-        }
-
-         else if (password.length() < 8)
-        {
+        } else if (password.length() < 8) {
             passEditText.setError("Password must contain at least 8 characters");
             flag = 1;
         }
         if ((email.trim().equals(""))) {
             emailEditText.setError("Email is required");
-            flag=1;
-        }
-        else
-        {
+            flag = 1;
+        } else {
             String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
             Pattern p = Pattern.compile(emailPattern);
             Matcher m = p.matcher(email);
             boolean b = m.matches();
             if (!b) {
-            emailEditText.setError("Email is not valid");
-            flag=1;}
+                emailEditText.setError("Email is not valid");
+                flag = 1;
+            }
         }
         return flag;
     }
 
-    }
-=======
 }
->>>>>>> c42b4d03850a5173912929a2c76e570b5009c9df
+
