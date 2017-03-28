@@ -117,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(i);
     }
 
-<<<<<<< HEAD
+
     public int valid(String email,String password) {
         int flag = 0;
         if ((password.trim().equals(""))) {
@@ -148,6 +148,5 @@ public class MainActivity extends AppCompatActivity {
     }
 
     }
-=======
-}
->>>>>>> c42b4d03850a5173912929a2c76e570b5009c9df
+
+
