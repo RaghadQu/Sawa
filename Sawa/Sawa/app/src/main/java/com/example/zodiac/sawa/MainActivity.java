@@ -80,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
                     } else {
                         emailEditText.setError("Invalid Email or Password");
                     }
+
                 }
 
                 @Override
@@ -118,7 +119,9 @@ public class MainActivity extends AppCompatActivity {
         startActivity(i);
     }
 
-    public int valid(String email, String password) {
+
+
+    public int valid(String email,String password) {
         int flag = 0;
         if ((password.trim().equals(""))) {
             passEditText.setError("Password is required");
@@ -144,4 +147,3 @@ public class MainActivity extends AppCompatActivity {
     }
 
 }
-
