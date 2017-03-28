@@ -49,7 +49,7 @@ public class Register extends Activity {
         confPassEditText = (EditText) findViewById(R.id.confirmPassword);
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://0963c12e.ngrok.io/Sawa/public/index.php/")
+                .baseUrl("http://b58799f1.ngrok.io/Sawa/public/index.php/")
                 .addConverterFactory(GsonConverterFactory.create()).build();
         service = retrofit.create(SignAuth.class);
 
@@ -82,12 +82,10 @@ public class Register extends Activity {
                     int statusCode = response.code();
                     SignResponse FinalRespone = response.body();
 
-                    Log.d("HERE", "---------------------" + statusCode + FinalRespone.getState());
                 }
 
                 @Override
                 public void onFailure(Call<SignResponse> call, Throwable t) {
-                    Log.d("HERE", "---------------------ERROR ");
 
                 }
             });

@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         emailEditText = (EditText) findViewById(R.id.username);
         passEditText = (EditText) findViewById(R.id.password);
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://0963c12e.ngrok.io/Sawa/public/index.php/")
+                .baseUrl("http://b58799f1.ngrok.io/Sawa/public/index.php/")
                 .addConverterFactory(GsonConverterFactory.create()).build();
         service = retrofit.create(LoginAuth.class);
     }
@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
         final AuthRequest request = new AuthRequest();
         request.setEmail(emailEditText.getText().toString());
         request.setPassword(passEditText.getText().toString());
-        if(valid(request.getEmail(),request.getPassword())==0){
+       if(valid(request.getEmail(),request.getPassword())==0){
         final Call<Authentication> AuthResponse = service.getState(request);
         AuthResponse.enqueue(new Callback<Authentication>() {
             @Override
