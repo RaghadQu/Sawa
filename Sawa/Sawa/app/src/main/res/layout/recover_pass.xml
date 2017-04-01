@@ -9,6 +9,5 @@
 
         android:layout_height="match_parent">
     </FrameLayout>
->>>>>>> c00e2e52c3e6748af53914317ece8b89ce5abefa
 
 </LinearLayout>
