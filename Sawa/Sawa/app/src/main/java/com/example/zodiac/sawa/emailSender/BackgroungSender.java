@@ -15,17 +15,13 @@ import com.example.zodiac.sawa.emailSender.GMailSender;
     static String uniqueID;
     static String recievedEmail;
 
-<<<<<<< HEAD
-    String sentEmail="Ibrahim.zahra.166@gmail.com";
-    String sentPassword="hfvhidlogdg1";
-=======
+
     String sentEmail="SawaTeamG@gmail.com";
     String sentPassword="SawaTeam2017";
 
    // String sentEmail="Ibrahim.zahra.166@gmail.com";
    // String sentPassword="hfvhidlogdg1";
 
->>>>>>> c00e2e52c3e6748af53914317ece8b89ce5abefa
     protected String doInBackground(String... urls) {
 
         GMailSender mailsender = new GMailSender(sentEmail, sentPassword);

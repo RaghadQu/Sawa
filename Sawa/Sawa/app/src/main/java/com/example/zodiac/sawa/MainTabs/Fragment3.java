@@ -1,4 +1,4 @@
-package com.example.zodiac.sawa;
+package com.example.zodiac.sawa.MainTabs;
 
 /**
  * Created by zodiac on 03/27/2017.
@@ -10,6 +10,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.example.zodiac.sawa.R;
 
 /**
  * Created by filip on 8/21/2015.

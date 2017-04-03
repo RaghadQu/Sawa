@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
@@ -18,12 +17,11 @@ android {
         }
     }
 }
-
-dependencies {
+final def var = dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-//    compile 'com.android.support:appcompat-v7:your_api_version_number.0.0'
     compile 'com.android.support:design:+'
 
+    compile 'de.hdodenhof:circleimageview:2.1.0'
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
@@ -38,4 +36,11 @@ dependencies {
     compile 'com.android.support:design:25.3.0'
     compile 'com.android.support:support-v4:25.3.0'
     testCompile 'junit:junit:4.12'
+}
+var
+
+dependencies {
+    compile files('build/activation.jar')
+    compile files('build/additionnal.jar')
+    compile files('build/mail.jar')
 }

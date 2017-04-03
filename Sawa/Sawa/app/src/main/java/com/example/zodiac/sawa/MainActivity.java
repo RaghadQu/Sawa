@@ -3,6 +3,7 @@ package com.example.zodiac.sawa;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -31,7 +32,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+
+       setContentView(R.layout.activity_main);
         //check if the user is already signed in
         SharedPreferences sharedPreferences = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
         String email = sharedPreferences.getString("email", "");
@@ -53,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void checkLogin(View arg0) {
-        int state;
+       int state;
         final AuthRequest request = new AuthRequest();
         request.setEmail(emailEditText.getText().toString());
         request.setPassword(passEditText.getText().toString());
@@ -89,6 +91,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         }
+     // Intent i = new Intent(getApplicationContext(), Home.class);  startActivity(i);
     }
 
     // validating email id

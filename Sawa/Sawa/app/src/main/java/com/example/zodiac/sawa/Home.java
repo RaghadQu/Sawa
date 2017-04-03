@@ -6,10 +6,13 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-        import android.support.v4.view.PointerIconCompat;
         import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-        import android.view.View;
+
+        import com.example.zodiac.sawa.MainTabs.Fragment1;
+        import com.example.zodiac.sawa.MainTabs.Fragment2;
+        import com.example.zodiac.sawa.MainTabs.Fragment3;
+        import com.example.zodiac.sawa.MainTabs.Fragment4;
 
 public class Home extends AppCompatActivity {
 

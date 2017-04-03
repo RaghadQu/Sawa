@@ -39,7 +39,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_below="@id/user_profile_name"
                 android:gravity="center"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentRight="true"
@@ -69,8 +68,6 @@
                     android:layout_marginTop="12dp"
                     android:textColor="#fff"
                     android:textSize="14sp"
-                    android:layout_right="@id/bio"
-
                     android:layout_marginLeft="50dp"
                     android:layout_marginRight="50dp"
                     android:drawableLeft="@mipmap/account"
