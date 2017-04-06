@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
 
-    <RelativeLayout
+    <RelativeLayout  xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/purple">
@@ -26,7 +23,7 @@
             android:src="@drawable/profile"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="13dp" />
+            android:layout_marginTop="12dp" />
 
         <RelativeLayout
             android:id="@+id/profile_layout"
@@ -34,7 +31,6 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/user_profile_photo"
             android:background="@android:color/transparent"
-            android:elevation="4dp"
             >
 
 
@@ -56,40 +52,10 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:gravity="center"
-                android:layout_marginTop="35dp"
+                android:layout_marginTop="30dp"
                 xmlns:app="http://schemas.android.com/apk/res-auto"
 
                 >
-
-            <!--    <Button
-                    android:id="@+id/About"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/corners"
-                    android:text="About"
-                    android:textColor="#fff"
-                    android:textSize="13sp"
-                    />
-
-                <Button
-                    android:id="@+id/Friends"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_toRightOf="@+id/About"
-                    android:background="#9b8"
-                    android:text="Friends"
-                    android:textColor="#fff"
-                    android:textSize="13sp" />
-
-                <Button
-                    android:id="@+id/FriendsRequest"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_toRightOf="@+id/Friends"
-                    android:background="@drawable/corners_right"
-                    android:text="Reuqests"
-                    android:textColor="#fff"
-                    android:textSize="13sp" />-->
 
                 <android.support.design.widget.TabLayout
                     android:layout_width="match_parent"
@@ -117,4 +83,3 @@
 
         </RelativeLayout>
     </RelativeLayout>
-</ScrollView>
