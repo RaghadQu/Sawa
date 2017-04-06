@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void checkLogin(View arg0) {
-       int state;
+       /*
         final AuthRequest request = new AuthRequest();
         request.setEmail(emailEditText.getText().toString());
         request.setPassword(passEditText.getText().toString());
@@ -90,27 +90,10 @@ public class MainActivity extends AppCompatActivity {
 
                 }
             });
-        }
-     // Intent i = new Intent(getApplicationContext(), Home.class);  startActivity(i);
+        }*/
+      Intent i = new Intent(getApplicationContext(), Home.class);  startActivity(i);
     }
 
-    // validating email id
-    private boolean isValidEmail(String email) {
-        String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
-                + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
-
-        Pattern pattern = Pattern.compile(EMAIL_PATTERN);
-        Matcher matcher = pattern.matcher(email);
-        return matcher.matches();
-    }
-
-    // validating password
-    private boolean isValidPassword(String pass) {
-        if (pass != null && pass.length() >= 4) {
-            return true;
-        }
-        return false;
-    }
 
     public void forgot_pass(View arg0) {
         Intent i = new Intent(getApplicationContext(), RecoverPass.class);

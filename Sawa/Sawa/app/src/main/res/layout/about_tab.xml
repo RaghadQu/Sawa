@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView  xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000">-->
+
+
+<LinearLayout   xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff"
+    >
+<RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/corners"
+        android:layout_margin="10dp"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="BIO"
+            android:textStyle="bold"
+            android:paddingLeft="10dp"
+            android:minLines="2"
+            android:layout_margin="10dp"
+            android:id="@+id/Bio"
+            android:textColor="#000"
+            android:background="@android:color/transparent"
+
+
+            />
+        <Button
+            android:layout_marginTop="4dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:drawableLeft="@mipmap/edit"
+            android:background="@android:color/transparent"
+            android:layout_alignParentRight="true"
+
+            />
+        <TextView
+            android:layout_marginTop="35dp"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:layout_marginBottom="2dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:minLines="4"
+            android:background="#fff"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/corners"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Status"
+            android:textStyle="bold"
+            android:paddingLeft="10dp"
+            android:minLines="2"
+            android:layout_margin="10dp"
+            android:id="@+id/status"
+            android:textColor="#000"
+            android:background="@android:color/transparent"
+
+
+            />
+        <Button
+            android:layout_marginTop="4dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:drawableLeft="@mipmap/edit"
+            android:background="@android:color/transparent"
+            android:layout_alignParentRight="true"
+
+            />
+        <TextView
+            android:layout_marginTop="35dp"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:layout_marginBottom="2dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:minLines="2"
+            android:background="#fff"/>
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/corners"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Song"
+            android:textStyle="bold"
+            android:paddingLeft="10dp"
+            android:minLines="2"
+            android:layout_margin="10dp"
+            android:id="@+id/Song"
+            android:textColor="#000"
+            android:background="@android:color/transparent"
+
+
+            />
+        <Button
+            android:layout_marginTop="4dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:drawableLeft="@mipmap/edit"
+            android:background="@android:color/transparent"
+            android:layout_alignParentRight="true"
+
+            />
+        <TextView
+            android:layout_marginTop="35dp"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:layout_marginBottom="2dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:minLines="4"
+            android:background="#fff"/>
+    </RelativeLayout>
+
+</LinearLayout>
+</ScrollView>

@@ -16,10 +16,10 @@ import com.example.zodiac.sawa.R;
 /**
  * Created by filip on 8/21/2015.
  */
-public class Fragment3 extends Fragment {
+public class Setting extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return  inflater.inflate(R.layout.tab3,container,false);
+        return  inflater.inflate(R.layout.setting_tab,container,false);
     }
 }

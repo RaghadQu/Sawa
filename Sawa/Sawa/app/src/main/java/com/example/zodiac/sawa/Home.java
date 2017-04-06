@@ -9,10 +9,10 @@ import android.support.v4.app.FragmentPagerAdapter;
         import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 
-        import com.example.zodiac.sawa.MainTabs.Fragment1;
-        import com.example.zodiac.sawa.MainTabs.Fragment2;
-        import com.example.zodiac.sawa.MainTabs.Fragment3;
-        import com.example.zodiac.sawa.MainTabs.Fragment4;
+        import com.example.zodiac.sawa.MainTabs.HomeTab;
+        import com.example.zodiac.sawa.MainTabs.Profile;
+        import com.example.zodiac.sawa.MainTabs.Notification;
+        import com.example.zodiac.sawa.MainTabs.Setting;
 
 public class Home extends AppCompatActivity {
 
@@ -24,7 +24,6 @@ public class Home extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.viewpager);
-
         viewPager = (ViewPager) findViewById(R.id.viewPager);
         viewPager.setAdapter(new CustomAdapter(getSupportFragmentManager(),getApplicationContext()));
 
@@ -84,13 +83,13 @@ public class Home extends AppCompatActivity {
         public Fragment getItem(int position) {
             switch (position){
                 case 0:
-                    return new Fragment1();
+                    return new HomeTab();
                 case 1:
-                    return new Fragment2();
+                    return new Profile();
                 case 2:
-                    return new Fragment3();
+                    return new Notification();
                 case 3:
-                    return new Fragment4();
+                    return new Setting();
                 default:
                     return null;
             }
