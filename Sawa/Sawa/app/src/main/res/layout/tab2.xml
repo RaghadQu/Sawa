@@ -10,4 +10,6 @@
         android:id="@+id/button"
         android:layout_gravity="center_horizontal"
         android:textColor="@color/purple"/>
+
+
 </LinearLayout>
