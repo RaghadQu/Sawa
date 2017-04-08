@@ -26,9 +26,6 @@ final def var = dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
-    compile files('build/activation.jar')
-    compile files('build/additionnal.jar')
-    compile files('build/mail.jar')
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'
     compile 'com.android.support:appcompat-v7:25.3.0'
@@ -36,11 +33,13 @@ final def var = dependencies {
     compile 'com.android.support:design:25.3.0'
     compile 'com.android.support:support-v4:25.3.0'
     testCompile 'junit:junit:4.12'
+    compile files('activation.jar')
+    compile files('additionnal.jar')
+    compile files('mail.jar')
 }
-var
 
 dependencies {
-    compile files('build/additionnal.jar')
-    compile files('build/mail.jar')
-    compile files('build/activation.jar')
+    compile files('activation.jar')
+    compile files('additionnal.jar')
+    compile files('mail.jar')
 }

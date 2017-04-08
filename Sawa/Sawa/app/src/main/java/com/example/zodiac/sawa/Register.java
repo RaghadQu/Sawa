@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
+import com.example.zodiac.sawa.ProfileTabs.About;
 import com.example.zodiac.sawa.interfaces.SignAuth;
 import com.example.zodiac.sawa.models.SignRequest;
 import com.example.zodiac.sawa.models.SignResponse;
@@ -71,8 +72,8 @@ public class Register extends Activity {
         request.setPassword(passEditText.getText().toString());
         Validation validation = new Validation();
         boolean isValide = validation.isDataValide(first_name, last_name, emailEditText, mobileEditText, passEditText, confPassEditText);
-
         if (isValide) {
+
             final Call<SignResponse> signResponse = service.getState(request);
             signResponse.enqueue(new Callback<com.example.zodiac.sawa.models.SignResponse>() {
 
@@ -81,16 +82,23 @@ public class Register extends Activity {
                 public void onResponse(Call<SignResponse> call, Response<SignResponse> response) {
                     int statusCode = response.code();
                     SignResponse FinalRespone = response.body();
+                    // add the user in the backend with empty recode
+                    if(response.body().getState()==1) {
+
+                        About about = new About();
+                        about.addNewAboutUserInDB(FinalRespone.getUser_id());
+                    } else Log.d("valid","already added");
 
                 }
 
                 @Override
                 public void onFailure(Call<SignResponse> call, Throwable t) {
-
+                    Log.d("notvalid","valid");
                 }
             });
 
         }
+
 
 
     }

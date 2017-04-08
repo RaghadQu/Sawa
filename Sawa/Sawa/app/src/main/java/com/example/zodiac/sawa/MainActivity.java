@@ -10,6 +10,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
+import com.example.zodiac.sawa.DB.AboutUser;
+import com.example.zodiac.sawa.DB.DBHandler;
 import com.example.zodiac.sawa.interfaces.LoginAuth;
 import com.example.zodiac.sawa.models.AuthRequest;
 import com.example.zodiac.sawa.models.Authentication;
@@ -34,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
        setContentView(R.layout.activity_main);
+
         //check if the user is already signed in
         SharedPreferences sharedPreferences = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
         String email = sharedPreferences.getString("email", "");

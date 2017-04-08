@@ -25,7 +25,6 @@
             android:paddingLeft="10dp"
             android:minLines="2"
             android:layout_margin="10dp"
-            android:id="@+id/Bio"
             android:textColor="#000"
             android:background="@android:color/transparent"
 
@@ -41,6 +40,7 @@
 
             />
         <TextView
+            android:id="@+id/Bio"
             android:layout_marginTop="35dp"
             android:layout_marginLeft="2dp"
             android:layout_marginRight="2dp"
@@ -49,6 +49,8 @@
             android:layout_height="wrap_content"
             android:text=""
             android:minLines="4"
+            android:autoLink="web"
+
             android:background="#fff"/>
     </RelativeLayout>
 
@@ -69,7 +71,6 @@
             android:paddingLeft="10dp"
             android:minLines="2"
             android:layout_margin="10dp"
-            android:id="@+id/status"
             android:textColor="#000"
             android:background="@android:color/transparent"
 
@@ -85,6 +86,7 @@
 
             />
         <TextView
+            android:id="@+id/status"
             android:layout_marginTop="35dp"
             android:layout_marginLeft="2dp"
             android:layout_marginRight="2dp"
@@ -93,6 +95,8 @@
             android:layout_height="wrap_content"
             android:text=""
             android:minLines="2"
+            android:autoLink="web"
+
             android:background="#fff"/>
     </RelativeLayout>
     <RelativeLayout
@@ -112,7 +116,6 @@
             android:paddingLeft="10dp"
             android:minLines="2"
             android:layout_margin="10dp"
-            android:id="@+id/Song"
             android:textColor="#000"
             android:background="@android:color/transparent"
 
@@ -135,6 +138,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text=""
+            android:id="@+id/Song"
+            android:autoLink="web"
+
             android:minLines="4"
             android:background="#fff"/>
     </RelativeLayout>
