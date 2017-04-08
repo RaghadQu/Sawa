@@ -123,3 +123,5 @@ public class About extends Fragment {
 
 }        // Setting ViewPager for each Tabs
 
+
+

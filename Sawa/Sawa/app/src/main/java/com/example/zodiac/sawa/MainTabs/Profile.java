@@ -1,9 +1,5 @@
 package com.example.zodiac.sawa.MainTabs;
 
-/**
- * Created by zodiac on 03/27/2017.
- */
-
 import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -27,9 +23,6 @@ import com.example.zodiac.sawa.R;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by filip on 8/21/2015.
- */
 public class Profile extends AppCompatDialogFragment {
 
 
