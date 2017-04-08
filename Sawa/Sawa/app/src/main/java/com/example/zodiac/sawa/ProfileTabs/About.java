@@ -1,18 +1,28 @@
 package com.example.zodiac.sawa.ProfileTabs;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.zodiac.sawa.DB.AboutUser;
 import com.example.zodiac.sawa.DB.DBHandler;
+import com.example.zodiac.sawa.EditAbout;
 import com.example.zodiac.sawa.GeneralAppInfo;
+import com.example.zodiac.sawa.Home;
+import com.example.zodiac.sawa.MainActivity;
+import com.example.zodiac.sawa.New;
 import com.example.zodiac.sawa.R;
+import com.example.zodiac.sawa.RecoverPass;
 import com.example.zodiac.sawa.interfaces.AboutUserApi;
 import com.example.zodiac.sawa.interfaces.LoginAuth;
 import com.example.zodiac.sawa.models.AddAboutUserResponse;
@@ -34,20 +44,28 @@ public class About extends Fragment {
     TextView status;
     TextView song;
     View view;
+    Button bioEdit;
 
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.about_tab, container, false);
+        bioEdit = (Button)view.findViewById(R.id.BioEdit);
+        bioEdit.setOnClickListener(new View.OnClickListener() {
 
-        return view;
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), EditAbout.class);
+                startActivity(intent);
+            }
+        });
+         return view;
 
     }
 
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        DBHandler dbHandler = new DBHandler(getContext());
+        final DBHandler dbHandler = new DBHandler(getContext());
         AboutUser aboutUser = dbHandler.getAboutUser(2);
         if (aboutUser != null) {
             bio = (TextView) view.findViewById(R.id.Bio);
@@ -63,6 +81,9 @@ public class About extends Fragment {
         } else {
             getUserFromDB();
         }
+
+
+
 
     }
 
@@ -120,6 +141,7 @@ public class About extends Fragment {
         });
 
     }
+
 
 }        // Setting ViewPager for each Tabs
 

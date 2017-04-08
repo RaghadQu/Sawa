@@ -33,6 +33,9 @@
             android:name=".RecoverPass"
             android:configChanges="orientation|keyboardHidden|screenSize"
         />
+        <activity android:name=".EditAbout"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+/>
         <activity
             android:name=".MainActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
