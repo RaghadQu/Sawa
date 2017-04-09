@@ -70,4 +70,14 @@ public class DBHandler extends SQLiteOpenHelper {
         }else return null;
 // return shop
     }
+    public void updateAboutSqlite(String bioText,String stausText,String songText){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues cv = new ContentValues();
+        cv.put(USER_BIO, bioText);
+        cv.put(USER_STATUS,stausText);
+        cv.put(USER_SONG,songText);
+        db.update(TABLE_ABOUT, cv, "USER_ID" + "= ?", new String[] {String.valueOf(1)});
+
+    }
 }

@@ -8,7 +8,7 @@ public class DataProvider {
     int img_res;
     int img_res1;
     String post;
-    public  DataProvider(int img_res,int img_res1,String post){
+    public  DataProvider(int img_res){
         this.img_res=img_res;
         this.img_res1=img_res1;
         this.post=post;

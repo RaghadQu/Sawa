@@ -23,4 +23,6 @@ public interface AboutUserApi {
     Call<List<AboutUser>> getAboutUser(@Path("user_id") int user_id);
     @POST("api/users/saveAbout")
     Call<AddAboutUserResponse> addAboutUser(@Body AboutUser aboutUser);
+    @POST("api/users/editAbout")
+    Call<AddAboutUserResponse> editAvoutUser(@Body AboutUser aboutUser);
 }

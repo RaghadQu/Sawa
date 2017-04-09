@@ -50,14 +50,16 @@ public class About extends Fragment {
     Dialog updateBio;
     TextView bioDialog;
     Button cancelBio;
-
+    Button saveBio;
     Dialog updateStatus;
     TextView statusDialog;
     Button cancelStatus;
+    Button saveStatus;
 
     Dialog updateSong;
     TextView songDialog;
     Button cancelSong;
+    Button saveSong;
 
     @Nullable
     @Override
@@ -69,6 +71,17 @@ public class About extends Fragment {
 
             public void onClick(View v) {
                 updateBio.show();
+                saveBio.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        String statusText = statusDialog.getText().toString();
+                        String bioText = bioDialog.getText().toString();
+                        String songText = songDialog.getText().toString();
+
+                        updateAbout(bioText, statusText, songText);
+                        updateBio.dismiss();
+                    }
+                });
                 cancelBio.setOnClickListener(new View.OnClickListener() {
 
                     public void onClick(View v) {
@@ -83,6 +96,17 @@ public class About extends Fragment {
 
             public void onClick(View v) {
                 updateStatus.show();
+                saveStatus.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        String statusText = statusDialog.getText().toString();
+                        String bioText = bioDialog.getText().toString();
+                        String songText = songDialog.getText().toString();
+
+                        updateAbout(bioText, statusText, songText);
+                        updateStatus.dismiss();
+                    }
+                });
                 cancelStatus.setOnClickListener(new View.OnClickListener() {
 
                     public void onClick(View v) {
@@ -93,11 +117,22 @@ public class About extends Fragment {
         });
 
         song = (TextView) view.findViewById(R.id.Song);
-        editSong=(Button) view.findViewById(R.id.SongEdit);
+        editSong = (Button) view.findViewById(R.id.SongEdit);
         editSong.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
                 updateSong.show();
+                saveSong.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        String statusText = statusDialog.getText().toString();
+                        String bioText = bioDialog.getText().toString();
+                        String songText = songDialog.getText().toString();
+
+                        updateAbout(bioText, statusText, songText);
+                        updateSong.dismiss();
+                    }
+                });
                 cancelSong.setOnClickListener(new View.OnClickListener() {
 
                     public void onClick(View v) {
@@ -116,23 +151,27 @@ public class About extends Fragment {
         updateBio = new Dialog(getActivity());
         updateBio.setContentView(R.layout.bio_update_dialog);
 
-        bioDialog=(TextView) updateBio.findViewById(R.id.Bio);
-        cancelBio= (Button)updateBio.findViewById(R.id.Cancel);
+        bioDialog = (TextView) updateBio.findViewById(R.id.Bio);
+        cancelBio = (Button) updateBio.findViewById(R.id.Cancel);
+        saveBio = (Button) updateBio.findViewById(R.id.Save);
+
 
         updateStatus = new Dialog(getActivity());
         updateStatus.setContentView(R.layout.status_update_dialog);
 
-        statusDialog=(TextView) updateStatus.findViewById(R.id.Status);
-        cancelStatus= (Button)updateStatus.findViewById(R.id.Cancel);
+        statusDialog = (TextView) updateStatus.findViewById(R.id.Status);
+        cancelStatus = (Button) updateStatus.findViewById(R.id.Cancel);
+        saveStatus = (Button) updateStatus.findViewById(R.id.Save);
 
         updateSong = new Dialog(getActivity());
         updateSong.setContentView(R.layout.song_update_dialog);
 
-        songDialog=(TextView) updateSong.findViewById(R.id.Song);
-        cancelSong= (Button)updateSong.findViewById(R.id.Cancel);
+        songDialog = (TextView) updateSong.findViewById(R.id.Song);
+        cancelSong = (Button) updateSong.findViewById(R.id.Cancel);
+        saveSong = (Button) updateSong.findViewById(R.id.Save);
 
         final DBHandler dbHandler = new DBHandler(getContext());
-        AboutUser aboutUser = dbHandler.getAboutUser(2);
+        AboutUser aboutUser = dbHandler.getAboutUser(1);
         if (aboutUser != null) {
 
             bio.setText(aboutUser.getUser_bio());
@@ -149,11 +188,6 @@ public class About extends Fragment {
         } else {
             getUserFromDB();
         }
-
-
-
-
-
 
 
     }
@@ -213,9 +247,35 @@ public class About extends Fragment {
 
     }
 
-    public void updateBio (View arg0)
-    {
+    public void updateBio(View arg0) {
         updateBio.show();
+    }
+
+    public void updateAbout(final String bioText, final String statusText, final String songText) {
+        AboutUser aboutUser = new AboutUser(1, bioText, statusText, songText);
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(GeneralAppInfo.BACKEND_URL)
+                .addConverterFactory(GsonConverterFactory.create()).build();
+        AboutUserApi aboutUserApi = retrofit.create(AboutUserApi.class);
+        Call<AddAboutUserResponse> call = aboutUserApi.editAvoutUser(aboutUser);
+        call.enqueue(new Callback<AddAboutUserResponse>() {
+            @Override
+            public void onResponse(Call<AddAboutUserResponse> call, Response<AddAboutUserResponse> response) {
+                bio.setText(bioText);
+                status.setText(statusText);
+                song.setText(songText);
+                int state = response.body().getState();
+                Log.d("add about user ", "added");
+                DBHandler dbHandler=new DBHandler(getContext());
+                dbHandler.updateAboutSqlite(bioText,statusText,songText);
+            }
+
+            @Override
+            public void onFailure(Call<AddAboutUserResponse> call, Throwable t) {
+
+            }
+        });
+
     }
 
 

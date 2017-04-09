@@ -31,8 +31,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Recycl
     public void onBindViewHolder(RecyclerViewHolder holder, int position) {
         DataProvider dataProvider=arrayList.get(position);
         holder.image.setImageResource(dataProvider.getImg_res());
-        holder.image1.setImageResource(dataProvider.getImg_res1());
-        holder.post.setText(dataProvider.getPost());
+
 
     }
 
@@ -47,8 +46,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Recycl
         public  RecyclerViewHolder(View view){
             super(view );
             image=(ImageView)view.findViewById(R.id.profile_image);
-            image1=(ImageView)view.findViewById(R.id.profile_image1);
-            post=(TextView)view.findViewById(R.id.post);
+
 
 
         }

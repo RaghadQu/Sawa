@@ -23,14 +23,29 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-        DataProvider data=new DataProvider(image1,image2,"Ibrahim Post ");
-        DataProvider data1=new DataProvider(image3,image4,"Raghad post");
+
+        DataProvider data=new DataProvider(image1);
+        DataProvider data1=new DataProvider(image3);
         arrayList.add(data);
         arrayList.add(data1);
+        arrayList.add(data1);
+        arrayList.add(data1);
+        arrayList.add(data1);
+        arrayList.add(data1);
+        arrayList.add(data1);
+        arrayList.add(data1);
+        arrayList.add(data1);
+        arrayList.add(data1);
+        arrayList.add(data1);
+        arrayList.add(data1);
+        arrayList.add(data1);
+
         recyclerAdapter=new RecyclerAdapter(arrayList);
         recyclerView.setHasFixedSize(true);
         layoutManager= new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, true));
+
         recyclerView.setAdapter(recyclerAdapter);
     }
 }
