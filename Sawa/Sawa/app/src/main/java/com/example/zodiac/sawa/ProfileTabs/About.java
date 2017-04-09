@@ -11,6 +11,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -70,6 +72,7 @@ public class About extends Fragment {
         bio.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
+                updateBio.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
                 updateBio.show();
                 saveBio.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -95,6 +98,7 @@ public class About extends Fragment {
         status.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
+                updateStatus.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
                 updateStatus.show();
                 saveStatus.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -118,9 +122,12 @@ public class About extends Fragment {
 
         song = (TextView) view.findViewById(R.id.Song);
         editSong = (Button) view.findViewById(R.id.SongEdit);
+        editSong=(Button) view.findViewById(R.id.SongEdit);
+
         editSong.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
+                updateSong.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
                 updateSong.show();
                 saveSong.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -176,7 +183,6 @@ public class About extends Fragment {
 
             bio.setText(aboutUser.getUser_bio());
             bioDialog.setText(aboutUser.getUser_bio());
-            Log.d("a", "arrive");
 
             status.setText(aboutUser.getUser_status());
             statusDialog.setText(aboutUser.getUser_status());
