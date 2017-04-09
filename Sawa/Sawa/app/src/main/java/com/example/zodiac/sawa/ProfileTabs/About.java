@@ -1,5 +1,6 @@
 package com.example.zodiac.sawa.ProfileTabs;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -44,43 +45,113 @@ public class About extends Fragment {
     TextView status;
     TextView song;
     View view;
-    Button bioEdit;
+    Button editSong;
 
+    Dialog updateBio;
+    TextView bioDialog;
+    Button cancelBio;
+
+    Dialog updateStatus;
+    TextView statusDialog;
+    Button cancelStatus;
+
+    Dialog updateSong;
+    TextView songDialog;
+    Button cancelSong;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.about_tab, container, false);
-        bioEdit = (Button)view.findViewById(R.id.BioEdit);
-        bioEdit.setOnClickListener(new View.OnClickListener() {
+        bio = (TextView) view.findViewById(R.id.Bio);
+
+        bio.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), EditAbout.class);
-                startActivity(intent);
+                updateBio.show();
+                cancelBio.setOnClickListener(new View.OnClickListener() {
+
+                    public void onClick(View v) {
+                        updateBio.dismiss();
+                    }
+                });
             }
         });
-         return view;
+
+        status = (TextView) view.findViewById(R.id.status);
+        status.setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View v) {
+                updateStatus.show();
+                cancelStatus.setOnClickListener(new View.OnClickListener() {
+
+                    public void onClick(View v) {
+                        updateStatus.dismiss();
+                    }
+                });
+            }
+        });
+
+        song = (TextView) view.findViewById(R.id.Song);
+        editSong=(Button) view.findViewById(R.id.SongEdit);
+        editSong.setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View v) {
+                updateSong.show();
+                cancelSong.setOnClickListener(new View.OnClickListener() {
+
+                    public void onClick(View v) {
+                        updateSong.dismiss();
+                    }
+                });
+            }
+        });
+        return view;
 
     }
 
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        updateBio = new Dialog(getActivity());
+        updateBio.setContentView(R.layout.bio_update_dialog);
+
+        bioDialog=(TextView) updateBio.findViewById(R.id.Bio);
+        cancelBio= (Button)updateBio.findViewById(R.id.Cancel);
+
+        updateStatus = new Dialog(getActivity());
+        updateStatus.setContentView(R.layout.status_update_dialog);
+
+        statusDialog=(TextView) updateStatus.findViewById(R.id.Status);
+        cancelStatus= (Button)updateStatus.findViewById(R.id.Cancel);
+
+        updateSong = new Dialog(getActivity());
+        updateSong.setContentView(R.layout.song_update_dialog);
+
+        songDialog=(TextView) updateSong.findViewById(R.id.Song);
+        cancelSong= (Button)updateSong.findViewById(R.id.Cancel);
+
         final DBHandler dbHandler = new DBHandler(getContext());
         AboutUser aboutUser = dbHandler.getAboutUser(2);
         if (aboutUser != null) {
-            bio = (TextView) view.findViewById(R.id.Bio);
+
             bio.setText(aboutUser.getUser_bio());
+            bioDialog.setText(aboutUser.getUser_bio());
             Log.d("a", "arrive");
-            status = (TextView) view.findViewById(R.id.status);
 
             status.setText(aboutUser.getUser_status());
+            statusDialog.setText(aboutUser.getUser_status());
 
             song = (TextView) view.findViewById(R.id.Song);
             song.setText(aboutUser.getUser_song());
+            songDialog.setText(aboutUser.getUser_song());
 
         } else {
             getUserFromDB();
         }
+
+
+
 
 
 
@@ -140,6 +211,11 @@ public class About extends Fragment {
             }
         });
 
+    }
+
+    public void updateBio (View arg0)
+    {
+        updateBio.show();
     }
 
 
