@@ -1,7 +1,9 @@
 package com.example.zodiac.sawa.MainTabs;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -17,6 +19,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.zodiac.sawa.Home;
 import com.example.zodiac.sawa.ProfileTabs.About;
@@ -38,6 +41,10 @@ public class Profile extends AppCompatDialogFragment {
     View view;
     Uri imageuri;
     ImageView img;
+    Dialog imgClick;
+    Dialog ViewImgDialog;
+    TextView changePic , viewPic;
+    ImageView imageView; // View image in dialog
     private static final int SELECTED_PICTURE = 100;
 
     @Override
@@ -81,16 +88,45 @@ public class Profile extends AppCompatDialogFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        imgClick=new Dialog(getActivity());
+        imgClick.setContentView(R.layout.profile_picture_dialog);
+        imgClick.getWindow().getAttributes().y=-130;
+        imgClick.getWindow().getAttributes().x=70;
+
+        ViewImgDialog=new Dialog(getActivity());
+        ViewImgDialog.setContentView(R.layout.view_profilepic_dialog);
+        ViewImgDialog.getWindow().setLayout(ViewGroup.LayoutParams.FILL_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+        imageView=(ImageView) ViewImgDialog.findViewById(R.id.ImageView);
+       // imageView.setImageURI();
+
         img = (ImageView) view.findViewById(R.id.user_profile_photo);
         img.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(intent, SELECTED_PICTURE);
+                imgClick.show();
+                changePic = (TextView) imgClick.findViewById(R.id.EditPic);
+                viewPic = (TextView) imgClick.findViewById(R.id.ViewPic);
 
-                // your code here
-                Log.d("clicked", "Image");
+                changePic.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+                        imgClick.dismiss();
+                        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                        startActivityForResult(intent, SELECTED_PICTURE);
+                    }
+                });
+
+                viewPic.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+                        imgClick.dismiss();
+                        imageView.setImageDrawable(img.getDrawable());
+                        ViewImgDialog.show();
+
+                    }
+                });
             }
         });
+
+
     }
 
     @Override
