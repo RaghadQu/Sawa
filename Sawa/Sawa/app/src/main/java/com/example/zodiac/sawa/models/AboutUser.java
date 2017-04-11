@@ -1,4 +1,4 @@
-package com.example.zodiac.sawa.DB;
+package com.example.zodiac.sawa.models;
 
 /**
  * Created by Rabee on 4/5/2017.

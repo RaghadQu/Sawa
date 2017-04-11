@@ -3,25 +3,16 @@ package com.example.zodiac.sawa;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
-import com.example.zodiac.sawa.DB.AboutUser;
-import com.example.zodiac.sawa.DB.DBHandler;
 import com.example.zodiac.sawa.interfaces.LoginAuth;
-import com.example.zodiac.sawa.models.AuthRequest;
-import com.example.zodiac.sawa.models.Authentication;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 

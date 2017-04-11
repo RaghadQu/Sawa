@@ -1,33 +1,22 @@
 package com.example.zodiac.sawa.ProfileTabs;
 
 import android.app.Dialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.zodiac.sawa.DB.AboutUser;
+import com.example.zodiac.sawa.models.AboutUser;
 import com.example.zodiac.sawa.DB.DBHandler;
-import com.example.zodiac.sawa.EditAbout;
 import com.example.zodiac.sawa.GeneralAppInfo;
-import com.example.zodiac.sawa.Home;
-import com.example.zodiac.sawa.MainActivity;
-import com.example.zodiac.sawa.New;
 import com.example.zodiac.sawa.R;
-import com.example.zodiac.sawa.RecoverPass;
 import com.example.zodiac.sawa.interfaces.AboutUserApi;
-import com.example.zodiac.sawa.interfaces.LoginAuth;
 import com.example.zodiac.sawa.models.AddAboutUserResponse;
 
 import java.util.List;
@@ -73,7 +62,10 @@ public class About extends Fragment {
 
             public void onClick(View v) {
                 updateBio.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+                String bioText = bio.getText().toString();
+                bioDialog.setText(bioText);
                 updateBio.show();
+
                 saveBio.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -99,7 +91,10 @@ public class About extends Fragment {
 
             public void onClick(View v) {
                 updateStatus.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+                String statusText = status.getText().toString();
+                statusDialog.setText(statusText);
                 updateStatus.show();
+
                 saveStatus.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -122,13 +117,17 @@ public class About extends Fragment {
 
         song = (TextView) view.findViewById(R.id.Song);
         editSong = (Button) view.findViewById(R.id.SongEdit);
-        editSong=(Button) view.findViewById(R.id.SongEdit);
+        editSong = (Button) view.findViewById(R.id.SongEdit);
 
         editSong.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
                 updateSong.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+
+                String songText = song.getText().toString();
+                songDialog.setText(songText);
                 updateSong.show();
+
                 saveSong.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -272,8 +271,8 @@ public class About extends Fragment {
                 song.setText(songText);
                 int state = response.body().getState();
                 Log.d("add about user ", "added");
-                DBHandler dbHandler=new DBHandler(getContext());
-                dbHandler.updateAboutSqlite(bioText,statusText,songText);
+                DBHandler dbHandler = new DBHandler(getContext());
+                dbHandler.updateAboutSqlite(bioText, statusText, songText);
             }
 
             @Override
