@@ -6,7 +6,7 @@
         android:background="@color/purple"
         android:id="@+id/RelativeLayout">
 
-        <ImageView
+         <ImageView
             android:id="@+id/header_cover_image"
             android:layout_width="match_parent"
             android:layout_height="200dp"

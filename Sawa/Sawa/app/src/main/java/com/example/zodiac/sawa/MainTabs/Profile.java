@@ -94,11 +94,9 @@ public class Profile extends AppCompatDialogFragment {
         imgClick.getWindow().getAttributes().y=-130;
         imgClick.getWindow().getAttributes().x=70;
 
-        ViewImgDialog=new Dialog(getActivity());
+        ViewImgDialog=new Dialog(getActivity(),android.R.style.Theme_Black_NoTitleBar_Fullscreen);
         ViewImgDialog.setContentView(R.layout.view_profilepic_dialog);
-        ViewImgDialog.getWindow().setLayout(ViewGroup.LayoutParams.FILL_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
         imageView=(ImageView) ViewImgDialog.findViewById(R.id.ImageView);
-       // imageView.setImageURI();
 
         img = (ImageView) view.findViewById(R.id.user_profile_photo);
         img.setOnClickListener(new View.OnClickListener() {
