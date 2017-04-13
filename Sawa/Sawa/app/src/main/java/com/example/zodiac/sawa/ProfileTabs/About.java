@@ -216,7 +216,7 @@ public class About extends Fragment {
 
                 song = (TextView) view.findViewById(R.id.Song);
                 song.setText(aboutUser.get(0).getUser_song());
-                AboutUser aboutUser1 = new AboutUser(2, aboutUser.get(0).getUser_bio(), aboutUser.get(0).getUser_status(), aboutUser.get(0).getUser_song());
+                AboutUser aboutUser1 = new AboutUser(1, aboutUser.get(0).getUser_bio(), aboutUser.get(0).getUser_status(), aboutUser.get(0).getUser_song());
                 DBHandler dbHandler = new DBHandler(getContext());
                 dbHandler.addAboutUser(aboutUser1);
             }

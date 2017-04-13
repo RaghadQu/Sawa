@@ -3,13 +3,17 @@ package com.example.zodiac.sawa;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 
+import com.example.zodiac.sawa.DB.DBHandler;
 import com.example.zodiac.sawa.interfaces.LoginAuth;
 
+import java.io.ByteArrayOutputStream;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -38,12 +42,13 @@ public class MainActivity extends AppCompatActivity {
             startActivity(i);
             finish();
         }
+       
 
         // Address the email  and password field
         emailEditText = (EditText) findViewById(R.id.username);
         passEditText = (EditText) findViewById(R.id.password);
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://b58799f1.ngrok.io/Sawa/public/index.php/")
+                .baseUrl(GeneralAppInfo.BACKEND_URL)
                 .addConverterFactory(GsonConverterFactory.create()).build();
         service = retrofit.create(LoginAuth.class);
     }

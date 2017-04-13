@@ -3,6 +3,7 @@ package com.example.zodiac.sawa.MainTabs;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
@@ -21,13 +22,16 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.zodiac.sawa.DB.DBHandler;
 import com.example.zodiac.sawa.Home;
+import com.example.zodiac.sawa.ImageConverter.ImageConverter;
 import com.example.zodiac.sawa.ProfileTabs.About;
 import com.example.zodiac.sawa.ProfileTabs.Friends;
 import com.example.zodiac.sawa.ProfileTabs.Posts;
 import com.example.zodiac.sawa.ProfileTabs.Requests;
 import com.example.zodiac.sawa.R;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,7 +47,7 @@ public class Profile extends AppCompatDialogFragment {
     ImageView img;
     Dialog imgClick;
     Dialog ViewImgDialog;
-    TextView changePic , viewPic;
+    TextView changePic, viewPic;
     ImageView imageView; // View image in dialog
     private static final int SELECTED_PICTURE = 100;
 
@@ -51,6 +55,7 @@ public class Profile extends AppCompatDialogFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
+
     }
 
     @Override
@@ -89,18 +94,21 @@ public class Profile extends AppCompatDialogFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        imgClick=new Dialog(getActivity());
+        imgClick = new Dialog(getActivity());
         imgClick.setContentView(R.layout.profile_picture_dialog);
-        imgClick.getWindow().getAttributes().y=-130;
-        imgClick.getWindow().getAttributes().x=70;
+        imgClick.getWindow().getAttributes().y = -130;
+        imgClick.getWindow().getAttributes().x = 70;
 
-        ViewImgDialog=new Dialog(getActivity());
+        ViewImgDialog = new Dialog(getActivity());
         ViewImgDialog.setContentView(R.layout.view_profilepic_dialog);
-        ViewImgDialog.getWindow().setLayout(ViewGroup.LayoutParams.FILL_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
-        imageView=(ImageView) ViewImgDialog.findViewById(R.id.ImageView);
-       // imageView.setImageURI();
-
-        img = (ImageView) view.findViewById(R.id.user_profile_photo);
+        ViewImgDialog.getWindow().setLayout(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        imageView = (ImageView) ViewImgDialog.findViewById(R.id.ImageView);
+        img=(ImageView)view.findViewById(R.id.user_profile_photo);
+        // imageView.setImageURI();
+        DBHandler dbHandler = new DBHandler(getContext());
+        Bitmap bitmap = dbHandler.getUserImage(1);
+        img.setImageBitmap(bitmap);
+        Log.d("Set","s");
         img.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 imgClick.show();
@@ -135,6 +143,16 @@ public class Profile extends AppCompatDialogFragment {
         if (resultCode == RESULT_OK && requestCode == SELECTED_PICTURE) {
             imageuri = data.getData();
             img.setImageURI(imageuri);
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), imageuri);
+                ImageConverter imageConverter = new ImageConverter();
+                byte[] image = imageConverter.getBytes(bitmap);
+                DBHandler dbHandler = new DBHandler(getContext());
+                dbHandler.updateUserImage(1, image);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
 
         }
     }

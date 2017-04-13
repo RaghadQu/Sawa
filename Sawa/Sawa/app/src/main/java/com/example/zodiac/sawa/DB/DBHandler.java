@@ -5,6 +5,9 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Log;
 
 import com.example.zodiac.sawa.models.AboutUser;
 
@@ -19,12 +22,14 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "sawa";
     // Contacts table name
     private static final String TABLE_ABOUT = "about";
+    private static final String TABLE_IMAGES = "images";
     // about Table Columns names
     private static final String USER_ID = "user_id";
     private static final String USER_BIO = "user_bio";
     private static final String USER_STATUS = "user_status";
     private static final String USER_SONG = "user_song";
 
+    private static final String USER_IMAGE = "user_image";
 
     public DBHandler(Context context) {
         super(context, "database.db", null, 1);
@@ -32,16 +37,24 @@ public class DBHandler extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
+        String CREATE_IMAGES_TABLE = "CREATE TABLE " + TABLE_IMAGES + "("
+                + USER_ID + " INTEGER PRIMARY KEY," + USER_IMAGE + " BLOB" + ")";
+        sqLiteDatabase.execSQL(CREATE_IMAGES_TABLE);
+
         String CREATE_ABOUT_TABLE = "CREATE TABLE " + TABLE_ABOUT + "("
                 + USER_ID + " INTEGER PRIMARY KEY," + USER_BIO + " TEXT,"
                 + USER_STATUS + " TEXT," + USER_SONG + " TEXT" + ")";
         sqLiteDatabase.execSQL(CREATE_ABOUT_TABLE);
+
 
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_ABOUT);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_IMAGES);
+
+
 // Creating tables again
         onCreate(sqLiteDatabase);
     }
@@ -63,23 +76,61 @@ public class DBHandler extends SQLiteOpenHelper {
         Cursor cursor = db.query(TABLE_ABOUT, new String[]{USER_ID,
                         USER_BIO, USER_STATUS, USER_SONG}, USER_ID + "=?",
                 new String[]{String.valueOf(id)}, null, null, null, null);
-        if (cursor != null&& cursor.moveToFirst()){
+        if (cursor != null && cursor.moveToFirst()) {
+            Log.d("user found","ss");
             cursor.moveToFirst();
-        AboutUser aboutUser = new AboutUser(Integer.parseInt(cursor.getString(0)),
-                cursor.getString(1), cursor.getString(2), cursor.getString(3));
+            AboutUser aboutUser = new AboutUser(Integer.parseInt(cursor.getString(0)),
+                    cursor.getString(1), cursor.getString(2), cursor.getString(3));
             return aboutUser;
 
-        }else return null;
+        } else return null;
 // return shop
     }
-    public void updateAboutSqlite(String bioText,String stausText,String songText){
+
+    public void updateAboutSqlite(String bioText, String stausText, String songText) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues cv = new ContentValues();
         cv.put(USER_BIO, bioText);
-        cv.put(USER_STATUS,stausText);
-        cv.put(USER_SONG,songText);
-        db.update(TABLE_ABOUT, cv, "USER_ID" + "= ?", new String[] {String.valueOf(1)});
+        cv.put(USER_STATUS, stausText);
+        cv.put(USER_SONG, songText);
+        db.update(TABLE_ABOUT, cv, "USER_ID" + "= ?", new String[]{String.valueOf(1)});
+
+    }
+
+    public void insertUserImage(int ID, byte[] image) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(USER_ID, ID);
+        cv.put(USER_IMAGE, image);
+        db.insert(TABLE_IMAGES, null, cv);
+    }
+
+    public void updateUserImage(int ID, byte[] image) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(USER_IMAGE, image);
+        db.update(TABLE_IMAGES, cv, "USER_ID" + "= ?", new String[]{String.valueOf(1)});
+        Log.d("Updated","s");
+    }
+
+    public Bitmap getUserImage(int id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String selectQuery = "SELECT * FROM " + TABLE_IMAGES+ " WHERE " + USER_ID + " = " + id;
+        Log.d("database", selectQuery);
+
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        if (cursor != null && cursor.moveToFirst()) {
+            cursor.moveToFirst();
+            byte[] image = cursor.getBlob(cursor.getColumnIndex(USER_IMAGE));
+
+            Bitmap img = BitmapFactory.decodeByteArray(image, 0, image.length);
+
+            return img;
+
+
+        } else return null;
 
     }
 }
+
