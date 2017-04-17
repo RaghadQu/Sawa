@@ -2,17 +2,23 @@ package com.example.zodiac.sawa;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 
+import com.example.zodiac.sawa.DB.DBHandler;
 import com.example.zodiac.sawa.ProfileTabs.About;
 import com.example.zodiac.sawa.interfaces.SignAuth;
 import com.example.zodiac.sawa.models.SignRequest;
 import com.example.zodiac.sawa.models.SignResponse;
 
+import java.io.ByteArrayOutputStream;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -83,22 +89,27 @@ public class Register extends Activity {
                     int statusCode = response.code();
                     SignResponse FinalRespone = response.body();
                     // add the user in the backend with empty recode
-                    if(response.body().getState()==1) {
+                    if (response.body().getState() == 1) {
 
                         About about = new About();
                         about.addNewAboutUserInDB(FinalRespone.getUser_id());
-                    } else Log.d("valid","already added");
+                        DBHandler dbHandler = new DBHandler(getApplicationContext());
+                        Bitmap bitmap= BitmapFactory.decodeResource(getResources(), R.drawable.profileimage);
+                        ByteArrayOutputStream stream=new ByteArrayOutputStream();
+                        bitmap.compress(Bitmap.CompressFormat.PNG, 90, stream); // what 90 does ??
+                        byte[] image=stream.toByteArray();
+                        dbHandler.insertUserImage(1, image);
+                    } else Log.d("valid", "already added");
 
                 }
 
                 @Override
                 public void onFailure(Call<SignResponse> call, Throwable t) {
-                    Log.d("notvalid","valid");
+                    Log.d("notvalid", "valid");
                 }
             });
 
         }
-
 
 
     }

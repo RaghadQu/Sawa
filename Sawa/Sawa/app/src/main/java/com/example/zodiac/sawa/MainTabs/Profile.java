@@ -3,6 +3,11 @@ package com.example.zodiac.sawa.MainTabs;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+<<<<<<< HEAD
+=======
+import android.graphics.Bitmap;
+import android.media.Image;
+>>>>>>> 8658816aa943a824e6ef1a8e0529a3d77f827807
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -12,18 +17,38 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatDialogFragment;
+<<<<<<< HEAD
+=======
+import android.util.Base64;
+import android.util.Log;
+>>>>>>> 8658816aa943a824e6ef1a8e0529a3d77f827807
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+<<<<<<< HEAD
+=======
+import com.example.zodiac.sawa.DB.DBHandler;
+import com.example.zodiac.sawa.Home;
+import com.example.zodiac.sawa.ImageConverter.ImageConverter;
+import com.example.zodiac.sawa.ImageConverter.uploadImage;
+>>>>>>> 8658816aa943a824e6ef1a8e0529a3d77f827807
 import com.example.zodiac.sawa.ProfileTabs.About;
 import com.example.zodiac.sawa.ProfileTabs.Friends.Friends;
 import com.example.zodiac.sawa.ProfileTabs.Posts;
 import com.example.zodiac.sawa.ProfileTabs.Requests;
 import com.example.zodiac.sawa.R;
+import com.squareup.picasso.Picasso;
 
+<<<<<<< HEAD
+=======
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+>>>>>>> 8658816aa943a824e6ef1a8e0529a3d77f827807
 import static android.app.Activity.RESULT_OK;
 
 public class Profile extends AppCompatDialogFragment {
@@ -36,7 +61,7 @@ public class Profile extends AppCompatDialogFragment {
     ImageView img;
     Dialog imgClick;
     Dialog ViewImgDialog;
-    TextView changePic , viewPic;
+    TextView changePic, viewPic;
     ImageView imageView; // View image in dialog
     private static final int SELECTED_PICTURE = 100;
 
@@ -44,6 +69,7 @@ public class Profile extends AppCompatDialogFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
+
     }
 
     @Override
@@ -82,16 +108,26 @@ public class Profile extends AppCompatDialogFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        imgClick=new Dialog(getActivity());
+        imgClick = new Dialog(getActivity());
         imgClick.setContentView(R.layout.profile_picture_dialog);
-        imgClick.getWindow().getAttributes().y=-130;
-        imgClick.getWindow().getAttributes().x=70;
+        imgClick.getWindow().getAttributes().y = -130;
+        imgClick.getWindow().getAttributes().x = 70;
 
+
+        Log.d("Set","s");
         ViewImgDialog=new Dialog(getActivity(),android.R.style.Theme_Black_NoTitleBar_Fullscreen);
         ViewImgDialog.setContentView(R.layout.view_profilepic_dialog);
         imageView=(ImageView) ViewImgDialog.findViewById(R.id.ImageView);
 
         img = (ImageView) view.findViewById(R.id.user_profile_photo);
+        // imageView.setImageURI();
+        DBHandler dbHandler = new DBHandler(getContext());
+        uploadImage uploadImage=new uploadImage();
+        String imageUrl=uploadImage.getUserImageFromDB(1,img,getContext());
+
+
+        Bitmap bitmap = dbHandler.getUserImage(1);
+
         img.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 imgClick.show();
@@ -126,6 +162,20 @@ public class Profile extends AppCompatDialogFragment {
         if (resultCode == RESULT_OK && requestCode == SELECTED_PICTURE) {
             imageuri = data.getData();
             img.setImageURI(imageuri);
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), imageuri);
+                ImageConverter imageConverter = new ImageConverter();
+                byte[] image = imageConverter.getBytes(bitmap);
+                DBHandler dbHandler = new DBHandler(getContext());
+                dbHandler.updateUserImage(1, image);
+                String encodedImage = Base64.encodeToString(image, Base64.DEFAULT);
+                uploadImage uploadImage=new uploadImage();
+                uploadImage.uploadImagetoDB(1,encodedImage);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
 
         }
     }

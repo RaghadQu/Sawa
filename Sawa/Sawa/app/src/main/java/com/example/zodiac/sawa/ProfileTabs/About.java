@@ -215,8 +215,13 @@ public class About extends Fragment {
 //                status.setText(aboutUser.get(0).getUser_status());
 
                 song = (TextView) view.findViewById(R.id.Song);
+<<<<<<< HEAD
   //              song.setText(aboutUser.get(0).getUser_song());
     //            AboutUser aboutUser1 = new AboutUser(2, aboutUser.get(0).getUser_bio(), aboutUser.get(0).getUser_status(), aboutUser.get(0).getUser_song());
+=======
+                song.setText(aboutUser.get(0).getUser_song());
+                AboutUser aboutUser1 = new AboutUser(1, aboutUser.get(0).getUser_bio(), aboutUser.get(0).getUser_status(), aboutUser.get(0).getUser_song());
+>>>>>>> 8658816aa943a824e6ef1a8e0529a3d77f827807
                 DBHandler dbHandler = new DBHandler(getContext());
       //          dbHandler.addAboutUser(aboutUser1);
             }

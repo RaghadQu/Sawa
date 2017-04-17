@@ -3,14 +3,22 @@ package com.example.zodiac.sawa;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 
+<<<<<<< HEAD
 import com.example.zodiac.sawa.RecoverPassword.RecoverPass;
+=======
+import com.example.zodiac.sawa.DB.DBHandler;
+>>>>>>> 8658816aa943a824e6ef1a8e0529a3d77f827807
 import com.example.zodiac.sawa.interfaces.LoginAuth;
+import com.example.zodiac.sawa.models.AboutUser;
 
+import java.io.ByteArrayOutputStream;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -39,12 +47,20 @@ public class MainActivity extends AppCompatActivity {
             startActivity(i);
             finish();
         }
+      /*  DBHandler dbHandler = new DBHandler(getApplicationContext());
+        Bitmap bitmap= BitmapFactory.decodeResource(getResources(), R.drawable.profileimage);
+        ByteArrayOutputStream stream=new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 90, stream); // what 90 does ??
+        byte[] image=stream.toByteArray();
+        dbHandler.insertUserImage(1, image);
+        AboutUser aboutUser=new AboutUser(1,"","","");
+        dbHandler.addAboutUser(aboutUser);*/
 
         // Address the email  and password field
         emailEditText = (EditText) findViewById(R.id.username);
         passEditText = (EditText) findViewById(R.id.password);
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://b58799f1.ngrok.io/Sawa/public/index.php/")
+                .baseUrl(GeneralAppInfo.BACKEND_URL)
                 .addConverterFactory(GsonConverterFactory.create()).build();
         service = retrofit.create(LoginAuth.class);
     }
