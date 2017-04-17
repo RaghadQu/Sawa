@@ -1,4 +1,4 @@
-package com.example.zodiac.sawa;
+package com.example.zodiac.sawa.RecoverPassword;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -8,18 +8,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.InputType;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-import android.app.FragmentManager;
-import android.app.Fragment;
-import android.app.FragmentTransaction;
 
-import com.example.zodiac.sawa.emailSender.BackgroungSender;
-
-import java.util.UUID;
+import com.example.zodiac.sawa.Home;
+import com.example.zodiac.sawa.R;
 
 /**
  * Created by zodiac on 03/18/2017.
@@ -40,8 +35,6 @@ public class RecoverPass extends Activity {
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         ft.replace(R.id.your_placeholder, new SendEmailFragment());
-        // or ft.add(R.id.your_placeholder, new FooFragment());
-        // Complete the changes added above
         ft.commit();
         /*recievedEmail = (EditText) findViewById(R.id.userEmail);
 

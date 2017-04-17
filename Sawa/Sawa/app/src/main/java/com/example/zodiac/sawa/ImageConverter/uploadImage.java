@@ -48,8 +48,8 @@ public class uploadImage {
         userImageResponse.enqueue(new Callback<Authentication>() {
             @Override
             public void onResponse(Call<Authentication> call, Response<Authentication> response) {
-                int state = response.body().getState();
-                Log.d("Image is uploaded" + state, "" + state);
+               // int state = response.body().getState();
+                //Log.d("Image is uploaded" + state, "" + state);
             }
 
             @Override
