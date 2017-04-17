@@ -66,7 +66,7 @@ public class uploadImage {
                 .baseUrl(GeneralAppInfo.BACKEND_URL)
                 .addConverterFactory(GsonConverterFactory.create()).build();
         UserImageApi userImageApi = retrofit.create(UserImageApi.class);
-        Call<List<userImageFromDb>> userImageResponse = userImageApi.getUserImageFromDb(user_id);
+        Call<List<userImageFromDb>> userImageResponse = userImageApi.getUserImageFromDb(1);
         userImageResponse.enqueue(new Callback<List<userImageFromDb>>() {
             @Override
             public void onResponse(Call<List<userImageFromDb>> call, Response<List<userImageFromDb>> response) {
@@ -76,7 +76,7 @@ public class uploadImage {
                 Log.d("Arrive to ge fro Db11", "s"+imageUrl);
                 imageUrl="http://cc795b70.ngrok.io/Sawa/public/"+imageUrl;
                 Log.d("imageYtl",imageUrl);
-                Picasso.with(context).load(imageUrl).into(img);
+               // Picasso.with(context).load(imageUrl).into(img);
 
 
             }

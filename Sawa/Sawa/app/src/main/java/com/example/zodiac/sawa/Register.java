@@ -56,7 +56,7 @@ public class Register extends Activity {
         confPassEditText = (EditText) findViewById(R.id.confirmPassword);
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://b58799f1.ngrok.io/Sawa/public/index.php/")
+                .baseUrl(GeneralAppInfo.BACKEND_URL)
                 .addConverterFactory(GsonConverterFactory.create()).build();
         service = retrofit.create(SignAuth.class);
 
@@ -92,13 +92,16 @@ public class Register extends Activity {
                     if (response.body().getState() == 1) {
 
                         About about = new About();
-                        about.addNewAboutUserInDB(FinalRespone.getUser_id());
+
+                        about.addNewAboutUserInDB(Integer.parseInt(FinalRespone.getUser_id()));
                         DBHandler dbHandler = new DBHandler(getApplicationContext());
                         Bitmap bitmap= BitmapFactory.decodeResource(getResources(), R.drawable.profileimage);
                         ByteArrayOutputStream stream=new ByteArrayOutputStream();
                         bitmap.compress(Bitmap.CompressFormat.PNG, 90, stream); // what 90 does ??
                         byte[] image=stream.toByteArray();
-                        dbHandler.insertUserImage(1, image);
+                        dbHandler.insertUserImage(Integer.parseInt(FinalRespone.getUser_id()), image);
+                        Intent i = new Intent(getApplicationContext(), Home.class);
+                         startActivity(i);
                     } else Log.d("valid", "already added");
 
                 }

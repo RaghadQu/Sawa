@@ -43,14 +43,14 @@ public class MainActivity extends AppCompatActivity {
             startActivity(i);
             finish();
         }
-      /*  DBHandler dbHandler = new DBHandler(getApplicationContext());
+        DBHandler dbHandler = new DBHandler(getApplicationContext());
         Bitmap bitmap= BitmapFactory.decodeResource(getResources(), R.drawable.profileimage);
         ByteArrayOutputStream stream=new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 90, stream); // what 90 does ??
         byte[] image=stream.toByteArray();
         dbHandler.insertUserImage(1, image);
         AboutUser aboutUser=new AboutUser(1,"","","");
-        dbHandler.addAboutUser(aboutUser);*/
+        dbHandler.addAboutUser(aboutUser);
 
         // Address the email  and password field
         emailEditText = (EditText) findViewById(R.id.username);

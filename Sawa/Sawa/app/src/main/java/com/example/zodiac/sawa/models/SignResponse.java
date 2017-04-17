@@ -11,7 +11,8 @@ public class SignResponse {
 
 
     private int state;
-    private int user_id;
+    private String user_id;
+
 
     public int getState() {
         return state;
@@ -21,11 +22,12 @@ public class SignResponse {
         this.state = state;
     }
 
-    public void setUser_id(int user_id) {
+    public void setUser_id(String user_id) {
         this.user_id = user_id;
     }
 
-    public int getUser_id() {
+    public String getUser_id() {
         return user_id;
     }
 }
+

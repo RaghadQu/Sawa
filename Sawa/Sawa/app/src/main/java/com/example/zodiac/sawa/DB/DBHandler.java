@@ -122,7 +122,7 @@ public class DBHandler extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery(selectQuery, null);
         if (cursor != null && cursor.moveToFirst()) {
             cursor.moveToFirst();
-            byte[] image = cursor.getBlob(cursor.getColumnIndex(USER_IMAGE));
+                byte[] image = cursor.getBlob(cursor.getColumnIndex(USER_IMAGE));
 
             Bitmap img = BitmapFactory.decodeByteArray(image, 0, image.length);
 
