@@ -3,7 +3,6 @@ package com.example.zodiac.sawa.MainTabs;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -12,24 +11,18 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDialogFragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.zodiac.sawa.Home;
 import com.example.zodiac.sawa.ProfileTabs.About;
-import com.example.zodiac.sawa.ProfileTabs.Friends;
+import com.example.zodiac.sawa.ProfileTabs.Friends.Friends;
 import com.example.zodiac.sawa.ProfileTabs.Posts;
 import com.example.zodiac.sawa.ProfileTabs.Requests;
 import com.example.zodiac.sawa.R;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
 

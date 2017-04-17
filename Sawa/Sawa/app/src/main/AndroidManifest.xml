@@ -30,7 +30,7 @@
         <activity android:name=".Register" android:configChanges="keyboardHidden|orientation|screenSize"
         />
         <activity
-            android:name=".RecoverPass"
+            android:name=".RecoverPassword.RecoverPass"
             android:configChanges="orientation|keyboardHidden|screenSize"
         />
         <activity

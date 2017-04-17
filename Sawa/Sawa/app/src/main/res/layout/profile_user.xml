@@ -5,14 +5,14 @@
         android:layout_height="match_parent"
         android:background="@color/purple"
         android:id="@+id/RelativeLayout">
-
-         <ImageView
+          <ImageView
             android:id="@+id/header_cover_image"
             android:layout_width="match_parent"
             android:layout_height="200dp"
 
             android:scaleType="centerCrop"
             />
+
 
     <de.hdodenhof.circleimageview.CircleImageView
         xmlns:app="http://schemas.android.com/apk/res-auto"
