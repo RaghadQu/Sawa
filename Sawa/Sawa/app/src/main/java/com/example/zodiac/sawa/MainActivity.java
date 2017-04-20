@@ -9,6 +9,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import com.example.zodiac.sawa.RecoverPassword.RecoverPass;
+<<<<<<< HEAD
+=======
+import com.example.zodiac.sawa.DB.DBHandler;
+>>>>>>> d03ee4e0c7837ea73904aacb36669aed4aa32b47
 import com.example.zodiac.sawa.interfaces.LoginAuth;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -37,14 +41,14 @@ public class MainActivity extends AppCompatActivity {
             startActivity(i);
             finish();
         }
-      /*  DBHandler dbHandler = new DBHandler(getApplicationContext());
+        DBHandler dbHandler = new DBHandler(getApplicationContext());
         Bitmap bitmap= BitmapFactory.decodeResource(getResources(), R.drawable.profileimage);
         ByteArrayOutputStream stream=new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 90, stream); // what 90 does ??
         byte[] image=stream.toByteArray();
         dbHandler.insertUserImage(1, image);
         AboutUser aboutUser=new AboutUser(1,"","","");
-        dbHandler.addAboutUser(aboutUser);*/
+        dbHandler.addAboutUser(aboutUser);
 
         // Address the email  and password field
         emailEditText = (EditText) findViewById(R.id.username);

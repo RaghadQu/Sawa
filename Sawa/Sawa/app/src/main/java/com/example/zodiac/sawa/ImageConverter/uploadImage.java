@@ -48,8 +48,8 @@ public class uploadImage {
         userImageResponse.enqueue(new Callback<Authentication>() {
             @Override
             public void onResponse(Call<Authentication> call, Response<Authentication> response) {
-                int state = response.body().getState();
-                Log.d("Image is uploaded" + state, "" + state);
+                // int state = response.body().getState();
+                //Log.d("Image is uploaded" + state, "" + state);
             }
 
             @Override
@@ -66,16 +66,16 @@ public class uploadImage {
                 .baseUrl(GeneralAppInfo.BACKEND_URL)
                 .addConverterFactory(GsonConverterFactory.create()).build();
         UserImageApi userImageApi = retrofit.create(UserImageApi.class);
-        Call<List<userImageFromDb>> userImageResponse = userImageApi.getUserImageFromDb(user_id);
+        Call<List<userImageFromDb>> userImageResponse = userImageApi.getUserImageFromDb(1);
         userImageResponse.enqueue(new Callback<List<userImageFromDb>>() {
             @Override
             public void onResponse(Call<List<userImageFromDb>> call, Response<List<userImageFromDb>> response) {
                 List<userImageFromDb> userImageFromDbs;
-                userImageFromDbs=response.body();
-                imageUrl=userImageFromDbs.get(0).getUser_image();
-                Log.d("Arrive to ge fro Db11", "s"+imageUrl);
-                imageUrl="http://cc795b70.ngrok.io/Sawa/public/"+imageUrl;
-                Log.d("imageYtl",imageUrl);
+                userImageFromDbs = response.body();
+                imageUrl = userImageFromDbs.get(0).getUser_image();
+                Log.d("Arrive to ge fro Db11", "s" + imageUrl);
+                imageUrl = "http://cc795b70.ngrok.io/Sawa/public/" + imageUrl;
+                Log.d("imageYtl", imageUrl);
                 Picasso.with(context).load(imageUrl).into(img);
 
 
@@ -87,7 +87,7 @@ public class uploadImage {
 
             }
         });
-        return imageUrl ;
+        return imageUrl;
 
     }
 }
