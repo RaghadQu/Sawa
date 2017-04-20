@@ -5,5 +5,5 @@ package com.example.zodiac.sawa;
  */
 
 public class GeneralAppInfo {
-    public static String  BACKEND_URL="http://cc795b70.ngrok.io/Sawa/public/index.php/";
+    public static String  BACKEND_URL="http://0bdb1326.ngrok.io/Sawa/public/index.php/";
 }
