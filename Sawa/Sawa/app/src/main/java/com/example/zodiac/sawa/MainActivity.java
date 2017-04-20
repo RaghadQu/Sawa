@@ -3,25 +3,15 @@ package com.example.zodiac.sawa;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
-
-<<<<<<< HEAD
 import com.example.zodiac.sawa.RecoverPassword.RecoverPass;
-=======
-import com.example.zodiac.sawa.DB.DBHandler;
->>>>>>> 8658816aa943a824e6ef1a8e0529a3d77f827807
 import com.example.zodiac.sawa.interfaces.LoginAuth;
-import com.example.zodiac.sawa.models.AboutUser;
-
-import java.io.ByteArrayOutputStream;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 

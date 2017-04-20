@@ -3,11 +3,8 @@ package com.example.zodiac.sawa.MainTabs;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-<<<<<<< HEAD
-=======
 import android.graphics.Bitmap;
-import android.media.Image;
->>>>>>> 8658816aa943a824e6ef1a8e0529a3d77f827807
+
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -17,38 +14,26 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatDialogFragment;
-<<<<<<< HEAD
-=======
+
 import android.util.Base64;
 import android.util.Log;
->>>>>>> 8658816aa943a824e6ef1a8e0529a3d77f827807
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-<<<<<<< HEAD
-=======
 import com.example.zodiac.sawa.DB.DBHandler;
-import com.example.zodiac.sawa.Home;
 import com.example.zodiac.sawa.ImageConverter.ImageConverter;
 import com.example.zodiac.sawa.ImageConverter.uploadImage;
->>>>>>> 8658816aa943a824e6ef1a8e0529a3d77f827807
 import com.example.zodiac.sawa.ProfileTabs.About;
 import com.example.zodiac.sawa.ProfileTabs.Friends.Friends;
 import com.example.zodiac.sawa.ProfileTabs.Posts;
 import com.example.zodiac.sawa.ProfileTabs.Requests;
 import com.example.zodiac.sawa.R;
-import com.squareup.picasso.Picasso;
 
-<<<<<<< HEAD
-=======
+
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
->>>>>>> 8658816aa943a824e6ef1a8e0529a3d77f827807
 import static android.app.Activity.RESULT_OK;
 
 public class Profile extends AppCompatDialogFragment {
@@ -123,10 +108,10 @@ public class Profile extends AppCompatDialogFragment {
         // imageView.setImageURI();
         DBHandler dbHandler = new DBHandler(getContext());
         uploadImage uploadImage=new uploadImage();
-        String imageUrl=uploadImage.getUserImageFromDB(1,img,getContext());
+       // String imageUrl=uploadImage.getUserImageFromDB(1,img,getContext());
 
 
-        Bitmap bitmap = dbHandler.getUserImage(1);
+      //  Bitmap bitmap = dbHandler.getUserImage(1);
 
         img.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -175,11 +160,8 @@ public class Profile extends AppCompatDialogFragment {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
-
         }
     }
-
     class CustomAdapter extends FragmentPagerAdapter {
 
         private String fragments[] = {"Posts ", "About", "Friends", "Requests"};
@@ -203,12 +185,10 @@ public class Profile extends AppCompatDialogFragment {
                     return null;
             }
         }
-
         @Override
         public int getCount() {
             return fragments.length;
         }
-
         @Override
         public CharSequence getPageTitle(int position) {
             return fragments[position];
