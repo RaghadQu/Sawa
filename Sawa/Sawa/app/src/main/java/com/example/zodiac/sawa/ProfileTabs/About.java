@@ -209,18 +209,24 @@ public class About extends Fragment {
                 List<AboutUser> aboutUser;
                 aboutUser = response.body();
                 bio = (TextView) view.findViewById(R.id.Bio);
-           //     bio.setText(aboutUser.get(0).getUser_bio());
+                bio.setText(aboutUser.get(0).getUser_bio());
                 status = (TextView) view.findViewById(R.id.status);
-
-//                status.setText(aboutUser.get(0).getUser_status());
-
+                status.setText(aboutUser.get(0).getUser_status());
                 song = (TextView) view.findViewById(R.id.Song);
+<<<<<<< HEAD
+
+                song.setText(aboutUser.get(0).getUser_song());
+                AboutUser aboutUser1 = new AboutUser(2, aboutUser.get(0).getUser_bio(), aboutUser.get(0).getUser_status(), aboutUser.get(0).getUser_song());
+                song.setText(aboutUser.get(0).getUser_song());
+                //       AboutUser aboutUser1 = new AboutUser(1, aboutUser.get(0).getUser_bio(), aboutUser.get(0).getUser_status(), aboutUser.get(0).getUser_song());
+=======
   //              song.setText(aboutUser.get(0).getUser_song());
     //            AboutUser aboutUser1 = new AboutUser(2, aboutUser.get(0).getUser_bio(), aboutUser.get(0).getUser_status(), aboutUser.get(0).getUser_song());
                 song.setText(aboutUser.get(0).getUser_song());
                 AboutUser aboutUser1 = new AboutUser(1, aboutUser.get(0).getUser_bio(), aboutUser.get(0).getUser_status(), aboutUser.get(0).getUser_song());
+>>>>>>> d03ee4e0c7837ea73904aacb36669aed4aa32b47
                 DBHandler dbHandler = new DBHandler(getContext());
-      //          dbHandler.addAboutUser(aboutUser1);
+                dbHandler.addAboutUser(aboutUser1);
             }
 
             @Override
