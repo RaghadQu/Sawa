@@ -9,10 +9,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import com.example.zodiac.sawa.RecoverPassword.RecoverPass;
-<<<<<<< HEAD
-=======
+
 import com.example.zodiac.sawa.DB.DBHandler;
->>>>>>> d03ee4e0c7837ea73904aacb36669aed4aa32b47
 import com.example.zodiac.sawa.interfaces.LoginAuth;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

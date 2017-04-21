@@ -5,10 +5,8 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-<<<<<<< HEAD
 import android.graphics.Bitmap;
 
-=======
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 
@@ -17,7 +15,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
 import android.media.Image;
->>>>>>> d03ee4e0c7837ea73904aacb36669aed4aa32b47
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -37,15 +34,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-<<<<<<< HEAD
 import com.example.zodiac.sawa.DB.DBHandler;
-=======
 import android.widget.Toast;
 
 import com.example.zodiac.sawa.DB.DBHandler;
 import com.example.zodiac.sawa.GeneralFunctions;
 import com.example.zodiac.sawa.Home;
->>>>>>> d03ee4e0c7837ea73904aacb36669aed4aa32b47
 import com.example.zodiac.sawa.ImageConverter.ImageConverter;
 import com.example.zodiac.sawa.ImageConverter.uploadImage;
 import com.example.zodiac.sawa.ProfileTabs.About;
@@ -55,10 +49,8 @@ import com.example.zodiac.sawa.ProfileTabs.Requests;
 import com.example.zodiac.sawa.R;
 
 
-<<<<<<< HEAD
 import java.io.IOException;
 
-=======
 import java.io.File;
 import java.io.FileNotFoundException;
 
@@ -68,7 +60,6 @@ import java.util.List;
 
 import id.zelory.compressor.Compressor;
 
->>>>>>> d03ee4e0c7837ea73904aacb36669aed4aa32b47
 import static android.app.Activity.RESULT_OK;
 import static java.lang.System.out;
 
@@ -143,14 +134,11 @@ public class Profile extends AppCompatDialogFragment {
         img = (ImageView) view.findViewById(R.id.user_profile_photo);
         // imageView.setImageURI();
         DBHandler dbHandler = new DBHandler(getContext());
-<<<<<<< HEAD
         uploadImage uploadImage=new uploadImage();
        // String imageUrl=uploadImage.getUserImageFromDB(1,img,getContext());
 
 
       //  Bitmap bitmap = dbHandler.getUserImage(1);
-=======
-        uploadImage uploadImage = new uploadImage();
         String imageUrl = uploadImage.getUserImageFromDB(1, img, getContext());
 
 
@@ -158,7 +146,6 @@ public class Profile extends AppCompatDialogFragment {
        // bitmap = RotateBitmap(bitmap, -90);
         img.setImageBitmap(bitmap);
 
->>>>>>> d03ee4e0c7837ea73904aacb36669aed4aa32b47
 
         img.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
