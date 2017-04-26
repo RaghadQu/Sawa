@@ -13,9 +13,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.zodiac.sawa.MyAdapter;
+import com.example.zodiac.sawa.ProfileTabs.Friends.FastScrollAdapter;
 import com.example.zodiac.sawa.R;
 import com.example.zodiac.sawa.RecyclerViewAdapters.SettingsAdapter;
 import com.example.zodiac.sawa.models.SettingsRecyclerViewDataProvider;
+import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView;
 
 import java.util.ArrayList;
 
@@ -30,11 +33,24 @@ public class Setting extends Fragment {
     int image1=R.drawable.image1;
     int image2=R.drawable.image2;
     int image3=R.drawable.image1;
-    ArrayList<SettingsRecyclerViewDataProvider> dataProviders=new ArrayList<SettingsRecyclerViewDataProvider>();
+
+    private RecyclerView mRecyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
+    String [] myDataset={"Profile","Friends","Friend Requests","Log out","Profile","Friends","Friend Requests","Log out","Profile","Friends","Friend Requests","Log out","Profile","Friends","Friend Requests","Log out"};
+    int [] images ={image1,image2,image3,image1};
+  //  ArrayList<SettingsRecyclerViewDataProvider> dataProviders=new ArrayList<SettingsRecyclerViewDataProvider>();
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view=  inflater.inflate(R.layout.setting_tab,container,false);
+        mRecyclerView = (RecyclerView) view.findViewById(R.id.Viewer);
+        mRecyclerView.setHasFixedSize(true);
+        mLayoutManager = new LinearLayoutManager(getContext());
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mAdapter = new MyAdapter(getContext(),myDataset,images);
+        mRecyclerView.setAdapter(mAdapter);
+
 
 
 
