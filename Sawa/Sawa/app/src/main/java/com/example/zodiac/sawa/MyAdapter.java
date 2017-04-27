@@ -10,13 +10,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
+
+import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by raghadq on 4/26/2017.
  */
 
-public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
+public class MyAdapter extends FastScrollRecyclerView.Adapter<MyAdapter.ViewHolder> {
     String[] mDataset;
     int [] images;
     Context contexts;

@@ -1,6 +1,10 @@
 package com.example.zodiac.sawa.ProfileTabs.Friends;
 
+import android.app.Activity;
 import android.os.Bundle;
+import android.os.PersistableBundle;
+import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDialogFragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
@@ -26,24 +30,27 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 
-public class Friends extends AppCompatDialogFragment {
+public class Friends extends Activity {
 
-    View view;
     GetFreinds service;
     List<getFriendsResponse> FreindsList;
     ArrayList<friend> LayoutFriendsList = new ArrayList<>();
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.friends_tab, container, false);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.friends_tab);
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("http://0bdb1326.ngrok.io/Sawa/public/index.php/")
                 .addConverterFactory(GsonConverterFactory.create()).build();
         service = retrofit.create(GetFreinds.class);
 
-        final FastScrollRecyclerView recyclerView = (FastScrollRecyclerView) view.findViewById(R.id.recycler);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setAdapter(new FastScrollAdapter(getContext(), LayoutFriendsList));
+
+
+
+
+        final FastScrollRecyclerView recyclerView = (FastScrollRecyclerView) findViewById(R.id.recycler);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(new FastScrollAdapter(this, LayoutFriendsList));
 
         final getFriendsRequest request = new getFriendsRequest();
         request.setId(1);
@@ -55,7 +62,7 @@ public class Friends extends AppCompatDialogFragment {
                 for (int i = 0; i < FreindsList.size(); i++) {
                     LayoutFriendsList.add(new friend(FreindsList.get(i).getUser_image(),
                             FreindsList.get(i).getFirstName() + " " + FreindsList.get(i).getLast_name()));
-                    recyclerView.setAdapter(new FastScrollAdapter(getContext(), LayoutFriendsList));
+                    recyclerView.setAdapter(new FastScrollAdapter(Friends.this, LayoutFriendsList));
                 }
             }
 
@@ -66,29 +73,26 @@ public class Friends extends AppCompatDialogFragment {
             }
         });
 
-        return view;
     }
 
 
     public class friend {
 
-        URL imageResourceId;
+        String imageResourceId;
         String userName;
 
-        public friend(URL imageResourceId, String userName) {
+        public friend(String imageResourceId, String userName) {
             setImageResourceId(imageResourceId);
             setUserName(userName);
         }
 
 
-        public void setImageResourceId(URL imageResourceId) {
+        public void setImageResourceId(String imageResourceId) {
             this.imageResourceId = imageResourceId;
         }
 
-        public URL getImageResourceId() throws MalformedURLException {
-            if (imageResourceId != null)
-                return imageResourceId;
-            else return (new URL("R.drawable.home"));
+        public String getImageResourceId() throws MalformedURLException {
+             return imageResourceId;
         }
 
         public String getUserName() {

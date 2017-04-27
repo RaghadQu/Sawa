@@ -242,7 +242,7 @@ public class Profile extends AppCompatDialogFragment {
                 case 1:
                     return new About();
                 case 2:
-                    return new Friends();
+                    return new About();
                 case 3:
                     return new Requests();
                 default:

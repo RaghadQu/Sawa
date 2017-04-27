@@ -32,6 +32,11 @@
             android:name=".Home"
             android:configChanges="keyboardHidden|orientation|screenSize"
         />
+
+        <activity
+            android:name=".ProfileTabs.Friends.Friends"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            />
         <activity android:name=".Register" android:configChanges="keyboardHidden|orientation|screenSize"
         />
         <activity

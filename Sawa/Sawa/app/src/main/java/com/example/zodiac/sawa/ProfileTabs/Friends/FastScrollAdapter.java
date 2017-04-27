@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 
 import com.example.zodiac.sawa.R;
 import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView;
+import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -44,16 +46,16 @@ public class FastScrollAdapter extends RecyclerView.Adapter<FastScrollAdapter.Us
     public void onBindViewHolder(UserViewHolder holder, int position) {
         Friends.friend user = userList.get(position);
         holder.tvName.setText(user.getUserName());
-        URL imageurl = null;
-        Bitmap mIcon_val;
+        String image ;
         try {
-            imageurl = user.getImageResourceId();
-            mIcon_val = BitmapFactory.decodeStream(imageurl.openConnection().getInputStream());
-            holder.ivProfile.setImageBitmap(mIcon_val);
-        } catch (IOException e) {
-            holder.ivProfile.setImageBitmap(BitmapFactory.decodeResource(mContext.getResources(), R.drawable.account));
+            image = user.getImageResourceId();
+            String imageUrl="http://0bdb1326.ngrok.io/Sawa/public/"+image;
+            Picasso.with(mContext).load(imageUrl).into(holder.ivProfile);
+        } catch (MalformedURLException e) {
+            holder.ivProfile.setImageResource(R.drawable.account);
             e.printStackTrace();
         }
+
     }
 
     @Override
