@@ -52,12 +52,12 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        ImageButton ivProfile;
+        CircleImageView ivProfile;
         TextView tvName;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            ivProfile = (ImageButton) itemView.findViewById(R.id.image);
+            ivProfile = (CircleImageView) itemView.findViewById(R.id.image);
             tvName = (TextView) itemView.findViewById(R.id.text);
         }
     }
