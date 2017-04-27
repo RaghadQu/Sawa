@@ -81,6 +81,7 @@ public class DBHandler extends SQLiteOpenHelper {
             cursor.moveToFirst();
             AboutUser aboutUser = new AboutUser(Integer.parseInt(cursor.getString(0)),
                     cursor.getString(1), cursor.getString(2), cursor.getString(3));
+            db.close();
             return aboutUser;
 
         } else return null;
@@ -95,6 +96,7 @@ public class DBHandler extends SQLiteOpenHelper {
         cv.put(USER_STATUS, stausText);
         cv.put(USER_SONG, songText);
         db.update(TABLE_ABOUT, cv, "USER_ID" + "= ?", new String[]{String.valueOf(1)});
+        db.close();
 
     }
 
@@ -104,6 +106,7 @@ public class DBHandler extends SQLiteOpenHelper {
         cv.put(USER_ID, ID);
         cv.put(USER_IMAGE, image);
         db.insert(TABLE_IMAGES, null, cv);
+        db.close();
     }
 
     public void updateUserImage(int ID, byte[] image) {
@@ -112,6 +115,7 @@ public class DBHandler extends SQLiteOpenHelper {
         cv.put(USER_IMAGE, image);
         db.update(TABLE_IMAGES, cv, "USER_ID" + "= ?", new String[]{String.valueOf(1)});
         Log.d("Updated","s");
+        db.close();
     }
 
     public Bitmap getUserImage(int id) {
@@ -124,8 +128,9 @@ public class DBHandler extends SQLiteOpenHelper {
             cursor.moveToFirst();
                 byte[] image = cursor.getBlob(cursor.getColumnIndex(USER_IMAGE));
 
-            Bitmap img = BitmapFactory.decodeByteArray(image, 0, image.length);
 
+            Bitmap img = BitmapFactory.decodeByteArray(image, 0, image.length);
+            db.close();
             return img;
 
 
