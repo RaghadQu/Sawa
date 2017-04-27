@@ -8,8 +8,11 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+
+import com.example.zodiac.sawa.ProfileTabs.Friends.Friends;
 import com.example.zodiac.sawa.RecoverPassword.RecoverPass;
 
 import com.example.zodiac.sawa.DB.DBHandler;
@@ -99,7 +102,8 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         }*/
-      Intent i = new Intent(getApplicationContext(), Home.class);  startActivity(i);
+
+        Intent i = new Intent(getApplicationContext(), Friends.class);  startActivity(i);
     }
 
 

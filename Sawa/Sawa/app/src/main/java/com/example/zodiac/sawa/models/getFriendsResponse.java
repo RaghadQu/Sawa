@@ -26,7 +26,7 @@ public class getFriendsResponse {
 
     @SerializedName("user_image")
     @Expose
-    private  URL user_image;
+    private  String user_image;
 
     public String getId() {
         return Id;
@@ -52,11 +52,11 @@ public class getFriendsResponse {
         this.last_name = last_name;
     }
 
-    public void setUser_image(URL user_image) {
+    public void setUser_image(String user_image) {
         this.user_image = user_image;
     }
 
-    public URL getUser_image() {
+    public String getUser_image() {
         return user_image;
     }
 
