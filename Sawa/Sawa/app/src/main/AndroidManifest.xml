@@ -3,20 +3,16 @@
     package="com.example.zodiac.sawa">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
-
-
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <activity
             android:name=".SplashActivity"
             android:configChanges="keyboardHidden|orientation|screenSize">
@@ -26,27 +22,23 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
         <activity
             android:name=".Home"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-        />
-
+            android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity
             android:name=".ProfileTabs.Friends.Friends"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            />
-        <activity android:name=".Register" android:configChanges="keyboardHidden|orientation|screenSize"
-        />
+            android:configChanges="keyboardHidden|orientation|screenSize" />
+        <activity
+            android:name=".Register"
+            android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity
             android:name=".RecoverPassword.RecoverPass"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-        />
+            android:configChanges="orientation|keyboardHidden|screenSize" />
         <activity
             android:name=".MainActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-        />
+            android:configChanges="orientation|keyboardHidden|screenSize" />
+        <activity android:name=".MenuActiviries.MyProfileActivity"></activity>
     </application>
 
 </manifest>
