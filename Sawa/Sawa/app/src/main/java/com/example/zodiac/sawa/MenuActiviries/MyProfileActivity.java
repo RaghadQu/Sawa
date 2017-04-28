@@ -18,6 +18,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -43,6 +44,7 @@ public class MyProfileActivity extends AppCompatActivity {
     int image1 = R.drawable.image1;
     int image2 = R.drawable.image2;
     int image3 = R.drawable.image1;
+    ImageButton editBio;
 
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
@@ -115,6 +117,16 @@ public class MyProfileActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(mLayoutManager);
         mAdapter = new MyAdapter(this, myDataset, images);
         mRecyclerView.setAdapter(mAdapter);
+        //set click listener for edit bio
+        editBio=(ImageButton)findViewById(R.id.editBio);
+        editBio.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getApplicationContext(), aboutUserActivity.class);
+                startActivity(i);
+
+            }
+        });
 
     }
 
