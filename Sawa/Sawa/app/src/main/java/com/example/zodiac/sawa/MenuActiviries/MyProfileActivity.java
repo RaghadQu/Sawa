@@ -38,7 +38,6 @@ public class MyProfileActivity extends AppCompatActivity {
     TextView changePic, viewPic;
     ImageView imageView; // View image in dialog
     private static final int SELECTED_PICTURE = 100;
-    RecyclerView recyclerView;
     SettingsAdapter recyclerAdapter;
     RecyclerView.LayoutManager layoutManager;
     int image1 = R.drawable.image1;
@@ -109,6 +108,8 @@ public class MyProfileActivity extends AppCompatActivity {
             }
         });
         mRecyclerView = (RecyclerView) findViewById(R.id.Viewer);
+        mRecyclerView.setNestedScrollingEnabled(false);
+
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
