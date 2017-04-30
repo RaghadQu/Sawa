@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView;
@@ -43,7 +44,7 @@ public class MyAdapter extends FastScrollRecyclerView.Adapter<MyAdapter.ViewHold
     public void onBindViewHolder(MyAdapter.ViewHolder holder, int position) {
         String user = mDataset[position];
         holder.tvName.setText(user);
-        holder.ivProfile.setImageBitmap(BitmapFactory.decodeResource(contexts.getResources(), images[position%4]));
+       holder.ivProfile.setImageBitmap(BitmapFactory.decodeResource(contexts.getResources(), images[position%4]));
     }
 
 
@@ -55,12 +56,12 @@ public class MyAdapter extends FastScrollRecyclerView.Adapter<MyAdapter.ViewHold
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        CircleImageView ivProfile;
+        ImageView ivProfile;
         TextView tvName;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            ivProfile = (CircleImageView) itemView.findViewById(R.id.image);
+            ivProfile = (ImageView) itemView.findViewById(R.id.image);
             tvName = (TextView) itemView.findViewById(R.id.text);
         }
     }

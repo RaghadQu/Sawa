@@ -13,7 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.zodiac.sawa.Home;
+import com.example.zodiac.sawa.HomeTabbedActivity;
 import com.example.zodiac.sawa.R;
 
 /**
@@ -91,7 +91,7 @@ public class RecoverPass extends Activity {
                 } else {
                     dialog.dismiss();
                     Toast.makeText(RecoverPass.this, "Your password has been reset successfully", Toast.LENGTH_LONG).show();
-                    Intent i = new Intent(getApplicationContext(), Home.class);
+                    Intent i = new Intent(getApplicationContext(), HomeTabbedActivity.class);
                     startActivity(i);
 
                 }

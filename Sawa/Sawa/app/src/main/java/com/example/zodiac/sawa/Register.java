@@ -13,7 +13,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.example.zodiac.sawa.DB.DBHandler;
-import com.example.zodiac.sawa.ProfileTabs.About;
+import com.example.zodiac.sawa.MenuActiviries.aboutUserActivity;
 import com.example.zodiac.sawa.interfaces.SignAuth;
 import com.example.zodiac.sawa.models.SignRequest;
 import com.example.zodiac.sawa.models.SignResponse;
@@ -91,16 +91,16 @@ public class Register extends Activity {
                     // add the user in the backend with empty recode
                     if (response.body().getState() == 1) {
 
-                        About about = new About();
+                        aboutUserActivity about = new aboutUserActivity();
 
-                        about.addNewAboutUserInDB(Integer.parseInt(FinalRespone.getUser_id()));
+                       // about.addNewAboutUserInDB(Integer.parseInt(FinalRespone.getUser_id()));
                         DBHandler dbHandler = new DBHandler(getApplicationContext());
                         Bitmap bitmap= BitmapFactory.decodeResource(getResources(), R.drawable.profileimage);
                         ByteArrayOutputStream stream=new ByteArrayOutputStream();
                         bitmap.compress(Bitmap.CompressFormat.PNG, 90, stream); // what 90 does ??
                         byte[] image=stream.toByteArray();
                         dbHandler.insertUserImage(Integer.parseInt(FinalRespone.getUser_id()), image);
-                        Intent i = new Intent(getApplicationContext(), Home.class);
+                        Intent i = new Intent(getApplicationContext(), HomeTabbedActivity.class);
                          startActivity(i);
                     } else Log.d("valid", "already added");
 

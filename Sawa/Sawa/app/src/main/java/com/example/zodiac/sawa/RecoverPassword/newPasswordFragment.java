@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.example.zodiac.sawa.Home;
+import com.example.zodiac.sawa.HomeTabbedActivity;
 import com.example.zodiac.sawa.R;
 import com.example.zodiac.sawa.RecoverPassword.RecoverPass;
 
@@ -35,7 +35,7 @@ public class newPasswordFragment extends android.app.Fragment {
                     newPassword.setError("Password less than 8 characters");
                 } else {
 
-                    Intent i = new Intent((RecoverPass)getActivity(), Home.class);
+                    Intent i = new Intent((RecoverPass)getActivity(), HomeTabbedActivity.class);
                     startActivity(i);
 
                 }

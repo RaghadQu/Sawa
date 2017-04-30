@@ -13,7 +13,6 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.example.zodiac.sawa.MenuActiviries.MyProfileActivity;
-import com.example.zodiac.sawa.ProfileTabs.Friends.Friends;
 import com.example.zodiac.sawa.RecoverPassword.RecoverPass;
 
 import com.example.zodiac.sawa.DB.DBHandler;
@@ -44,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         String isLogined = sharedPreferences.getString("isLogined", "");
 
         if ((isLogined.equals("aa"))) {
-            Intent i = new Intent(getApplicationContext(), Home.class);
+            Intent i = new Intent(getApplicationContext(), HomeTabbedActivity.class);
             startActivity(i);
             finish();
         }
@@ -104,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
             });
         }*/
 
-        Intent i = new Intent(getApplicationContext(), MyProfileActivity.class);  startActivity(i);
+        Intent i = new Intent(getApplicationContext(), HomeTabbedActivity.class);  startActivity(i);
     }
 
 
