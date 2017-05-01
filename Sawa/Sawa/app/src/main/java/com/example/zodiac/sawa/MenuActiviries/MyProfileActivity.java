@@ -18,6 +18,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -44,12 +45,12 @@ public class MyProfileActivity extends AppCompatActivity {
     int image1 = R.drawable.image1;
     int image2 = R.drawable.image2;
     int image3 = R.drawable.image1;
-    ImageButton editBio;
+    Button editBio;
 
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    String[] myDataset = {"Profile", "Friends", "Friend Requests", "Log out", "Profile", "Friends", "Friend Requests", "Log out", "Profile", "Friends", "Friend Requests", "Log out", "Profile", "Friends", "Friend Requests", "Log out"};
+    String[] myDataset = {"Profile", "Friends", "Friend Requests", "Log out"};
     int[] images = {image1, image2, image3, image1};
 
     @Override
@@ -118,7 +119,7 @@ public class MyProfileActivity extends AppCompatActivity {
         mAdapter = new MyAdapter(this, myDataset, images);
         mRecyclerView.setAdapter(mAdapter);
         //set click listener for edit bio
-        editBio=(ImageButton)findViewById(R.id.editBio);
+        editBio=(Button)findViewById(R.id.editBio);
         editBio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
