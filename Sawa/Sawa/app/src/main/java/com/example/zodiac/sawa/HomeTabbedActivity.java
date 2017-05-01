@@ -108,7 +108,7 @@ public class HomeTabbedActivity extends AppCompatActivity {
         RecyclerView mRecyclerView;
         RecyclerView.Adapter mAdapter;
         RecyclerView.LayoutManager mLayoutManager;
-        String[] myDataset = {"Profile", "Friends", "Friend Requests", "Log out", "Profile", "Friends", "Friend Requests", "Log out", "Profile", "Friends", "Friend Requests", "Log out", "Profile", "Friends", "Friend Requests", "Log out"};
+        String[] myDataset = {"Profile", "Friends", "Friend Requests", "Log out"};
         int[] images = {image1, image2, image3, image1};
         /**
          * The fragment argument representing the section number for this
