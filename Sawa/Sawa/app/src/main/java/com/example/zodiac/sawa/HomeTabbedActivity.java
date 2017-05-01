@@ -56,17 +56,24 @@ public class HomeTabbedActivity extends AppCompatActivity {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+
+        for (int i = 0; i < tabLayout.getTabCount(); i++) {
+            int iconId = -1;
+            switch (i) {
+                case 0:
+                    iconId = R.drawable.home;
+                    break;
+                case 1:
+                    iconId = R.drawable.notification;
+                    break;
+                case 2:
+                    iconId = R.drawable.setting;
+                    break;
             }
-        });
+            tabLayout.getTabAt(i).setIcon(iconId);
 
+        }
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -101,7 +108,7 @@ public class HomeTabbedActivity extends AppCompatActivity {
         RecyclerView mRecyclerView;
         RecyclerView.Adapter mAdapter;
         RecyclerView.LayoutManager mLayoutManager;
-        String[] myDataset = {"Profile", "Friends", "Friend Requests", "Log out", "Profile", "Friends", "Friend Requests", "Log out", "Profile", "Friends", "Friend Requests", "Log out", "Profile", "Friends", "Friend Requests", "Log out"};
+        String[] myDataset = {"Profile", "Friends", "Friend Requests", "Log out"};
         int[] images = {image1, image2, image3, image1};
         /**
          * The fragment argument representing the section number for this
@@ -129,13 +136,6 @@ public class HomeTabbedActivity extends AppCompatActivity {
                                  Bundle savedInstanceState) {
             if (getArguments().getInt(ARG_SECTION_NUMBER) == 1) {
                 View rootView = inflater.inflate(R.layout.fragment_home, container, false);
-                mRecyclerView = (RecyclerView) rootView.findViewById(R.id.Viewer);
-                mRecyclerView.setHasFixedSize(true);
-                mLayoutManager = new LinearLayoutManager(getContext());
-                mRecyclerView.setLayoutManager(mLayoutManager);
-                MyAdapter settingAdapter = new MyAdapter(getContext(), myDataset, images);
-                mRecyclerView.setAdapter(settingAdapter);
-
                 return rootView;
             } else if (getArguments().getInt(ARG_SECTION_NUMBER) == 2) {
                 View rootView = inflater.inflate(R.layout.fragment_notification, container, false);
@@ -143,12 +143,16 @@ public class HomeTabbedActivity extends AppCompatActivity {
 
             } else if (getArguments().getInt(ARG_SECTION_NUMBER) == 3) {
                 View rootView = inflater.inflate(R.layout.fragment_settings, container, false);
+                mRecyclerView = (RecyclerView) rootView.findViewById(R.id.Viewer);
+                mRecyclerView.setHasFixedSize(true);
+                mLayoutManager = new LinearLayoutManager(getContext());
+                mRecyclerView.setLayoutManager(mLayoutManager);
+                MyAdapter settingAdapter = new MyAdapter(getContext(), myDataset, images);
+                mRecyclerView.setAdapter(settingAdapter);
                 return rootView;
 
             } else {
                 View rootView = inflater.inflate(R.layout.fragment_home, container, false);
-                TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-                textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
                 return rootView;
             }
         }
@@ -179,15 +183,7 @@ public class HomeTabbedActivity extends AppCompatActivity {
 
         @Override
         public CharSequence getPageTitle(int position) {
-            switch (position) {
-                case 0:
-                    return "SECTION 1";
-                case 1:
-                    return "SECTION 2";
-                case 2:
-                    return "SECTION 3";
-            }
-            return null;
+           return" " ;
         }
     }
 }

@@ -47,7 +47,7 @@ public class MyAdapter extends FastScrollRecyclerView.Adapter<MyAdapter.ViewHold
     public void onBindViewHolder(MyAdapter.ViewHolder holder, int position) {
         String user = mDataset[position];
         holder.tvName.setText(user);
-       holder.ivProfile.setImageBitmap(BitmapFactory.decodeResource(contexts.getResources(), images[position%4]));
+       holder.ivProfile.setImageBitmap(BitmapFactory.decodeResource(contexts.getResources(), images[position]));
     }
 
 
