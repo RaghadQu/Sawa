@@ -48,6 +48,13 @@ public class aboutUserActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about_user);
+        bio = (TextView) findViewById(R.id.Bio);
+        status = (TextView) findViewById(R.id.status);
+        song = (TextView) findViewById(R.id.Song);
+
+
+
+
         updateBio = new Dialog(this);
         updateBio.setContentView(R.layout.bio_update_dialog);
 
@@ -118,7 +125,6 @@ public class aboutUserActivity extends AppCompatActivity {
             }
         });
 
-        status = (TextView) findViewById(R.id.status);
         status.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {

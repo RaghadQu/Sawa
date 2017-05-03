@@ -3,6 +3,7 @@ package com.example.zodiac.sawa;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,6 +21,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import android.widget.TextView;
+
+import com.example.zodiac.sawa.layout.homeFragment;
+import com.example.zodiac.sawa.layout.settingsFragment;
+
+import java.util.ArrayList;
 
 public class HomeTabbedActivity extends AppCompatActivity {
 
@@ -42,6 +48,7 @@ public class HomeTabbedActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_tabbed2);
+        // Set up the action bar.
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -55,9 +62,11 @@ public class HomeTabbedActivity extends AppCompatActivity {
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
+        mViewPager.setOffscreenPageLimit(10);
 
 
-        for (int i = 0; i < tabLayout.getTabCount(); i++) {
+
+       /* for (int i = 0; i < tabLayout.getTabCount(); i++) {
             int iconId = -1;
             switch (i) {
                 case 0:
@@ -72,7 +81,8 @@ public class HomeTabbedActivity extends AppCompatActivity {
             }
             tabLayout.getTabAt(i).setIcon(iconId);
 
-        }
+        }*/
+
     }
 
     @Override

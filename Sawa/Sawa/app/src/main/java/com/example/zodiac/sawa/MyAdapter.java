@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.zodiac.sawa.MenuActiviries.MyProfileActivity;
+import com.example.zodiac.sawa.MenuActiviries.aboutUserActivity;
 import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -68,12 +69,16 @@ public class MyAdapter extends FastScrollRecyclerView.Adapter<MyAdapter.ViewHold
             tvName = (TextView) itemView.findViewById(R.id.text);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override public void onClick(View v) {
-                    Log.d("Clicked",getAdapterPosition()+"");
-                    Log.d("Clicked",getItemId()+"");
-                    Log.d("Clicked",getPosition()+"");
-                    if(getAdapterPosition()==1)
+
+                    if(getAdapterPosition()==0)
                     {
                         Intent i = new Intent(contexts, MyProfileActivity.class);
+                        contexts.startActivity(i);
+
+                    }
+                    if(getAdapterPosition()==1)
+                    {
+                        Intent i = new Intent(contexts, aboutUserActivity.class);
                         contexts.startActivity(i);
 
                     }
