@@ -43,15 +43,16 @@ public class MyProfileActivity extends AppCompatActivity {
     SettingsAdapter recyclerAdapter;
     RecyclerView.LayoutManager layoutManager;
     int image1 = R.drawable.image1;
-    int image2 = R.drawable.image2;
-    int image3 = R.drawable.image1;
+    int image2 = R.drawable.friends_icon;
+    int image3 = R.drawable.friends_icon;
+    int image4 = R.drawable.image1;
     Button editBio;
 
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     String[] myDataset = {"Profile", "Friends", "Friend Requests", "Log out"};
-    int[] images = {image1, image2, image3, image1};
+    int[] images = {image1, image2, image3, image4};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

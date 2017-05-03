@@ -23,12 +23,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
-            android:name=".Home"
+            android:name=".MyFriends.MyFriendsActivity"
             android:configChanges="keyboardHidden|orientation|screenSize" />
+
         <activity
-            android:name=".ProfileTabs.Friends.Friends"
+            android:name=".MyRequests.MyRequestsActivity"
             android:configChanges="keyboardHidden|orientation|screenSize" />
+
         <activity
             android:name=".Register"
             android:configChanges="keyboardHidden|orientation|screenSize" />
