@@ -4,6 +4,7 @@ import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
+
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -26,6 +27,7 @@ import com.example.zodiac.sawa.layout.homeFragment;
 import com.example.zodiac.sawa.layout.settingsFragment;
 
 import java.util.ArrayList;
+
 
 public class HomeTabbedActivity extends AppCompatActivity {
 
@@ -66,7 +68,7 @@ public class HomeTabbedActivity extends AppCompatActivity {
 
 
 
-       /* for (int i = 0; i < tabLayout.getTabCount(); i++) {
+       for (int i = 0; i < tabLayout.getTabCount(); i++) {
             int iconId = -1;
             switch (i) {
                 case 0:
@@ -76,12 +78,12 @@ public class HomeTabbedActivity extends AppCompatActivity {
                     iconId = R.drawable.notification;
                     break;
                 case 2:
-                    iconId = R.drawable.setting;
+                    iconId = R.drawable.home;
                     break;
             }
             tabLayout.getTabAt(i).setIcon(iconId);
 
-        }*/
+        }
 
     }
 
@@ -112,14 +114,14 @@ public class HomeTabbedActivity extends AppCompatActivity {
      */
     public static class PlaceholderFragment extends Fragment {
         int image1 = R.drawable.image1;
-        int image2 = R.drawable.image2;
-        int image3 = R.drawable.image1;
-
+        int image2 = R.drawable.friends_icon;
+        int image3 = R.drawable.add_group;
+        int image4 = R.drawable.log;
         RecyclerView mRecyclerView;
         RecyclerView.Adapter mAdapter;
         RecyclerView.LayoutManager mLayoutManager;
         String[] myDataset = {"Profile", "Friends", "Friend Requests", "Log out"};
-        int[] images = {image1, image2, image3, image1};
+        int[] images = {image1, image2, image3, image4};
         /**
          * The fragment argument representing the section number for this
          * fragment.
