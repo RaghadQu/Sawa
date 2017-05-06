@@ -23,15 +23,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".MyFriends.MyFriendsActivity"
             android:configChanges="keyboardHidden|orientation|screenSize" />
-
         <activity
             android:name=".MyRequests.MyRequestsActivity"
             android:configChanges="keyboardHidden|orientation|screenSize" />
-
         <activity
             android:name=".Register"
             android:configChanges="keyboardHidden|orientation|screenSize" />
@@ -46,7 +43,8 @@
         <activity
             android:name=".HomeTabbedActivity"
             android:label="@string/title_activity_home_tabbed"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
+        <activity android:name=".MyFriends.MyFriendProfileActivity"></activity>
     </application>
 
 </manifest>

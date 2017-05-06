@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.example.zodiac.sawa.MenuActiviries.MyProfileActivity;
+import com.example.zodiac.sawa.MyFriends.MyFriendProfileActivity;
 import com.example.zodiac.sawa.RecoverPassword.RecoverPass;
 
 import com.example.zodiac.sawa.DB.DBHandler;
@@ -103,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
             });
         }*/
 
-        Intent i = new Intent(getApplicationContext(), HomeTabbedActivity.class);  startActivity(i);
+        Intent i = new Intent(getApplicationContext(), MyFriendProfileActivity.class);  startActivity(i);
     }
 
 

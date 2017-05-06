@@ -41,7 +41,7 @@ public class RequestScroll extends RecyclerView.Adapter<RequestScroll.UserViewHo
         String image ;
         try {
             image = user.getImageResourceId();
-            String imageUrl="http://0bdb1326.ngrok.io/Sawa/public/"+image;
+            String imageUrl="http://1ce63f59.ngrok.io/Sawa/public/"+image;
             Picasso.with(mContext).load(imageUrl).into(holder.ivProfile);
         } catch (MalformedURLException e) {
             holder.ivProfile.setImageResource(R.drawable.account);
