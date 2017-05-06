@@ -43,8 +43,10 @@ public class FastScrollAdapter extends RecyclerView.Adapter<FastScrollAdapter.Us
 
     private Context mContext;
     public View view;
+    UserViewHolder viewHolder;
     ArrayList<MyFriendsActivity.friend> userList;
     DeleteFriend service;
+    Button remove;
     public FastScrollAdapter(Context mContext, ArrayList<MyFriendsActivity.friend> userList) {
         this.mContext = mContext;
         this.userList = userList;
@@ -55,45 +57,13 @@ public class FastScrollAdapter extends RecyclerView.Adapter<FastScrollAdapter.Us
     @Override
     public UserViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
          view = LayoutInflater.from(mContext).inflate(R.layout.freinds_recycle_view, null);
-        final UserViewHolder viewHolder = new UserViewHolder(view);
-        final Button remove = (Button) view.findViewById(R.id.Remove);
+        viewHolder = new UserViewHolder(view);
+
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(GeneralAppInfo.BACKEND_URL)
                 .addConverterFactory(GsonConverterFactory.create()).build();
         service = retrofit.create(DeleteFriend.class);
 
-        remove.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                Log.wtf("------------ : ", " " + viewHolder.getPosition());
-
-
-                final DeleteFriendRequest request = new DeleteFriendRequest();
-                Log.d("------ Y ","  :  "+ Integer.valueOf(userList.get(viewHolder.getPosition()).getId()));
-                request.setFriend1_id(1);
-                request.setFriend2_id(Integer.valueOf(userList.get(viewHolder.getPosition()).getId()));
-
-
-                final Call<Authentication> deleteResponse = service.getState(request);
-                deleteResponse.enqueue(new Callback<Authentication>() {
-                    @Override
-                    public void onResponse(Call<Authentication> call, Response<Authentication> response) {
-                        Authentication state = response.body();
-                        Log.d("-----------"," Body"+ response.code()+ " : "+ state.getState());
-
-
-                    }
-
-                    @Override
-                    public void onFailure(Call<Authentication> call, Throwable t) {
-                        Log.d("fail to get friends ", "Failure to Get friends");
-
-                    }
-                });
-
-            }
-        });
         return viewHolder;
     }
 
@@ -111,6 +81,8 @@ public class FastScrollAdapter extends RecyclerView.Adapter<FastScrollAdapter.Us
             holder.ivProfile.setImageResource(R.drawable.account);
             e.printStackTrace();
         }
+
+
 
     }
 
@@ -134,7 +106,46 @@ public class FastScrollAdapter extends RecyclerView.Adapter<FastScrollAdapter.Us
             super(itemView);
             ivProfile = (CircleImageView) itemView.findViewById(R.id.image);
             tvName = (TextView) itemView.findViewById(R.id.Name);
+            remove = (Button) view.findViewById(R.id.Remove);
+
+
+            remove.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    Log.wtf("------------ : ", " " + viewHolder.getPosition());
+
+
+                    final DeleteFriendRequest request = new DeleteFriendRequest();
+                    Log.d("------ Y ","  :  "+ Integer.valueOf(userList.get(viewHolder.getPosition()).getId()));
+                    request.setFriend1_id(1);
+                    request.setFriend2_id(Integer.valueOf(userList.get(viewHolder.getPosition()).getId()));
+
+
+                    final Call<Authentication> deleteResponse = service.getState(request);
+                    deleteResponse.enqueue(new Callback<Authentication>() {
+                        @Override
+                        public void onResponse(Call<Authentication> call, Response<Authentication> response) {
+                            Authentication state = response.body();
+                            Log.d("-----------"," Body"+ response.code()+ " : "+ state.getState());
+
+
+                        }
+
+                        @Override
+                        public void onFailure(Call<Authentication> call, Throwable t) {
+                            Log.d("fail to get friends ", "Failure to Get friends");
+
+                        }
+                    });
+
+                }
+            });
+
+
         }
+
+
     }
 
 }
