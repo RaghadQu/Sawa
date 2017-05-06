@@ -60,8 +60,10 @@ public class MyFriendsActivity  extends Activity {
                 @Override
                 public void onResponse(Call<List<getFriendsResponse>> call, Response<List<getFriendsResponse>> response) {
                     FreindsList = response.body();
+
+
                     for (int i = 0; i < FreindsList.size(); i++) {
-                        LayoutFriendsList.add(new friend(FreindsList.get(i).getUser_image(),
+                        LayoutFriendsList.add(new friend(FreindsList.get(i).getId(),FreindsList.get(i).getUser_image(),
                                 FreindsList.get(i).getFirstName() + " " + FreindsList.get(i).getLast_name()));
                         recyclerView.setAdapter(new FastScrollAdapter(MyFriendsActivity.this, LayoutFriendsList));
                     }
@@ -78,13 +80,22 @@ public class MyFriendsActivity  extends Activity {
 
 
         public class friend {
-
+            String Id;
             String imageResourceId;
             String userName;
 
-            public friend(String imageResourceId, String userName) {
+            public String getId() {
+                return Id;
+            }
+
+            public void setId(String id) {
+                Id = id;
+            }
+
+            public friend(String Id,String imageResourceId, String userName) {
                 setImageResourceId(imageResourceId);
                 setUserName(userName);
+                setId(Id);
             }
 
 
