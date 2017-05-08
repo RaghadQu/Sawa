@@ -3,6 +3,7 @@ package com.example.zodiac.sawa.MyFriends;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.Button;
 
@@ -34,9 +35,13 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MyFriendsActivity  extends Activity {
 
+
+
         GetFreinds service;
-        List<getFriendsResponse> FreindsList;
-        ArrayList<friend> LayoutFriendsList = new ArrayList<>();
+        static List<getFriendsResponse> FreindsList;
+        static ArrayList<friend> LayoutFriendsList = new ArrayList<>();
+        static FastScrollRecyclerView recyclerView;
+        static RecyclerView.Adapter adapter;
 
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
@@ -46,13 +51,10 @@ public class MyFriendsActivity  extends Activity {
                     .addConverterFactory(GsonConverterFactory.create()).build();
             service = retrofit.create(GetFreinds.class);
 
-
-
-
-
-            final FastScrollRecyclerView recyclerView = (FastScrollRecyclerView) findViewById(R.id.recycler);
+            adapter=new FastScrollAdapter(this, LayoutFriendsList);
+            recyclerView = (FastScrollRecyclerView) findViewById(R.id.recycler);
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
-            recyclerView.setAdapter(new FastScrollAdapter(this, LayoutFriendsList));
+            recyclerView.setAdapter(adapter);
 
             final getFriendsRequest request = new getFriendsRequest();
             request.setId(1);
@@ -62,7 +64,7 @@ public class MyFriendsActivity  extends Activity {
                 public void onResponse(Call<List<getFriendsResponse>> call, Response<List<getFriendsResponse>> response) {
                     FreindsList = response.body();
 
-
+                    LayoutFriendsList.clear();
                     for (int i = 0; i < FreindsList.size(); i++) {
                         LayoutFriendsList.add(new friend(FreindsList.get(i).getId(),FreindsList.get(i).getUser_image(),
                                 FreindsList.get(i).getFirstName() + " " + FreindsList.get(i).getLast_name()));
@@ -77,7 +79,9 @@ public class MyFriendsActivity  extends Activity {
                 }
             });
 
+
         }
+
 
 
         public class friend {

@@ -38,6 +38,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 import com.example.zodiac.sawa.R;
 
+import static com.example.zodiac.sawa.MyFriends.MyFriendsActivity.LayoutFriendsList;
+
 public class FastScrollAdapter extends RecyclerView.Adapter<FastScrollAdapter.UserViewHolder>
         implements FastScrollRecyclerView.SectionedAdapter {
 
@@ -113,13 +115,11 @@ public class FastScrollAdapter extends RecyclerView.Adapter<FastScrollAdapter.Us
 
                 @Override
                 public void onClick(View v) {
-                    Log.wtf("------------ : ", " " + viewHolder.getPosition());
-
-
+                    final int position = getAdapterPosition();
                     final DeleteFriendRequest request = new DeleteFriendRequest();
-                    Log.d("------ Y ","  :  "+ Integer.valueOf(userList.get(viewHolder.getPosition()).getId()));
+                    Log.d("------ Y ","  :  "+ Integer.valueOf(userList.get(position).getId()));
                     request.setFriend1_id(1);
-                    request.setFriend2_id(Integer.valueOf(userList.get(viewHolder.getPosition()).getId()));
+                    request.setFriend2_id(Integer.valueOf(userList.get(position).getId()));
 
 
                     final Call<Authentication> deleteResponse = service.getState(request);
@@ -128,7 +128,16 @@ public class FastScrollAdapter extends RecyclerView.Adapter<FastScrollAdapter.Us
                         public void onResponse(Call<Authentication> call, Response<Authentication> response) {
                             Authentication state = response.body();
                             Log.d("-----------"," Body"+ response.code()+ " : "+ state.getState());
+                            MyFriendsActivity.recyclerView.removeViewAt(position);
+                            MyFriendsActivity.FreindsList.remove(position);
+                            //notifyItemRemoved(position);
+                          //  notifyDataSetChanged();
+                            LayoutFriendsList.remove(position);
+                            notifyItemRemoved(position);
+                           // notifyItemRangeChanged(position,MyFriendsActivity.FreindsList.size());
 
+                            //MyFriendsActivity.recyclerView.setAdapter(MyFriendsActivity.adapter);
+                            Log.d("----- Remove ","removed" + MyFriendsActivity.FreindsList.size());
 
                         }
 
@@ -137,7 +146,13 @@ public class FastScrollAdapter extends RecyclerView.Adapter<FastScrollAdapter.Us
                             Log.d("fail to get friends ", "Failure to Get friends");
 
                         }
+
+
+
+
                     });
+
+
 
                 }
             });
