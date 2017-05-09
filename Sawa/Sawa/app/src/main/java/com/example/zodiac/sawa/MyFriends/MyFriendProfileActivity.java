@@ -40,7 +40,7 @@ public class MyFriendProfileActivity extends AppCompatActivity {
     Dialog ViewImgDialog;
     TextView  viewPic;
     ImageView imageView; // View image in dialog
-    ImageButton friendStatus;
+    Button friendStatus;
     private static final int SELECTED_PICTURE = 100;
     SettingsAdapter recyclerAdapter;
     RecyclerView.LayoutManager layoutManager;
@@ -59,14 +59,14 @@ public class MyFriendProfileActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_profile);
+        setContentView(R.layout.activity_my_friend_profile);
 
-        friendStatus=(ImageButton)findViewById(R.id.friendStatus);
+        friendStatus=(Button)findViewById(R.id.friendStatus);
         friendStatus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(view==friendStatus){
-                    friendStatus.setBackgroundResource(R.id.);
+                    friendStatus.setText("Pending");
                 }
             }
         });

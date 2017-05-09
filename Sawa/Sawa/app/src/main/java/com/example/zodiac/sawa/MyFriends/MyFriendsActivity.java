@@ -45,29 +45,33 @@ public class MyFriendsActivity  extends Activity {
                     .baseUrl(GeneralAppInfo.BACKEND_URL)
                     .addConverterFactory(GsonConverterFactory.create()).build();
             service = retrofit.create(GetFreinds.class);
-
-
-
-
-
             final FastScrollRecyclerView recyclerView = (FastScrollRecyclerView) findViewById(R.id.recycler);
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
             recyclerView.setAdapter(new FastScrollAdapter(this, LayoutFriendsList));
 
             final getFriendsRequest request = new getFriendsRequest();
             request.setId(1);
+            Log.d("arrive","s");
             final Call<List<getFriendsResponse>> FriendsResponse = service.getState(request.getId(),1);
             FriendsResponse.enqueue(new Callback<List<getFriendsResponse>>() {
                 @Override
                 public void onResponse(Call<List<getFriendsResponse>> call, Response<List<getFriendsResponse>> response) {
                     FreindsList = response.body();
+                    Log.d("arrive","sss");
 
 
                     for (int i = 0; i < FreindsList.size(); i++) {
+                        Log.d("arrive","aq");
+
+                        Log.d("FreindsList",""+FreindsList.get(i).getId());
+
                         LayoutFriendsList.add(new friend(FreindsList.get(i).getId(),FreindsList.get(i).getUser_image(),
                                 FreindsList.get(i).getFirstName() + " " + FreindsList.get(i).getLast_name()));
-                        recyclerView.setAdapter(new FastScrollAdapter(MyFriendsActivity.this, LayoutFriendsList));
                     }
+                    Log.d("arrive","aa");
+
+                    recyclerView.setAdapter(new FastScrollAdapter(MyFriendsActivity.this, LayoutFriendsList));
+
                 }
 
                 @Override

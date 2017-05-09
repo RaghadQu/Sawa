@@ -7,5 +7,6 @@ package com.example.zodiac.sawa.MyFriends;
 public class FreindsFunctions {
     public void addFriend(int friend1_id,int friend2_id){
 
+
     }
 }

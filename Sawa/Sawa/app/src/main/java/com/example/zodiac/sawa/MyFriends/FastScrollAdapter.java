@@ -113,13 +113,14 @@ public class FastScrollAdapter extends RecyclerView.Adapter<FastScrollAdapter.Us
 
                 @Override
                 public void onClick(View v) {
-                    Log.wtf("------------ : ", " " + viewHolder.getPosition());
 
 
                     final DeleteFriendRequest request = new DeleteFriendRequest();
-                    Log.d("------ Y ","  :  "+ Integer.valueOf(userList.get(viewHolder.getPosition()).getId()));
+                    int position = getAdapterPosition();
+                    Log.d("viewHolder.getPosit",""+position);
+                    Log.d("------ Y ","  :  "+ Integer.valueOf(userList.get(position).getId()));
                     request.setFriend1_id(1);
-                    request.setFriend2_id(Integer.valueOf(userList.get(viewHolder.getPosition()).getId()));
+                    request.setFriend2_id(Integer.valueOf(userList.get(position).getId()));
 
 
                     final Call<Authentication> deleteResponse = service.getState(request);

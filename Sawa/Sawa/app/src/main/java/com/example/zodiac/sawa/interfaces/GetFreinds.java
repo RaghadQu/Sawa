@@ -21,7 +21,10 @@ import retrofit2.http.Path;
 public interface GetFreinds {
     @Headers("Cache-Control: max-age=64000")
     @GET("api/users/getFriends/{user_id}/{type}")
-    Call<List<getFriendsResponse>> getState(@Path ("user_id") int user_id,@Path("type") int type);
+    Call<List<getFriendsResponse>> getState(@Path("user_id") int user_id, @Path("type") int type);
 
+    //Get freindship state
+    @GET("api/users/getFreindShipState/{friend1_id}/{friend2_id}")
+    Call<Authentication> getFriendshipState(@Path("friend1_id") int friend1_id, @Path("friend2_id") int friend2_id);
 
 }
