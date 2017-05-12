@@ -1,15 +1,20 @@
 package com.example.zodiac.sawa.MenuActiviries;
 
 import android.Manifest;
+import android.animation.Animator;
+import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
 import android.net.Uri;
+import android.os.Build;
 import android.provider.MediaStore;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,9 +23,11 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,7 +44,7 @@ public class MyProfileActivity extends AppCompatActivity {
     ImageView img;
     Dialog imgClick;
     Dialog ViewImgDialog;
-    TextView changePic, viewPic;
+    TextView changePic, viewPic , RemovePic;
     ImageView imageView; // View image in dialog
     private static final int SELECTED_PICTURE = 100;
     SettingsAdapter recyclerAdapter;
@@ -54,11 +61,23 @@ public class MyProfileActivity extends AppCompatActivity {
     String[] myDataset = {"Profile", "Friends", "Friend Requests", "Log out"};
     int[] images = {image1, image2, image3, image4};
 
+    private ProgressBar progressBar;
+    public static ObjectAnimator anim;
+
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_profile);
 
+        progressBar = (ProgressBar) findViewById(R.id.circular_progress_bar);
+        progressBar.setProgress(0);
+        progressBar.setMax(100);
+        anim = ObjectAnimator.ofInt(progressBar, "progress", 0, 100);
+        anim.setDuration(2000);
+        anim.setInterpolator(new DecelerateInterpolator());
+        anim.start();
 
         imgClick = new Dialog(this);
         imgClick.setContentView(R.layout.profile_picture_dialog);
@@ -73,18 +92,11 @@ public class MyProfileActivity extends AppCompatActivity {
 
         img = (ImageView) findViewById(R.id.user_profile_photo);
         // imageView.setImageURI();
-        DBHandler dbHandler = new DBHandler(this);
-        uploadImage uploadImage = new uploadImage();
-        // String imageUrl=uploadImage.getUserImageFromDB(1,img,getContext());
+        final DBHandler dbHandler = new DBHandler(this);
+        final uploadImage uploadImage = new uploadImage();
+        String imageUrl = uploadImage.getUserImageFromDB(1, img, MyProfileActivity.this);
 
 
-        //  Bitmap bitmap = dbHandler.getUserImage(1);
-        String imageUrl = uploadImage.getUserImageFromDB(1, img, this);
-
-
-        Bitmap bitmap = dbHandler.getUserImage(1);
-        // bitmap = RotateBitmap(bitmap, -90);
-        img.setImageBitmap(bitmap);
 
 
         img.setOnClickListener(new View.OnClickListener() {
@@ -92,6 +104,7 @@ public class MyProfileActivity extends AppCompatActivity {
                 imgClick.show();
                 changePic = (TextView) imgClick.findViewById(R.id.EditPic);
                 viewPic = (TextView) imgClick.findViewById(R.id.ViewPic);
+                RemovePic = (TextView) imgClick.findViewById(R.id.RemovePic);
 
                 changePic.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
@@ -106,6 +119,16 @@ public class MyProfileActivity extends AppCompatActivity {
                         imgClick.dismiss();
                         imageView.setImageDrawable(img.getDrawable());
                         ViewImgDialog.show();
+
+                    }
+                });
+
+                RemovePic.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+                        imgClick.dismiss();
+                        img.setImageResource(R.drawable.account);
+                      //  imageView.setImageDrawable(img.getDrawable());
+                       // ViewImgDialog.show();
 
                     }
                 });
@@ -152,6 +175,8 @@ public class MyProfileActivity extends AppCompatActivity {
         }
     }
 
+
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -168,7 +193,6 @@ public class MyProfileActivity extends AppCompatActivity {
                 bitmap = scaleDown(bitmap, 1000, true);
                 bitmap = RotateBitmap(bitmap, rotate);
                 img.setImageBitmap(bitmap);
-
                 ImageConverter imageConverter = new ImageConverter();
                 byte[] image = imageConverter.getBytes(bitmap);
                 DBHandler dbHandler = new DBHandler(this);
@@ -176,6 +200,7 @@ public class MyProfileActivity extends AppCompatActivity {
                 String encodedImage = Base64.encodeToString(image, Base64.DEFAULT);
                 uploadImage uploadImage = new uploadImage();
                 uploadImage.uploadImagetoDB(1, encodedImage);
+
 
             } catch (Exception e) {
                 Toast toast = Toast.makeText(this, "Image is large", Toast.LENGTH_SHORT);

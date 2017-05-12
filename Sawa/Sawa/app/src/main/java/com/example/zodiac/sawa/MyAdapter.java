@@ -1,7 +1,9 @@
 package com.example.zodiac.sawa;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
@@ -85,6 +87,21 @@ public class MyAdapter extends FastScrollRecyclerView.Adapter<MyAdapter.ViewHold
                     {
                         Intent i = new Intent(contexts, MyRequestsActivity.class);
                         contexts.startActivity(i);
+
+                    }
+
+                    if(getAdapterPosition()==3)
+                    {
+                        SharedPreferences preferences =contexts.getSharedPreferences("userInfo",Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = preferences.edit();
+                        editor.clear();
+                        editor.commit();
+                    //    finish();
+                        Intent i = new Intent(contexts, MainActivity.class);
+                        contexts.startActivity(i);
+                        ((Activity)contexts).finish();
+
+
 
                     }
 

@@ -1,5 +1,6 @@
 package com.example.zodiac.sawa.ImageConverter;
 
+import android.animation.Animator;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -9,6 +10,7 @@ import android.widget.ImageView;
 
 import com.example.zodiac.sawa.GeneralAppInfo;
 import com.example.zodiac.sawa.R;
+import com.example.zodiac.sawa.MenuActiviries.MyProfileActivity;
 import com.example.zodiac.sawa.interfaces.AboutUserApi;
 import com.example.zodiac.sawa.interfaces.UserImageApi;
 import com.example.zodiac.sawa.models.AboutUser;
@@ -78,6 +80,25 @@ public class uploadImage {
                 Log.d("Arrive to ge fro Db11", "s" + imageUrl);
                 imageUrl = "http://1ce63f59.ngrok.io/Sawa/public/" + imageUrl;
                 Picasso.with(context).load(imageUrl).into(img);
+                Log.d("imageYtl", imageUrl);
+                MyProfileActivity.anim.addListener(new Animator.AnimatorListener() {
+                    @Override
+                    public void onAnimationStart(Animator animation) {
+                    }
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        //here animation finished
+                        Picasso.with(context).load(imageUrl).into(img);
+                    }
+
+                    @Override
+                    public void onAnimationCancel(Animator animation) {
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animator animation) {
+                    }
+                });
 
 
             }
