@@ -1,6 +1,8 @@
 package com.example.zodiac.sawa.ImageConverter;
 
 import android.animation.Animator;
+import android.animation.ObjectAnimator;
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -9,6 +11,7 @@ import android.util.Log;
 import android.widget.ImageView;
 
 import com.example.zodiac.sawa.GeneralAppInfo;
+import com.example.zodiac.sawa.MyFriends.MyFriendProfileActivity;
 import com.example.zodiac.sawa.R;
 import com.example.zodiac.sawa.MenuActiviries.MyProfileActivity;
 import com.example.zodiac.sawa.interfaces.AboutUserApi;
@@ -63,7 +66,7 @@ public class uploadImage {
         });
     }
 
-    public String getUserImageFromDB(int user_id, final ImageView img, final Context context) {
+    public String getUserImageFromDB(int user_id, final ImageView img, final Context context, final ObjectAnimator anim) {
         Log.d("Arrive to ge fro Db", "ss");
 
         Retrofit retrofit = new Retrofit.Builder()
@@ -79,9 +82,10 @@ public class uploadImage {
                 imageUrl = userImageFromDbs.get(0).getUser_image();
                 Log.d("Arrive to ge fro Db11", "s" + imageUrl);
                 imageUrl = "http://1ce63f59.ngrok.io/Sawa/public/" + imageUrl;
-                Picasso.with(context).load(imageUrl).into(img);
+          //      Picasso.with(context).load(imageUrl).into(img);
                 Log.d("imageYtl", imageUrl);
-                MyProfileActivity.anim.addListener(new Animator.AnimatorListener() {
+
+                 anim.addListener(new Animator.AnimatorListener() {
                     @Override
                     public void onAnimationStart(Animator animation) {
                     }

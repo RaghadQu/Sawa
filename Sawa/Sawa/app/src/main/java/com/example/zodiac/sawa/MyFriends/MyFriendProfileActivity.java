@@ -1,6 +1,8 @@
 package com.example.zodiac.sawa.MyFriends;
 
 import android.Manifest;
+import android.animation.Animator;
+import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
@@ -15,8 +17,10 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.zodiac.sawa.DB.DBHandler;
@@ -31,6 +35,7 @@ import com.example.zodiac.sawa.R;
 import com.example.zodiac.sawa.RecyclerViewAdapters.SettingsAdapter;
 import com.example.zodiac.sawa.interfaces.GetFreinds;
 import com.example.zodiac.sawa.models.Authentication;
+import com.squareup.picasso.Picasso;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -55,6 +60,12 @@ public class MyFriendProfileActivity extends AppCompatActivity {
     int image4 = R.drawable.image1;
     Button editBio;
 
+    private ProgressBar progressBar;
+    public static ObjectAnimator anim;
+
+    private ProgressBar progressBar_button;
+    public static ObjectAnimator anim_button;
+
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -70,12 +81,31 @@ public class MyFriendProfileActivity extends AppCompatActivity {
         friendStatus=(Button)findViewById(R.id.friendStatus);
         friendStatus.setText(" ");
 
+
+        progressBar = (ProgressBar) findViewById(R.id.circular_progress_bar);
+        progressBar.setProgress(0);
+        progressBar.setMax(100);
+        anim = ObjectAnimator.ofInt(progressBar, "progress", 0, 100);
+        anim.setDuration(2000);
+        anim.setInterpolator(new DecelerateInterpolator());
+        anim.start();
+
         /*
         * Get state in order to determine what to show
         * */
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(GeneralAppInfo.BACKEND_URL)
                 .addConverterFactory(GsonConverterFactory.create()).build();
+
+
+        progressBar_button = (ProgressBar) findViewById(R.id.progressBar_button);
+        progressBar_button.setProgress(0);
+        progressBar_button.setMax(100);
+        anim_button = ObjectAnimator.ofInt(progressBar_button, "progress", 0, 100);
+        anim_button.setDuration(1000);
+        anim_button.setInterpolator(new DecelerateInterpolator());
+        anim_button.start();
+
         GetFreinds getFreinds = retrofit.create(GetFreinds.class);
         Call<Authentication> call = getFreinds.getFriendshipState(1,41);
         call.enqueue(new Callback<Authentication>() {
@@ -86,15 +116,66 @@ public class MyFriendProfileActivity extends AppCompatActivity {
                 if(authentication.getState()==2){
                     NotFriendProfileClass notFriendProfile=new NotFriendProfileClass();
                     notFriendProfile.SetFriendButtn(friendStatus,mRecyclerView);
+                    anim_button.addListener(new Animator.AnimatorListener() {
+                        @Override
+                        public void onAnimationStart(Animator animation) {
+                        }
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            //friendStatus.setText("Add as freind");
+                        }
+
+                        @Override
+                        public void onAnimationCancel(Animator animation) {
+                        }
+
+                        @Override
+                        public void onAnimationRepeat(Animator animation) {
+                        }
+                    });
                     //friendStatus.setText("Add as freind");
+
                 }else if(authentication.getState()==0){
-                    //friendStatus.setText("Pending");
+                    anim_button.addListener(new Animator.AnimatorListener() {
+                        @Override
+                        public void onAnimationStart(Animator animation) {
+                        }
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            //friendStatus.setText("Pending");
+                        }
+
+                        @Override
+                        public void onAnimationCancel(Animator animation) {
+                        }
+
+                        @Override
+                        public void onAnimationRepeat(Animator animation) {
+                        }
+                    });
                     PendingFriendsClass pendingFriendsClass=new PendingFriendsClass();
                     pendingFriendsClass.SetFriendButtn(friendStatus);
+
                 }else if(authentication.getState()==1){
                     FriendsClass friendsClass=new FriendsClass();
                     friendsClass.SetFriendButtn(friendStatus,mRecyclerView);
-                    //friendStatus.setText("Freind");
+                    anim_button.addListener(new Animator.AnimatorListener() {
+                        @Override
+                        public void onAnimationStart(Animator animation) {
+                        }
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            //friendStatus.setText("Friend");
+                        }
+
+                        @Override
+                        public void onAnimationCancel(Animator animation) {
+                        }
+
+                        @Override
+                        public void onAnimationRepeat(Animator animation) {
+                        }
+                    });
                 }
 
 
@@ -131,7 +212,7 @@ public class MyFriendProfileActivity extends AppCompatActivity {
 
 
         //  Bitmap bitmap = dbHandler.getUserImage(1);
-        String imageUrl = uploadImage.getUserImageFromDB(1, img, this);
+        String imageUrl = uploadImage.getUserImageFromDB(1, img, this,anim);
 
 
         Bitmap bitmap = dbHandler.getUserImage(1);
