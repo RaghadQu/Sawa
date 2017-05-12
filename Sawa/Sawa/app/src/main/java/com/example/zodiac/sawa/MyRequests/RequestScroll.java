@@ -1,4 +1,4 @@
-package  com.example.zodiac.sawa.MyRequests;
+package com.example.zodiac.sawa.MyRequests;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,8 +11,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+
 import com.example.zodiac.sawa.GeneralAppInfo;
 import com.example.zodiac.sawa.MenuActiviries.MyProfileActivity;
+import com.example.zodiac.sawa.MyFriends.FreindsFunctions;
 import com.example.zodiac.sawa.MyFriends.MyFriendProfileActivity;
 import com.example.zodiac.sawa.R;
 import com.example.zodiac.sawa.interfaces.ConfirmFriendRequest;
@@ -63,6 +65,7 @@ public class RequestScroll extends RecyclerView.Adapter<RequestScroll.UserViewHo
 
     @Override
     public void onBindViewHolder(UserViewHolder holder, int position) {
+        final FreindsFunctions freindsFunctions = new FreindsFunctions();
         final MyRequestsActivity.friend user = userList.get(position);
         holder.tvName.setText(user.getUserName());
         holder.tvName.setOnClickListener(new View.OnClickListener() {
@@ -73,18 +76,12 @@ public class RequestScroll extends RecyclerView.Adapter<RequestScroll.UserViewHo
                     Intent i = new Intent(mContext, MyProfileActivity.class);
                     mContext.startActivity(i);
                 } else {
-                    Intent i = new Intent(mContext, MyFriendProfileActivity.class);
-                    Bundle b = new Bundle();
-                    b.putString("mName", user.getUserName());
-                    b.putInt("Id", Integer.parseInt(user.getId()));
-
-                    i.putExtras(b);
-                    mContext.startActivity(i);
+                    freindsFunctions.startFriend(mContext, user.getUserName(), Integer.parseInt(user.getId()));
                 }
 
             }
         });
-        String image ;
+        String image;
         holder.ivProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -93,19 +90,13 @@ public class RequestScroll extends RecyclerView.Adapter<RequestScroll.UserViewHo
                     Intent i = new Intent(mContext, MyProfileActivity.class);
                     mContext.startActivity(i);
                 } else {
-                    Intent i = new Intent(mContext, MyFriendProfileActivity.class);
-                    Bundle b = new Bundle();
-                    b.putString("mName", user.getUserName());
-                    b.putInt("Id", Integer.parseInt(user.getId()));
-
-                    i.putExtras(b);
-                    mContext.startActivity(i);
+                    freindsFunctions.startFriend(mContext, user.getUserName(), Integer.parseInt(user.getId()));
                 }
             }
         });
         try {
             image = user.getImageResourceId();
-            String imageUrl="http://1ce63f59.ngrok.io/Sawa/public/"+image;
+            String imageUrl = "http://1ce63f59.ngrok.io/Sawa/public/" + image;
             Picasso.with(mContext).load(imageUrl).into(holder.ivProfile);
         } catch (MalformedURLException e) {
             holder.ivProfile.setImageResource(R.drawable.account);
@@ -146,7 +137,7 @@ public class RequestScroll extends RecyclerView.Adapter<RequestScroll.UserViewHo
                 public void onClick(View v) {
                     final int position = getAdapterPosition();
                     final DeleteFriendRequest request = new DeleteFriendRequest();
-                    Log.d("------ Y ","  :  "+ Integer.valueOf(userList.get(position).getId()));
+                    Log.d("------ Y ", "  :  " + Integer.valueOf(userList.get(position).getId()));
                     request.setFriend1_id(1);
                     request.setFriend2_id(Integer.valueOf(userList.get(position).getId()));
 
@@ -155,7 +146,7 @@ public class RequestScroll extends RecyclerView.Adapter<RequestScroll.UserViewHo
                         @Override
                         public void onResponse(Call<Authentication> call, Response<Authentication> response) {
                             Authentication state = response.body();
-                            Log.d("-----------"," Body"+ response.code()+ " : "+ state.getState());
+                            Log.d("-----------", " Body" + response.code() + " : " + state.getState());
                             MyRequestsActivity.recyclerView.removeViewAt(position);
                             MyRequestsActivity.FreindsList.remove(position);
                             //notifyItemRemoved(position);
@@ -165,7 +156,7 @@ public class RequestScroll extends RecyclerView.Adapter<RequestScroll.UserViewHo
                             // notifyItemRangeChanged(position,MyFriendsActivity.FreindsList.size());
 
                             //MyFriendsActivity.recyclerView.setAdapter(MyFriendsActivity.adapter);
-                            Log.d("----- Remove ","removed" + MyRequestsActivity.FreindsList.size());
+                            Log.d("----- Remove ", "removed" + MyRequestsActivity.FreindsList.size());
 
                         }
 
@@ -176,17 +167,11 @@ public class RequestScroll extends RecyclerView.Adapter<RequestScroll.UserViewHo
                         }
 
 
-
-
                     });
-
 
 
                 }
             });
-
-
-
 
 
             confirmReuqest = (Button) itemView.findViewById(R.id.ConfirmRequest);
@@ -198,7 +183,7 @@ public class RequestScroll extends RecyclerView.Adapter<RequestScroll.UserViewHo
                 public void onClick(View v) {
                     final int position = getAdapterPosition();
                     final DeleteFriendRequest request = new DeleteFriendRequest();
-                    Log.d("------ Y ","  :  "+ Integer.valueOf(userList.get(position).getId()));
+                    Log.d("------ Y ", "  :  " + Integer.valueOf(userList.get(position).getId()));
                     request.setFriend1_id(1);
                     request.setFriend2_id(Integer.valueOf(userList.get(position).getId()));
 
@@ -207,7 +192,7 @@ public class RequestScroll extends RecyclerView.Adapter<RequestScroll.UserViewHo
                         @Override
                         public void onResponse(Call<Authentication> call, Response<Authentication> response) {
                             Authentication state = response.body();
-                            Log.d("-----------"," Body"+ response.code()+ " : "+ state.getState());
+                            Log.d("-----------", " Body" + response.code() + " : " + state.getState());
 
                             MyRequestsActivity.recyclerView.removeViewAt(position);
                             MyRequestsActivity.FreindsList.remove(position);
@@ -218,7 +203,7 @@ public class RequestScroll extends RecyclerView.Adapter<RequestScroll.UserViewHo
                             // notifyItemRangeChanged(position,MyFriendsActivity.FreindsList.size());
 
                             //MyFriendsActivity.recyclerView.setAdapter(MyFriendsActivity.adapter);
-                            Log.d("----- Remove ","removed" + MyRequestsActivity.FreindsList.size());
+                            Log.d("----- Remove ", "removed" + MyRequestsActivity.FreindsList.size());
 
                         }
 
@@ -229,10 +214,7 @@ public class RequestScroll extends RecyclerView.Adapter<RequestScroll.UserViewHo
                         }
 
 
-
-
                     });
-
 
 
                 }

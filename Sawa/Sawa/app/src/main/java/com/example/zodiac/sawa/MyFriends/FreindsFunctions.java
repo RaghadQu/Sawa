@@ -1,9 +1,13 @@
 package com.example.zodiac.sawa.MyFriends;
 
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 
 import com.example.zodiac.sawa.GeneralAppInfo;
+import com.example.zodiac.sawa.MenuActiviries.MyProfileActivity;
 import com.example.zodiac.sawa.interfaces.GetFreinds;
 import com.example.zodiac.sawa.interfaces.UserImageApi;
 import com.example.zodiac.sawa.models.Authentication;
@@ -48,5 +52,34 @@ public class FreindsFunctions {
 
             }
         });
+    }
+    public void startMyProfile(Context mContext,String mName,int Id) {
+        if (Id == 1) {
+            Intent i = new Intent(mContext, MyProfileActivity.class);
+            mContext.startActivity(i);
+        } else {
+            Intent i = new Intent(mContext, MyFriendProfileActivity.class);
+            Bundle b = new Bundle();
+            b.putString("mName", mName);
+            b.putInt("Id", Id);
+
+            i.putExtras(b);
+            mContext.startActivity(i);
+        }
+    }
+
+    public void startFriend(Context mContext,String mName,int Id) {
+        if (Id == 1) {
+            Intent i = new Intent(mContext, MyFriendProfileActivity.class);
+            mContext.startActivity(i);
+        } else {
+            Intent i = new Intent(mContext, MyFriendProfileActivity.class);
+            Bundle b = new Bundle();
+            b.putString("mName", mName);
+            b.putInt("Id", Id);
+
+            i.putExtras(b);
+            mContext.startActivity(i);
+        }
     }
 }

@@ -76,6 +76,7 @@ public class FastScrollAdapter extends RecyclerView.Adapter<FastScrollAdapter.Us
 
     @Override
     public void onBindViewHolder(UserViewHolder holder, int position) {
+        final FreindsFunctions freindsFunctions = new FreindsFunctions();
         final MyFriendsActivity.friend user = userList.get(position);
         holder.tvName.setText(user.getUserName());
         holder.tvName.setOnClickListener(new View.OnClickListener() {
@@ -86,13 +87,8 @@ public class FastScrollAdapter extends RecyclerView.Adapter<FastScrollAdapter.Us
                     Intent i = new Intent(mContext, MyProfileActivity.class);
                     mContext.startActivity(i);
                 } else {
-                    Intent i = new Intent(mContext, MyFriendProfileActivity.class);
-                    Bundle b = new Bundle();
-                    b.putString("mName", user.getUserName());
-                    b.putInt("Id", Integer.parseInt(user.getId()));
 
-                    i.putExtras(b);
-                    mContext.startActivity(i);
+                    freindsFunctions.startFriend(mContext, user.getUserName(), Integer.parseInt(user.getId()));
                 }
 
             }
@@ -106,13 +102,7 @@ public class FastScrollAdapter extends RecyclerView.Adapter<FastScrollAdapter.Us
                     Intent i = new Intent(mContext, MyProfileActivity.class);
                     mContext.startActivity(i);
                 } else {
-                    Intent i = new Intent(mContext, MyFriendProfileActivity.class);
-                    Bundle b = new Bundle();
-                    b.putString("mName", user.getUserName());
-                    b.putInt("Id", Integer.parseInt(user.getId()));
-
-                    i.putExtras(b);
-                    mContext.startActivity(i);
+                    freindsFunctions.startFriend(mContext, user.getUserName(), Integer.parseInt(user.getId()));
                 }
             }
         });
