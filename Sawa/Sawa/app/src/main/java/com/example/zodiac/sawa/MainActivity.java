@@ -1,11 +1,14 @@
 package com.example.zodiac.sawa;
 
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -66,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
         service = retrofit.create(LoginAuth.class);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     public void checkLogin(View arg0) {
        /*
         final AuthRequest request = new AuthRequest();
@@ -104,7 +108,12 @@ public class MainActivity extends AppCompatActivity {
             });
         }*/
 
-        Intent i = new Intent(getApplicationContext(), MyFriendProfileActivity.class);  startActivity(i);
+        Intent i = new Intent(getApplicationContext(), MyFriendProfileActivity.class);
+
+
+        startActivity(i);
+        overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
+
     }
 
 

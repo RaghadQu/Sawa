@@ -8,12 +8,14 @@ import android.util.Log;
 import android.widget.ImageView;
 
 import com.example.zodiac.sawa.GeneralAppInfo;
+import com.example.zodiac.sawa.R;
 import com.example.zodiac.sawa.interfaces.AboutUserApi;
 import com.example.zodiac.sawa.interfaces.UserImageApi;
 import com.example.zodiac.sawa.models.AboutUser;
 import com.example.zodiac.sawa.models.Authentication;
 import com.example.zodiac.sawa.models.UserImage;
 import com.example.zodiac.sawa.models.userImageFromDb;
+import com.koushikdutta.ion.Ion;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -75,7 +77,6 @@ public class uploadImage {
                 imageUrl = userImageFromDbs.get(0).getUser_image();
                 Log.d("Arrive to ge fro Db11", "s" + imageUrl);
                 imageUrl = "http://1ce63f59.ngrok.io/Sawa/public/" + imageUrl;
-                Log.d("imageYtl", imageUrl);
                 Picasso.with(context).load(imageUrl).into(img);
 
 

@@ -17,6 +17,13 @@ public class DeleteFriendRequest {
     @Expose
     private int friend2_id;
 
+    public  DeleteFriendRequest(int friend1_id,int friend2_id){
+        this.friend1_id=friend1_id;
+        this.friend2_id=friend2_id;
+    }
+    public  DeleteFriendRequest(){
+
+    }
     public int getFriend1_id() {
         return friend1_id;
     }

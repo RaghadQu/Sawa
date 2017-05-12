@@ -2,6 +2,7 @@ package com.example.zodiac.sawa.interfaces;
 
 import com.example.zodiac.sawa.models.AuthRequest;
 import com.example.zodiac.sawa.models.Authentication;
+import com.example.zodiac.sawa.models.DeleteFriendRequest;
 import com.example.zodiac.sawa.models.getFriendsRequest;
 import com.example.zodiac.sawa.models.getFriendsResponse;
 
@@ -26,5 +27,10 @@ public interface GetFreinds {
     //Get freindship state
     @GET("api/users/getFreindShipState/{friend1_id}/{friend2_id}")
     Call<Authentication> getFriendshipState(@Path("friend1_id") int friend1_id, @Path("friend2_id") int friend2_id);
+
+
+    @POST("api/users/addNewFriendship")
+    Call<Authentication> addNewFriendShip(@Body DeleteFriendRequest deleteRequest);
+
 
 }

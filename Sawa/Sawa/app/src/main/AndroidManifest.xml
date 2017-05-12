@@ -44,7 +44,8 @@
             android:name=".HomeTabbedActivity"
             android:label="@string/title_activity_home_tabbed"
             android:theme="@style/AppTheme" />
-        <activity android:name=".MyFriends.MyFriendProfileActivity"></activity>
+        <activity android:name=".MyFriends.MyFriendProfileActivity" />
+        <activity android:name=".MyFriends.AboutFriendActivity"></activity>
     </application>
 
 </manifest>

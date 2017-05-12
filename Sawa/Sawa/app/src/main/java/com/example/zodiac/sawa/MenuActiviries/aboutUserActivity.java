@@ -48,11 +48,13 @@ public class aboutUserActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about_user);
+        Bundle b = getIntent().getExtras();
+        int value = -1; // or other values
+        if (b != null)
+            value = b.getInt("IsMe");
         bio = (TextView) findViewById(R.id.Bio);
         status = (TextView) findViewById(R.id.status);
         song = (TextView) findViewById(R.id.Song);
-
-
 
 
         updateBio = new Dialog(this);
@@ -96,98 +98,101 @@ public class aboutUserActivity extends AppCompatActivity {
         }
 
         bio = (TextView) findViewById(R.id.Bio);
+        //Check if he is the same user
+        if (value == 1) {
+            bio.setOnClickListener(new View.OnClickListener() {
 
-        bio.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    updateBio.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+                    String bioText = bio.getText().toString();
+                    bioDialog.setText(bioText);
+                    updateBio.show();
 
-            public void onClick(View v) {
-                updateBio.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-                String bioText = bio.getText().toString();
-                bioDialog.setText(bioText);
-                updateBio.show();
+                    saveBio.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            String statusText = statusDialog.getText().toString();
+                            String bioText = bioDialog.getText().toString();
+                            String songText = songDialog.getText().toString();
 
-                saveBio.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        String statusText = statusDialog.getText().toString();
-                        String bioText = bioDialog.getText().toString();
-                        String songText = songDialog.getText().toString();
+                            updateAbout(bioText, statusText, songText);
+                            updateBio.dismiss();
+                        }
+                    });
+                    cancelBio.setOnClickListener(new View.OnClickListener() {
 
-                        updateAbout(bioText, statusText, songText);
-                        updateBio.dismiss();
-                    }
-                });
-                cancelBio.setOnClickListener(new View.OnClickListener() {
+                        public void onClick(View v) {
+                            updateBio.dismiss();
+                        }
+                    });
+                }
+            });
 
-                    public void onClick(View v) {
-                        updateBio.dismiss();
-                    }
-                });
-            }
-        });
+            status.setOnClickListener(new View.OnClickListener() {
 
-        status.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    updateStatus.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+                    String statusText = status.getText().toString();
+                    statusDialog.setText(statusText);
+                    updateStatus.show();
 
-            public void onClick(View v) {
-                updateStatus.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-                String statusText = status.getText().toString();
-                statusDialog.setText(statusText);
-                updateStatus.show();
+                    saveStatus.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            String statusText = statusDialog.getText().toString();
+                            String bioText = bioDialog.getText().toString();
+                            String songText = songDialog.getText().toString();
 
-                saveStatus.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        String statusText = statusDialog.getText().toString();
-                        String bioText = bioDialog.getText().toString();
-                        String songText = songDialog.getText().toString();
+                            updateAbout(bioText, statusText, songText);
+                            updateStatus.dismiss();
+                        }
+                    });
+                    cancelStatus.setOnClickListener(new View.OnClickListener() {
 
-                        updateAbout(bioText, statusText, songText);
-                        updateStatus.dismiss();
-                    }
-                });
-                cancelStatus.setOnClickListener(new View.OnClickListener() {
+                        public void onClick(View v) {
+                            updateStatus.dismiss();
+                        }
+                    });
+                }
+            });
 
-                    public void onClick(View v) {
-                        updateStatus.dismiss();
-                    }
-                });
-            }
-        });
+            song = (TextView) findViewById(R.id.Song);
+            editSong = (Button) findViewById(R.id.SongEdit);
+            editSong = (Button) findViewById(R.id.SongEdit);
 
-        song = (TextView) findViewById(R.id.Song);
-        editSong = (Button) findViewById(R.id.SongEdit);
-        editSong = (Button) findViewById(R.id.SongEdit);
+            editSong.setOnClickListener(new View.OnClickListener() {
 
-        editSong.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    updateSong.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
 
-            public void onClick(View v) {
-                updateSong.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+                    String songText = song.getText().toString();
+                    songDialog.setText(songText);
+                    updateSong.show();
 
-                String songText = song.getText().toString();
-                songDialog.setText(songText);
-                updateSong.show();
+                    saveSong.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            String statusText = statusDialog.getText().toString();
+                            String bioText = bioDialog.getText().toString();
+                            String songText = songDialog.getText().toString();
 
-                saveSong.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        String statusText = statusDialog.getText().toString();
-                        String bioText = bioDialog.getText().toString();
-                        String songText = songDialog.getText().toString();
+                            updateAbout(bioText, statusText, songText);
+                            updateSong.dismiss();
+                        }
+                    });
+                    cancelSong.setOnClickListener(new View.OnClickListener() {
 
-                        updateAbout(bioText, statusText, songText);
-                        updateSong.dismiss();
-                    }
-                });
-                cancelSong.setOnClickListener(new View.OnClickListener() {
-
-                    public void onClick(View v) {
-                        updateSong.dismiss();
-                    }
-                });
-            }
-        });
+                        public void onClick(View v) {
+                            updateSong.dismiss();
+                        }
+                    });
+                }
+            });
+        }
 
 
     }
+
     public void updateBio(View arg0) {
         updateBio.show();
     }
@@ -236,7 +241,7 @@ public class aboutUserActivity extends AppCompatActivity {
                 status.setText(aboutUser.get(0).getUser_status());
                 song = (TextView) findViewById(R.id.Song);
 
-                song.setText(aboutUser.get(0).getUser_song());
+              //  song.setText(aboutUser.get(0).getUser_song());
                 song.setText(aboutUser.get(0).getUser_song());
                 //       AboutUser aboutUser1 = new AboutUser(1, aboutUser.get(0).getUser_bio(), aboutUser.get(0).getUser_status(), aboutUser.get(0).getUser_song());
 
