@@ -6,6 +6,8 @@ package com.example.zodiac.sawa.MyFriends;
 
 import android.app.Service;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -16,6 +18,8 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.zodiac.sawa.GeneralAppInfo;
+import com.example.zodiac.sawa.MenuActiviries.MyProfileActivity;
+import com.example.zodiac.sawa.MenuActiviries.aboutUserActivity;
 import com.example.zodiac.sawa.interfaces.DeleteFriend;
 import com.example.zodiac.sawa.interfaces.GetFreinds;
 import com.example.zodiac.sawa.models.Authentication;
@@ -49,16 +53,16 @@ public class FastScrollAdapter extends RecyclerView.Adapter<FastScrollAdapter.Us
     ArrayList<MyFriendsActivity.friend> userList;
     DeleteFriend service;
     Button remove;
+
     public FastScrollAdapter(Context mContext, ArrayList<MyFriendsActivity.friend> userList) {
         this.mContext = mContext;
         this.userList = userList;
     }
 
 
-
     @Override
     public UserViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-         view = LayoutInflater.from(mContext).inflate(R.layout.freinds_recycle_view, null);
+        view = LayoutInflater.from(mContext).inflate(R.layout.freinds_recycle_view, null);
         viewHolder = new UserViewHolder(view);
 
         Retrofit retrofit = new Retrofit.Builder()
@@ -72,18 +76,36 @@ public class FastScrollAdapter extends RecyclerView.Adapter<FastScrollAdapter.Us
 
     @Override
     public void onBindViewHolder(UserViewHolder holder, int position) {
-        MyFriendsActivity.friend user = userList.get(position);
+        final MyFriendsActivity.friend user = userList.get(position);
         holder.tvName.setText(user.getUserName());
-        String image ;
+        holder.tvName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //check if the same user enter his profile
+                if (Integer.parseInt(user.getId()) == 1) {
+                    Intent i = new Intent(mContext, MyProfileActivity.class);
+                    mContext.startActivity(i);
+                } else {
+                    Intent i = new Intent(mContext, MyFriendProfileActivity.class);
+                    Bundle b = new Bundle();
+                    b.putString("mName", user.getUserName());
+                    b.putInt("Id", Integer.parseInt(user.getId()));
+
+                    i.putExtras(b);
+                    mContext.startActivity(i);
+                }
+
+            }
+        });
+        String image;
         try {
             image = user.getImageResourceId();
-            String imageUrl="http://1ce63f59.ngrok.io/Sawa/public/"+image;
+            String imageUrl = "http://1ce63f59.ngrok.io/Sawa/public/" + image;
             Picasso.with(mContext).load(imageUrl).into(holder.ivProfile);
         } catch (MalformedURLException e) {
             holder.ivProfile.setImageResource(R.drawable.account);
             e.printStackTrace();
         }
-
 
 
     }
@@ -117,10 +139,9 @@ public class FastScrollAdapter extends RecyclerView.Adapter<FastScrollAdapter.Us
                 public void onClick(View v) {
 
 
-
                     final int position = getAdapterPosition();
                     final DeleteFriendRequest request = new DeleteFriendRequest();
-                    Log.d("------ Y ","  :  "+ Integer.valueOf(userList.get(position).getId()));
+                    Log.d("------ Y ", "  :  " + Integer.valueOf(userList.get(position).getId()));
                     request.setFriend1_id(1);
                     request.setFriend2_id(Integer.valueOf(userList.get(position).getId()));
 
@@ -130,18 +151,18 @@ public class FastScrollAdapter extends RecyclerView.Adapter<FastScrollAdapter.Us
                         @Override
                         public void onResponse(Call<Authentication> call, Response<Authentication> response) {
                             Authentication state = response.body();
-                            Log.d("-----------"," Body"+ response.code()+ " : "+ state.getState());
-                            Log.d("Position",position+"");
+                            Log.d("-----------", " Body" + response.code() + " : " + state.getState());
+                            Log.d("Position", position + "");
                             MyFriendsActivity.recyclerView.removeViewAt(position);
                             MyFriendsActivity.FreindsList.remove(position);
                             //notifyItemRemoved(position);
-                          //  notifyDataSetChanged();
+                            //  notifyDataSetChanged();
                             LayoutFriendsList.remove(position);
                             notifyItemRemoved(position);
-                           // notifyItemRangeChanged(position,MyFriendsActivity.FreindsList.size());
+                            // notifyItemRangeChanged(position,MyFriendsActivity.FreindsList.size());
 
                             //MyFriendsActivity.recyclerView.setAdapter(MyFriendsActivity.adapter);
-                            Log.d("----- Remove ","removed" + MyFriendsActivity.FreindsList.size());
+                            Log.d("----- Remove ", "removed" + MyFriendsActivity.FreindsList.size());
 
                         }
 
@@ -152,10 +173,7 @@ public class FastScrollAdapter extends RecyclerView.Adapter<FastScrollAdapter.Us
                         }
 
 
-
-
                     });
-
 
 
                 }

@@ -9,6 +9,7 @@ import android.util.Log;
 import android.widget.ImageView;
 
 import com.example.zodiac.sawa.GeneralAppInfo;
+import com.example.zodiac.sawa.MyFriends.MyFriendProfileActivity;
 import com.example.zodiac.sawa.R;
 import com.example.zodiac.sawa.MenuActiviries.MyProfileActivity;
 import com.example.zodiac.sawa.interfaces.AboutUserApi;
@@ -63,14 +64,14 @@ public class uploadImage {
         });
     }
 
-    public String getUserImageFromDB(int user_id, final ImageView img, final Context context) {
-        Log.d("Arrive to ge fro Db", "ss");
+    public String getUserImageFromDB(final int user_id, final ImageView img, final Context context) {
+        Log.d("Arrive to ge fro Db", "ss"+user_id);
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(GeneralAppInfo.BACKEND_URL)
                 .addConverterFactory(GsonConverterFactory.create()).build();
         UserImageApi userImageApi = retrofit.create(UserImageApi.class);
-        Call<List<userImageFromDb>> userImageResponse = userImageApi.getUserImageFromDb(1);
+        Call<List<userImageFromDb>> userImageResponse = userImageApi.getUserImageFromDb(user_id);
         userImageResponse.enqueue(new Callback<List<userImageFromDb>>() {
             @Override
             public void onResponse(Call<List<userImageFromDb>> call, Response<List<userImageFromDb>> response) {
@@ -81,26 +82,31 @@ public class uploadImage {
                 imageUrl = "http://1ce63f59.ngrok.io/Sawa/public/" + imageUrl;
                 Picasso.with(context).load(imageUrl).into(img);
                 Log.d("imageYtl", imageUrl);
-                MyProfileActivity.anim.addListener(new Animator.AnimatorListener() {
-                    @Override
-                    public void onAnimationStart(Animator animation) {
-                    }
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        //here animation finished
-                        Picasso.with(context).load(imageUrl).into(img);
-                    }
+                if(user_id==1) {
+                    MyProfileActivity.anim.addListener(new Animator.AnimatorListener() {
+                        @Override
+                        public void onAnimationStart(Animator animation) {
+                        }
 
-                    @Override
-                    public void onAnimationCancel(Animator animation) {
-                    }
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            //here animation finished
+                            Picasso.with(context).load(imageUrl).into(img);
+                        }
 
-                    @Override
-                    public void onAnimationRepeat(Animator animation) {
-                    }
-                });
+                        @Override
+                        public void onAnimationCancel(Animator animation) {
+                        }
 
+                        @Override
+                        public void onAnimationRepeat(Animator animation) {
+                        }
+                    });
 
+                }else {
+
+                            Picasso.with(context).load(imageUrl).into(img);
+                }
             }
 
             @Override

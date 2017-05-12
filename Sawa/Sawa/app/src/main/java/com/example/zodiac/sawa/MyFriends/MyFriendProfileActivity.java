@@ -44,6 +44,7 @@ public class MyFriendProfileActivity extends AppCompatActivity {
     Dialog imgClick;
     Dialog ViewImgDialog;
     TextView  viewPic;
+    TextView user_profile_name;
     ImageView imageView; // View image in dialog
     Button friendStatus;
     private static final int SELECTED_PICTURE = 100;
@@ -65,6 +66,17 @@ public class MyFriendProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_friend_profile);
+        user_profile_name=(TextView)findViewById(R.id.user_profile_name);
+        //get parameters
+        Bundle b = getIntent().getExtras();
+        int Id = -1; // or other values
+        String mName="";
+        if (b != null) {
+            Id = b.getInt("Id");
+            Log.d("IDD",""+Id);
+            mName=b.getString("mName");
+        }
+        user_profile_name.setText(mName);
 
         final FreindsFunctions freindsFunctions=new FreindsFunctions();
         friendStatus=(Button)findViewById(R.id.friendStatus);
@@ -73,11 +85,13 @@ public class MyFriendProfileActivity extends AppCompatActivity {
         /*
         * Get state in order to determine what to show
         * */
+        final int Id1=Id;
+        Log.d("IDD1",""+Id);
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(GeneralAppInfo.BACKEND_URL)
                 .addConverterFactory(GsonConverterFactory.create()).build();
         GetFreinds getFreinds = retrofit.create(GetFreinds.class);
-        Call<Authentication> call = getFreinds.getFriendshipState(1,41);
+        Call<Authentication> call = getFreinds.getFriendshipState(1,Id);
         call.enqueue(new Callback<Authentication>() {
             @Override
             public void onResponse(Call<Authentication> call, Response<Authentication> response) {
@@ -85,7 +99,7 @@ public class MyFriendProfileActivity extends AppCompatActivity {
                 Log.d("stateeee",""+authentication.getState());
                 if(authentication.getState()==2){
                     NotFriendProfileClass notFriendProfile=new NotFriendProfileClass();
-                    notFriendProfile.SetFriendButtn(friendStatus,mRecyclerView);
+                    notFriendProfile.SetFriendButtn(friendStatus,mRecyclerView,Id1);
                     //friendStatus.setText("Add as freind");
                 }else if(authentication.getState()==0){
                     //friendStatus.setText("Pending");
@@ -131,12 +145,13 @@ public class MyFriendProfileActivity extends AppCompatActivity {
 
 
         //  Bitmap bitmap = dbHandler.getUserImage(1);
-        String imageUrl = uploadImage.getUserImageFromDB(1, img, this);
+        Log.d("IDD2",""+Id);
+        String imageUrl = uploadImage.getUserImageFromDB(Id, img, this);
 
 
         Bitmap bitmap = dbHandler.getUserImage(1);
         // bitmap = RotateBitmap(bitmap, -90);
-        img.setImageBitmap(bitmap);
+        //img.setImageBitmap(bitmap);
 
 
         img.setOnClickListener(new View.OnClickListener() {
