@@ -94,7 +94,7 @@ public class MyProfileActivity extends AppCompatActivity {
         // imageView.setImageURI();
         final DBHandler dbHandler = new DBHandler(this);
         final uploadImage uploadImage = new uploadImage();
-        String imageUrl = uploadImage.getUserImageFromDB(1, img, MyProfileActivity.this);
+        String imageUrl = uploadImage.getUserImageFromDB(1, img, MyProfileActivity.this,anim);
 
 
 

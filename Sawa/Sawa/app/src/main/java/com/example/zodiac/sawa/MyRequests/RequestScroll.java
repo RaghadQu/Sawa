@@ -1,6 +1,8 @@
 package  com.example.zodiac.sawa.MyRequests;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -10,6 +12,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import com.example.zodiac.sawa.GeneralAppInfo;
+import com.example.zodiac.sawa.MenuActiviries.MyProfileActivity;
+import com.example.zodiac.sawa.MyFriends.MyFriendProfileActivity;
 import com.example.zodiac.sawa.R;
 import com.example.zodiac.sawa.interfaces.ConfirmFriendRequest;
 import com.example.zodiac.sawa.interfaces.DeleteFriend;
@@ -59,9 +63,46 @@ public class RequestScroll extends RecyclerView.Adapter<RequestScroll.UserViewHo
 
     @Override
     public void onBindViewHolder(UserViewHolder holder, int position) {
-        MyRequestsActivity.friend user = userList.get(position);
+        final MyRequestsActivity.friend user = userList.get(position);
         holder.tvName.setText(user.getUserName());
+        holder.tvName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //check if the same user enter his profile
+                if (Integer.parseInt(user.getId()) == 1) {
+                    Intent i = new Intent(mContext, MyProfileActivity.class);
+                    mContext.startActivity(i);
+                } else {
+                    Intent i = new Intent(mContext, MyFriendProfileActivity.class);
+                    Bundle b = new Bundle();
+                    b.putString("mName", user.getUserName());
+                    b.putInt("Id", Integer.parseInt(user.getId()));
+
+                    i.putExtras(b);
+                    mContext.startActivity(i);
+                }
+
+            }
+        });
         String image ;
+        holder.ivProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (Integer.parseInt(user.getId()) == 1) {
+                    Intent i = new Intent(mContext, MyProfileActivity.class);
+                    mContext.startActivity(i);
+                } else {
+                    Intent i = new Intent(mContext, MyFriendProfileActivity.class);
+                    Bundle b = new Bundle();
+                    b.putString("mName", user.getUserName());
+                    b.putInt("Id", Integer.parseInt(user.getId()));
+
+                    i.putExtras(b);
+                    mContext.startActivity(i);
+                }
+            }
+        });
         try {
             image = user.getImageResourceId();
             String imageUrl="http://1ce63f59.ngrok.io/Sawa/public/"+image;

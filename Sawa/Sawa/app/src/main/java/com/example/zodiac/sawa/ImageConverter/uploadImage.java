@@ -1,6 +1,8 @@
 package com.example.zodiac.sawa.ImageConverter;
 
 import android.animation.Animator;
+import android.animation.ObjectAnimator;
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -64,8 +66,9 @@ public class uploadImage {
         });
     }
 
-    public String getUserImageFromDB(final int user_id, final ImageView img, final Context context) {
-        Log.d("Arrive to ge fro Db", "ss"+user_id);
+
+    public String getUserImageFromDB(int user_id, final ImageView img, final Context context, final ObjectAnimator anim) {
+        Log.d("Arrive to ge fro Db", "ss");
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(GeneralAppInfo.BACKEND_URL)
@@ -80,33 +83,31 @@ public class uploadImage {
                 imageUrl = userImageFromDbs.get(0).getUser_image();
                 Log.d("Arrive to ge fro Db11", "s" + imageUrl);
                 imageUrl = "http://1ce63f59.ngrok.io/Sawa/public/" + imageUrl;
-                Picasso.with(context).load(imageUrl).into(img);
+          //      Picasso.with(context).load(imageUrl).into(img);
                 Log.d("imageYtl", imageUrl);
-                if(user_id==1) {
-                    MyProfileActivity.anim.addListener(new Animator.AnimatorListener() {
-                        @Override
-                        public void onAnimationStart(Animator animation) {
-                        }
 
-                        @Override
-                        public void onAnimationEnd(Animator animation) {
-                            //here animation finished
-                            Picasso.with(context).load(imageUrl).into(img);
-                        }
 
-                        @Override
-                        public void onAnimationCancel(Animator animation) {
-                        }
 
-                        @Override
-                        public void onAnimationRepeat(Animator animation) {
-                        }
-                    });
+                 anim.addListener(new Animator.AnimatorListener() {
+                    @Override
+                    public void onAnimationStart(Animator animation) {
+                    }
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        //here animation finished
+                        Picasso.with(context).load(imageUrl).into(img);
+                    }
 
-                }else {
+                    @Override
+                    public void onAnimationCancel(Animator animation) {
+                    }
 
-                            Picasso.with(context).load(imageUrl).into(img);
-                }
+                    @Override
+                    public void onAnimationRepeat(Animator animation) {
+                    }
+                });
+
+
             }
 
             @Override

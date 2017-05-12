@@ -98,10 +98,29 @@ public class FastScrollAdapter extends RecyclerView.Adapter<FastScrollAdapter.Us
             }
         });
         String image;
+        holder.ivProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (Integer.parseInt(user.getId()) == 1) {
+                    Intent i = new Intent(mContext, MyProfileActivity.class);
+                    mContext.startActivity(i);
+                } else {
+                    Intent i = new Intent(mContext, MyFriendProfileActivity.class);
+                    Bundle b = new Bundle();
+                    b.putString("mName", user.getUserName());
+                    b.putInt("Id", Integer.parseInt(user.getId()));
+
+                    i.putExtras(b);
+                    mContext.startActivity(i);
+                }
+            }
+        });
         try {
             image = user.getImageResourceId();
             String imageUrl = "http://1ce63f59.ngrok.io/Sawa/public/" + image;
             Picasso.with(mContext).load(imageUrl).into(holder.ivProfile);
+
         } catch (MalformedURLException e) {
             holder.ivProfile.setImageResource(R.drawable.account);
             e.printStackTrace();
