@@ -1,5 +1,7 @@
 package com.example.zodiac.sawa;
 
+import android.animation.ObjectAnimator;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,7 +12,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 
 import com.example.zodiac.sawa.MenuActiviries.MyProfileActivity;
 import com.example.zodiac.sawa.RecoverPassword.RecoverPass;
@@ -34,7 +38,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
        setContentView(R.layout.activity_main);
 
         //check if the user is already signed in
@@ -104,17 +107,20 @@ public class MainActivity extends AppCompatActivity {
         }*/
 
         Intent i = new Intent(getApplicationContext(), HomeTabbedActivity.class);  startActivity(i);
+        finish();
     }
 
 
     public void forgot_pass(View arg0) {
         Intent i = new Intent(getApplicationContext(), RecoverPass.class);
         startActivity(i);
+
     }
 
     public void register(View arg0) {
         Intent i = new Intent(getApplicationContext(), Register.class);
         startActivity(i);
+
     }
 
 
@@ -142,6 +148,10 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         return flag;
+    }
+
+    public void onBackPressed() {
+        finish();
     }
 
 }

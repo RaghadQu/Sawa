@@ -33,93 +33,91 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 
 
-public class MyFriendsActivity  extends Activity {
+public class MyFriendsActivity extends Activity {
 
 
+    GetFreinds service;
+    public static List<getFriendsResponse> FreindsList;
+    public static ArrayList<friend> LayoutFriendsList = new ArrayList<>();
+    public static FastScrollRecyclerView recyclerView;
+    public static RecyclerView.Adapter adapter;
 
-        GetFreinds service;
-        static List<getFriendsResponse> FreindsList;
-        static ArrayList<friend> LayoutFriendsList = new ArrayList<>();
-        static FastScrollRecyclerView recyclerView;
-        static RecyclerView.Adapter adapter;
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.friends_tab);
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(GeneralAppInfo.BACKEND_URL)
+                .addConverterFactory(GsonConverterFactory.create()).build();
+        service = retrofit.create(GetFreinds.class);
 
-        protected void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            setContentView(R.layout.friends_tab);
-            Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl(GeneralAppInfo.BACKEND_URL)
-                    .addConverterFactory(GsonConverterFactory.create()).build();
-            service = retrofit.create(GetFreinds.class);
+        adapter = new FastScrollAdapter(this, LayoutFriendsList);
+        recyclerView = (FastScrollRecyclerView) findViewById(R.id.recycler);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(adapter);
 
-            adapter=new FastScrollAdapter(this, LayoutFriendsList);
-            recyclerView = (FastScrollRecyclerView) findViewById(R.id.recycler);
-            recyclerView.setLayoutManager(new LinearLayoutManager(this));
-            recyclerView.setAdapter(adapter);
+        final getFriendsRequest request = new getFriendsRequest();
+        request.setId(1);
+        final Call<List<getFriendsResponse>> FriendsResponse = service.getState(request.getId(), 1);
+        FriendsResponse.enqueue(new Callback<List<getFriendsResponse>>() {
+            @Override
+            public void onResponse(Call<List<getFriendsResponse>> call, Response<List<getFriendsResponse>> response) {
+                FreindsList = response.body();
 
-            final getFriendsRequest request = new getFriendsRequest();
-            request.setId(1);
-            final Call<List<getFriendsResponse>> FriendsResponse = service.getState(request.getId(),1);
-            FriendsResponse.enqueue(new Callback<List<getFriendsResponse>>() {
-                @Override
-                public void onResponse(Call<List<getFriendsResponse>> call, Response<List<getFriendsResponse>> response) {
-                    FreindsList = response.body();
-
-                    LayoutFriendsList.clear();
-                    for (int i = 0; i < FreindsList.size(); i++) {
-                        LayoutFriendsList.add(new friend(FreindsList.get(i).getId(),FreindsList.get(i).getUser_image(),
-                                FreindsList.get(i).getFirstName() + " " + FreindsList.get(i).getLast_name()));
-                        recyclerView.setAdapter(new FastScrollAdapter(MyFriendsActivity.this, LayoutFriendsList));
-                    }
+                LayoutFriendsList.clear();
+                for (int i = 0; i < FreindsList.size(); i++) {
+                    LayoutFriendsList.add(new friend(FreindsList.get(i).getId(), FreindsList.get(i).getUser_image(),
+                            FreindsList.get(i).getFirstName() + " " + FreindsList.get(i).getLast_name()));
+                    recyclerView.setAdapter(new FastScrollAdapter(MyFriendsActivity.this, LayoutFriendsList));
                 }
-
-                @Override
-                public void onFailure(Call<List<getFriendsResponse>> call, Throwable t) {
-                    Log.d("fail to get friends ", "Failure to Get friends");
-
-                }
-            });
-
-
-        }
-
-
-
-        public class friend {
-            String Id;
-            String imageResourceId;
-            String userName;
-
-            public String getId() {
-                return Id;
             }
 
-            public void setId(String id) {
-                Id = id;
+            @Override
+            public void onFailure(Call<List<getFriendsResponse>> call, Throwable t) {
+                Log.d("fail to get friends ", "Failure to Get friends");
+
             }
-
-            public friend(String Id,String imageResourceId, String userName) {
-                setImageResourceId(imageResourceId);
-                setUserName(userName);
-                setId(Id);
-            }
+        });
 
 
-            public void setImageResourceId(String imageResourceId) {
-                this.imageResourceId = imageResourceId;
-            }
-
-            public String getImageResourceId() throws MalformedURLException {
-                return imageResourceId;
-            }
-
-            public String getUserName() {
-                return userName;
-            }
-
-            public void setUserName(String userName) {
-                this.userName = userName;
-            }
-
-        }
     }
+
+
+    public class friend {
+        String Id;
+        String imageResourceId;
+        String userName;
+
+        public String getId() {
+            return Id;
+        }
+
+        public void setId(String id) {
+            Id = id;
+        }
+
+        public friend(String Id, String imageResourceId, String userName) {
+            setImageResourceId(imageResourceId);
+            setUserName(userName);
+            setId(Id);
+        }
+
+
+        public void setImageResourceId(String imageResourceId) {
+            this.imageResourceId = imageResourceId;
+        }
+
+        public String getImageResourceId() throws MalformedURLException {
+            return imageResourceId;
+        }
+
+        public String getUserName() {
+            return userName;
+        }
+
+        public void setUserName(String userName) {
+            this.userName = userName;
+        }
+
+    }
+}
 

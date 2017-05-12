@@ -1,5 +1,7 @@
 package com.example.zodiac.sawa;
 
+import android.animation.ObjectAnimator;
+import android.app.ProgressDialog;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -21,6 +23,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.view.animation.DecelerateInterpolator;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.zodiac.sawa.layout.homeFragment;
@@ -46,10 +50,13 @@ public class HomeTabbedActivity extends AppCompatActivity {
      */
     private ViewPager mViewPager;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_tabbed2);
+
+
         // Set up the action bar.
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
