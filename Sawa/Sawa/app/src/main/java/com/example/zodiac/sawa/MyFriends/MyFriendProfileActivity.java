@@ -82,10 +82,12 @@ public class MyFriendProfileActivity extends AppCompatActivity {
         Bundle b = getIntent().getExtras();
         int Id = -1; // or other values
         String mName="";
+        String mImageUrl="";
         if (b != null) {
             Id = b.getInt("Id");
             Log.d("IDD",""+Id);
             mName=b.getString("mName");
+            mImageUrl=b.getString("mImageURL");
         }
         user_profile_name.setText(mName);
 
@@ -226,9 +228,10 @@ public class MyFriendProfileActivity extends AppCompatActivity {
 
 
         //  Bitmap bitmap = dbHandler.getUserImage(1);
-
-        String imageUrl = uploadImage.getUserImageFromDB(1, img, this,anim);
-
+        mImageUrl=GeneralAppInfo.IMAGE_URL+mImageUrl;
+        Log.d("mImageUrl",mImageUrl);
+        //String imageUrl = uploadImage.getUserImageFromDB(1, img, this,anim);
+        Picasso.with(getApplicationContext()).load(mImageUrl).into(img);
 
         Bitmap bitmap = dbHandler.getUserImage(1);
         // bitmap = RotateBitmap(bitmap, -90);

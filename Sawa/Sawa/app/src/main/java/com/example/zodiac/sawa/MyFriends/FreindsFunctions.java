@@ -68,7 +68,7 @@ public class FreindsFunctions {
         }
     }
 
-    public void startFriend(Context mContext,String mName,int Id) {
+    public void startFriend(Context mContext,String mName,int Id,String ImageUrl) {
         if (Id == 1) {
             Intent i = new Intent(mContext, MyFriendProfileActivity.class);
             mContext.startActivity(i);
@@ -77,6 +77,8 @@ public class FreindsFunctions {
             Bundle b = new Bundle();
             b.putString("mName", mName);
             b.putInt("Id", Id);
+            b.putString("mImageURL", ImageUrl);
+
 
             i.putExtras(b);
             mContext.startActivity(i);

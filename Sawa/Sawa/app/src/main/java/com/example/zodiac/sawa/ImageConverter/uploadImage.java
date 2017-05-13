@@ -82,7 +82,7 @@ public class uploadImage {
                 userImageFromDbs = response.body();
                 imageUrl = userImageFromDbs.get(0).getUser_image();
                 Log.d("Arrive to ge fro Db11", "s" + imageUrl);
-                imageUrl = "http://1ce63f59.ngrok.io/Sawa/public/" + imageUrl;
+                imageUrl = GeneralAppInfo.IMAGE_URL + imageUrl;
           //      Picasso.with(context).load(imageUrl).into(img);
                 Log.d("imageYtl", imageUrl);
 

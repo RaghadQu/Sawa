@@ -76,7 +76,11 @@ public class RequestScroll extends RecyclerView.Adapter<RequestScroll.UserViewHo
                     Intent i = new Intent(mContext, MyProfileActivity.class);
                     mContext.startActivity(i);
                 } else {
-                    freindsFunctions.startFriend(mContext, user.getUserName(), Integer.parseInt(user.getId()));
+                    try {
+                        freindsFunctions.startFriend(mContext, user.getUserName(), Integer.parseInt(user.getId()),user.getImageResourceId());
+                    } catch (MalformedURLException e) {
+                        e.printStackTrace();
+                    }
                 }
 
             }
@@ -90,13 +94,17 @@ public class RequestScroll extends RecyclerView.Adapter<RequestScroll.UserViewHo
                     Intent i = new Intent(mContext, MyProfileActivity.class);
                     mContext.startActivity(i);
                 } else {
-                    freindsFunctions.startFriend(mContext, user.getUserName(), Integer.parseInt(user.getId()));
+                    try {
+                        freindsFunctions.startFriend(mContext, user.getUserName(), Integer.parseInt(user.getId()),user.getImageResourceId());
+                    } catch (MalformedURLException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         });
         try {
             image = user.getImageResourceId();
-            String imageUrl = "http://1ce63f59.ngrok.io/Sawa/public/" + image;
+            String imageUrl = GeneralAppInfo.IMAGE_URL + image;
             Picasso.with(mContext).load(imageUrl).into(holder.ivProfile);
         } catch (MalformedURLException e) {
             holder.ivProfile.setImageResource(R.drawable.account);
