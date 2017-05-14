@@ -8,9 +8,11 @@ import android.widget.Button;
 
 import com.example.zodiac.sawa.GeneralAppInfo;
 import com.example.zodiac.sawa.MenuActiviries.MyProfileActivity;
+import com.example.zodiac.sawa.interfaces.DeleteFriend;
 import com.example.zodiac.sawa.interfaces.GetFreinds;
 import com.example.zodiac.sawa.interfaces.UserImageApi;
 import com.example.zodiac.sawa.models.Authentication;
+import com.example.zodiac.sawa.models.DeleteFriendRequest;
 import com.example.zodiac.sawa.models.userImageFromDb;
 
 import java.util.List;
@@ -20,6 +22,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+
+import static com.example.zodiac.sawa.MyFriends.MyFriendsActivity.LayoutFriendsList;
 
 /**
  * Created by Rabee on 5/5/2017.
@@ -84,4 +88,42 @@ public class FreindsFunctions {
             mContext.startActivity(i);
         }
     }
+
+
+    public void DeleteFriend(int friend1_id, int friend2_id, final Button button){
+        DeleteFriend service;
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(GeneralAppInfo.BACKEND_URL)
+                .addConverterFactory(GsonConverterFactory.create()).build();
+        service = retrofit.create(DeleteFriend.class);
+
+        final DeleteFriendRequest request = new DeleteFriendRequest();
+        request.setFriend1_id(friend1_id);
+        request.setFriend2_id(friend2_id);
+
+
+        final Call<Authentication> deleteResponse = service.getState(request);
+        deleteResponse.enqueue(new Callback<Authentication>() {
+            @Override
+            public void onResponse(Call<Authentication> call, Response<Authentication> response) {
+                Authentication authentication = response.body();
+                if(authentication.getState()==1){
+                    button.setText("Add as freind");
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<Authentication> call, Throwable t) {
+                Log.d("fail to get friends ", "Failure to Get friends");
+
+            }
+
+
+        });
+
+
+    }
+
 }

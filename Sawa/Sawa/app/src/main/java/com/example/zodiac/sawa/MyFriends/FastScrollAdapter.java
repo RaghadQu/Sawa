@@ -168,20 +168,11 @@ public class FastScrollAdapter extends RecyclerView.Adapter<FastScrollAdapter.Us
                         @Override
                         public void onResponse(Call<Authentication> call, Response<Authentication> response) {
                             Authentication state = response.body();
-                            Log.d("-----------", " Body" + response.code() + " : " + state.getState());
-                            Log.d("Position", position + "");
                             MyFriendsActivity.recyclerView.removeViewAt(position);
                             MyFriendsActivity.FreindsList.remove(position);
-                            //notifyItemRemoved(position);
-                            //  notifyDataSetChanged();
                             LayoutFriendsList.remove(position);
                             notifyItemRemoved(position);
-                            // notifyItemRangeChanged(position,MyFriendsActivity.FreindsList.size());
-
-                            //MyFriendsActivity.recyclerView.setAdapter(MyFriendsActivity.adapter);
-                            Log.d("----- Remove ", "removed" + MyFriendsActivity.FreindsList.size());
-
-                        }
+                         }
 
                         @Override
                         public void onFailure(Call<Authentication> call, Throwable t) {

@@ -44,17 +44,12 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MyFriendProfileActivity extends AppCompatActivity {
-    Uri imageuri;
     ImageView img;
-    Dialog imgClick;
     Dialog ViewImgDialog;
-    TextView  viewPic;
     TextView user_profile_name;
     ImageView imageView; // View image in dialog
     Button friendStatus;
     private static final int SELECTED_PICTURE = 100;
-    SettingsAdapter recyclerAdapter;
-    RecyclerView.LayoutManager layoutManager;
     int image1 = R.drawable.image1;
     int image2 = R.drawable.friends_icon;
     int image3 = R.drawable.friends_icon;
@@ -77,22 +72,21 @@ public class MyFriendProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_friend_profile);
-        user_profile_name=(TextView)findViewById(R.id.user_profile_name);
+        user_profile_name = (TextView) findViewById(R.id.user_profile_name);
         //get parameters
         Bundle b = getIntent().getExtras();
         int Id = -1; // or other values
-        String mName="";
-        String mImageUrl="";
+        String mName = "";
+        String mImageUrl = "";
         if (b != null) {
             Id = b.getInt("Id");
-            Log.d("IDD",""+Id);
-            mName=b.getString("mName");
-            mImageUrl=b.getString("mImageURL");
+            Log.d("IDD", "" + Id);
+            mName = b.getString("mName");
+            mImageUrl = b.getString("mImageURL");
         }
         user_profile_name.setText(mName);
 
-        final FreindsFunctions freindsFunctions=new FreindsFunctions();
-        friendStatus=(Button)findViewById(R.id.friendStatus);
+        friendStatus = (Button) findViewById(R.id.friendStatus);
         friendStatus.setText(" ");
 
 
@@ -104,11 +98,9 @@ public class MyFriendProfileActivity extends AppCompatActivity {
         anim.setInterpolator(new DecelerateInterpolator());
         anim.start();
 
-        /*
-        * Get state in order to determine what to show
-        * */
-        final int Id1=Id;
-        Log.d("IDD1",""+Id);
+
+        final int Id1 = Id;
+        Log.d("IDD1", "" + Id);
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(GeneralAppInfo.BACKEND_URL)
                 .addConverterFactory(GsonConverterFactory.create()).build();
@@ -123,136 +115,49 @@ public class MyFriendProfileActivity extends AppCompatActivity {
         anim_button.start();
 
         GetFreinds getFreinds = retrofit.create(GetFreinds.class);
-        Call<Authentication> call = getFreinds.getFriendshipState(1,Id);
+        Call<Authentication> call = getFreinds.getFriendshipState(1, Id);
         call.enqueue(new Callback<Authentication>() {
             @Override
             public void onResponse(Call<Authentication> call, Response<Authentication> response) {
-                Authentication authentication=response.body();
-                Log.d("stateeee",""+authentication.getState());
-                if(authentication.getState()==2){
-                    NotFriendProfileClass notFriendProfile=new NotFriendProfileClass();
-                    notFriendProfile.SetFriendButtn(friendStatus,mRecyclerView,Id1);
-                    anim_button.addListener(new Animator.AnimatorListener() {
-                        @Override
-                        public void onAnimationStart(Animator animation) {
-                        }
-                        @Override
-                        public void onAnimationEnd(Animator animation) {
-                            //friendStatus.setText("Add as freind");
-                        }
+                Authentication authentication = response.body();
+                Log.d("stateeee", "" + authentication.getState());
+                if (authentication.getState() == 2) {
+                    NotFriendProfileClass notFriendProfile = new NotFriendProfileClass();
+                    notFriendProfile.SetFriendButtn(friendStatus, mRecyclerView, Id1);
 
-                        @Override
-                        public void onAnimationCancel(Animator animation) {
-                        }
+                } else if (authentication.getState() == 0) {
 
-                        @Override
-                        public void onAnimationRepeat(Animator animation) {
-                        }
-                    });
-                    //friendStatus.setText("Add as freind");
+                    PendingFriendsClass pendingFriendsClass = new PendingFriendsClass();
+                    pendingFriendsClass.SetFriendButtn(friendStatus, MyFriendProfileActivity.this,Id1);
 
-                }else if(authentication.getState()==0){
-                    anim_button.addListener(new Animator.AnimatorListener() {
-                        @Override
-                        public void onAnimationStart(Animator animation) {
-                        }
-                        @Override
-                        public void onAnimationEnd(Animator animation) {
-                            //friendStatus.setText("Pending");
-                        }
-
-                        @Override
-                        public void onAnimationCancel(Animator animation) {
-                        }
-
-                        @Override
-                        public void onAnimationRepeat(Animator animation) {
-                        }
-                    });
-                    PendingFriendsClass pendingFriendsClass=new PendingFriendsClass();
-                    pendingFriendsClass.SetFriendButtn(friendStatus);
-
-                }else if(authentication.getState()==1){
-                    FriendsClass friendsClass=new FriendsClass();
-                    friendsClass.SetFriendButtn(friendStatus,mRecyclerView);
-                    anim_button.addListener(new Animator.AnimatorListener() {
-                        @Override
-                        public void onAnimationStart(Animator animation) {
-                        }
-                        @Override
-                        public void onAnimationEnd(Animator animation) {
-                            //friendStatus.setText("Friend");
-                        }
-
-                        @Override
-                        public void onAnimationCancel(Animator animation) {
-                        }
-
-                        @Override
-                        public void onAnimationRepeat(Animator animation) {
-                        }
-                    });
+                } else if (authentication.getState() == 1) {
+                    FriendsClass friendsClass = new FriendsClass();
+                    friendsClass.SetFriendButtn(friendStatus, mRecyclerView, MyFriendProfileActivity.this, Id1);
                 }
-
 
             }
 
             @Override
             public void onFailure(Call<Authentication> call, Throwable t) {
-                Log.d("stateeee","fail nnnnnnn");
+                Log.d("stateeee", "fail nnnnnnn");
 
             }
         });
-        //
-
-
-       // freindsFunctions.getFreindShipState(1,2,friendStatus);
-
-
-        imgClick = new Dialog(this);
-        imgClick.setContentView(R.layout.profile_picture_dialog);
-        imgClick.getWindow().getAttributes().y = -130;
-        imgClick.getWindow().getAttributes().x = 70;
-
-
-        Log.d("Set", "s");
         ViewImgDialog = new Dialog(this, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
         ViewImgDialog.setContentView(R.layout.view_profilepic_dialog);
         imageView = (ImageView) ViewImgDialog.findViewById(R.id.ImageView);
 
         img = (ImageView) findViewById(R.id.user_profile_photo);
-        // imageView.setImageURI();
-        DBHandler dbHandler = new DBHandler(this);
-        uploadImage uploadImage = new uploadImage();
-        // String imageUrl=uploadImage.getUserImageFromDB(1,img,getContext());
 
-
-        //  Bitmap bitmap = dbHandler.getUserImage(1);
-        mImageUrl=GeneralAppInfo.IMAGE_URL+mImageUrl;
-        Log.d("mImageUrl",mImageUrl);
-        //String imageUrl = uploadImage.getUserImageFromDB(1, img, this,anim);
+        mImageUrl = GeneralAppInfo.IMAGE_URL + mImageUrl;
+        Log.d("mImageUrl", mImageUrl);
         Picasso.with(getApplicationContext()).load(mImageUrl).into(img);
-
-        Bitmap bitmap = dbHandler.getUserImage(1);
-        // bitmap = RotateBitmap(bitmap, -90);
-        //img.setImageBitmap(bitmap);
 
 
         img.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                imgClick.show();
-                viewPic = (TextView) imgClick.findViewById(R.id.ViewPic);
-
-
-
-                viewPic.setOnClickListener(new View.OnClickListener() {
-                    public void onClick(View v) {
-                        imgClick.dismiss();
-                        imageView.setImageDrawable(img.getDrawable());
-                        ViewImgDialog.show();
-
-                    }
-                });
+                imageView.setImageDrawable(img.getDrawable());
+                ViewImgDialog.show();
             }
         });
         mRecyclerView = (RecyclerView) findViewById(R.id.Viewer);
@@ -263,7 +168,7 @@ public class MyFriendProfileActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(mLayoutManager);
         mAdapter = new MyAdapter(this, myDataset, images);
         mRecyclerView.setAdapter(mAdapter);
-        //set click listener for edit bio
+
         editBio = (Button) findViewById(R.id.editBio);
         editBio.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -286,7 +191,7 @@ public class MyFriendProfileActivity extends AppCompatActivity {
     };
 
     public static void verifyStoragePermissions(Activity activity) {
-        // Check if we have write permission
+
         int permission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
 
         if (permission != PackageManager.PERMISSION_GRANTED) {
