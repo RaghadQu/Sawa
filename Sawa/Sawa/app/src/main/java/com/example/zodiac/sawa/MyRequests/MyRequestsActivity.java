@@ -1,12 +1,15 @@
 package com.example.zodiac.sawa.MyRequests;
 
+import android.animation.ObjectAnimator;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
 import com.example.zodiac.sawa.GeneralAppInfo;
+import com.example.zodiac.sawa.MyFriends.MyFriendsActivity;
 import com.example.zodiac.sawa.R;
 import com.example.zodiac.sawa.interfaces.GetFreinds;
 import com.example.zodiac.sawa.models.getFriendsRequest;
@@ -38,6 +41,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.DecelerateInterpolator;
+import android.widget.ProgressBar;
 
 import com.example.zodiac.sawa.R;
 
@@ -68,6 +73,13 @@ public class MyRequestsActivity extends Activity {
     public static FastScrollRecyclerView recyclerView;
     public static RecyclerView.Adapter adapter;
 
+    @Override
+    protected void onResume() {
+
+        super.onResume();
+        this.onCreate(null);
+    }
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.friend_request_tab);
@@ -76,6 +88,15 @@ public class MyRequestsActivity extends Activity {
                 .addConverterFactory(GsonConverterFactory.create()).build();
         service = retrofit.create(GetFreinds.class);
 
+        final ProgressBar progressBar;
+        progressBar = (ProgressBar) findViewById(R.id.ProgressBar);
+        progressBar.setProgress(0);
+        progressBar.setMax(100);
+        ObjectAnimator anim;
+        anim = ObjectAnimator.ofInt(progressBar, "progress", 0, 100);
+        anim.setDuration(2000);
+        anim.setInterpolator(new DecelerateInterpolator());
+        anim.start();
 
         adapter = new RequestScroll(this, LayoutFriendsList);
         recyclerView = (FastScrollRecyclerView) findViewById(R.id.recycler);
@@ -88,6 +109,7 @@ public class MyRequestsActivity extends Activity {
         FriendsResponse.enqueue(new Callback<List<getFriendsResponse>>() {
             @Override
             public void onResponse(Call<List<getFriendsResponse>> call, Response<List<getFriendsResponse>> response) {
+                progressBar.setVisibility(View.GONE);
                 FreindsList = response.body();
                 LayoutFriendsList.clear();
                 for (int i = 0; i < FreindsList.size(); i++) {
@@ -99,6 +121,7 @@ public class MyRequestsActivity extends Activity {
 
             @Override
             public void onFailure(Call<List<getFriendsResponse>> call, Throwable t) {
+                progressBar.setVisibility(View.GONE);
                 Log.d("fail to get friends ", "Failure to Get friends");
 
             }
@@ -144,5 +167,6 @@ public class MyRequestsActivity extends Activity {
         }
 
     }
+
 }
 

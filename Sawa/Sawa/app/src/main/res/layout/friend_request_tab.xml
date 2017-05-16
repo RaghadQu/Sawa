@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#fff"
 
     >
 
     <TextView
+        android:id="@+id/text"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:text="Friend Requests"
         android:background="@color/purple"
-        android:textSize="28dp"
-        android:textColor="#fff"
+        android:fontFamily="cursive"
         android:paddingLeft="15dp"
         android:paddingTop="7dp"
-        android:id="@+id/text"
-        android:fontFamily="cursive"
+        android:text="Friend Requests"
+        android:textColor="#fff"
+        android:textSize="28dp"
 
         />
 
@@ -25,14 +25,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
-        >
+        android:orientation="horizontal">
+
+        <ProgressBar
+            android:id="@+id/ProgressBar"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="7dp" />
+
         <com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView
             android:id="@+id/recycler"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:fastScrollThumbColor="@color/purple"
             app:fastScrollPopupBgColor="@color/purple"
             app:fastScrollPopupTextColor="@android:color/primary_text_dark"
-            />
+            app:fastScrollThumbColor="@color/purple" />
     </LinearLayout>
 </RelativeLayout>

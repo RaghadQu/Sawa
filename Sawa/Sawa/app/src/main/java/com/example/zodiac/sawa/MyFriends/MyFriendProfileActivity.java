@@ -28,11 +28,13 @@ import com.example.zodiac.sawa.GeneralAppInfo;
 import com.example.zodiac.sawa.ImageConverter.uploadImage;
 import com.example.zodiac.sawa.MenuActiviries.aboutUserActivity;
 import com.example.zodiac.sawa.MyAdapter;
+import com.example.zodiac.sawa.MyRequests.MyRequestsActivity;
 import com.example.zodiac.sawa.Profile.FriendsClass;
 import com.example.zodiac.sawa.Profile.NotFriendProfileClass;
 import com.example.zodiac.sawa.Profile.PendingFriendsClass;
 import com.example.zodiac.sawa.R;
 import com.example.zodiac.sawa.RecyclerViewAdapters.SettingsAdapter;
+import com.example.zodiac.sawa.Register;
 import com.example.zodiac.sawa.interfaces.GetFreinds;
 import com.example.zodiac.sawa.models.Authentication;
 import com.squareup.picasso.Picasso;
@@ -61,6 +63,7 @@ public class MyFriendProfileActivity extends AppCompatActivity {
 
     private ProgressBar progressBar_button;
     public static ObjectAnimator anim_button;
+    Authentication authentication;
 
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
@@ -90,6 +93,14 @@ public class MyFriendProfileActivity extends AppCompatActivity {
         friendStatus.setText(" ");
 
 
+        progressBar_button = (ProgressBar) findViewById(R.id.progressBar_button);
+        progressBar_button.setProgress(0);
+        progressBar_button.setMax(100);
+        anim_button = ObjectAnimator.ofInt(progressBar_button, "progress", 0, 100);
+        anim_button.setDuration(1000);
+        anim_button.setInterpolator(new DecelerateInterpolator());
+        anim_button.start();
+
         progressBar = (ProgressBar) findViewById(R.id.circular_progress_bar);
         progressBar.setProgress(0);
         progressBar.setMax(100);
@@ -106,20 +117,16 @@ public class MyFriendProfileActivity extends AppCompatActivity {
                 .addConverterFactory(GsonConverterFactory.create()).build();
 
 
-        progressBar_button = (ProgressBar) findViewById(R.id.progressBar_button);
-        progressBar_button.setProgress(0);
-        progressBar_button.setMax(100);
-        anim_button = ObjectAnimator.ofInt(progressBar_button, "progress", 0, 100);
-        anim_button.setDuration(1000);
-        anim_button.setInterpolator(new DecelerateInterpolator());
-        anim_button.start();
+
 
         GetFreinds getFreinds = retrofit.create(GetFreinds.class);
         Call<Authentication> call = getFreinds.getFriendshipState(1, Id);
         call.enqueue(new Callback<Authentication>() {
             @Override
             public void onResponse(Call<Authentication> call, Response<Authentication> response) {
-                Authentication authentication = response.body();
+                authentication = response.body();
+                progressBar_button.setVisibility(View.GONE);
+
                 Log.d("stateeee", "" + authentication.getState());
                 if (authentication.getState() == 2) {
                     NotFriendProfileClass notFriendProfile = new NotFriendProfileClass();
@@ -128,7 +135,7 @@ public class MyFriendProfileActivity extends AppCompatActivity {
                 } else if (authentication.getState() == 0) {
 
                     PendingFriendsClass pendingFriendsClass = new PendingFriendsClass();
-                    pendingFriendsClass.SetFriendButtn(friendStatus, MyFriendProfileActivity.this,Id1);
+                    pendingFriendsClass.SetFriendButtn(friendStatus, MyFriendProfileActivity.this, Id1);
 
                 } else if (authentication.getState() == 1) {
                     FriendsClass friendsClass = new FriendsClass();
@@ -169,16 +176,18 @@ public class MyFriendProfileActivity extends AppCompatActivity {
         mAdapter = new MyAdapter(this, myDataset, images);
         mRecyclerView.setAdapter(mAdapter);
 
+        final Dialog AboutFriend=new Dialog(this);
+        AboutFriend.setContentView(R.layout.activity_about_friend);
         editBio = (Button) findViewById(R.id.editBio);
         editBio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 Intent i = new Intent(getApplicationContext(), aboutUserActivity.class);
                 Bundle b = new Bundle();
                 b.putInt("IsMe", 0); //Your id
                 i.putExtras(b);
                 startActivity(i);
-
             }
         });
 
@@ -225,4 +234,5 @@ public class MyFriendProfileActivity extends AppCompatActivity {
         matrix.postRotate(angle);
         return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(), matrix, true);
     }
+
 }

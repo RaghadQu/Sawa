@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.zodiac.sawa.MyFriends.FreindsFunctions;
+import com.example.zodiac.sawa.MyFriends.MyFriendsActivity;
+import com.example.zodiac.sawa.MyRequests.MyRequestsActivity;
 import com.example.zodiac.sawa.R;
 
 /**
@@ -53,8 +55,7 @@ public class FriendsClass {
                     public void onClick(View view) {
                         ConfirmDeletion.dismiss();
                         friendFunction.DeleteFriend(1,Id,friendStatus);
-
-                    }
+                      }
                 });
 
                 //    if(view==friendStatus){

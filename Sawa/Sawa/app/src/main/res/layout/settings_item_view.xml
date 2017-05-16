@@ -8,8 +8,8 @@
     <de.hdodenhof.circleimageview.CircleImageView
 
         android:id="@+id/image"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
         android:background="@drawable/friend_picture"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="15dp"
@@ -18,16 +18,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/image"
-        android:layout_marginLeft="10dp"
+        android:layout_marginLeft="20dp"
         android:layout_alignBottom="@+id/image"
-        android:layout_marginBottom="15dp"
+        android:layout_marginBottom="10dp"
         >
         <TextView
             android:layout_width="135dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
             android:textColor="#000"
-            android:textSize="16dp"
+            android:textSize="15dp"
             android:id="@+id/text"
             />
 
@@ -38,8 +37,10 @@
         android:layout_marginTop="13dp"
         android:layout_width="fill_parent"
         android:layout_height="1dp"
-        android:background="#999"
+        android:background="#cacaca"
+        android:layout_marginLeft="20dp"
         android:layout_below="@+id/image"
+        android:layout_marginRight="20dp"
         />
 
 </RelativeLayout>

@@ -1,11 +1,16 @@
 package com.example.zodiac.sawa.MyFriends;
 
+import android.animation.ObjectAnimator;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
+import android.widget.ProgressBar;
 
 import com.example.zodiac.sawa.GeneralAppInfo;
 import com.example.zodiac.sawa.MyRequests.MyRequestsActivity;
@@ -43,13 +48,31 @@ public class MyFriendsActivity extends Activity {
     public static FastScrollRecyclerView recyclerView;
     public static RecyclerView.Adapter adapter;
 
+    @Override
+    protected void onResume() {
+
+        super.onResume();
+        this.onCreate(null);
+    }
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.friends_tab);
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(GeneralAppInfo.BACKEND_URL)
                 .addConverterFactory(GsonConverterFactory.create()).build();
+
         service = retrofit.create(GetFreinds.class);
+        final ProgressBar progressBar;
+        progressBar = (ProgressBar) findViewById(R.id.ProgressBar);
+        progressBar.setProgress(0);
+        progressBar.setMax(100);
+        ObjectAnimator anim;
+        anim = ObjectAnimator.ofInt(progressBar, "progress", 0, 100);
+        anim.setDuration(2000);
+        anim.setInterpolator(new DecelerateInterpolator());
+        anim.start();
+
 
         adapter = new FastScrollAdapter(this, LayoutFriendsList);
         recyclerView = (FastScrollRecyclerView) findViewById(R.id.recycler);
@@ -62,6 +85,7 @@ public class MyFriendsActivity extends Activity {
         FriendsResponse.enqueue(new Callback<List<getFriendsResponse>>() {
             @Override
             public void onResponse(Call<List<getFriendsResponse>> call, Response<List<getFriendsResponse>> response) {
+                progressBar.setVisibility(View.GONE);
                 FreindsList = response.body();
 
                 LayoutFriendsList.clear();
@@ -74,6 +98,8 @@ public class MyFriendsActivity extends Activity {
 
             @Override
             public void onFailure(Call<List<getFriendsResponse>> call, Throwable t) {
+                progressBar.setVisibility(View.GONE);
+
                 Log.d("fail to get friends ", "Failure to Get friends");
 
             }

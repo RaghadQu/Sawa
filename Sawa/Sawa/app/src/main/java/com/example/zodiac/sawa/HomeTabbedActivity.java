@@ -74,8 +74,7 @@ public class HomeTabbedActivity extends AppCompatActivity {
         mViewPager.setOffscreenPageLimit(10);
 
 
-
-       for (int i = 0; i < tabLayout.getTabCount(); i++) {
+        for (int i = 0; i < tabLayout.getTabCount() ; i++) {
             int iconId = -1;
             switch (i) {
                 case 0:
@@ -121,8 +120,8 @@ public class HomeTabbedActivity extends AppCompatActivity {
      */
     public static class PlaceholderFragment extends Fragment {
         int image1 = R.drawable.image1;
-        int image2 = R.drawable.friends_icon;
-        int image3 = R.drawable.add_group;
+        int image2 = R.mipmap.friends_setting;
+        int image3 = R.drawable.request_friend_setting;
         int image4 = R.drawable.log;
         RecyclerView mRecyclerView;
         RecyclerView.Adapter mAdapter;
@@ -202,7 +201,7 @@ public class HomeTabbedActivity extends AppCompatActivity {
 
         @Override
         public CharSequence getPageTitle(int position) {
-           return" " ;
+            return " ";
         }
     }
 }

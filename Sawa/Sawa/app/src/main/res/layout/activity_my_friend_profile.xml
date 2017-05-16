@@ -83,17 +83,6 @@
                     android:background="@android:color/transparent"
                     />
 
-                <ProgressBar
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
-                    android:id="@+id/progressBar_button"
-                    android:layout_marginTop="7dp"
-                    android:layout_marginRight="33dp"
-                    android:layout_centerHorizontal="true"
-                    android:layout_alignTop="@+id/friendStatus"
-                    android:layout_alignRight="@+id/friendStatus"
-                    android:layout_alignEnd="@+id/friendStatus" />
-
                 <Button
                     android:layout_alignBottom="@+id/user_profile_photo"
                     android:id="@+id/friendStatus"
@@ -106,6 +95,22 @@
                     android:background="@drawable/corners"
                     android:text="Follow"
                     />
+
+                <ProgressBar
+                    android:id="@+id/progressBar_button"
+                    style="?android:attr/progressBarStyleSmall"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="40dp"
+                    android:indeterminate="false"
+                    android:layout_marginRight="60dp"
+                    android:elevation="2dp"
+                    android:indeterminateTint="@color/purple"
+                    android:visibility="visible"
+                    android:layout_alignRight="@+id/friendStatus"
+                    android:layout_alignEnd="@+id/friendStatus" />
+
+
 
 
 
