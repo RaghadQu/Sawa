@@ -5,8 +5,20 @@ import android.database.Cursor;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.provider.Settings;
+
+import com.example.zodiac.sawa.interfaces.TokenApi;
+import com.example.zodiac.sawa.models.Authentication;
+import com.example.zodiac.sawa.models.UserIdWithDeviceIdModel;
+import com.example.zodiac.sawa.models.UserTokenModel;
 
 import java.io.File;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by Rabee on 4/17/2017.
@@ -27,7 +39,8 @@ public class GeneralFunctions {
             }
         }
     }
-    public int getPhotoOrientation( String imagePath){
+
+    public int getPhotoOrientation(String imagePath) {
         int rotate = 0;
         try {
 
@@ -51,6 +64,28 @@ public class GeneralFunctions {
             e.printStackTrace();
         }
         return rotate;
+    }
+
+    public void storeUserIdWithDeviceId(int user_id, String deviceId) {
+
+        UserIdWithDeviceIdModel userIdWithDeviceIdModel = new UserIdWithDeviceIdModel(deviceId, user_id);
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(GeneralAppInfo.BACKEND_URL)
+                .addConverterFactory(GsonConverterFactory.create()).build();
+        TokenApi tokenApi = retrofit.create(TokenApi.class);
+        Call<Authentication> call = tokenApi.storeUserIdWithDeviceId(userIdWithDeviceIdModel);
+        call.enqueue(new Callback<Authentication>() {
+
+            @Override
+            public void onResponse(Call<Authentication> call, Response<Authentication> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<Authentication> call, Throwable t) {
+
+            }
+        });
     }
 
 }
