@@ -32,6 +32,7 @@ public class NotFriendProfileClass {
                 if (view == friendStatus && friendStatus.getText().equals("Add")) {
                     friendStatus.setText("Pending");
                     addNewFriendShip(1, Id);
+                    addNewFriendShip(1, Id);
 
                 } else
                     Log.d("Add friend ship", "Already sent");
