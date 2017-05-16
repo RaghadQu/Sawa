@@ -26,12 +26,17 @@ import com.example.zodiac.sawa.RecoverPassword.RecoverPass;
 import com.example.zodiac.sawa.DB.DBHandler;
 import com.example.zodiac.sawa.interfaces.LoginAuth;
 import com.example.zodiac.sawa.models.AboutUser;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+
+import static android.content.ContentValues.TAG;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -42,7 +47,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-       setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main);
+
 
         //check if the user is already signed in
         SharedPreferences sharedPreferences = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
@@ -111,14 +117,13 @@ public class MainActivity extends AppCompatActivity {
             });
         }*/
 
-       // Intent i = new Intent(getApplicationContext(), MyFriendProfileActivity.class);
+        // Intent i = new Intent(getApplicationContext(), MyFriendProfileActivity.class);
 
 
-
-
-        Intent i = new Intent(getApplicationContext(), HomeTabbedActivity.class);  startActivity(i);
+        Intent i = new Intent(getApplicationContext(), HomeTabbedActivity.class);
         startActivity(i);
-        overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
+        startActivity(i);
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
         finish();
     }
 
@@ -136,8 +141,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
-    public int valid(String email,String password) {
+    public int valid(String email, String password) {
         int flag = 0;
         if ((password.trim().equals(""))) {
             passEditText.setError("Password is required");
