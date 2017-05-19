@@ -19,9 +19,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/image"
-        android:layout_marginLeft="13dp"
+        android:layout_marginLeft="15dp"
         android:layout_alignBottom="@+id/image"
-        android:layout_marginBottom="15dp"
+        android:layout_marginBottom="17dp"
         >
         <TextView
             android:layout_width="135dp"
@@ -36,11 +36,14 @@
             android:layout_width="wrap_content"
             android:layout_height="33dp"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="0dp"
             android:background="@drawable/remove_friend_style"
             android:text="Remove"
             android:id="@+id/Remove"
             android:textAllCaps="false"
+            android:clickable="true"
+            
+
 
             />
 

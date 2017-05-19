@@ -80,7 +80,7 @@ public class aboutUserActivity extends AppCompatActivity {
         saveSong = (Button) updateSong.findViewById(R.id.Save);
 
         final DBHandler dbHandler = new DBHandler(this);
-        AboutUser aboutUser = dbHandler.getAboutUser(1);
+        AboutUser aboutUser = dbHandler.getAboutUser(GeneralAppInfo.getUserID());
         if (aboutUser != null) {
 
             bio.setText(aboutUser.getUser_bio());
@@ -198,7 +198,7 @@ public class aboutUserActivity extends AppCompatActivity {
     }
 
     public void updateAbout(final String bioText, final String statusText, final String songText) {
-        AboutUser aboutUser = new AboutUser(1, bioText, statusText, songText);
+        AboutUser aboutUser = new AboutUser(GeneralAppInfo.getUserID(), bioText, statusText, songText);
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(GeneralAppInfo.BACKEND_URL)
                 .addConverterFactory(GsonConverterFactory.create()).build();
@@ -248,7 +248,7 @@ public class aboutUserActivity extends AppCompatActivity {
                 //              song.setText(aboutUser.get(0).getUser_song());
                 //            AboutUser aboutUser1 = new AboutUser(2, aboutUser.get(0).getUser_bio(), aboutUser.get(0).getUser_status(), aboutUser.get(0).getUser_song());
                 song.setText(aboutUser.get(0).getUser_song());
-                AboutUser aboutUser1 = new AboutUser(1, aboutUser.get(0).getUser_bio(), aboutUser.get(0).getUser_status(), aboutUser.get(0).getUser_song());
+                AboutUser aboutUser1 = new AboutUser(GeneralAppInfo.getUserID(), aboutUser.get(0).getUser_bio(), aboutUser.get(0).getUser_status(), aboutUser.get(0).getUser_song());
                 DBHandler dbHandler = new DBHandler(getApplicationContext());
                 dbHandler.addAboutUser(aboutUser1);
             }

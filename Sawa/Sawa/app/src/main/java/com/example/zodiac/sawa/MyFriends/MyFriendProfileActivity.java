@@ -120,7 +120,7 @@ public class MyFriendProfileActivity extends AppCompatActivity {
 
 
         GetFreinds getFreinds = retrofit.create(GetFreinds.class);
-        Call<Authentication> call = getFreinds.getFriendshipState(1, Id);
+        Call<Authentication> call = getFreinds.getFriendshipState(GeneralAppInfo.getUserID(), Id);
         call.enqueue(new Callback<Authentication>() {
             @Override
             public void onResponse(Call<Authentication> call, Response<Authentication> response) {
@@ -176,8 +176,7 @@ public class MyFriendProfileActivity extends AppCompatActivity {
         mAdapter = new MyAdapter(this, myDataset, images);
         mRecyclerView.setAdapter(mAdapter);
 
-        final Dialog AboutFriend=new Dialog(this);
-        AboutFriend.setContentView(R.layout.activity_about_friend);
+
         editBio = (Button) findViewById(R.id.editBio);
         editBio.setOnClickListener(new View.OnClickListener() {
             @Override

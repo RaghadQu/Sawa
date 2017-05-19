@@ -18,6 +18,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -90,7 +91,7 @@ public class HomeTabbedActivity extends AppCompatActivity {
                     iconId = R.drawable.notification;
                     break;
                 case 2:
-                    iconId = R.drawable.home;
+                    iconId = R.drawable.setting_small;
                     break;
             }
             tabLayout.getTabAt(i).setIcon(iconId);

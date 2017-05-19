@@ -12,6 +12,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -83,7 +84,7 @@ public class FastScrollAdapter extends RecyclerView.Adapter<FastScrollAdapter.Us
             @Override
             public void onClick(View view) {
                 //check if the same user enter his profile
-                if (Integer.parseInt(user.getId()) == 1) {
+                if (Integer.parseInt(user.getId()) == GeneralAppInfo.getUserID()) {
                     Intent i = new Intent(mContext, MyProfileActivity.class);
                     mContext.startActivity(i);
                 } else {
@@ -102,7 +103,7 @@ public class FastScrollAdapter extends RecyclerView.Adapter<FastScrollAdapter.Us
             @Override
             public void onClick(View view) {
 
-                if (Integer.parseInt(user.getId()) == 1) {
+                if (Integer.parseInt(user.getId()) == GeneralAppInfo.getUserID()) {
                     Intent i = new Intent(mContext, MyProfileActivity.class);
                     mContext.startActivity(i);
                 } else {
@@ -150,16 +151,18 @@ public class FastScrollAdapter extends RecyclerView.Adapter<FastScrollAdapter.Us
             remove = (Button) view.findViewById(R.id.Remove);
 
 
+
             remove.setOnClickListener(new View.OnClickListener() {
 
                 @Override
                 public void onClick(View v) {
 
 
+
                     final int position = getAdapterPosition();
                     final DeleteFriendRequest request = new DeleteFriendRequest();
                     Log.d("------ Y ", "  :  " + Integer.valueOf(userList.get(position).getId()));
-                    request.setFriend1_id(1);
+                    request.setFriend1_id(GeneralAppInfo.getUserID());
                     request.setFriend2_id(Integer.valueOf(userList.get(position).getId()));
 
 

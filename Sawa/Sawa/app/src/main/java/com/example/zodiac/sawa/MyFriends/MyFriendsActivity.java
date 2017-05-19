@@ -80,7 +80,7 @@ public class MyFriendsActivity extends Activity {
         recyclerView.setAdapter(adapter);
 
         final getFriendsRequest request = new getFriendsRequest();
-        request.setId(1);
+        request.setId(GeneralAppInfo.getUserID());
         final Call<List<getFriendsResponse>> FriendsResponse = service.getState(request.getId(), 1);
         FriendsResponse.enqueue(new Callback<List<getFriendsResponse>>() {
             @Override
