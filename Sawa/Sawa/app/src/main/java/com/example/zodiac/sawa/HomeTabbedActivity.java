@@ -18,6 +18,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -57,6 +58,8 @@ public class HomeTabbedActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_tabbed2);
+        String token=FirebaseInstanceId.getInstance().getToken();
+        Log.d("Refresh",token);
         String android_id = Settings.Secure.getString(getApplicationContext().getContentResolver(),
                 Settings.Secure.ANDROID_ID);;
         GeneralFunctions generalFunctions=new GeneralFunctions();
@@ -90,7 +93,7 @@ public class HomeTabbedActivity extends AppCompatActivity {
                     iconId = R.drawable.notification;
                     break;
                 case 2:
-                    iconId = R.drawable.home;
+                    iconId = R.drawable.settings;
                     break;
             }
             tabLayout.getTabAt(i).setIcon(iconId);

@@ -31,7 +31,7 @@ public class NotFriendProfileClass {
             public void onClick(View view) {
                 if (view == friendStatus && friendStatus.getText().equals("Add")) {
                     friendStatus.setText("Pending");
-                    addNewFriendShip(1, Id);
+                   // addNewFriendShip(1, Id);
                     addNewFriendShip(1, Id);
 
                 } else
