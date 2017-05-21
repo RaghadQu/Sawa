@@ -63,7 +63,7 @@ public class HomeTabbedActivity extends AppCompatActivity {
         String android_id = Settings.Secure.getString(getApplicationContext().getContentResolver(),
                 Settings.Secure.ANDROID_ID);;
         GeneralFunctions generalFunctions=new GeneralFunctions();
-        generalFunctions.storeUserIdWithDeviceId(13,android_id);
+        generalFunctions.storeUserIdWithDeviceId(GeneralAppInfo.getUserID(),android_id);
 
 
         // Set up the action bar.
@@ -93,7 +93,8 @@ public class HomeTabbedActivity extends AppCompatActivity {
                     iconId = R.drawable.notification;
                     break;
                 case 2:
-                    iconId = R.drawable.settings;
+
+                    iconId = R.drawable.setting_small;
                     break;
             }
             tabLayout.getTabAt(i).setIcon(iconId);

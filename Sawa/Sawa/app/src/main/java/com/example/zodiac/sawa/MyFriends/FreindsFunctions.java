@@ -35,7 +35,7 @@ public class FreindsFunctions {
                 .baseUrl(GeneralAppInfo.BACKEND_URL)
                 .addConverterFactory(GsonConverterFactory.create()).build();
         GetFreinds getFreinds = retrofit.create(GetFreinds.class);
-        Call<Authentication> call = getFreinds.getFriendshipState(1,2);
+        Call<Authentication> call = getFreinds.getFriendshipState(friend1_id,friend2_id);
         call.enqueue(new Callback<Authentication>() {
             @Override
             public void onResponse(Call<Authentication> call, Response<Authentication> response) {
@@ -58,7 +58,7 @@ public class FreindsFunctions {
         });
     }
     public void startMyProfile(Context mContext,String mName,int Id) {
-        if (Id == 1) {
+        if (Id == GeneralAppInfo.getUserID()) {
             Intent i = new Intent(mContext, MyProfileActivity.class);
             mContext.startActivity(i);
         } else {
@@ -73,7 +73,7 @@ public class FreindsFunctions {
     }
 
     public void startFriend(Context mContext,String mName,int Id,String ImageUrl) {
-        if (Id == 1) {
+        if (Id == GeneralAppInfo.getUserID()) {
             Intent i = new Intent(mContext, MyFriendProfileActivity.class);
             mContext.startActivity(i);
         } else {
@@ -109,7 +109,6 @@ public class FreindsFunctions {
             public void onResponse(Call<Authentication> call, Response<Authentication> response) {
                 Authentication authentication = response.body();
                 if(authentication.getState()==1){
-                    button.setText("Add as freind");
                 }
 
             }

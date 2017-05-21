@@ -72,7 +72,7 @@ public class RequestScroll extends RecyclerView.Adapter<RequestScroll.UserViewHo
             @Override
             public void onClick(View view) {
                 //check if the same user enter his profile
-                if (Integer.parseInt(user.getId()) == 1) {
+                if (Integer.parseInt(user.getId()) == GeneralAppInfo.getUserID()) {
                     Intent i = new Intent(mContext, MyProfileActivity.class);
                     mContext.startActivity(i);
                 } else {
@@ -90,7 +90,7 @@ public class RequestScroll extends RecyclerView.Adapter<RequestScroll.UserViewHo
             @Override
             public void onClick(View view) {
 
-                if (Integer.parseInt(user.getId()) == 1) {
+                if (Integer.parseInt(user.getId()) == GeneralAppInfo.getUserID()) {
                     Intent i = new Intent(mContext, MyProfileActivity.class);
                     mContext.startActivity(i);
                 } else {
@@ -146,7 +146,7 @@ public class RequestScroll extends RecyclerView.Adapter<RequestScroll.UserViewHo
                     final int position = getAdapterPosition();
                     final DeleteFriendRequest request = new DeleteFriendRequest();
                     Log.d("------ Y ", "  :  " + Integer.valueOf(userList.get(position).getId()));
-                    request.setFriend1_id(1);
+                    request.setFriend1_id(GeneralAppInfo.getUserID());
                     request.setFriend2_id(Integer.valueOf(userList.get(position).getId()));
 
                     final Call<Authentication> deleteResponse = service.getState(request);
@@ -192,7 +192,7 @@ public class RequestScroll extends RecyclerView.Adapter<RequestScroll.UserViewHo
                     final int position = getAdapterPosition();
                     final DeleteFriendRequest request = new DeleteFriendRequest();
                     Log.d("------ Y ", "  :  " + Integer.valueOf(userList.get(position).getId()));
-                    request.setFriend1_id(1);
+                    request.setFriend1_id(GeneralAppInfo.getUserID());
                     request.setFriend2_id(Integer.valueOf(userList.get(position).getId()));
 
                     final Call<Authentication> deleteResponse = service_confirm.getState(request);

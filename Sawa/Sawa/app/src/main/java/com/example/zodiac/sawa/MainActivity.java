@@ -26,6 +26,8 @@ import com.example.zodiac.sawa.RecoverPassword.RecoverPass;
 import com.example.zodiac.sawa.DB.DBHandler;
 import com.example.zodiac.sawa.interfaces.LoginAuth;
 import com.example.zodiac.sawa.models.AboutUser;
+import com.example.zodiac.sawa.models.AuthRequest;
+import com.example.zodiac.sawa.models.Authentication;
 import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.io.ByteArrayOutputStream;
@@ -33,6 +35,9 @@ import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -80,7 +85,8 @@ public class MainActivity extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     public void checkLogin(View arg0) {
-       /*
+
+
         final AuthRequest request = new AuthRequest();
         request.setEmail(emailEditText.getText().toString());
         request.setPassword(passEditText.getText().toString());
@@ -90,10 +96,16 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<Authentication> call, Response<Authentication> response) {
                     int statusCode = response.code();
+                    Log.d ("-----", " enter request " + statusCode);
+
                     Authentication authResponse = response.body();
                     SharedPreferences sharedPreferences = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
                     String email = sharedPreferences.getString("email", "");
+
                     if (authResponse.getState() == 1) {
+                        Log.d ("-----", " enter here");
+
+                        GeneralAppInfo.setUserID(Integer.valueOf(authResponse.getUser_id()));
                         //Store user info in shared prefrences file
                         sharedPreferences = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -101,9 +113,13 @@ public class MainActivity extends AppCompatActivity {
                         editor.putString("password", passEditText.getText().toString());
                         editor.putString("isLogined", "1");
                         editor.apply();
-                        Intent i = new Intent(getApplicationContext(), Home.class);
+
+                        Intent i = new Intent(getApplicationContext(), HomeTabbedActivity.class);
                         startActivity(i);
+                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+
                         finish();
+
                     } else {
                         emailEditText.setError("Invalid Email or Password");
                     }
@@ -112,19 +128,20 @@ public class MainActivity extends AppCompatActivity {
 
                 @Override
                 public void onFailure(Call<Authentication> call, Throwable t) {
+                    Log.d("----"," Error " + t.getMessage()) ;
+
 
                 }
             });
-        }*/
+        }
 
         // Intent i = new Intent(getApplicationContext(), MyFriendProfileActivity.class);
 
 
-        Intent i = new Intent(getApplicationContext(), HomeTabbedActivity.class);
-        startActivity(i);
-        startActivity(i);
-        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-        finish();
+   //     Intent i = new Intent(getApplicationContext(), HomeTabbedActivity.class);
+     //   startActivity(i);
+
+       // finish();
     }
 
 

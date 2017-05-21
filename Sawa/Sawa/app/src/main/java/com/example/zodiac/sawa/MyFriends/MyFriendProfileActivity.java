@@ -112,34 +112,41 @@ public class MyFriendProfileActivity extends AppCompatActivity {
 
         final int Id1 = Id;
         Log.d("IDD1", "" + Id);
+
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(GeneralAppInfo.BACKEND_URL)
                 .addConverterFactory(GsonConverterFactory.create()).build();
 
 
-
-
         GetFreinds getFreinds = retrofit.create(GetFreinds.class);
-        Call<Authentication> call = getFreinds.getFriendshipState(1, Id);
+        Call<Authentication> call = getFreinds.getFriendshipState(GeneralAppInfo.getUserID(), Id);
         call.enqueue(new Callback<Authentication>() {
             @Override
             public void onResponse(Call<Authentication> call, Response<Authentication> response) {
                 authentication = response.body();
                 progressBar_button.setVisibility(View.GONE);
+                FriendsClass friendsClass = new FriendsClass();
 
                 Log.d("stateeee", "" + authentication.getState());
                 if (authentication.getState() == 2) {
-                    NotFriendProfileClass notFriendProfile = new NotFriendProfileClass();
-                    notFriendProfile.SetFriendButtn(friendStatus, mRecyclerView, Id1);
+                    mRecyclerView.setVisibility(View.GONE);
+                    GeneralAppInfo.friendMode = 2;
+                    friendsClass.SetFriendButtn(friendStatus, mRecyclerView, MyFriendProfileActivity.this, Id1, getApplicationContext());
+
 
                 } else if (authentication.getState() == 0) {
+                    mRecyclerView.setVisibility(View.GONE);
 
-                    PendingFriendsClass pendingFriendsClass = new PendingFriendsClass();
-                    pendingFriendsClass.SetFriendButtn(friendStatus, MyFriendProfileActivity.this, Id1);
+                    GeneralAppInfo.friendMode = 0;
+                    friendsClass.SetFriendButtn(friendStatus, mRecyclerView, MyFriendProfileActivity.this, Id1, getApplicationContext());
+
 
                 } else if (authentication.getState() == 1) {
-                    FriendsClass friendsClass = new FriendsClass();
-                    friendsClass.SetFriendButtn(friendStatus, mRecyclerView, MyFriendProfileActivity.this, Id1);
+                    mRecyclerView.setVisibility(View.VISIBLE);
+
+                    GeneralAppInfo.friendMode = 1;
+
+                    friendsClass.SetFriendButtn(friendStatus, mRecyclerView, MyFriendProfileActivity.this, Id1, getApplicationContext());
                 }
 
             }
@@ -168,6 +175,8 @@ public class MyFriendProfileActivity extends AppCompatActivity {
             }
         });
         mRecyclerView = (RecyclerView) findViewById(R.id.Viewer);
+        mRecyclerView.setVisibility(View.GONE);
+
         mRecyclerView.setNestedScrollingEnabled(false);
 
         mRecyclerView.setHasFixedSize(true);
@@ -176,8 +185,7 @@ public class MyFriendProfileActivity extends AppCompatActivity {
         mAdapter = new MyAdapter(this, myDataset, images);
         mRecyclerView.setAdapter(mAdapter);
 
-        final Dialog AboutFriend=new Dialog(this);
-        AboutFriend.setContentView(R.layout.activity_about_friend);
+
         editBio = (Button) findViewById(R.id.editBio);
         editBio.setOnClickListener(new View.OnClickListener() {
             @Override

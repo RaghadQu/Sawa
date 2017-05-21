@@ -1,5 +1,6 @@
 package com.example.zodiac.sawa.Profile;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
@@ -22,17 +23,19 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 
 public class NotFriendProfileClass {
-    public void SetFriendButtn(final Button friendStatus, RecyclerView recyclerView,final int Id) {
+        public void SetFriendButtn(final Button friendStatus, RecyclerView recyclerView, final int Id, Context c) {
         //recyclerView.setVisibility(View.GONE);
-        friendStatus.setText("Add");
+        friendStatus.setText("Add as friend");
         friendStatus.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
                 if (view == friendStatus && friendStatus.getText().equals("Add")) {
                     friendStatus.setText("Pending");
-                   // addNewFriendShip(1, Id);
-                    addNewFriendShip(1, Id);
+
+
+
+                    addNewFriendShip(GeneralAppInfo.getUserID(), Id);
 
                 } else
                     Log.d("Add friend ship", "Already sent");

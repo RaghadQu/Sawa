@@ -32,14 +32,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.zodiac.sawa.DB.DBHandler;
+import com.example.zodiac.sawa.GeneralAppInfo;
 import com.example.zodiac.sawa.GeneralFunctions;
 import com.example.zodiac.sawa.ImageConverter.ImageConverter;
 import com.example.zodiac.sawa.ImageConverter.uploadImage;
 import com.example.zodiac.sawa.MyAdapter;
 import com.example.zodiac.sawa.R;
 import com.example.zodiac.sawa.RecyclerViewAdapters.SettingsAdapter;
+import com.example.zodiac.sawa.models.Authentication;
 
 public class MyProfileActivity extends AppCompatActivity {
+
     Uri imageuri;
     ImageView img;
     Dialog imgClick;
@@ -65,12 +68,13 @@ public class MyProfileActivity extends AppCompatActivity {
     public static ObjectAnimator anim;
 
 
+
+
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_profile);
-
         progressBar = (ProgressBar) findViewById(R.id.circular_progress_bar);
         progressBar.setProgress(0);
         progressBar.setMax(100);
@@ -94,7 +98,7 @@ public class MyProfileActivity extends AppCompatActivity {
         // imageView.setImageURI();
         final DBHandler dbHandler = new DBHandler(this);
         final uploadImage uploadImage = new uploadImage();
-        String imageUrl = uploadImage.getUserImageFromDB(1, img, MyProfileActivity.this,anim);
+        String imageUrl = uploadImage.getUserImageFromDB(GeneralAppInfo.getUserID() , img, MyProfileActivity.this,anim);
 
 
 
@@ -196,10 +200,10 @@ public class MyProfileActivity extends AppCompatActivity {
                 ImageConverter imageConverter = new ImageConverter();
                 byte[] image = imageConverter.getBytes(bitmap);
                 DBHandler dbHandler = new DBHandler(this);
-                dbHandler.updateUserImage(1, image);
+                dbHandler.updateUserImage(GeneralAppInfo.getUserID(), image);
                 String encodedImage = Base64.encodeToString(image, Base64.DEFAULT);
                 uploadImage uploadImage = new uploadImage();
-                uploadImage.uploadImagetoDB(1, encodedImage);
+                uploadImage.uploadImagetoDB(GeneralAppInfo.getUserID(), encodedImage);
 
 
             } catch (Exception e) {
