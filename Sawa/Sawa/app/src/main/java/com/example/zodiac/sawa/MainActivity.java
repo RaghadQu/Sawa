@@ -138,10 +138,10 @@ public class MainActivity extends AppCompatActivity {
         // Intent i = new Intent(getApplicationContext(), MyFriendProfileActivity.class);
 
 
-   //     Intent i = new Intent(getApplicationContext(), HomeTabbedActivity.class);
-     //   startActivity(i);
+    //   Intent i = new Intent(getApplicationContext(), HomeTabbedActivity.class);
+      //startActivity(i);
 
-       // finish();
+    //   finish();
     }
 
 

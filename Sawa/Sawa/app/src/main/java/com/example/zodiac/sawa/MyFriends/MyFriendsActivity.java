@@ -3,7 +3,9 @@ package com.example.zodiac.sawa.MyFriends;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -11,6 +13,7 @@ import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.example.zodiac.sawa.GeneralAppInfo;
 import com.example.zodiac.sawa.MyRequests.MyRequestsActivity;
@@ -20,10 +23,13 @@ import com.example.zodiac.sawa.models.getFriendsRequest;
 import com.example.zodiac.sawa.models.getFriendsResponse;
 import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView;
 
+import org.w3c.dom.Text;
+
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -83,12 +89,24 @@ public class MyFriendsActivity extends Activity {
         request.setId(GeneralAppInfo.getUserID());
         final Call<List<getFriendsResponse>> FriendsResponse = service.getState(request.getId(), 1);
         FriendsResponse.enqueue(new Callback<List<getFriendsResponse>>() {
+            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
             public void onResponse(Call<List<getFriendsResponse>> call, Response<List<getFriendsResponse>> response) {
                 progressBar.setVisibility(View.GONE);
                 FreindsList = response.body();
 
                 LayoutFriendsList.clear();
+
+                if (FreindsList.size() ==0 )
+                {
+
+                    setContentView(R.layout.no_friends_to_show);
+                    CircleImageView circle = (CircleImageView)findViewById(R.id.circle);
+                    circle.setImageDrawable(getDrawable(R.drawable.no_friends_to_show));
+                    TextView text= (TextView) findViewById(R.id.text);
+                    text.setText("Friends");
+
+                }
                 for (int i = 0; i < FreindsList.size(); i++) {
                     LayoutFriendsList.add(new friend(FreindsList.get(i).getId(), FreindsList.get(i).getUser_image(),
                             FreindsList.get(i).getFirstName() + " " + FreindsList.get(i).getLast_name()));

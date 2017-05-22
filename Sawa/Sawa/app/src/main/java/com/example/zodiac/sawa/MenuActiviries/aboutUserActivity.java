@@ -229,7 +229,7 @@ public class aboutUserActivity extends AppCompatActivity {
                 .baseUrl(GeneralAppInfo.BACKEND_URL)
                 .addConverterFactory(GsonConverterFactory.create()).build();
         AboutUserApi aboutUserApi = retrofit.create(AboutUserApi.class);
-        Call<List<AboutUser>> aboutUserResponse = aboutUserApi.getAboutUser(2);
+        Call<List<AboutUser>> aboutUserResponse = aboutUserApi.getAboutUser(GeneralAppInfo.getUserID());
         aboutUserResponse.enqueue(new Callback<List<AboutUser>>() {
             @Override
             public void onResponse(Call<List<AboutUser>> call, Response<List<AboutUser>> response) {

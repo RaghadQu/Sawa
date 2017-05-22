@@ -35,9 +35,13 @@ import com.example.zodiac.sawa.Profile.PendingFriendsClass;
 import com.example.zodiac.sawa.R;
 import com.example.zodiac.sawa.RecyclerViewAdapters.SettingsAdapter;
 import com.example.zodiac.sawa.Register;
+import com.example.zodiac.sawa.interfaces.AboutUserApi;
 import com.example.zodiac.sawa.interfaces.GetFreinds;
+import com.example.zodiac.sawa.models.AboutUser;
 import com.example.zodiac.sawa.models.Authentication;
 import com.squareup.picasso.Picasso;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -48,6 +52,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class MyFriendProfileActivity extends AppCompatActivity {
     ImageView img;
     Dialog ViewImgDialog;
+    Dialog AboutFriendDialog;
+    TextView about_status, about_bio , about_song;
     TextView user_profile_name;
     ImageView imageView; // View image in dialog
     Button friendStatus;
@@ -57,6 +63,7 @@ public class MyFriendProfileActivity extends AppCompatActivity {
     int image3 = R.drawable.friends_icon;
     int image4 = R.drawable.image1;
     Button editBio;
+
 
     private ProgressBar progressBar;
     public static ObjectAnimator anim;
@@ -70,6 +77,8 @@ public class MyFriendProfileActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager mLayoutManager;
     String[] myDataset = {"Profile", "Friends", "Friend Requests", "Log out"};
     int[] images = {image1, image2, image3, image4};
+
+    int Id1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,7 +119,7 @@ public class MyFriendProfileActivity extends AppCompatActivity {
         anim.start();
 
 
-        final int Id1 = Id;
+        Id1 = Id;
         Log.d("IDD1", "" + Id);
 
         Retrofit retrofit = new Retrofit.Builder()
@@ -160,13 +169,28 @@ public class MyFriendProfileActivity extends AppCompatActivity {
         ViewImgDialog = new Dialog(this, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
         ViewImgDialog.setContentView(R.layout.view_profilepic_dialog);
         imageView = (ImageView) ViewImgDialog.findViewById(R.id.ImageView);
-
         img = (ImageView) findViewById(R.id.user_profile_photo);
 
         mImageUrl = GeneralAppInfo.IMAGE_URL + mImageUrl;
         Log.d("mImageUrl", mImageUrl);
         Picasso.with(getApplicationContext()).load(mImageUrl).into(img);
 
+        AboutFriendDialog = new Dialog(this);
+        AboutFriendDialog.setContentView(R.layout.about_other_dialog);
+        about_bio= (TextView) AboutFriendDialog.findViewById(R.id.Bio);
+        about_status= (TextView) AboutFriendDialog.findViewById(R.id.status);
+        about_song= (TextView) AboutFriendDialog.findViewById(R.id.Song);
+
+        final DBHandler dbHandler = new DBHandler(this);
+        AboutUser aboutUser = dbHandler.getAboutUser(Id1);
+        if (aboutUser != null) {
+            about_bio.setText(aboutUser.getUser_bio());
+            about_status.setText(aboutUser.getUser_status());
+            about_song.setText(aboutUser.getUser_song());
+
+        } else {
+            getUserFromDB();
+        }
 
         img.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -191,11 +215,12 @@ public class MyFriendProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                Intent i = new Intent(getApplicationContext(), aboutUserActivity.class);
-                Bundle b = new Bundle();
-                b.putInt("IsMe", 0); //Your id
-                i.putExtras(b);
-                startActivity(i);
+             //   Intent i = new Intent(getApplicationContext(), aboutUserActivity.class);
+               // Bundle b = new Bundle();
+                //b.putInt("IsMe", 0); //Your id
+                //i.putExtras(b);
+                //startActivity(i);
+                AboutFriendDialog.show();
             }
         });
 
@@ -243,4 +268,32 @@ public class MyFriendProfileActivity extends AppCompatActivity {
         return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(), matrix, true);
     }
 
+
+    public void getUserFromDB() {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(GeneralAppInfo.BACKEND_URL)
+                .addConverterFactory(GsonConverterFactory.create()).build();
+        AboutUserApi aboutUserApi = retrofit.create(AboutUserApi.class);
+        Call<List<AboutUser>> aboutUserResponse = aboutUserApi.getAboutUser(Id1);
+        aboutUserResponse.enqueue(new Callback<List<AboutUser>>() {
+            @Override
+            public void onResponse(Call<List<AboutUser>> call, Response<List<AboutUser>> response) {
+                List<AboutUser> aboutUser;
+                aboutUser = response.body();
+                about_bio.setText(aboutUser.get(0).getUser_bio());
+                about_status.setText(aboutUser.get(0).getUser_status());
+                about_song.setText(aboutUser.get(0).getUser_song());
+                AboutUser aboutUser1 = new AboutUser(GeneralAppInfo.getUserID(), aboutUser.get(0).getUser_bio(), aboutUser.get(0).getUser_status(), aboutUser.get(0).getUser_song());
+                DBHandler dbHandler = new DBHandler(getApplicationContext());
+                dbHandler.addAboutUser(aboutUser1);
+            }
+
+            @Override
+            public void onFailure(Call<List<AboutUser>> call, Throwable t) {
+
+            }
+
+        });
+
+    }
 }
