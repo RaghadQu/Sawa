@@ -63,18 +63,21 @@ public class SearchActivity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String s) {
+                Log.d("Stringg", s);
                 //Toast.makeText(getApplicationContext(), "Our word : " + s, Toast.LENGTH_SHORT).show();
                 sendSearchQuery(s);
 
+
                 return false;
             }
+
         });
 
 
     }
 
     public void sendSearchQuery(String word) {
-        LayoutFriendsList.removeAll(LayoutFriendsList);
+        LayoutFriendsList.clear();
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(GeneralAppInfo.BACKEND_URL)
@@ -91,7 +94,7 @@ public class SearchActivity extends AppCompatActivity {
             public void onResponse(Call<List<getFriendsResponse>> call, Response<List<getFriendsResponse>> response) {
                 FreindsList = response.body();
 
-              //  LayoutFriendsList.clear();
+                //  LayoutFriendsList.clear();
 
              /*   if (FreindsList.size() ==0 )
                 {

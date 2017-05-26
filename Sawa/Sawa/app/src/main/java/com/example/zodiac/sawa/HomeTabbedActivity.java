@@ -74,7 +74,7 @@ public class HomeTabbedActivity extends AppCompatActivity {
                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
             }
         });
-     
+
         String token = FirebaseInstanceId.getInstance().getToken();
         Log.d("Refresh", token);
         String android_id = Settings.Secure.getString(getApplicationContext().getContentResolver(),
