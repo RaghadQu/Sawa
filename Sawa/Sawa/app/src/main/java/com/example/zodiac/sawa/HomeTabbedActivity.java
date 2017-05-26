@@ -74,16 +74,7 @@ public class HomeTabbedActivity extends AppCompatActivity {
                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
             }
         });
-        EditText searchText=(EditText)findViewById(R.id.searchText);
-        searchText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.d("C","Clicked");
-                Intent i = new Intent(getApplicationContext(), SearchActivity.class);
-                startActivity(i);
-                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-            }
-        });
+     
         String token = FirebaseInstanceId.getInstance().getToken();
         Log.d("Refresh", token);
         String android_id = Settings.Secure.getString(getApplicationContext().getContentResolver(),
