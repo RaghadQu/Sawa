@@ -127,7 +127,7 @@ public class MyFriendsActivity extends Activity {
     }
 
 
-    public  class friend {
+    public static class friend {
         String Id;
         String imageResourceId;
         String userName;

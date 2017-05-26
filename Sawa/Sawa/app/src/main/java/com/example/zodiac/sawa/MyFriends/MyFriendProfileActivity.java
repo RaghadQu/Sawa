@@ -22,9 +22,11 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.zodiac.sawa.DB.DBHandler;
 import com.example.zodiac.sawa.GeneralAppInfo;
+import com.example.zodiac.sawa.GeneralFunctions;
 import com.example.zodiac.sawa.ImageConverter.uploadImage;
 import com.example.zodiac.sawa.MenuActiviries.aboutUserActivity;
 import com.example.zodiac.sawa.MyAdapter;
@@ -55,6 +57,7 @@ public class MyFriendProfileActivity extends AppCompatActivity {
     Dialog AboutFriendDialog;
     TextView about_status, about_bio , about_song;
     TextView user_profile_name;
+
     ImageView imageView; // View image in dialog
     Button friendStatus;
     private static final int SELECTED_PICTURE = 100;
@@ -121,109 +124,117 @@ public class MyFriendProfileActivity extends AppCompatActivity {
 
         Id1 = Id;
         Log.d("IDD1", "" + Id);
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(GeneralAppInfo.BACKEND_URL)
-                .addConverterFactory(GsonConverterFactory.create()).build();
+        GeneralFunctions generalFunctions = new GeneralFunctions();
+        boolean isOnline = generalFunctions.isOnline(getApplicationContext());
 
 
-        GetFreinds getFreinds = retrofit.create(GetFreinds.class);
-        Call<Authentication> call = getFreinds.getFriendshipState(GeneralAppInfo.getUserID(), Id);
-        call.enqueue(new Callback<Authentication>() {
-            @Override
-            public void onResponse(Call<Authentication> call, Response<Authentication> response) {
-                authentication = response.body();
-                progressBar_button.setVisibility(View.GONE);
-                FriendsClass friendsClass = new FriendsClass();
-
-                Log.d("stateeee", "" + authentication.getState());
-                if (authentication.getState() == 2) {
-                    mRecyclerView.setVisibility(View.GONE);
-                    GeneralAppInfo.friendMode = 2;
-                    friendsClass.SetFriendButtn(friendStatus, mRecyclerView, MyFriendProfileActivity.this, Id1, getApplicationContext());
+        if (isOnline == false) {
+            Toast.makeText(this, "no internet connection!",
+                    Toast.LENGTH_LONG).show();
+        } else {
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl(GeneralAppInfo.BACKEND_URL)
+                    .addConverterFactory(GsonConverterFactory.create()).build();
 
 
-                } else if (authentication.getState() == 0) {
-                    mRecyclerView.setVisibility(View.GONE);
+            GetFreinds getFreinds = retrofit.create(GetFreinds.class);
+            Call<Authentication> call = getFreinds.getFriendshipState(GeneralAppInfo.getUserID(), Id);
+            call.enqueue(new Callback<Authentication>() {
+                @Override
+                public void onResponse(Call<Authentication> call, Response<Authentication> response) {
+                    authentication = response.body();
+                    progressBar_button.setVisibility(View.GONE);
+                    FriendsClass friendsClass = new FriendsClass();
 
-                    GeneralAppInfo.friendMode = 0;
-                    friendsClass.SetFriendButtn(friendStatus, mRecyclerView, MyFriendProfileActivity.this, Id1, getApplicationContext());
+                    Log.d("stateeee", "" + authentication.getState());
+                    if (authentication.getState() == 2) {
+                        mRecyclerView.setVisibility(View.GONE);
+                        GeneralAppInfo.friendMode = 2;
+                        friendsClass.SetFriendButtn(friendStatus, mRecyclerView, MyFriendProfileActivity.this, Id1, getApplicationContext());
 
 
-                } else if (authentication.getState() == 1) {
-                    mRecyclerView.setVisibility(View.VISIBLE);
+                    } else if (authentication.getState() == 0) {
+                        mRecyclerView.setVisibility(View.GONE);
 
-                    GeneralAppInfo.friendMode = 1;
+                        GeneralAppInfo.friendMode = 0;
+                        friendsClass.SetFriendButtn(friendStatus, mRecyclerView, MyFriendProfileActivity.this, Id1, getApplicationContext());
 
-                    friendsClass.SetFriendButtn(friendStatus, mRecyclerView, MyFriendProfileActivity.this, Id1, getApplicationContext());
+
+                    } else if (authentication.getState() == 1) {
+                        mRecyclerView.setVisibility(View.VISIBLE);
+
+                        GeneralAppInfo.friendMode = 1;
+
+                        friendsClass.SetFriendButtn(friendStatus, mRecyclerView, MyFriendProfileActivity.this, Id1, getApplicationContext());
+                    }
+
                 }
 
+                @Override
+                public void onFailure(Call<Authentication> call, Throwable t) {
+                    Log.d("stateeee", "fail nnnnnnn");
+
+                }
+            });
+
+            ViewImgDialog = new Dialog(this, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
+            ViewImgDialog.setContentView(R.layout.view_profilepic_dialog);
+            imageView = (ImageView) ViewImgDialog.findViewById(R.id.ImageView);
+            img = (ImageView) findViewById(R.id.user_profile_photo);
+
+            mImageUrl = GeneralAppInfo.IMAGE_URL + mImageUrl;
+            Log.d("mImageUrl", mImageUrl);
+            Picasso.with(getApplicationContext()).load(mImageUrl).into(img);
+
+            AboutFriendDialog = new Dialog(this);
+            AboutFriendDialog.setContentView(R.layout.about_other_dialog);
+            about_bio = (TextView) AboutFriendDialog.findViewById(R.id.Bio);
+            about_status = (TextView) AboutFriendDialog.findViewById(R.id.status);
+            about_song = (TextView) AboutFriendDialog.findViewById(R.id.Song);
+
+            final DBHandler dbHandler = new DBHandler(this);
+            AboutUser aboutUser = dbHandler.getAboutUser(Id1);
+            if (aboutUser != null) {
+                about_bio.setText(aboutUser.getUser_bio());
+                about_status.setText(aboutUser.getUser_status());
+                about_song.setText(aboutUser.getUser_song());
+
+            } else {
+                getUserFromDB();
             }
 
-            @Override
-            public void onFailure(Call<Authentication> call, Throwable t) {
-                Log.d("stateeee", "fail nnnnnnn");
+            img.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    imageView.setImageDrawable(img.getDrawable());
+                    ViewImgDialog.show();
+                }
+            });
+            mRecyclerView = (RecyclerView) findViewById(R.id.Viewer);
+            mRecyclerView.setVisibility(View.GONE);
 
-            }
-        });
-        ViewImgDialog = new Dialog(this, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
-        ViewImgDialog.setContentView(R.layout.view_profilepic_dialog);
-        imageView = (ImageView) ViewImgDialog.findViewById(R.id.ImageView);
-        img = (ImageView) findViewById(R.id.user_profile_photo);
+            mRecyclerView.setNestedScrollingEnabled(false);
 
-        mImageUrl = GeneralAppInfo.IMAGE_URL + mImageUrl;
-        Log.d("mImageUrl", mImageUrl);
-        Picasso.with(getApplicationContext()).load(mImageUrl).into(img);
+            mRecyclerView.setHasFixedSize(true);
+            mLayoutManager = new LinearLayoutManager(this);
+            mRecyclerView.setLayoutManager(mLayoutManager);
+            mAdapter = new MyAdapter(this, myDataset, images);
+            mRecyclerView.setAdapter(mAdapter);
 
-        AboutFriendDialog = new Dialog(this);
-        AboutFriendDialog.setContentView(R.layout.about_other_dialog);
-        about_bio= (TextView) AboutFriendDialog.findViewById(R.id.Bio);
-        about_status= (TextView) AboutFriendDialog.findViewById(R.id.status);
-        about_song= (TextView) AboutFriendDialog.findViewById(R.id.Song);
 
-        final DBHandler dbHandler = new DBHandler(this);
-        AboutUser aboutUser = dbHandler.getAboutUser(Id1);
-        if (aboutUser != null) {
-            about_bio.setText(aboutUser.getUser_bio());
-            about_status.setText(aboutUser.getUser_status());
-            about_song.setText(aboutUser.getUser_song());
+            editBio = (Button) findViewById(R.id.editBio);
+            editBio.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
 
-        } else {
-            getUserFromDB();
+                    //   Intent i = new Intent(getApplicationContext(), aboutUserActivity.class);
+                    // Bundle b = new Bundle();
+                    //b.putInt("IsMe", 0); //Your id
+                    //i.putExtras(b);
+                    //startActivity(i);
+                    AboutFriendDialog.show();
+                }
+            });
         }
-
-        img.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                imageView.setImageDrawable(img.getDrawable());
-                ViewImgDialog.show();
-            }
-        });
-        mRecyclerView = (RecyclerView) findViewById(R.id.Viewer);
-        mRecyclerView.setVisibility(View.GONE);
-
-        mRecyclerView.setNestedScrollingEnabled(false);
-
-        mRecyclerView.setHasFixedSize(true);
-        mLayoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        mAdapter = new MyAdapter(this, myDataset, images);
-        mRecyclerView.setAdapter(mAdapter);
-
-
-        editBio = (Button) findViewById(R.id.editBio);
-        editBio.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-             //   Intent i = new Intent(getApplicationContext(), aboutUserActivity.class);
-               // Bundle b = new Bundle();
-                //b.putInt("IsMe", 0); //Your id
-                //i.putExtras(b);
-                //startActivity(i);
-                AboutFriendDialog.show();
-            }
-        });
-
     }
 
     private static final int REQUEST_EXTERNAL_STORAGE = 1;

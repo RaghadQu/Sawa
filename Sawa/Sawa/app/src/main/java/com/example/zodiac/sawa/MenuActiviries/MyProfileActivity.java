@@ -75,88 +75,94 @@ public class MyProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_profile);
-        progressBar = (ProgressBar) findViewById(R.id.circular_progress_bar);
-        progressBar.setProgress(0);
-        progressBar.setMax(100);
-        anim = ObjectAnimator.ofInt(progressBar, "progress", 0, 100);
-        anim.setDuration(2000);
-        anim.setInterpolator(new DecelerateInterpolator());
-        anim.start();
-
-        imgClick = new Dialog(this);
-        imgClick.setContentView(R.layout.profile_picture_dialog);
-        imgClick.getWindow().getAttributes().y = -130;
-        imgClick.getWindow().getAttributes().x = 70;
+        GeneralFunctions generalFunctions = new GeneralFunctions();
+        boolean isOnline = generalFunctions.isOnline(getApplicationContext());
 
 
-        Log.d("Set", "s");
-        ViewImgDialog = new Dialog(this, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
-        ViewImgDialog.setContentView(R.layout.view_profilepic_dialog);
-        imageView = (ImageView) ViewImgDialog.findViewById(R.id.ImageView);
+        if (isOnline == false) {
+            Toast.makeText(this, "no internet connection!",
+                    Toast.LENGTH_LONG).show();
+        } else {
+            progressBar = (ProgressBar) findViewById(R.id.circular_progress_bar);
+            progressBar.setProgress(0);
+            progressBar.setMax(100);
+            anim = ObjectAnimator.ofInt(progressBar, "progress", 0, 100);
+            anim.setDuration(2000);
+            anim.setInterpolator(new DecelerateInterpolator());
+            anim.start();
 
-        img = (ImageView) findViewById(R.id.user_profile_photo);
-        // imageView.setImageURI();
-        final DBHandler dbHandler = new DBHandler(this);
-        final uploadImage uploadImage = new uploadImage();
-        String imageUrl = uploadImage.getUserImageFromDB(GeneralAppInfo.getUserID() , img, MyProfileActivity.this,anim);
+            imgClick = new Dialog(this);
+            imgClick.setContentView(R.layout.profile_picture_dialog);
+            imgClick.getWindow().getAttributes().y = -130;
+            imgClick.getWindow().getAttributes().x = 70;
 
 
+            Log.d("Set", "s");
+            ViewImgDialog = new Dialog(this, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
+            ViewImgDialog.setContentView(R.layout.view_profilepic_dialog);
+            imageView = (ImageView) ViewImgDialog.findViewById(R.id.ImageView);
+
+            img = (ImageView) findViewById(R.id.user_profile_photo);
+            // imageView.setImageURI();
+            final DBHandler dbHandler = new DBHandler(this);
+            final uploadImage uploadImage = new uploadImage();
+            String imageUrl = uploadImage.getUserImageFromDB(GeneralAppInfo.getUserID(), img, MyProfileActivity.this, anim);
 
 
-        img.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                imgClick.show();
-                changePic = (TextView) imgClick.findViewById(R.id.EditPic);
-                viewPic = (TextView) imgClick.findViewById(R.id.ViewPic);
-                RemovePic = (TextView) imgClick.findViewById(R.id.RemovePic);
+            img.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    imgClick.show();
+                    changePic = (TextView) imgClick.findViewById(R.id.EditPic);
+                    viewPic = (TextView) imgClick.findViewById(R.id.ViewPic);
+                    RemovePic = (TextView) imgClick.findViewById(R.id.RemovePic);
 
-                changePic.setOnClickListener(new View.OnClickListener() {
-                    public void onClick(View v) {
-                        imgClick.dismiss();
-                        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                        startActivityForResult(intent, SELECTED_PICTURE);
-                    }
-                });
+                    changePic.setOnClickListener(new View.OnClickListener() {
+                        public void onClick(View v) {
+                            imgClick.dismiss();
+                            Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                            startActivityForResult(intent, SELECTED_PICTURE);
+                        }
+                    });
 
-                viewPic.setOnClickListener(new View.OnClickListener() {
-                    public void onClick(View v) {
-                        imgClick.dismiss();
-                        imageView.setImageDrawable(img.getDrawable());
-                        ViewImgDialog.show();
+                    viewPic.setOnClickListener(new View.OnClickListener() {
+                        public void onClick(View v) {
+                            imgClick.dismiss();
+                            imageView.setImageDrawable(img.getDrawable());
+                            ViewImgDialog.show();
 
-                    }
-                });
+                        }
+                    });
 
-                RemovePic.setOnClickListener(new View.OnClickListener() {
-                    public void onClick(View v) {
-                        imgClick.dismiss();
-                        img.setImageResource(R.drawable.account);
-                      //  imageView.setImageDrawable(img.getDrawable());
-                       // ViewImgDialog.show();
+                    RemovePic.setOnClickListener(new View.OnClickListener() {
+                        public void onClick(View v) {
+                            imgClick.dismiss();
+                            img.setImageResource(R.drawable.account);
+                            //  imageView.setImageDrawable(img.getDrawable());
+                            // ViewImgDialog.show();
 
-                    }
-                });
-            }
-        });
-        mRecyclerView = (RecyclerView) findViewById(R.id.Viewer);
-        mRecyclerView.setNestedScrollingEnabled(false);
+                        }
+                    });
+                }
+            });
+            mRecyclerView = (RecyclerView) findViewById(R.id.Viewer);
+            mRecyclerView.setNestedScrollingEnabled(false);
 
-        mRecyclerView.setHasFixedSize(true);
-        mLayoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        mAdapter = new MyAdapter(this, myDataset, images);
-        mRecyclerView.setAdapter(mAdapter);
-        //set click listener for edit bio
-        editBio=(Button)findViewById(R.id.editBio);
-        editBio.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(getApplicationContext(), aboutUserActivity.class);
-                startActivity(i);
+            mRecyclerView.setHasFixedSize(true);
+            mLayoutManager = new LinearLayoutManager(this);
+            mRecyclerView.setLayoutManager(mLayoutManager);
+            mAdapter = new MyAdapter(this, myDataset, images);
+            mRecyclerView.setAdapter(mAdapter);
+            //set click listener for edit bio
+            editBio = (Button) findViewById(R.id.editBio);
+            editBio.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent i = new Intent(getApplicationContext(), aboutUserActivity.class);
+                    startActivity(i);
 
-            }
-        });
-
+                }
+            });
+        }
     }
 
     private static final int REQUEST_EXTERNAL_STORAGE = 1;

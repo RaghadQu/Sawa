@@ -12,32 +12,47 @@
     >
 
 
+
     <android.support.design.widget.AppBarLayout
-        android:id="@+id/appbar"
+        android:id="@+id/search_edit_frame"
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:theme="@style/AppTheme.AppBarOverlay"
-        android:background="@color/purple"
+        android:background="@color/purple">
 
-        >
 
-     <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/purple"
-            app:layout_scrollFlags="scroll|enterAlways"
-            app:popupTheme="@style/AppTheme.PopupOverlay">
+            <LinearLayout
+                android:id="@+id/serachBar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/search"
+                    android:id="@+id/serachImage"/>
 
-        </android.support.v7.widget.Toolbar>
+            </LinearLayout>
 
-        <android.support.design.widget.TabLayout
-            android:background="@color/purple"
-            android:id="@+id/tabs"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="10dp"/>
 
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/purple"
+                app:layout_scrollFlags="scroll|enterAlways"
+                app:popupTheme="@style/AppTheme.PopupOverlay"
+                android:layout_alignBottom="@+id/serachBar">
+
+            </android.support.v7.widget.Toolbar>
+
+            <android.support.design.widget.TabLayout
+                android:background="@color/purple"
+                android:id="@+id/tabs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="10dp"
+                android:layout_alignBottom="@+id/serachBar"/>
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v4.view.ViewPager
