@@ -78,18 +78,19 @@ public class NotificationTab extends AppCompatDialogFragment {
             public void onResponse(Call<Notification> call, Response<Notification> response) {
                 Notification UserNotification;
                 UserNotification = response.body();
-                Log.d("Size " ," " +UserNotification.getSent_notifications().size() + " " +UserNotification.getNot_sent_notifications().size() );
                  NotificationList.clear();
+                if(UserNotification!= null){
                 for (int i = 0; i < UserNotification.getNot_sent_notifications().size(); i++) {
                     Notification.NotificationInfo notificationOne=UserNotification.getNot_sent_notifications().get(i);
                     NotificationList.add(new NotificationAdapter.NotificationRecyclerViewDataProvider(context,Integer.valueOf(notificationOne.getFriend1_id()),notificationOne.getUser_image(),(notificationOne.getFirst_name()+" "+notificationOne.getLast_name()),notificationOne.getTimestamp(),Integer.valueOf(notificationOne.getRead_flag())));
                     NotificationList.get(i).setType(notificationOne.getType());
                 }
+
                 for (int i = 0; i < UserNotification.getSent_notifications().size(); i++) {
                     Notification.NotificationInfo notificationOne=UserNotification.getSent_notifications().get(i);
                     NotificationList.add(new NotificationAdapter.NotificationRecyclerViewDataProvider(context,Integer.valueOf(notificationOne.getFriend1_id()),notificationOne.getUser_image(),(notificationOne.getFirst_name()+" "+notificationOne.getLast_name()),notificationOne.getTimestamp(),Integer.valueOf(notificationOne.getRead_flag())));
                     NotificationList.get(i).setType(notificationOne.getType());
-                }
+                }}
                     recyclerView.setAdapter( new NotificationAdapter(NotificationList));
                 }
 

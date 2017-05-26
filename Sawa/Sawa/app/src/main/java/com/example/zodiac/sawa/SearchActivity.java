@@ -74,8 +74,6 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     public void sendSearchQuery(String word) {
-        LayoutFriendsList.removeAll(LayoutFriendsList);
-
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(GeneralAppInfo.BACKEND_URL)
                 .addConverterFactory(GsonConverterFactory.create()).build();
@@ -90,8 +88,9 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<List<getFriendsResponse>> call, Response<List<getFriendsResponse>> response) {
                 FreindsList = response.body();
+                LayoutFriendsList.clear();
 
-              //  LayoutFriendsList.clear();
+                //  LayoutFriendsList.clear();
 
              /*   if (FreindsList.size() ==0 )
                 {
@@ -104,7 +103,6 @@ public class SearchActivity extends AppCompatActivity {
 
                 }*/
                 if (FreindsList != null) {
-
 
                     for (int i = 0; i < FreindsList.size(); i++) {
                         LayoutFriendsList.add(new MyFriendsActivity.friend(FreindsList.get(i).getId(), FreindsList.get(i).getUser_image(),
