@@ -7,8 +7,8 @@ import com.example.zodiac.sawa.models.SignResponse;
  */
 
 public class GeneralAppInfo {
-    public static String  BACKEND_URL="http://d3c763cf.ngrok.io/Sawa/public/index.php/";
-    public static String IMAGE_URL="http://d3c763cf.ngrok.io/Sawa/public/";
+    public static String  BACKEND_URL="http://87f953bf.ngrok.io/Sawa/public/index.php/";
+    public static String IMAGE_URL="http://87f953bf.ngrok.io/Sawa/public/";
     public  static int friendMode=-1;
 
     public static int userID;

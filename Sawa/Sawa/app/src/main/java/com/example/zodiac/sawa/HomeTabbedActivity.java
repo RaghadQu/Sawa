@@ -2,6 +2,7 @@ package com.example.zodiac.sawa;
 
 import android.animation.ObjectAnimator;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.provider.Settings;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -11,6 +12,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 
 import android.support.v4.app.Fragment;
@@ -26,6 +28,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import android.view.animation.DecelerateInterpolator;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -52,18 +56,41 @@ public class HomeTabbedActivity extends AppCompatActivity {
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
+    ImageView searchImage;
+    EditText searchText;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_tabbed2);
-        String token=FirebaseInstanceId.getInstance().getToken();
-        Log.d("Refresh",token);
+        ImageView searchImage = (ImageView) findViewById(R.id.serachImage);
+        searchImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("C","Clicked");
+                Intent i = new Intent(getApplicationContext(), SearchActivity.class);
+                startActivity(i);
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+            }
+        });
+        EditText searchText=(EditText)findViewById(R.id.searchText);
+        searchText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("C","Clicked");
+                Intent i = new Intent(getApplicationContext(), SearchActivity.class);
+                startActivity(i);
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+            }
+        });
+        String token = FirebaseInstanceId.getInstance().getToken();
+        Log.d("Refresh", token);
         String android_id = Settings.Secure.getString(getApplicationContext().getContentResolver(),
-                Settings.Secure.ANDROID_ID);;
-        GeneralFunctions generalFunctions=new GeneralFunctions();
-        generalFunctions.storeUserIdWithDeviceId(GeneralAppInfo.getUserID(),android_id);
+                Settings.Secure.ANDROID_ID);
+        ;
+        GeneralFunctions generalFunctions = new GeneralFunctions();
+        generalFunctions.storeUserIdWithDeviceId(GeneralAppInfo.getUserID(), android_id);
 
 
         // Set up the action bar.
@@ -83,7 +110,7 @@ public class HomeTabbedActivity extends AppCompatActivity {
         mViewPager.setOffscreenPageLimit(10);
 
 
-        for (int i = 0; i < tabLayout.getTabCount() ; i++) {
+        for (int i = 0; i < tabLayout.getTabCount(); i++) {
             int iconId = -1;
             switch (i) {
                 case 0:

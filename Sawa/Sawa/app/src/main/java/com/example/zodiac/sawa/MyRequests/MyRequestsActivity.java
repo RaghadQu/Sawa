@@ -14,6 +14,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
 import com.example.zodiac.sawa.GeneralAppInfo;
+import com.example.zodiac.sawa.GeneralFunctions;
 import com.example.zodiac.sawa.MyFriends.MyFriendsActivity;
 import com.example.zodiac.sawa.R;
 import com.example.zodiac.sawa.interfaces.GetFreinds;
@@ -50,6 +51,7 @@ import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.example.zodiac.sawa.R;
 
@@ -112,39 +114,46 @@ public class MyRequestsActivity extends Activity {
 
         final getFriendsRequest request = new getFriendsRequest();
         request.setId(GeneralAppInfo.getUserID());
-        final Call<List<getFriendsResponse>> FriendsResponse = service.getState(request.getId(), 0);
-        FriendsResponse.enqueue(new Callback<List<getFriendsResponse>>() {
-            @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
-            @Override
-            public void onResponse(Call<List<getFriendsResponse>> call, Response<List<getFriendsResponse>> response) {
-                progressBar.setVisibility(View.GONE);
-                FreindsList = response.body();
-                LayoutFriendsList.clear();
-                if(FreindsList.size()==0)
-                {
+        GeneralFunctions generalFunctions = new GeneralFunctions();
+        boolean isOnline = generalFunctions.isOnline(getApplicationContext());
 
-                    setContentView(R.layout.no_friends_to_show);
-                    CircleImageView circle = (CircleImageView)findViewById(R.id.circle);
-                    circle.setImageDrawable(getDrawable(R.drawable.no_requests_to_show));
+
+        if (isOnline == false) {
+            Toast.makeText(this, "no internet connection!",
+                    Toast.LENGTH_LONG).show();
+        } else {
+            final Call<List<getFriendsResponse>> FriendsResponse = service.getState(request.getId(), 0);
+            FriendsResponse.enqueue(new Callback<List<getFriendsResponse>>() {
+                @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+                @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+                @Override
+                public void onResponse(Call<List<getFriendsResponse>> call, Response<List<getFriendsResponse>> response) {
+                    progressBar.setVisibility(View.GONE);
+                    FreindsList = response.body();
+                    LayoutFriendsList.clear();
+                    if (FreindsList.size() == 0) {
+
+                        setContentView(R.layout.no_friends_to_show);
+                        CircleImageView circle = (CircleImageView) findViewById(R.id.circle);
+                        circle.setImageDrawable(getDrawable(R.drawable.no_requests_to_show));
+
+                    } else {
+                        for (int i = 0; i < FreindsList.size(); i++) {
+                            LayoutFriendsList.add(new friend(FreindsList.get(i).getId(), FreindsList.get(i).getUser_image(),
+                                    FreindsList.get(i).getFirstName() + " " + FreindsList.get(i).getLast_name()));
+                            recyclerView.setAdapter(new RequestScroll(MyRequestsActivity.this, LayoutFriendsList));
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<List<getFriendsResponse>> call, Throwable t) {
+                    progressBar.setVisibility(View.GONE);
+                    Log.d("fail to get friends ", "Failure to Get friends");
 
                 }
-                else{
-                for (int i = 0; i < FreindsList.size(); i++) {
-                    LayoutFriendsList.add(new friend(FreindsList.get(i).getId(), FreindsList.get(i).getUser_image(),
-                            FreindsList.get(i).getFirstName() + " " + FreindsList.get(i).getLast_name()));
-                    recyclerView.setAdapter(new RequestScroll(MyRequestsActivity.this, LayoutFriendsList));
-                }}
-            }
-
-            @Override
-            public void onFailure(Call<List<getFriendsResponse>> call, Throwable t) {
-                progressBar.setVisibility(View.GONE);
-                Log.d("fail to get friends ", "Failure to Get friends");
-
-            }
-        });
-
+            });
+        }
     }
 
 

@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.example.zodiac.sawa.MenuActiviries.MyProfileActivity;
 import com.example.zodiac.sawa.MyFriends.MyFriendProfileActivity;
@@ -60,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
         String email = sharedPreferences.getString("email", "");
         String isLogined = sharedPreferences.getString("isLogined", "");
 
-        if ((isLogined.equals("aa"))) {
+        if ((isLogined.equals("1"))) {
             Intent i = new Intent(getApplicationContext(), HomeTabbedActivity.class);
             startActivity(i);
             finish();
@@ -85,63 +86,71 @@ public class MainActivity extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     public void checkLogin(View arg0) {
+        GeneralFunctions generalFunctions = new GeneralFunctions();
+        boolean isOnline = generalFunctions.isOnline(getApplicationContext());
 
 
-        final AuthRequest request = new AuthRequest();
-        request.setEmail(emailEditText.getText().toString());
-        request.setPassword(passEditText.getText().toString());
-        if (valid(request.getEmail(), request.getPassword()) == 0) {
-            final Call<Authentication> AuthResponse = service.getState(request);
-            AuthResponse.enqueue(new Callback<Authentication>() {
-                @Override
-                public void onResponse(Call<Authentication> call, Response<Authentication> response) {
-                    int statusCode = response.code();
-                    Log.d ("-----", " enter request " + statusCode);
+        if (isOnline == false) {
+            Toast.makeText(this, "no internet connection!",
+                    Toast.LENGTH_LONG).show();
+        } else {
 
-                    Authentication authResponse = response.body();
-                    SharedPreferences sharedPreferences = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
-                    String email = sharedPreferences.getString("email", "");
 
-                    if (authResponse.getState() == 1) {
-                        Log.d ("-----", " enter here");
+            final AuthRequest request = new AuthRequest();
+            request.setEmail(emailEditText.getText().toString());
+            request.setPassword(passEditText.getText().toString());
+            if (valid(request.getEmail(), request.getPassword()) == 0) {
+                final Call<Authentication> AuthResponse = service.getState(request);
+                AuthResponse.enqueue(new Callback<Authentication>() {
+                    @Override
+                    public void onResponse(Call<Authentication> call, Response<Authentication> response) {
+                        int statusCode = response.code();
+                        Log.d("-----", " enter request " + statusCode);
 
-                        GeneralAppInfo.setUserID(Integer.valueOf(authResponse.getUser_id()));
-                        //Store user info in shared prefrences file
-                        sharedPreferences = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.putString("email", emailEditText.getText().toString());
-                        editor.putString("password", passEditText.getText().toString());
-                        editor.putString("isLogined", "1");
-                        editor.apply();
+                        Authentication authResponse = response.body();
+                        SharedPreferences sharedPreferences = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
+                        String email = sharedPreferences.getString("email", "");
 
-                        Intent i = new Intent(getApplicationContext(), HomeTabbedActivity.class);
-                        startActivity(i);
-                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                        if (authResponse.getState() == 1) {
+                            Log.d("-----", " enter here");
 
-                        finish();
+                            GeneralAppInfo.setUserID(Integer.valueOf(authResponse.getUser_id()));
+                            //Store user info in shared prefrences file
+                            sharedPreferences = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putString("email", emailEditText.getText().toString());
+                            editor.putString("password", passEditText.getText().toString());
+                            editor.putString("isLogined", "1");
+                            editor.apply();
 
-                    } else {
-                        emailEditText.setError("Invalid Email or Password");
+                            Intent i = new Intent(getApplicationContext(), HomeTabbedActivity.class);
+                            startActivity(i);
+                            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+
+                            finish();
+
+                        } else {
+                            emailEditText.setError("Invalid Email or Password");
+                        }
+
                     }
 
-                }
-
-                @Override
-                public void onFailure(Call<Authentication> call, Throwable t) {
-                    Log.d("----"," Error " + t.getMessage()) ;
+                    @Override
+                    public void onFailure(Call<Authentication> call, Throwable t) {
+                        Log.d("----", " Error " + t.getMessage());
 
 
-                }
-            });
+                    }
+                });
+            }
         }
-
         // Intent i = new Intent(getApplicationContext(), MyFriendProfileActivity.class);
 
 
-    //   Intent i = new Intent(getApplicationContext(), HomeTabbedActivity.class);
-      //startActivity(i);
+        //   Intent i = new Intent(getApplicationContext(), HomeTabbedActivity.class);
+        //startActivity(i);
 
-    //   finish();
+        //   finish();
     }
 
 
