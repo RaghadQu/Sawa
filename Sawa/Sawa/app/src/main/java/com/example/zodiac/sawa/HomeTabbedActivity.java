@@ -29,9 +29,11 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.example.zodiac.sawa.RecyclerViewAdapters.NotificationAdapter;
 import com.example.zodiac.sawa.layout.homeFragment;
 import com.example.zodiac.sawa.layout.settingsFragment;
 import com.google.firebase.iid.FirebaseInstanceId;
+import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView;
 
 import java.util.ArrayList;
 
@@ -52,6 +54,7 @@ public class HomeTabbedActivity extends AppCompatActivity {
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
+
 
 
     @Override
@@ -166,7 +169,14 @@ public class HomeTabbedActivity extends AppCompatActivity {
                 View rootView = inflater.inflate(R.layout.fragment_home, container, false);
                 return rootView;
             } else if (getArguments().getInt(ARG_SECTION_NUMBER) == 2) {
-                View rootView = inflater.inflate(R.layout.notification_recycle_view, container, false);
+                //NotificationTab;
+                View rootView = inflater.inflate(R.layout.notification_tab, container, false);
+                NotificationTab.NotificationList = new ArrayList<>();
+                NotificationTab.adapter = new NotificationAdapter(NotificationTab.NotificationList);
+                NotificationTab.recyclerView=(FastScrollRecyclerView)rootView.findViewById(R.id.recyclerNotification);
+                NotificationTab.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                NotificationTab.recyclerView.setAdapter(NotificationTab.adapter);
+                NotificationTab.getUserNotifications(getContext());
                 return rootView;
 
             } else if (getArguments().getInt(ARG_SECTION_NUMBER) == 3) {

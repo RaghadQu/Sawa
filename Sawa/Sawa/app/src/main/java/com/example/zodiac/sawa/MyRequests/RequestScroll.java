@@ -135,10 +135,7 @@ public class RequestScroll extends RecyclerView.Adapter<RequestScroll.UserViewHo
             super(itemView);
             ivProfile = (CircleImageView) itemView.findViewById(R.id.image);
             tvName = (TextView) itemView.findViewById(R.id.Name);
-
             remove = (Button) itemView.findViewById(R.id.deleteRequest);
-
-
             remove.setOnClickListener(new View.OnClickListener() {
 
                 @Override

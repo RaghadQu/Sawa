@@ -25,16 +25,20 @@ import com.example.zodiac.sawa.RecoverPassword.RecoverPass;
 
 import com.example.zodiac.sawa.DB.DBHandler;
 import com.example.zodiac.sawa.interfaces.LoginAuth;
+import com.example.zodiac.sawa.interfaces.NotificationApi;
 import com.example.zodiac.sawa.models.AboutUser;
 import com.example.zodiac.sawa.models.AuthRequest;
 import com.example.zodiac.sawa.models.Authentication;
+import com.example.zodiac.sawa.models.Notification;
 import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -49,10 +53,12 @@ public class MainActivity extends AppCompatActivity {
     private EditText passEditText;
     LoginAuth service;
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+
+         setContentView(R.layout.activity_main);
 
 
         //check if the user is already signed in
@@ -60,11 +66,12 @@ public class MainActivity extends AppCompatActivity {
         String email = sharedPreferences.getString("email", "");
         String isLogined = sharedPreferences.getString("isLogined", "");
 
-        if ((isLogined.equals("aa"))) {
+        if ((isLogined.equals("4"))) {
             Intent i = new Intent(getApplicationContext(), HomeTabbedActivity.class);
             startActivity(i);
             finish();
         }
+
     /*   DBHandler dbHandler = new DBHandler(getApplicationContext());
         Bitmap bitmap= BitmapFactory.decodeResource(getResources(), R.drawable.profileimage);
         ByteArrayOutputStream stream=new ByteArrayOutputStream();
@@ -75,6 +82,8 @@ public class MainActivity extends AppCompatActivity {
         dbHandler.addAboutUser(aboutUser);*/
 
         // Address the email  and password field
+
+
         emailEditText = (EditText) findViewById(R.id.username);
         passEditText = (EditText) findViewById(R.id.password);
         Retrofit retrofit = new Retrofit.Builder()
@@ -134,8 +143,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         }
-
-        // Intent i = new Intent(getApplicationContext(), MyFriendProfileActivity.class);
 
 
     //   Intent i = new Intent(getApplicationContext(), HomeTabbedActivity.class);
