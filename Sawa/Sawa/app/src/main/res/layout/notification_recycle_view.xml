@@ -3,7 +3,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="#fff">
+    android:background="#fff"
+    android:id="@+id/NotificationLayout">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/image"
@@ -17,7 +18,7 @@
     <LinearLayout
         android:id="@+id/notificationMsgLayout"
         android:layout_width="wrap_content"
-        android:layout_height="45dp"
+        android:layout_height="48dp"
         android:layout_toRightOf="@+id/image"
         android:layout_alignBottom="@+id/image"
         >
@@ -30,7 +31,7 @@
             android:textColor="#000"
             android:textSize="14dp"
             android:id="@+id/text"
-            android:text="Hind Ali, Sarah yousef and Majd Majd likes your post"
+            android:text="Notification"
             />
 
       </LinearLayout>
@@ -43,7 +44,7 @@
         >
         <TextView
             android:layout_marginLeft="15dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="6dp"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_gravity="center_vertical"

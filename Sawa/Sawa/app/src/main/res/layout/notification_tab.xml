@@ -8,12 +8,12 @@
     >
 
 
-        <ProgressBar
+      <!--  <ProgressBar
             android:id="@+id/ProgressBar"
             android:layout_width="match_parent"
             android:indeterminateTint="@color/purple"
             android:layout_height="30dp"
-            android:layout_marginTop="7dp" />
+            android:layout_marginTop="7dp" />-->
 
         <com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView
             android:id="@+id/recyclerNotification"
