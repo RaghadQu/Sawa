@@ -19,7 +19,7 @@
         android:layout_height="45dp"
         android:theme="@style/AppTheme.AppBarOverlay"
         android:background="@color/purple">
-
+    
 
             <LinearLayout
                 android:id="@+id/serachBar"
