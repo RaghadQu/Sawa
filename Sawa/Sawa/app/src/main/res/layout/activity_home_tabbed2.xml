@@ -36,16 +36,7 @@
                 android:textSize="17dp"
                 android:textColor="#fff"/>
         </LinearLayout>
-    <!--<android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_alignBottom="@+id/serachBar"
-        android:background="@color/purple"
-        app:layout_scrollFlags="scroll|enterAlways"
-        app:popupTheme="@style/AppTheme.PopupOverlay">
 
-    </android.support.v7.widget.Toolbar>-->
     <View
         android:layout_marginTop="42dp"
         android:layout_width="fill_parent"
