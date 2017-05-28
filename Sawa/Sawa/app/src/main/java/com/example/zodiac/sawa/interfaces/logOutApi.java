@@ -16,7 +16,7 @@ import retrofit2.http.POST;
 public interface logOutApi {
     @Headers("Cache-Control: max-age=64000")
     @POST("api/users/logOut")
-    Call<Authentication> getLogOut(@Body logOut log_out);
+    Call<Void> getLogOut(@Body logOut log_out);
 }
 
 
