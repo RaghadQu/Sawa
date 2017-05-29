@@ -5,63 +5,70 @@
     android:id="@+id/main_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginTop="-2dp"
+    android:background="@color/purple"
     android:fitsSystemWindows="true"
     tools:context="com.example.zodiac.sawa.HomeTabbedActivity"
-    android:background="@color/purple"
-    android:layout_marginTop="-2dp"
     >
 
-
-
-    <android.support.design.widget.AppBarLayout
-        android:id="@+id/search_edit_frame"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:theme="@style/AppTheme.AppBarOverlay"
-        android:background="@color/purple">
-    
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        >
 
-            <LinearLayout
-                android:id="@+id/serachBar"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-                <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/search"
-                    android:id="@+id/serachImage"/>
+        <ImageView
+            android:id="@+id/serachImage"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="9dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/search" />
 
-            </LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Search"
+            android:textAllCaps="false"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:textSize="17dp"
+            android:textColor="#fff"/>
+    </LinearLayout>
+    <!--<android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignBottom="@+id/serachBar"
+        android:background="@color/purple"
+        app:layout_scrollFlags="scroll|enterAlways"
+        app:popupTheme="@style/AppTheme.PopupOverlay">
 
+    </android.support.v7.widget.Toolbar>-->
+    <View
+        android:layout_marginTop="42dp"
+        android:layout_width="fill_parent"
+        android:layout_height="0.4dp"
+        android:background="#c1cfcfcf"
+        android:layout_below="@+id/image"
+        />
 
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/purple"
-                app:layout_scrollFlags="scroll|enterAlways"
-                app:popupTheme="@style/AppTheme.PopupOverlay"
-                android:layout_alignBottom="@+id/serachBar">
-
-            </android.support.v7.widget.Toolbar>
-
-            <android.support.design.widget.TabLayout
-                android:background="@color/purple"
-                android:id="@+id/tabs"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="10dp"
-                android:layout_alignBottom="@+id/serachBar"/>
-    </android.support.design.widget.AppBarLayout>
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tabs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:paddingTop="5dp"
+        android:layout_marginTop="37dp"/>
 
     <android.support.v4.view.ViewPager
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        android:background="#fff"/>
-
+        android:layout_marginTop="85dp"
+        android:background="#fff"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
 
 </android.support.design.widget.CoordinatorLayout>
