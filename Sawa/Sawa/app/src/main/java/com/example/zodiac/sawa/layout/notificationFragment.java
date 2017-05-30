@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,11 +28,44 @@ public class notificationFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    boolean active;
 
     private OnFragmentInteractionListener mListener;
 
     public notificationFragment() {
+        Log.d("Fragmtn", " Frggrment");
         // Required empty public constructor
+    }
+
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        active = true;
+        Log.d("Active"," active now");
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        active = false;
+        Log.d("Deactive "," deactive now");
+
+    }
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        Log.d("Notification visblse","");
+
+        // Make sure that we are currently visible
+        if (this.isVisible()) {
+            Log.d("Notification visble","");
+            if (!isVisibleToUser) {
+                Log.d("MyFragment", "Not visible anymore.  Stopping audio.");
+                // TODO stop audio playback
+            }else
+                Log.d("Notification111 visble","");
+
+        }
     }
 
     /**

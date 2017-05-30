@@ -169,7 +169,6 @@ public class FriendsClass {
                 GeneralAppInfo.friendMode = 1;
                 friendStatus.setText("Friend");
 
-
                 final DeleteFriendRequest request = new DeleteFriendRequest();
                 request.setFriend1_id(GeneralAppInfo.getUserID());
                 request.setFriend2_id(Id);
