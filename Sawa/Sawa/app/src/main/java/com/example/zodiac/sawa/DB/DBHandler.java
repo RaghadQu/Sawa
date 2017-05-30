@@ -67,7 +67,7 @@ public class DBHandler extends SQLiteOpenHelper {
         values.put(USER_STATUS, aboutUser.getUser_status());
         values.put(USER_SONG, aboutUser.getUser_song());
         // Inserting Row
-        db.insert(TABLE_ABOUT, null, values);
+                db.insert(TABLE_ABOUT, null, values);
         db.close(); // Closing database connection
     }
 

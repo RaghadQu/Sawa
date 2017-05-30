@@ -2,7 +2,9 @@ package com.example.zodiac.sawa;
 
 import android.animation.ObjectAnimator;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.provider.Settings;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -66,6 +68,7 @@ public class HomeTabbedActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_home_tabbed2);
         ImageView searchImage = (ImageView) findViewById(R.id.serachImage);
         searchImage.setOnClickListener(new View.OnClickListener() {
@@ -149,7 +152,10 @@ public class HomeTabbedActivity extends AppCompatActivity {
     /**
      * A placeholder fragment containing a simple view.
      */
+
     public static class PlaceholderFragment extends Fragment {
+
+
         int image1 = R.drawable.image1;
         int image2 = R.mipmap.friends_setting;
         int image3 = R.drawable.request_friend_setting;
@@ -184,6 +190,7 @@ public class HomeTabbedActivity extends AppCompatActivity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             if (getArguments().getInt(ARG_SECTION_NUMBER) == 1) {
+                GeneralFunctions.getSharedPreferences(getContext());
                 View rootView = inflater.inflate(R.layout.fragment_home, container, false);
                 return rootView;
             } else if (getArguments().getInt(ARG_SECTION_NUMBER) == 2) {
@@ -198,6 +205,7 @@ public class HomeTabbedActivity extends AppCompatActivity {
                 return rootView;
 
             } else if (getArguments().getInt(ARG_SECTION_NUMBER) == 3) {
+                GeneralFunctions.getSharedPreferences(getContext());
                 View rootView = inflater.inflate(R.layout.fragment_settings, container, false);
                 mRecyclerView = (RecyclerView) rootView.findViewById(R.id.Viewer);
                 mRecyclerView.setHasFixedSize(true);

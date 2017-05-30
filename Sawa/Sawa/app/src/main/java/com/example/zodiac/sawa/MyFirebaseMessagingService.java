@@ -5,6 +5,7 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.IBinder;
@@ -22,30 +23,53 @@ import com.google.firebase.messaging.RemoteMessage;
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private static final String TAG = "FCM Service";
+
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         // TODO: Handle FCM messages here.
         // If the application is in the foreground handle both data and notification messages here.
         // Also if you intend on generating your own notifications as a result of a received FCM
         // message, here is where that should be initiated.
-        Log.d("Notification","Received"+remoteMessage.getNotification().getTitle());
+        Log.d("Notification", "Received" + remoteMessage.getNotification().getTitle());
         //Log.d("FROOOm", "From: " + remoteMessage.getFrom());
         //Log.d(TAG, "Notification Message Body: " + remoteMessage.getNotification().getBody());
-        createNotification(remoteMessage.getNotification().getBody());
 
+        SharedPreferences sharedPreferences = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
+
+        boolean isRunning = GeneralFunctions.isAppRunning(getApplicationContext(), "com.example.zodiac.sawa");
+        sharedPreferences = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        int count=sharedPreferences.getInt("notifications_counter", 0);
+
+        if (isRunning == false){
+            createNotification(remoteMessage.getNotification().getBody());
+
+            editor.putInt("notifications_counter",++count);
+            Log.d("notifications_counter1222",""+count);
+            editor.apply();
+        }
+        else
+        {
+            Log.d("notifications_counter1222",""+count);
+
+            editor.putInt("notifications_counter",++count);
+
+            editor.apply();
+        }
     }
-    private void createNotification( String messageBody) {
-        Intent intent = new Intent( this ,MainActivity.class);
+
+    private void createNotification(String messageBody) {
+        Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        PendingIntent resultIntent = PendingIntent.getActivity( this , 0, intent,
+        PendingIntent resultIntent = PendingIntent.getActivity(this, 0, intent,
                 PendingIntent.FLAG_ONE_SHOT);
 
         Uri notificationSoundURI = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        NotificationCompat.Builder mNotificationBuilder = new NotificationCompat.Builder( this)
+        NotificationCompat.Builder mNotificationBuilder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentTitle("Ibrahim")
                 .setContentText(messageBody)
-                .setAutoCancel( true )
+                .setAutoCancel(true)
                 .setSound(notificationSoundURI)
                 .setContentIntent(resultIntent);
 

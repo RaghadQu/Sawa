@@ -55,7 +55,7 @@ public class MyFriendProfileActivity extends AppCompatActivity {
     ImageView img;
     Dialog ViewImgDialog;
     Dialog AboutFriendDialog;
-    TextView about_status, about_bio , about_song;
+    TextView about_status, about_bio, about_song;
     TextView user_profile_name;
 
     ImageView imageView; // View image in dialog
@@ -164,6 +164,12 @@ public class MyFriendProfileActivity extends AppCompatActivity {
                         mRecyclerView.setVisibility(View.VISIBLE);
 
                         GeneralAppInfo.friendMode = 1;
+
+                        friendsClass.SetFriendButtn(friendStatus, mRecyclerView, MyFriendProfileActivity.this, Id1, getApplicationContext());
+                    } else if (authentication.getState() == 3) {
+                        mRecyclerView.setVisibility(View.VISIBLE);
+
+                        GeneralAppInfo.friendMode = 3;
 
                         friendsClass.SetFriendButtn(friendStatus, mRecyclerView, MyFriendProfileActivity.this, Id1, getApplicationContext());
                     }
@@ -291,7 +297,7 @@ public class MyFriendProfileActivity extends AppCompatActivity {
             public void onResponse(Call<List<AboutUser>> call, Response<List<AboutUser>> response) {
                 List<AboutUser> aboutUser;
                 aboutUser = response.body();
-                about_bio.setText(aboutUser.get(0).getUser_bio());
+                    about_bio.setText(aboutUser.get(0).getUser_bio());
                 about_status.setText(aboutUser.get(0).getUser_status());
                 about_song.setText(aboutUser.get(0).getUser_song());
                 AboutUser aboutUser1 = new AboutUser(GeneralAppInfo.getUserID(), aboutUser.get(0).getUser_bio(), aboutUser.get(0).getUser_status(), aboutUser.get(0).getUser_song());

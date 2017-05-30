@@ -4,10 +4,12 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.zodiac.sawa.GeneralAppInfo;
 import com.example.zodiac.sawa.R;
 
 /**
@@ -65,6 +67,8 @@ public class notificationFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        GeneralAppInfo.notifications_counter=0;
+        Log.d("Notification_counter",""+ GeneralAppInfo.notifications_counter);
         return inflater.inflate(R.layout.fragment_notification, container, false);
     }
 
@@ -73,6 +77,35 @@ public class notificationFragment extends Fragment {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
         }
+    }
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        Log.d("Notification visblse","");
+
+        // Make sure that we are currently visible
+        if (this.isVisible()) {
+            Log.d("Notification visble","");
+            if (!isVisibleToUser) {
+                Log.d("MyFragment", "Not visible anymore.  Stopping audio.");
+                // TODO stop audio playback
+            }else
+                Log.d("Notification111 visble","");
+
+        }
+    }
+
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+        if (!getUserVisibleHint())
+        {
+            return;
+        }
+        Log.d("Arrive","");
+
+        //INSERT CUSTOM CODE HERE
     }
 
     @Override
@@ -84,6 +117,11 @@ public class notificationFragment extends Fragment {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
+    }
+    @Override
+    public void onHiddenChanged(boolean hidden)
+    {
+        Log.d("Hide","ss");
     }
 
     @Override

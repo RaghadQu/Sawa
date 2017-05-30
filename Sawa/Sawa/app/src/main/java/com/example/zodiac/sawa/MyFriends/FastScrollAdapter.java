@@ -48,16 +48,17 @@ import static com.example.zodiac.sawa.MyFriends.MyFriendsActivity.LayoutFriendsL
 public class FastScrollAdapter extends RecyclerView.Adapter<FastScrollAdapter.UserViewHolder>
         implements FastScrollRecyclerView.SectionedAdapter {
 
+    public int removeButtonFlag;
     private Context mContext;
     public View view;
     UserViewHolder viewHolder;
     ArrayList<MyFriendsActivity.friend> userList;
     DeleteFriend service;
-    Button remove;
 
-    public FastScrollAdapter(Context mContext, ArrayList<MyFriendsActivity.friend> userList) {
+    public FastScrollAdapter(Context mContext, ArrayList<MyFriendsActivity.friend> userList, int removeButtonFlag) {
         this.mContext = mContext;
         this.userList = userList;
+        this.removeButtonFlag=removeButtonFlag;
     }
 
 
@@ -90,7 +91,7 @@ public class FastScrollAdapter extends RecyclerView.Adapter<FastScrollAdapter.Us
                 } else {
 
                     try {
-                        freindsFunctions.startFriend(mContext, user.getUserName(), Integer.parseInt(user.getId()),user.getImageResourceId());
+                        freindsFunctions.startFriend(mContext, user.getUserName(), Integer.parseInt(user.getId()), user.getImageResourceId());
                     } catch (MalformedURLException e) {
                         e.printStackTrace();
                     }
@@ -108,7 +109,7 @@ public class FastScrollAdapter extends RecyclerView.Adapter<FastScrollAdapter.Us
                     mContext.startActivity(i);
                 } else {
                     try {
-                        freindsFunctions.startFriend(mContext, user.getUserName(), Integer.parseInt(user.getId()),user.getImageResourceId());
+                        freindsFunctions.startFriend(mContext, user.getUserName(), Integer.parseInt(user.getId()), user.getImageResourceId());
                     } catch (MalformedURLException e) {
                         e.printStackTrace();
                     }
@@ -139,24 +140,30 @@ public class FastScrollAdapter extends RecyclerView.Adapter<FastScrollAdapter.Us
         return String.valueOf(userList.get(position).getUserName().charAt(0));
     }
 
-    class UserViewHolder extends RecyclerView.ViewHolder {
+    public class UserViewHolder extends RecyclerView.ViewHolder {
 
         CircleImageView ivProfile;
         TextView tvName;
+        Button remove;
+
+
 
         public UserViewHolder(View itemView) {
             super(itemView);
             ivProfile = (CircleImageView) itemView.findViewById(R.id.image);
             tvName = (TextView) itemView.findViewById(R.id.Name);
-            remove = (Button) view.findViewById(R.id.Remove);
+             remove = (Button) view.findViewById(R.id.Remove);
 
+            if(removeButtonFlag==1)
+            {
+                remove.setVisibility(View.INVISIBLE);
+            }
 
 
             remove.setOnClickListener(new View.OnClickListener() {
 
                 @Override
                 public void onClick(View v) {
-
 
 
                     final int position = getAdapterPosition();
@@ -175,7 +182,7 @@ public class FastScrollAdapter extends RecyclerView.Adapter<FastScrollAdapter.Us
                             MyFriendsActivity.FreindsList.remove(position);
                             LayoutFriendsList.remove(position);
                             notifyItemRemoved(position);
-                         }
+                        }
 
                         @Override
                         public void onFailure(Call<Authentication> call, Throwable t) {
@@ -194,6 +201,8 @@ public class FastScrollAdapter extends RecyclerView.Adapter<FastScrollAdapter.Us
         }
 
 
+
     }
+
 
 }
