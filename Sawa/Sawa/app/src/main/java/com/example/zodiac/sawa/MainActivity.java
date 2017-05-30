@@ -65,7 +65,9 @@ public class MainActivity extends AppCompatActivity {
         //check if the user is already signed in
         SharedPreferences sharedPreferences = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
         String email = sharedPreferences.getString("email", "");
+        int id = sharedPreferences.getInt("id",-1);
         String isLogined = sharedPreferences.getString("isLogined", "");
+        GeneralAppInfo.setUserID(id);
 
 
         if ((isLogined.equals("1"))) {
@@ -130,6 +132,7 @@ public class MainActivity extends AppCompatActivity {
                             SharedPreferences.Editor editor = sharedPreferences.edit();
                             editor.putString("email", emailEditText.getText().toString());
                             editor.putString("password", passEditText.getText().toString());
+                            editor.putInt("id",GeneralAppInfo.getUserID());
                             editor.putString("isLogined", "1");
                             editor.apply();
 

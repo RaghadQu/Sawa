@@ -11,6 +11,7 @@ import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -48,22 +49,29 @@ public class SearchActivity extends AppCompatActivity {
         setContentView(R.layout.activity_search);
         SearchView mSearchView = (SearchView) findViewById(R.id.search);
         mSearchView.setSelected(true);
-        adapter = new FastScrollAdapter(this, LayoutFriendsList);
+        adapter = new FastScrollAdapter(this, LayoutFriendsList,1);
         recyclerView = (FastScrollRecyclerView) findViewById(R.id.recycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
+
+
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+
 
             @Override
             public boolean onQueryTextSubmit(String s) {
+                Log.d("Enter the query", " Enter search submit " + s);
                 sendSearchQuery(s);
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String s) {
-                //Toast.makeText(getApplicationContext(), "Our word : " + s, Toast.LENGTH_SHORT).show();
-                sendSearchQuery(s);
+                Log.d("Enter the query", " Enter search change " + s + " here is the change");
+                if (s.length() == 0) {
+                    LayoutFriendsList.clear();
+                    recyclerView.setAdapter(new FastScrollAdapter(SearchActivity.this, LayoutFriendsList,1));
+                } else sendSearchQuery(s);
 
                 return false;
             }
@@ -89,6 +97,7 @@ public class SearchActivity extends AppCompatActivity {
                 FreindsList = response.body();
                 LayoutFriendsList.clear();
 
+
                 //  LayoutFriendsList.clear();
 
              /*   if (FreindsList.size() ==0 )
@@ -101,14 +110,23 @@ public class SearchActivity extends AppCompatActivity {
                     text.setText("Friends");
 
                 }*/
+                Log.d("Enter", " FriendList not null");
                 if (FreindsList != null) {
+                    if (FreindsList.size() == 0) {
+                        recyclerView.setAdapter(new FastScrollAdapter(SearchActivity.this, LayoutFriendsList,1));
 
-                    for (int i = 0; i < FreindsList.size(); i++) {
-                        LayoutFriendsList.add(new MyFriendsActivity.friend(FreindsList.get(i).getId(), FreindsList.get(i).getUser_image(),
-                                FreindsList.get(i).getFirstName() + " " + FreindsList.get(i).getLast_name()));
-                        recyclerView.setAdapter(new FastScrollAdapter(SearchActivity.this, LayoutFriendsList));
+                    } else {
+                        for (int i = 0; i < FreindsList.size(); i++) {
+                            LayoutFriendsList.add(new MyFriendsActivity.friend(FreindsList.get(i).getId(), FreindsList.get(i).getUser_image(),
+                                    FreindsList.get(i).getFirstName() + " " + FreindsList.get(i).getLast_name()));
+                            recyclerView.setAdapter(new FastScrollAdapter(SearchActivity.this, LayoutFriendsList,1));
+                        }
                     }
                 }
+             /*   else{
+
+                    recyclerView.setAdapter(new FastScrollAdapter(SearchActivity.this, LayoutFriendsList));}*/
+
             }
 
             @Override

@@ -80,7 +80,8 @@ public class MyFriendsActivity extends Activity {
         anim.start();
 
 
-        adapter = new FastScrollAdapter(this, LayoutFriendsList);
+        adapter = new FastScrollAdapter(this, LayoutFriendsList,0);
+
         recyclerView = (FastScrollRecyclerView) findViewById(R.id.recycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
@@ -96,6 +97,7 @@ public class MyFriendsActivity extends Activity {
                 FreindsList = response.body();
 
                 LayoutFriendsList.clear();
+                if(FreindsList!=null){
 
                 if (FreindsList.size() ==0 )
                 {
@@ -110,9 +112,9 @@ public class MyFriendsActivity extends Activity {
                 for (int i = 0; i < FreindsList.size(); i++) {
                     LayoutFriendsList.add(new friend(FreindsList.get(i).getId(), FreindsList.get(i).getUser_image(),
                             FreindsList.get(i).getFirstName() + " " + FreindsList.get(i).getLast_name()));
-                    recyclerView.setAdapter(new FastScrollAdapter(MyFriendsActivity.this, LayoutFriendsList));
+                    recyclerView.setAdapter(new FastScrollAdapter(MyFriendsActivity.this, LayoutFriendsList,0));
                 }
-            }
+            }}
 
             @Override
             public void onFailure(Call<List<getFriendsResponse>> call, Throwable t) {

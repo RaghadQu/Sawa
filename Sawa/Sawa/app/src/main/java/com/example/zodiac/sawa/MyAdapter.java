@@ -111,8 +111,6 @@ public class MyAdapter extends FastScrollRecyclerView.Adapter<MyAdapter.ViewHold
                                 .baseUrl(GeneralAppInfo.BACKEND_URL)
                                 .addConverterFactory(GsonConverterFactory.create()).build();
                         logOutApi log_outApi = retrofit.create(logOutApi.class);
-
-
                         logOut log_out = new logOut(GeneralAppInfo.getUserID(), android_id);
 
                         Call<Void> logOutnResponse = log_outApi.getLogOut(log_out);
@@ -120,7 +118,6 @@ public class MyAdapter extends FastScrollRecyclerView.Adapter<MyAdapter.ViewHold
                         logOutnResponse.enqueue(new Callback<Void>() {
                             @Override
                             public void onResponse(Call<Void> call, Response<Void> response) {
-                                Log.d("Response ", response.code() + " code ");
                                 Intent i = new Intent(contexts, MainActivity.class);
                                 contexts.startActivity(i);
                                 ActivityCompat.finishAffinity((Activity) contexts);
@@ -133,7 +130,6 @@ public class MyAdapter extends FastScrollRecyclerView.Adapter<MyAdapter.ViewHold
                             }
 
                         });
-///////////////////////////////////////////////////////
                     }
                 }
 
