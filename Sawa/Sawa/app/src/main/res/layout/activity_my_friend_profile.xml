@@ -95,6 +95,33 @@
                     android:background="@drawable/corners"
                     android:text="Follow"
                     />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="38dp"
+                    android:layout_marginLeft="138dp"
+                    android:indeterminate="false">
+
+                <Button
+                    android:layout_width="40dp"
+                    android:layout_height="32dp"
+                    android:id="@+id/ConfirmRequest"
+                    android:paddingLeft="9dp"
+                    android:background="@drawable/left_corners"
+                    android:drawableLeft="@drawable/rsz_confirm1"
+                    android:visibility="invisible"
+
+                    />
+                <Button
+                    android:layout_width="40dp"
+                    android:layout_height="32dp"
+                    android:id="@+id/deleteRequest"
+                    android:paddingLeft="9dp"
+                    android:background="@drawable/rigth_corners"
+                    android:drawableLeft="@drawable/rsz_delete"
+                    android:visibility="invisible"
+                    />
+                </LinearLayout>
 
                 <ProgressBar
                     android:id="@+id/progressBar_button"

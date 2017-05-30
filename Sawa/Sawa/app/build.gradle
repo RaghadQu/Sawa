@@ -21,6 +21,7 @@ android {
 final def var = dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.android.support:design:+'
+    compile 'com.mcxiaoke.volley:library-aar:1.0.0'
     compile 'com.simplecityapps:recyclerview-fastscroll:1.0.5'
     compile 'de.hdodenhof:circleimageview:2.1.0'
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {

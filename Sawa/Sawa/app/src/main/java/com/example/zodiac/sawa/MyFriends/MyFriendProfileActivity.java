@@ -55,7 +55,7 @@ public class MyFriendProfileActivity extends AppCompatActivity {
     ImageView img;
     Dialog ViewImgDialog;
     Dialog AboutFriendDialog;
-    TextView about_status, about_bio , about_song;
+    TextView about_status, about_bio, about_song;
     TextView user_profile_name;
 
     ImageView imageView; // View image in dialog
@@ -104,6 +104,8 @@ public class MyFriendProfileActivity extends AppCompatActivity {
         friendStatus = (Button) findViewById(R.id.friendStatus);
         friendStatus.setText(" ");
 
+        final Button confirmRequest = (Button) findViewById(R.id.ConfirmRequest);
+        final Button deleteRequest = (Button) findViewById(R.id.deleteRequest);
 
         progressBar_button = (ProgressBar) findViewById(R.id.progressBar_button);
         progressBar_button.setProgress(0);
@@ -147,25 +149,26 @@ public class MyFriendProfileActivity extends AppCompatActivity {
                     FriendsClass friendsClass = new FriendsClass();
 
                     Log.d("stateeee", "" + authentication.getState());
-                    if (authentication.getState() == 2) {
+                    if (authentication.getState() == 0) {
                         mRecyclerView.setVisibility(View.GONE);
-                        GeneralAppInfo.friendMode = 2;
-                        friendsClass.SetFriendButtn(friendStatus, mRecyclerView, MyFriendProfileActivity.this, Id1, getApplicationContext());
-
-
-                    } else if (authentication.getState() == 0) {
-                        mRecyclerView.setVisibility(View.GONE);
-
                         GeneralAppInfo.friendMode = 0;
                         friendsClass.SetFriendButtn(friendStatus, mRecyclerView, MyFriendProfileActivity.this, Id1, getApplicationContext());
 
-
                     } else if (authentication.getState() == 1) {
                         mRecyclerView.setVisibility(View.VISIBLE);
-
                         GeneralAppInfo.friendMode = 1;
-
                         friendsClass.SetFriendButtn(friendStatus, mRecyclerView, MyFriendProfileActivity.this, Id1, getApplicationContext());
+                    }
+                    else if (authentication.getState() == 2) {
+                        mRecyclerView.setVisibility(View.GONE);
+                        GeneralAppInfo.friendMode = 2;
+                        friendsClass.SetFriendButtn(friendStatus, mRecyclerView, MyFriendProfileActivity.this, Id1, getApplicationContext());
+                    }
+                    else if (authentication.getState() == 3) {
+                        mRecyclerView.setVisibility(View.GONE);
+                        GeneralAppInfo.friendMode = 0;
+                        friendsClass.setFriendRequestButton(friendStatus,confirmRequest,deleteRequest,Id1);
+                      //  friendsClass.SetFriendButtn(friendStatus, mRecyclerView, MyFriendProfileActivity.this, Id1, getApplicationContext());
                     }
 
                 }

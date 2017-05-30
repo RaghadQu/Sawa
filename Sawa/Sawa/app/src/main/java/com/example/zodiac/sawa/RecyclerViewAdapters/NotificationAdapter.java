@@ -53,7 +53,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
         String imageUrl = GeneralAppInfo.IMAGE_URL + dataProvider.getImage();
         Picasso.with(dataProvider.getContext()).load(imageUrl).into(holder.image);
-        holder.text.setText(dataProvider.getText()+" sent you a friend request.");
+        holder.text.setText(dataProvider.getText() + " sent you a friend request.");
         holder.time.setText(dataProvider.getTime());
         // 0 new   1 not new
         if (dataProvider.getReadFlag() == 0) {
@@ -113,6 +113,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         int readFlag;
         int friend_id;
         String type;
+        String notificatioId;
 
 
         public NotificationRecyclerViewDataProvider(Context context, int friend_id, String image, String text, String time, int readFlag) {
@@ -122,6 +123,14 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
             this.time = time;
             this.context = context;
             this.readFlag = readFlag;
+        }
+
+        public String getNotificatioId() {
+            return notificatioId;
+        }
+
+        public void setNotificatioId(String notificatioId) {
+            this.notificatioId = notificatioId;
         }
 
         public Context getContext() {
@@ -135,6 +144,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         public void setReadFlag(int readFlag) {
             this.readFlag = readFlag;
         }
+
         public String getType() {
             return type;
         }

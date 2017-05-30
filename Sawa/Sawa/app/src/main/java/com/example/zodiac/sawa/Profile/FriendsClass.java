@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -16,6 +17,16 @@ import com.example.zodiac.sawa.MyFriends.FreindsFunctions;
 import com.example.zodiac.sawa.MyFriends.MyFriendsActivity;
 import com.example.zodiac.sawa.MyRequests.MyRequestsActivity;
 import com.example.zodiac.sawa.R;
+import com.example.zodiac.sawa.interfaces.ConfirmFriendRequest;
+import com.example.zodiac.sawa.interfaces.DeleteFriend;
+import com.example.zodiac.sawa.models.Authentication;
+import com.example.zodiac.sawa.models.DeleteFriendRequest;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by Rabee on 5/12/2017.
@@ -38,13 +49,13 @@ public class FriendsClass {
         if (GeneralAppInfo.friendMode == 2)
             friendStatus.setText("Follow");
 
-        //
+
         friendFunction = new FreindsFunctions();
         ConfirmDeletion = new Dialog(context);
         ConfirmDeletion.setContentView(R.layout.confirm_delete_friend_or_request_dialog);
         NoBtn = (Button) ConfirmDeletion.findViewById(R.id.NoBtn);
         YesBtn = (Button) ConfirmDeletion.findViewById(R.id.YesBtn);
-        //
+
 
         textMsg = (TextView) ConfirmDeletion.findViewById(R.id.TextMsg);
 
@@ -70,7 +81,7 @@ public class FriendsClass {
 
                         @Override
                         public void onClick(View view) {
-                           // recyclerView.setVisibility(View.GONE);
+                            // recyclerView.setVisibility(View.GONE);
 
                             GeneralAppInfo.friendMode = 2;
                             friendStatus.setText("Follow");
@@ -124,6 +135,73 @@ public class FriendsClass {
             }
         });
     }
+
+    public void setFriendRequestButton(final Button friendStatus, final Button ConfirmRequest, final Button DeleteRequest, final int Id) {
+
+        friendStatus.setVisibility(View.INVISIBLE);
+        ConfirmRequest.setVisibility(View.VISIBLE);
+        DeleteRequest.setVisibility(View.VISIBLE);
+
+        friendFunction = new FreindsFunctions();
+
+        DeleteRequest.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                // recyclerView.setVisibility(View.GONE);
+                friendStatus.setVisibility(View.VISIBLE);
+                ConfirmRequest.setVisibility(View.INVISIBLE);
+                DeleteRequest.setVisibility(View.INVISIBLE);
+                GeneralAppInfo.friendMode = 2;
+                friendStatus.setText("Follow");
+                friendFunction.DeleteFriend(GeneralAppInfo.getUserID(), Id, friendStatus);
+            }
+        });
+
+        ConfirmRequest.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                // recyclerView.setVisibility(View.GONE);
+                friendStatus.setVisibility(View.VISIBLE);
+                ConfirmRequest.setVisibility(View.INVISIBLE);
+                DeleteRequest.setVisibility(View.INVISIBLE);
+                GeneralAppInfo.friendMode = 1;
+                friendStatus.setText("Friend");
+
+
+                final DeleteFriendRequest request = new DeleteFriendRequest();
+                request.setFriend1_id(GeneralAppInfo.getUserID());
+                request.setFriend2_id(Id);
+                ConfirmFriendRequest service_confirm;
+                Retrofit retrofit = new Retrofit.Builder()
+                        .baseUrl(GeneralAppInfo.BACKEND_URL)
+                        .addConverterFactory(GsonConverterFactory.create()).build();
+                service_confirm = retrofit.create(ConfirmFriendRequest.class);
+                final Call<Authentication> deleteResponse = service_confirm.getState(request);
+                deleteResponse.enqueue(new Callback<Authentication>() {
+                    @Override
+                    public void onResponse(Call<Authentication> call, Response<Authentication> response) {
+                        Authentication state = response.body();
+                        Log.d("Enter", " state is " + response.code());
+                    }
+
+                    @Override
+                    public void onFailure(Call<Authentication> call, Throwable t) {
+                        Log.d("fail to get friends ", "Failure to Get friends");
+
+                    }
+
+
+                });
+
+            }
+            //   friendFunction.DeleteFriend(GeneralAppInfo.getUserID(), Id, friendStatus);
+
+    });
+
+
+}
 }
 /* anim_button.addListener(new Animator.AnimatorListener() {
                         @Override
