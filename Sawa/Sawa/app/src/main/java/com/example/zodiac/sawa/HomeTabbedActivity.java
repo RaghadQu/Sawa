@@ -26,6 +26,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -42,6 +43,8 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView;
 
 import java.util.ArrayList;
+
+import static com.example.zodiac.sawa.R.id.container;
 
 
 public class HomeTabbedActivity extends AppCompatActivity {
@@ -62,6 +65,14 @@ public class HomeTabbedActivity extends AppCompatActivity {
     private ViewPager mViewPager;
     ImageView searchImage;
     EditText searchText;
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        NotificationTab.getUserNotifications(getApplicationContext());
+
+     }
 
 
 
@@ -99,12 +110,31 @@ public class HomeTabbedActivity extends AppCompatActivity {
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.container);
+        mViewPager = (ViewPager) findViewById(container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
+
         mViewPager.setOffscreenPageLimit(10);
+
+        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener(){
+            @Override
+            public void onTabSelected(TabLayout.Tab tab){
+                int position = tab.getPosition();
+                Log.d("position", " postion" + position);
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
 
 
         for (int i = 0; i < tabLayout.getTabCount(); i++) {
@@ -124,8 +154,20 @@ public class HomeTabbedActivity extends AppCompatActivity {
             tabLayout.getTabAt(i).setIcon(iconId);
 
         }
+        final LayoutInflater factory = getLayoutInflater();
+        View v =factory.inflate(R.layout.notification_tab, null);
+        v.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                Log.d("Hello" ,"enter notification bar");
+
+                return false;
+            }
+        });
 
     }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
