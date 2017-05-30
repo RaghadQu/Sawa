@@ -105,13 +105,14 @@ public class MyAdapter extends FastScrollRecyclerView.Adapter<MyAdapter.ViewHold
                         SharedPreferences.Editor editor = preferences.edit();
                         editor.clear();
                         editor.commit();
+
                         String android_id = Settings.Secure.getString(contexts.getContentResolver(), Settings.Secure.ANDROID_ID);
                         Retrofit retrofit = new Retrofit.Builder()
                                 .baseUrl(GeneralAppInfo.BACKEND_URL)
                                 .addConverterFactory(GsonConverterFactory.create()).build();
                         logOutApi log_outApi = retrofit.create(logOutApi.class);
-
                         logOut log_out = new logOut(GeneralAppInfo.getUserID(), android_id);
+
                         Call<Void> logOutnResponse = log_outApi.getLogOut(log_out);
 
                         logOutnResponse.enqueue(new Callback<Void>() {

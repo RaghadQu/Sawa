@@ -187,6 +187,7 @@ public class RequestScroll extends RecyclerView.Adapter<RequestScroll.UserViewHo
                 @Override
                 public void onClick(View v) {
                     final int position = getAdapterPosition();
+
                     final DeleteFriendRequest request = new DeleteFriendRequest();
                     Log.d("------ Y ", "  :  " + Integer.valueOf(userList.get(position).getId()));
                     request.setFriend1_id(GeneralAppInfo.getUserID());

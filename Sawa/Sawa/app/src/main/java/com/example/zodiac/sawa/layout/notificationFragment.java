@@ -95,22 +95,13 @@ public class notificationFragment extends Fragment {
         }
     }
 
-    @Override
-    public void onResume()
-    {
-        super.onResume();
-        if (!getUserVisibleHint())
-        {
-            return;
-        }
-        Log.d("Arrive","");
 
-        //INSERT CUSTOM CODE HERE
-    }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        Log.d("Notification111 visble","");
+
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {
