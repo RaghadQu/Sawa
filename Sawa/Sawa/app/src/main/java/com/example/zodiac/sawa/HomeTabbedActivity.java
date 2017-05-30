@@ -62,6 +62,11 @@ public class HomeTabbedActivity extends AppCompatActivity {
     EditText searchText;
 
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        NotificationTab.getUserNotifications(getApplicationContext());
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
