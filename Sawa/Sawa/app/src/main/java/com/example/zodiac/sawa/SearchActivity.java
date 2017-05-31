@@ -48,7 +48,11 @@ public class SearchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
         SearchView mSearchView = (SearchView) findViewById(R.id.search);
-        mSearchView.setSelected(true);
+        //mSearchView.setSelected(true);
+        mSearchView.setIconifiedByDefault(false);
+        mSearchView.setIconified(false);
+     //   mSearchView.setFocusable(true);
+
         adapter = new FastScrollAdapter(this, LayoutFriendsList,1);
         recyclerView = (FastScrollRecyclerView) findViewById(R.id.recycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));

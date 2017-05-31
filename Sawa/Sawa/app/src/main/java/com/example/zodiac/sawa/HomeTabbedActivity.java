@@ -31,6 +31,7 @@ import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -79,7 +80,8 @@ public class HomeTabbedActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_tabbed2);
         ImageView searchImage = (ImageView) findViewById(R.id.serachImage);
-        searchImage.setOnClickListener(new View.OnClickListener() {
+        LinearLayout searchLayout= (LinearLayout) findViewById(R.id.SearchLayout);
+        searchLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Log.d("C","Clicked");
@@ -162,6 +164,16 @@ public class HomeTabbedActivity extends AppCompatActivity {
             }
         });
 
+
+         BadgeView badge;
+        TabLayout.Tab tab = tabLayout.getTabAt(1);
+        tab.setIcon(R.drawable.notification);
+        ImageView imageView = (ImageView)findViewById(R.id.imageView);
+       // tab.setCustomView(imageView);
+        badge = new BadgeView(getApplicationContext(), imageView);
+        badge.setText("7");
+        badge.getOffsetForPosition(120,30);
+        badge.show();
     }
 
 

@@ -158,6 +158,11 @@ public class RequestScroll extends RecyclerView.Adapter<RequestScroll.UserViewHo
                             //  notifyDataSetChanged();
                             MyRequestsActivity.LayoutFriendsList.remove(position);
                             notifyItemRemoved(position);
+                           if (MyRequestsActivity.FreindsList.size()==0)
+                           {
+                               Intent i = new Intent(mContext, MyRequestsActivity.class);
+                               mContext.startActivity(i);
+                           }
                             // notifyItemRangeChanged(position,MyFriendsActivity.FreindsList.size());
 
                             //MyFriendsActivity.recyclerView.setAdapter(MyFriendsActivity.adapter);
