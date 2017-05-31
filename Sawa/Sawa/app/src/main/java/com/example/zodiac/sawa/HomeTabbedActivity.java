@@ -122,8 +122,23 @@ public class HomeTabbedActivity extends AppCompatActivity {
             @Override
             public void onTabSelected(TabLayout.Tab tab){
                 int position = tab.getPosition();
-                Log.d("position", " postion" + position);
-            }
+                SharedPreferences sharedPreferences = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
+
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+               if(position==GeneralAppInfo.notifications_tab_position){
+
+                   editor.putInt("notifications_counter",0);
+
+                   editor.apply();
+                   Log.d("notifications_tab_position",""+sharedPreferences.getInt("notifications_counter", 0));
+               }else if (position==GeneralAppInfo.home_tab_position){
+                   Log.d("home_tab_position",""+sharedPreferences.getInt("notifications_counter", 0));
+               }else if (position==GeneralAppInfo.setting_tab_position) {
+                    Log.d("setting_tab_position",""+sharedPreferences.getInt("notifications_counter", 0));
+               }
+
+
+               }
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {

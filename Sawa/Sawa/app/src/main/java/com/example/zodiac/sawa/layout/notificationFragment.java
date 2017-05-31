@@ -111,22 +111,6 @@ public class notificationFragment extends Fragment {
             mListener.onFragmentInteraction(uri);
         }
     }
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        Log.d("Notification visblse","");
-
-        // Make sure that we are currently visible
-        if (this.isVisible()) {
-            Log.d("Notification visble","");
-            if (!isVisibleToUser) {
-                Log.d("MyFragment", "Not visible anymore.  Stopping audio.");
-                // TODO stop audio playback
-            }else
-                Log.d("Notification111 visble","");
-
-        }
-    }
 
 
 
