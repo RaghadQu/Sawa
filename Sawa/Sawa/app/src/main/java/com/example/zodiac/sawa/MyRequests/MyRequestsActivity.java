@@ -131,21 +131,22 @@ public class MyRequestsActivity extends Activity {
                     progressBar.setVisibility(View.GONE);
                     FreindsList = response.body();
                     LayoutFriendsList.clear();
-                    if (FreindsList.size() == 0) {
+                    if (FreindsList != null) {
+                        if (FreindsList.size() == 0) {
 
-                        setContentView(R.layout.no_friends_to_show);
-                        CircleImageView circle = (CircleImageView) findViewById(R.id.circle);
-                        circle.setImageDrawable(getDrawable(R.drawable.no_requests_to_show));
+                            setContentView(R.layout.no_friends_to_show);
+                            CircleImageView circle = (CircleImageView) findViewById(R.id.circle);
+                            circle.setImageDrawable(getDrawable(R.drawable.no_requests_to_show));
 
-                    } else {
-                        for (int i = 0; i < FreindsList.size(); i++) {
-                            LayoutFriendsList.add(new friend(FreindsList.get(i).getId(), FreindsList.get(i).getUser_image(),
-                                    FreindsList.get(i).getFirstName() + " " + FreindsList.get(i).getLast_name()));
-                            recyclerView.setAdapter(new RequestScroll(MyRequestsActivity.this, LayoutFriendsList));
+                        } else {
+                            for (int i = 0; i < FreindsList.size(); i++) {
+                                LayoutFriendsList.add(new friend(FreindsList.get(i).getId(), FreindsList.get(i).getUser_image(),
+                                        FreindsList.get(i).getFirstName() + " " + FreindsList.get(i).getLast_name()));
+                                recyclerView.setAdapter(new RequestScroll(MyRequestsActivity.this, LayoutFriendsList));
+                            }
                         }
                     }
                 }
-
                 @Override
                 public void onFailure(Call<List<getFriendsResponse>> call, Throwable t) {
                     progressBar.setVisibility(View.GONE);
@@ -154,7 +155,9 @@ public class MyRequestsActivity extends Activity {
                 }
             });
         }
+
     }
+
 
 
     public class friend {

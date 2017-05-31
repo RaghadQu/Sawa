@@ -12,9 +12,11 @@
     >
 
     <LinearLayout
+        android:id="@+id/SearchLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"
+        android:clickable="true"
         >
 
         <ImageView
@@ -35,8 +37,7 @@
             android:layout_marginTop="10dp"
             android:textSize="17dp"
             android:textColor="#fff"/>
-
-        </LinearLayout>
+    </LinearLayout>
     <!--<android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -60,8 +61,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"
-        android:paddingTop="5dp"
+        android:paddingTop="7dp"
         android:layout_marginTop="37dp"/>
+
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView"
+        android:layout_marginTop="47dp"
+        android:layout_marginLeft="170dp"
+        />
 
     <android.support.v4.view.ViewPager
         android:id="@+id/container"
