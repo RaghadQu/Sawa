@@ -40,21 +40,24 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         sharedPreferences = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         int count=sharedPreferences.getInt("notifications_counter", 0);
+        Log.d("count message","onMessage " + count);
 
         if (isRunning == false){
             createNotification(remoteMessage.getNotification().getBody());
-
-            editor.putInt("notifications_counter",++count);
-            Log.d("notifications_counter1222",""+count);
+            count++;
+            editor.putInt("notifications_counter",count);
+            Log.d("notifications_counter1222 false",""+count);
             editor.apply();
         }
         else
         {
+            count++;
             Log.d("notifications_counter1222",""+count);
-
-            editor.putInt("notifications_counter",++count);
-
+            editor.putInt("notifications_counter",count);
             editor.apply();
+
+            HomeTabbedActivity.showBadge(HomeTabbedActivity.badge,HomeTabbedActivity.sharedPreferences);
+
         }
     }
 

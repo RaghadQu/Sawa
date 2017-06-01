@@ -5,6 +5,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Handler;
+import android.os.Looper;
 import android.provider.Settings;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -44,8 +46,10 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView;
 
 import java.util.ArrayList;
+import java.util.StringTokenizer;
 
 import static com.example.zodiac.sawa.R.id.container;
+import static com.example.zodiac.sawa.R.id.tabLayout;
 
 
 public class HomeTabbedActivity extends AppCompatActivity {
@@ -64,30 +68,34 @@ public class HomeTabbedActivity extends AppCompatActivity {
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
-    ImageView searchImage;
-    EditText searchText;
+
+    static BadgeView badge;
+    static SharedPreferences sharedPreferences;
+    static ImageView imageView;
+    static TabLayout tabLayout;
+    public static Handler UIHandler;
 
 
     @Override
     protected void onResume() {
         super.onResume();
         NotificationTab.getUserNotifications(getApplicationContext());
+        showBadge(badge, sharedPreferences);
 
-     }
-
+    }
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        UIHandler = new Handler(Looper.getMainLooper());
         setContentView(R.layout.activity_home_tabbed2);
         ImageView searchImage = (ImageView) findViewById(R.id.serachImage);
-        LinearLayout searchLayout= (LinearLayout) findViewById(R.id.SearchLayout);
+        LinearLayout searchLayout = (LinearLayout) findViewById(R.id.SearchLayout);
         searchLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("C","Clicked");
+                Log.d("C", "Clicked");
                 Intent i = new Intent(getApplicationContext(), SearchActivity.class);
                 startActivity(i);
                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
@@ -98,49 +106,52 @@ public class HomeTabbedActivity extends AppCompatActivity {
         Log.d("Refresh", token);
         String android_id = Settings.Secure.getString(getApplicationContext().getContentResolver(),
                 Settings.Secure.ANDROID_ID);
-        ;
         GeneralFunctions generalFunctions = new GeneralFunctions();
         generalFunctions.storeUserIdWithDeviceId(GeneralAppInfo.getUserID(), android_id);
 
-
-        // Set up the action bar.
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
-
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+        tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
+        imageView = (ImageView) findViewById(R.id.imageView);
 
         mViewPager.setOffscreenPageLimit(10);
 
-        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener(){
+        sharedPreferences = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
+        TabLayout.Tab tab = tabLayout.getTabAt(1);
+        tab.setIcon(R.drawable.notification);
+        // tab.setCustomView(imageView);
+        badge = new BadgeView(getApplicationContext(), imageView);
+        badge.getOffsetForPosition(120, 30);
+        showBadge(badge, sharedPreferences);
+
+
+        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
-            public void onTabSelected(TabLayout.Tab tab){
+            public void onTabSelected(TabLayout.Tab tab) {
                 int position = tab.getPosition();
                 SharedPreferences sharedPreferences = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
 
                 SharedPreferences.Editor editor = sharedPreferences.edit();
-               if(position==GeneralAppInfo.notifications_tab_position){
-
-                   editor.putInt("notifications_counter",0);
-
-                   editor.apply();
-                   Log.d("notifications_tab_position",""+sharedPreferences.getInt("notifications_counter", 0));
-               }else if (position==GeneralAppInfo.home_tab_position){
-                   Log.d("home_tab_position",""+sharedPreferences.getInt("notifications_counter", 0));
-               }else if (position==GeneralAppInfo.setting_tab_position) {
-                    Log.d("setting_tab_position",""+sharedPreferences.getInt("notifications_counter", 0));
-               }
-
-
-               }
+                if (position == GeneralAppInfo.notifications_tab_position) {
+                    editor.putInt("notifications_counter", 0);
+                    editor.apply();
+                    Log.d("notifications_tab_position", "" + sharedPreferences.getInt("notifications_counter", 0));
+                } else if (position == GeneralAppInfo.home_tab_position) {
+                    Log.d("home_tab_position", "" + sharedPreferences.getInt("notifications_counter", 0));
+                } else if (position == GeneralAppInfo.setting_tab_position) {
+                    Log.d("setting_tab_position", "" + sharedPreferences.getInt("notifications_counter", 0));
+                }
+                showBadge(badge, sharedPreferences);
+            }
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
@@ -172,28 +183,18 @@ public class HomeTabbedActivity extends AppCompatActivity {
 
         }
         final LayoutInflater factory = getLayoutInflater();
-        View v =factory.inflate(R.layout.notification_tab, null);
+        View v = factory.inflate(R.layout.notification_tab, null);
         v.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                Log.d("Hello" ,"enter notification bar");
+                Log.d("Hello", "enter notification bar");
 
                 return false;
             }
         });
 
 
-         BadgeView badge;
-        TabLayout.Tab tab = tabLayout.getTabAt(1);
-        tab.setIcon(R.drawable.notification);
-        ImageView imageView = (ImageView)findViewById(R.id.imageView);
-       // tab.setCustomView(imageView);
-        badge = new BadgeView(getApplicationContext(), imageView);
-        badge.setText("7");
-        badge.getOffsetForPosition(120,30);
-        badge.show();
     }
-
 
 
     @Override
@@ -267,7 +268,7 @@ public class HomeTabbedActivity extends AppCompatActivity {
                 View rootView = inflater.inflate(R.layout.notification_tab, container, false);
                 NotificationTab.NotificationList = new ArrayList<>();
                 NotificationTab.adapter = new NotificationAdapter(NotificationTab.NotificationList);
-                NotificationTab.recyclerView=(FastScrollRecyclerView)rootView.findViewById(R.id.recyclerNotification);
+                NotificationTab.recyclerView = (FastScrollRecyclerView) rootView.findViewById(R.id.recyclerNotification);
                 NotificationTab.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
                 NotificationTab.recyclerView.setAdapter(NotificationTab.adapter);
                 NotificationTab.getUserNotifications(getContext());
@@ -319,4 +320,25 @@ public class HomeTabbedActivity extends AppCompatActivity {
             return " ";
         }
     }
+
+
+    public static void showBadge(final BadgeView badge, SharedPreferences sharedPreferences) {
+
+        final int count = sharedPreferences.getInt("notifications_counter", 0);
+        Log.d("enter", " count is :" + count);
+        UIHandler.post(new Runnable() {
+            @Override
+            public void run() {
+
+                badge.setText(String.valueOf(count));
+                if (count > 0) {
+                    badge.show();
+                } else {
+                    badge.hide();
+                }
+            }
+        });
+    }
+
+
 }
