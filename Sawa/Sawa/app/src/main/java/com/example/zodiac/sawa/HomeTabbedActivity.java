@@ -80,7 +80,7 @@ public class HomeTabbedActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         NotificationTab.getUserNotifications(getApplicationContext());
-        showBadge(badge, sharedPreferences);
+        showBadge(sharedPreferences);
 
     }
 
@@ -131,7 +131,7 @@ public class HomeTabbedActivity extends AppCompatActivity {
         // tab.setCustomView(imageView);
         badge = new BadgeView(getApplicationContext(), imageView);
         badge.getOffsetForPosition(120, 30);
-        showBadge(badge, sharedPreferences);
+        showBadge(sharedPreferences);
 
 
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -150,7 +150,7 @@ public class HomeTabbedActivity extends AppCompatActivity {
                 } else if (position == GeneralAppInfo.setting_tab_position) {
                     Log.d("setting_tab_position", "" + sharedPreferences.getInt("notifications_counter", 0));
                 }
-                showBadge(badge, sharedPreferences);
+                showBadge(sharedPreferences);
             }
 
             @Override
@@ -322,7 +322,7 @@ public class HomeTabbedActivity extends AppCompatActivity {
     }
 
 
-    public static void showBadge(final BadgeView badge, SharedPreferences sharedPreferences) {
+    public static void showBadge( SharedPreferences sharedPreferences) {
 
         final int count = sharedPreferences.getInt("notifications_counter", 0);
         Log.d("enter", " count is :" + count);

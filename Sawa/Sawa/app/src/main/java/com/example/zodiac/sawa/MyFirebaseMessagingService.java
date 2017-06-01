@@ -39,25 +39,25 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         boolean isRunning = GeneralFunctions.isAppRunning(getApplicationContext(), "com.example.zodiac.sawa");
         sharedPreferences = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        int count=sharedPreferences.getInt("notifications_counter", 0);
-        Log.d("count message","onMessage " + count);
+        int count = sharedPreferences.getInt("notifications_counter", 0);
 
-        if (isRunning == false){
+        if (isRunning == false) {
             createNotification(remoteMessage.getNotification().getBody());
-            count++;
-            editor.putInt("notifications_counter",count);
-            Log.d("notifications_counter1222 false",""+count);
-            editor.apply();
-        }
-        else
-        {
-            count++;
-            Log.d("notifications_counter1222",""+count);
-            editor.putInt("notifications_counter",count);
+
+            editor.putInt("notifications_counter", ++count);
             editor.apply();
 
-            HomeTabbedActivity.showBadge(HomeTabbedActivity.badge,HomeTabbedActivity.sharedPreferences);
+            count = sharedPreferences.getInt("notifications_counter", 0);
 
+            Log.d("notifications_counter1222", "" + count);
+        } else {
+
+            editor.putInt("notifications_counter", ++count);
+
+            editor.apply();
+            count = sharedPreferences.getInt("notifications_counter", 0);
+            HomeTabbedActivity.showBadge(HomeTabbedActivity.sharedPreferences);
+            Log.d("notifications_counter1222", "" + count);
         }
     }
 
