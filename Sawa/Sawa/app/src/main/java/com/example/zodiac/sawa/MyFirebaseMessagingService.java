@@ -45,16 +45,21 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             createNotification(remoteMessage.getNotification().getBody());
 
             editor.putInt("notifications_counter",++count);
-            Log.d("notifications_counter1222",""+count);
             editor.apply();
+
+            count=sharedPreferences.getInt("notifications_counter", 0);
+
+            Log.d("notifications_counter1222",""+count);
         }
         else
         {
-            Log.d("notifications_counter1222",""+count);
 
             editor.putInt("notifications_counter",++count);
 
             editor.apply();
+            count=sharedPreferences.getInt("notifications_counter", 0);
+
+            Log.d("notifications_counter1222",""+count);
         }
     }
 
