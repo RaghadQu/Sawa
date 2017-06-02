@@ -104,7 +104,7 @@ public class MyFriendsActivity extends Activity {
 
                     setContentView(R.layout.no_friends_to_show);
                     CircleImageView circle = (CircleImageView)findViewById(R.id.circle);
-                    circle.setImageDrawable(getDrawable(R.drawable.no_friends_to_show));
+                    circle.setImageDrawable(getDrawable(R.drawable.no_friends));
                     TextView text= (TextView) findViewById(R.id.text);
                     text.setText("Friends");
 

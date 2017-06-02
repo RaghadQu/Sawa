@@ -16,6 +16,7 @@ import com.example.zodiac.sawa.GeneralAppInfo;
 import com.example.zodiac.sawa.MenuActiviries.MyProfileActivity;
 import com.example.zodiac.sawa.MyFriends.FreindsFunctions;
 import com.example.zodiac.sawa.MyFriends.MyFriendProfileActivity;
+import com.example.zodiac.sawa.MyFriends.MyFriendsActivity;
 import com.example.zodiac.sawa.R;
 import com.example.zodiac.sawa.interfaces.ConfirmFriendRequest;
 import com.example.zodiac.sawa.interfaces.DeleteFriend;
@@ -33,6 +34,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+
+import static com.example.zodiac.sawa.MyFriends.MyFriendsActivity.LayoutFriendsList;
 
 
 public class RequestScroll extends RecyclerView.Adapter<RequestScroll.UserViewHolder>
@@ -151,13 +154,12 @@ public class RequestScroll extends RecyclerView.Adapter<RequestScroll.UserViewHo
                         @Override
                         public void onResponse(Call<Authentication> call, Response<Authentication> response) {
                             Authentication state = response.body();
-                            Log.d("-----------", " Body" + response.code() + " : " + state.getState());
+
+
                             MyRequestsActivity.recyclerView.removeViewAt(position);
                             MyRequestsActivity.FreindsList.remove(position);
-                            //notifyItemRemoved(position);
-                            //  notifyDataSetChanged();
                             MyRequestsActivity.LayoutFriendsList.remove(position);
-                            notifyItemRemoved(position);
+                      /*      notifyItemRemoved(position);
                            if (MyRequestsActivity.FreindsList.size()==0)
                            {
                                Intent i = new Intent(mContext, MyRequestsActivity.class);
@@ -166,7 +168,7 @@ public class RequestScroll extends RecyclerView.Adapter<RequestScroll.UserViewHo
                             // notifyItemRangeChanged(position,MyFriendsActivity.FreindsList.size());
 
                             //MyFriendsActivity.recyclerView.setAdapter(MyFriendsActivity.adapter);
-                            Log.d("----- Remove ", "removed" + MyRequestsActivity.FreindsList.size());
+                            Log.d("----- Remove ", "removed" + MyRequestsActivity.FreindsList.size());*/
 
                         }
 

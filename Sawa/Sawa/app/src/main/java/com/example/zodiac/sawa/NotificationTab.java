@@ -41,6 +41,7 @@ public class NotificationTab extends AppCompatDialogFragment {
     public static ArrayList<NotificationAdapter.NotificationRecyclerViewDataProvider> NotificationList = new ArrayList<>();
     public static FastScrollRecyclerView recyclerView;
     public static NotificationAdapter adapter;
+    public static Retrofit retrofit;
 
 
     @Override
@@ -67,7 +68,7 @@ public class NotificationTab extends AppCompatDialogFragment {
 
     public static void getUserNotifications(final Context context) {
 
-        Retrofit retrofit = new Retrofit.Builder()
+         retrofit = new Retrofit.Builder()
                 .baseUrl(GeneralAppInfo.BACKEND_URL)
                 .addConverterFactory(GsonConverterFactory.create()).build();
         NotificationApi notificationApi = retrofit.create(NotificationApi.class);

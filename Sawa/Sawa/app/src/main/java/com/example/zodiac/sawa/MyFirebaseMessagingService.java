@@ -49,7 +49,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
             count = sharedPreferences.getInt("notifications_counter", 0);
 
-            Log.d("notifications_counter1222", "" + count);
+            Log.d("notifications_counter1222", " " + count);
         } else {
 
             editor.putInt("notifications_counter", ++count);
@@ -57,7 +57,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             editor.apply();
             count = sharedPreferences.getInt("notifications_counter", 0);
             HomeTabbedActivity.showBadge(HomeTabbedActivity.sharedPreferences);
-            Log.d("notifications_counter1222", "" + count);
+            Log.d("notifications_counter1222", " True " + count);
         }
     }
 
