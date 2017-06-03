@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Looper;
+import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -80,16 +81,40 @@ public class HomeTabbedActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         NotificationTab.getUserNotifications(getApplicationContext());
-        showBadge(sharedPreferences);
+        showBadge(getApplicationContext());
+        PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putInt("isRunning",
+                1).commit();
 
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putInt("isRunning",
+                0).commit();
+    }
+    @Override
+    protected  void onDestroy(){
+        super.onDestroy();
+        PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putInt("isRunning",
+                0).commit();
+    }
+    protected  void onStop(){
+        super.onStop();
+        PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putInt("isRunning",
+                0).commit();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         UIHandler = new Handler(Looper.getMainLooper());
         setContentView(R.layout.activity_home_tabbed2);
+        //set As logined for badge number
+        PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putInt("isRunning",
+                1).commit();
+
         ImageView searchImage = (ImageView) findViewById(R.id.serachImage);
         LinearLayout searchLayout = (LinearLayout) findViewById(R.id.SearchLayout);
         searchLayout.setOnClickListener(new View.OnClickListener() {
@@ -131,7 +156,7 @@ public class HomeTabbedActivity extends AppCompatActivity {
         // tab.setCustomView(imageView);
         badge = new BadgeView(getApplicationContext(), imageView);
         badge.getOffsetForPosition(120, 30);
-        showBadge(sharedPreferences);
+        showBadge(getApplicationContext());
 
 
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -142,15 +167,11 @@ public class HomeTabbedActivity extends AppCompatActivity {
 
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 if (position == GeneralAppInfo.notifications_tab_position) {
-                    editor.putInt("notifications_counter", 0);
-                    editor.apply();
-                    Log.d("notifications_tab_position", "" + sharedPreferences.getInt("notifications_counter", 0));
-                } else if (position == GeneralAppInfo.home_tab_position) {
-                    Log.d("home_tab_position", "" + sharedPreferences.getInt("notifications_counter", 0));
-                } else if (position == GeneralAppInfo.setting_tab_position) {
-                    Log.d("setting_tab_position", "" + sharedPreferences.getInt("notifications_counter", 0));
+                    PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putInt("notifications_counter",
+                            0).commit();
+                    Log.d("notifications_counter","set to zero");
                 }
-                showBadge(sharedPreferences);
+                showBadge(getApplicationContext());
             }
 
             @Override
@@ -322,9 +343,10 @@ public class HomeTabbedActivity extends AppCompatActivity {
     }
 
 
-    public static void showBadge( SharedPreferences sharedPreferences) {
+    public static void showBadge( Context c) {
 
-        final int count = sharedPreferences.getInt("notifications_counter", 0);
+        final int count =PreferenceManager.getDefaultSharedPreferences(c).getInt("notifications_counter",
+                0);
         Log.d("enter", " count is :" + count);
         UIHandler.post(new Runnable() {
             @Override

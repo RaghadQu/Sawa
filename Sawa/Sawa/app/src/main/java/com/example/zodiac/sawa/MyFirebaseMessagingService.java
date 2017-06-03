@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.IBinder;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
@@ -30,35 +31,26 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         // If the application is in the foreground handle both data and notification messages here.
         // Also if you intend on generating your own notifications as a result of a received FCM
         // message, here is where that should be initiated.
-        Log.d("Notification", "Received" + remoteMessage.getNotification().getTitle());
+        //Log.d("Notification", "Received" + remoteMessage.getData().);
         //Log.d("FROOOm", "From: " + remoteMessage.getFrom());
         //Log.d(TAG, "Notification Message Body: " + remoteMessage.getNotification().getBody());
+        int count = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getInt("notifications_counter",
+                0);
 
-        SharedPreferences sharedPreferences = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
 
-        boolean isRunning = GeneralFunctions.isAppRunning(getApplicationContext(), "com.example.zodiac.sawa");
-        sharedPreferences = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        int count = sharedPreferences.getInt("notifications_counter", 0);
+        PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putInt("notifications_counter",
+                ++count).commit();
+        count = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getInt("notifications_counter",
+                0);
+        Log.d("notifications_counter1222", " " + count);
+        //check if the apploication is in the foreground
+        int state = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getInt("isRunning",
+                0);
+        if (state == 0)
+            createNotification(count + "");
+        else Log.d("Notficationcounter", "" + count);
+        HomeTabbedActivity.showBadge(getApplicationContext());
 
-        if (isRunning == false) {
-            createNotification(remoteMessage.getNotification().getBody());
-
-            editor.putInt("notifications_counter", ++count);
-            editor.apply();
-
-            count = sharedPreferences.getInt("notifications_counter", 0);
-
-            Log.d("notifications_counter1222", " " + count);
-        } else {
-
-            editor.putInt("notifications_counter", ++count);
-
-            editor.apply();
-            count = sharedPreferences.getInt("notifications_counter", 0);
-            HomeTabbedActivity.showBadge(HomeTabbedActivity.sharedPreferences);
-            Log.d("notifications_counter1222", " True " + count);
-        }
     }
 
     private void createNotification(String messageBody) {
