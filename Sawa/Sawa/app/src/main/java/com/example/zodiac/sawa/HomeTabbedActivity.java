@@ -167,9 +167,16 @@ public class HomeTabbedActivity extends AppCompatActivity {
 
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 if (position == GeneralAppInfo.notifications_tab_position) {
+
+                    if(sharedPreferences.getInt("notifications_counter",0)>0)
+                    {
+                        NotificationTab.getUserNotifications(getApplicationContext());
+                    }
+
                     PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putInt("notifications_counter",
                             0).commit();
                     Log.d("notifications_counter","set to zero");
+
                 }
                 showBadge(getApplicationContext());
             }

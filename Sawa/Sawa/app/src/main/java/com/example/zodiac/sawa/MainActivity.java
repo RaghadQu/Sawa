@@ -1,5 +1,6 @@
 package com.example.zodiac.sawa;
 
+import android.annotation.TargetApi;
 import android.app.ActivityOptions;
 import android.animation.ObjectAnimator;
 import android.app.ProgressDialog;
@@ -53,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText emailEditText;
     private EditText passEditText;
     LoginAuth service;
+    private ProgressBar logInProfress;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -87,7 +89,8 @@ public class MainActivity extends AppCompatActivity {
 
         // Address the email  and password field
 
-
+        logInProfress=(ProgressBar)findViewById(R.id.LogInProgress);
+        logInProfress.setVisibility(ProgressBar.INVISIBLE);
         emailEditText = (EditText) findViewById(R.id.username);
         passEditText = (EditText) findViewById(R.id.password);
         Retrofit retrofit = new Retrofit.Builder()
@@ -96,8 +99,12 @@ public class MainActivity extends AppCompatActivity {
         service = retrofit.create(LoginAuth.class);
     }
 
+    @TargetApi(Build.VERSION_CODES.N)
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     public void checkLogin(View arg0) {
+
+       // logInProfress.setProgress(10);
+        //logInProfress.setProgress(1,true);
         GeneralFunctions generalFunctions = new GeneralFunctions();
         boolean isOnline = generalFunctions.isOnline(getApplicationContext());
 
@@ -107,15 +114,18 @@ public class MainActivity extends AppCompatActivity {
                     Toast.LENGTH_LONG).show();
         } else {
 
-
             final AuthRequest request = new AuthRequest();
             request.setEmail(emailEditText.getText().toString());
             request.setPassword(passEditText.getText().toString());
             if (valid(request.getEmail(), request.getPassword()) == 0) {
+                logInProfress.setVisibility(ProgressBar.VISIBLE);
                 final Call<Authentication> AuthResponse = service.getState(request);
                 AuthResponse.enqueue(new Callback<Authentication>() {
                     @Override
                     public void onResponse(Call<Authentication> call, Response<Authentication> response) {
+
+                        logInProfress.setVisibility(ProgressBar.INVISIBLE);
+
                         int statusCode = response.code();
                         Log.d("-----", " enter request " + statusCode);
 

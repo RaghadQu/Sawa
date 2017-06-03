@@ -20,11 +20,21 @@
         android:layout_marginTop="30dp"
         />
 
+    <ProgressBar
+        android:layout_marginTop="30dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        android:id="@+id/LogInProgress"
+        android:indeterminateTint="@color/purple"
+        />
+
+
     <EditText
         android:id="@+id/username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="119dp"
+        android:layout_marginTop="60dp"
         android:drawableLeft="@mipmap/account"
         android:drawablePadding="5dp"
         android:ems="20"
@@ -62,6 +72,7 @@
         android:background="@drawable/selector_xml_btn_yellow"
         android:layout_gravity="center_horizontal"
         android:onClick="checkLogin"/>
+
 
     <TextView
         android:layout_width="wrap_content"
