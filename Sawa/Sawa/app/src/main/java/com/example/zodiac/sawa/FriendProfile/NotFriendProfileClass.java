@@ -1,4 +1,4 @@
-package com.example.zodiac.sawa.Profile;
+package com.example.zodiac.sawa.FriendProfile;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -7,9 +7,8 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.zodiac.sawa.GeneralAppInfo;
-import com.example.zodiac.sawa.interfaces.DeleteFriend;
 import com.example.zodiac.sawa.interfaces.GetFreinds;
-import com.example.zodiac.sawa.models.Authentication;
+import com.example.zodiac.sawa.models.AuthenticationResponeModel;
 import com.example.zodiac.sawa.models.DeleteFriendRequest;
 
 import retrofit2.Call;
@@ -51,17 +50,17 @@ public class NotFriendProfileClass {
                 .addConverterFactory(GsonConverterFactory.create()).build();
         GetFreinds getFreinds = retrofit.create(GetFreinds.class);
         DeleteFriendRequest deleteFriendRequest = new DeleteFriendRequest(friend1_id, friend2_id);
-        Call<Authentication> call = getFreinds.addNewFriendShip(deleteFriendRequest);
-        call.enqueue(new Callback<Authentication>() {
+        Call<AuthenticationResponeModel> call = getFreinds.addNewFriendShip(deleteFriendRequest);
+        call.enqueue(new Callback<AuthenticationResponeModel>() {
             @Override
-            public void onResponse(Call<Authentication> call, Response<Authentication> response) {
-                Authentication authentication = response.body();
+            public void onResponse(Call<AuthenticationResponeModel> call, Response<AuthenticationResponeModel> response) {
+                AuthenticationResponeModel authentication = response.body();
                 Log.d("Add friend ship", "" + response.body());
 
             }
 
             @Override
-            public void onFailure(Call<Authentication> call, Throwable t) {
+            public void onFailure(Call<AuthenticationResponeModel> call, Throwable t) {
                 Log.d("stateeee", "fail nnnnnnn");
 
             }

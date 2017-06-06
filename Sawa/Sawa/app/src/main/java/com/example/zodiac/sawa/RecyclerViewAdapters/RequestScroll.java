@@ -1,8 +1,7 @@
-package com.example.zodiac.sawa.MyRequests;
+package com.example.zodiac.sawa.RecyclerViewAdapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -14,12 +13,12 @@ import android.widget.TextView;
 
 import com.example.zodiac.sawa.GeneralAppInfo;
 import com.example.zodiac.sawa.MenuActiviries.MyProfileActivity;
-import com.example.zodiac.sawa.MyFriends.FreindsFunctions;
-import com.example.zodiac.sawa.MyFriends.MyFriendProfileActivity;
+import com.example.zodiac.sawa.MenuActiviries.MyRequestsActivity;
+import com.example.zodiac.sawa.FriendProfile.FreindsFunctions;
 import com.example.zodiac.sawa.R;
 import com.example.zodiac.sawa.interfaces.ConfirmFriendRequest;
 import com.example.zodiac.sawa.interfaces.DeleteFriend;
-import com.example.zodiac.sawa.models.Authentication;
+import com.example.zodiac.sawa.models.AuthenticationResponeModel;
 import com.example.zodiac.sawa.models.DeleteFriendRequest;
 import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView;
 import com.squareup.picasso.Picasso;
@@ -146,27 +145,31 @@ public class RequestScroll extends RecyclerView.Adapter<RequestScroll.UserViewHo
                     request.setFriend1_id(GeneralAppInfo.getUserID());
                     request.setFriend2_id(Integer.valueOf(userList.get(position).getId()));
 
-                    final Call<Authentication> deleteResponse = service.getState(request);
-                    deleteResponse.enqueue(new Callback<Authentication>() {
+                    final Call<AuthenticationResponeModel> deleteResponse = service.getState(request);
+                    deleteResponse.enqueue(new Callback<AuthenticationResponeModel>() {
                         @Override
-                        public void onResponse(Call<Authentication> call, Response<Authentication> response) {
-                            Authentication state = response.body();
-                            Log.d("-----------", " Body" + response.code() + " : " + state.getState());
+                        public void onResponse(Call<AuthenticationResponeModel> call, Response<AuthenticationResponeModel> response) {
+                            AuthenticationResponeModel state = response.body();
+
+
                             MyRequestsActivity.recyclerView.removeViewAt(position);
                             MyRequestsActivity.FreindsList.remove(position);
-                            //notifyItemRemoved(position);
-                            //  notifyDataSetChanged();
                             MyRequestsActivity.LayoutFriendsList.remove(position);
-                            notifyItemRemoved(position);
+                      /*      notifyItemRemoved(position);
+                           if (MyRequestsActivity.FreindsList.size()==0)
+                           {
+                               Intent i = new Intent(mContext, MyRequestsActivity.class);
+                               mContext.startActivity(i);
+                           }
                             // notifyItemRangeChanged(position,MyFriendsActivity.FreindsList.size());
 
                             //MyFriendsActivity.recyclerView.setAdapter(MyFriendsActivity.adapter);
-                            Log.d("----- Remove ", "removed" + MyRequestsActivity.FreindsList.size());
+                            Log.d("----- Remove ", "removed" + MyRequestsActivity.FreindsList.size());*/
 
                         }
 
                         @Override
-                        public void onFailure(Call<Authentication> call, Throwable t) {
+                        public void onFailure(Call<AuthenticationResponeModel> call, Throwable t) {
                             Log.d("fail to get friends ", "Failure to Get friends");
 
                         }
@@ -193,11 +196,11 @@ public class RequestScroll extends RecyclerView.Adapter<RequestScroll.UserViewHo
                     request.setFriend1_id(GeneralAppInfo.getUserID());
                     request.setFriend2_id(Integer.valueOf(userList.get(position).getId()));
 
-                    final Call<Authentication> deleteResponse = service_confirm.getState(request);
-                    deleteResponse.enqueue(new Callback<Authentication>() {
+                    final Call<AuthenticationResponeModel> deleteResponse = service_confirm.getState(request);
+                    deleteResponse.enqueue(new Callback<AuthenticationResponeModel>() {
                         @Override
-                        public void onResponse(Call<Authentication> call, Response<Authentication> response) {
-                            Authentication state = response.body();
+                        public void onResponse(Call<AuthenticationResponeModel> call, Response<AuthenticationResponeModel> response) {
+                            AuthenticationResponeModel state = response.body();
                             Log.d("-----------", " Body" + response.code() + " : " + state.getState());
 
                             MyRequestsActivity.recyclerView.removeViewAt(position);
@@ -214,7 +217,7 @@ public class RequestScroll extends RecyclerView.Adapter<RequestScroll.UserViewHo
                         }
 
                         @Override
-                        public void onFailure(Call<Authentication> call, Throwable t) {
+                        public void onFailure(Call<AuthenticationResponeModel> call, Throwable t) {
                             Log.d("fail to get friends ", "Failure to Get friends");
 
                         }

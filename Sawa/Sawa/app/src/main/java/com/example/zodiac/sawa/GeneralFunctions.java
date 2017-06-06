@@ -1,20 +1,21 @@
 package com.example.zodiac.sawa;
 
+import android.app.ActivityManager;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.media.ExifInterface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.provider.MediaStore;
-import android.provider.Settings;
+import android.util.Log;
 
 import com.example.zodiac.sawa.interfaces.TokenApi;
-import com.example.zodiac.sawa.models.Authentication;
+import com.example.zodiac.sawa.models.AuthenticationResponeModel;
 import com.example.zodiac.sawa.models.UserIdWithDeviceIdModel;
-import com.example.zodiac.sawa.models.UserTokenModel;
 
-import java.io.File;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -75,16 +76,16 @@ public class GeneralFunctions {
                 .baseUrl(GeneralAppInfo.BACKEND_URL)
                 .addConverterFactory(GsonConverterFactory.create()).build();
         TokenApi tokenApi = retrofit.create(TokenApi.class);
-        Call<Authentication> call = tokenApi.storeUserIdWithDeviceId(userIdWithDeviceIdModel);
-        call.enqueue(new Callback<Authentication>() {
+        Call<AuthenticationResponeModel> call = tokenApi.storeUserIdWithDeviceId(userIdWithDeviceIdModel);
+        call.enqueue(new Callback<AuthenticationResponeModel>() {
 
             @Override
-            public void onResponse(Call<Authentication> call, Response<Authentication> response) {
+            public void onResponse(Call<AuthenticationResponeModel> call, Response<AuthenticationResponeModel> response) {
 
             }
 
             @Override
-            public void onFailure(Call<Authentication> call, Throwable t) {
+            public void onFailure(Call<AuthenticationResponeModel> call, Throwable t) {
 
             }
         });
@@ -96,6 +97,29 @@ public class GeneralFunctions {
             return true;
         }
         return false;
+    }
+    public static boolean isAppRunning(final Context context, final String packageName) {
+        final ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        final List<ActivityManager.RunningAppProcessInfo> procInfos = activityManager.getRunningAppProcesses();
+        if (procInfos != null)
+        {
+            for (final ActivityManager.RunningAppProcessInfo processInfo : procInfos) {
+                if (processInfo.processName.equals(packageName)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    public static SharedPreferences getSharedPreferences (Context ctxt) {
+
+        SharedPreferences sharedPreferences= ctxt.getSharedPreferences("userInfo", Context.MODE_PRIVATE);
+        int notifications_counter = sharedPreferences.getInt("notifications_counter", 0);
+        Log.d("notifications_counte",""+notifications_counter);
+
+
+        return  sharedPreferences;
+
     }
 
 }

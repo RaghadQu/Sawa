@@ -9,7 +9,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
 
-import com.example.zodiac.sawa.models.AboutUser;
+import com.example.zodiac.sawa.models.AboutUserResponeModel;
 
 /**
  * Created by Rabee on 4/5/2017.
@@ -59,19 +59,19 @@ public class DBHandler extends SQLiteOpenHelper {
         onCreate(sqLiteDatabase);
     }
 
-    public void addAboutUser(AboutUser aboutUser) {
+    public void addAboutUser(AboutUserResponeModel aboutUserResponeModel) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(USER_ID, aboutUser.getUser_id()); // Shop Name
-        values.put(USER_BIO, aboutUser.getUser_bio());
-        values.put(USER_STATUS, aboutUser.getUser_status());
-        values.put(USER_SONG, aboutUser.getUser_song());
+        values.put(USER_ID, aboutUserResponeModel.getUser_id()); // Shop Name
+        values.put(USER_BIO, aboutUserResponeModel.getUser_bio());
+        values.put(USER_STATUS, aboutUserResponeModel.getUser_status());
+        values.put(USER_SONG, aboutUserResponeModel.getUser_song());
         // Inserting Row
-        db.insert(TABLE_ABOUT, null, values);
+                db.insert(TABLE_ABOUT, null, values);
         db.close(); // Closing database connection
     }
 
-    public AboutUser getAboutUser(int id) {
+    public AboutUserResponeModel getAboutUser(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.query(TABLE_ABOUT, new String[]{USER_ID,
                         USER_BIO, USER_STATUS, USER_SONG}, USER_ID + "=?",
@@ -79,10 +79,10 @@ public class DBHandler extends SQLiteOpenHelper {
         if (cursor != null && cursor.moveToFirst()) {
             Log.d("user found","ss");
             cursor.moveToFirst();
-            AboutUser aboutUser = new AboutUser(Integer.parseInt(cursor.getString(0)),
+            AboutUserResponeModel aboutUserResponeModel = new AboutUserResponeModel(Integer.parseInt(cursor.getString(0)),
                     cursor.getString(1), cursor.getString(2), cursor.getString(3));
             db.close();
-            return aboutUser;
+            return aboutUserResponeModel;
 
         } else return null;
 // return shop

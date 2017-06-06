@@ -7,26 +7,22 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.example.zodiac.sawa.GeneralAppInfo;
-import com.example.zodiac.sawa.MyFriends.FreindsFunctions;
+import com.example.zodiac.sawa.FriendProfile.FreindsFunctions;
 import com.example.zodiac.sawa.NotificationTab;
 import com.example.zodiac.sawa.R;
-import com.example.zodiac.sawa.models.Notification;
-import com.example.zodiac.sawa.models.SettingsRecyclerViewDataProvider;
+import com.example.zodiac.sawa.interfaces.NotificationApi;
 import com.squareup.picasso.Picasso;
 
-import org.w3c.dom.Text;
-
-import java.net.MalformedURLException;
 import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by Rabee on 4/24/2017.
@@ -87,10 +83,28 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
             text = (TextView) view.findViewById(R.id.text);
             time = (TextView) view.findViewById(R.id.time);
 
+            final NotificationApi notificationApi = NotificationTab.retrofit.create(NotificationApi.class);
+
             layout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
                     position = getAdapterPosition();
+
+                    String notificatioID = NotificationTab.NotificationList.get(position).getNotificatioId();
+                    Call<Void> notificationResponse = notificationApi.setReadFlag(notificatioID);
+                    notificationResponse.enqueue(new Callback<Void>() {
+                        @Override
+                        public void onResponse(Call<Void> call, Response<Void> response) {
+                        }
+
+                        @Override
+                        public void onFailure(Call<Void> call, Throwable t) {
+                            Log.d("Fail", t.getMessage());
+                        }
+                    });
+
+
                     if (NotificationTab.NotificationList.get(position).getType().equals("3")) {
                         String name = NotificationTab.NotificationList.get(position).getText();
                         String image = NotificationTab.NotificationList.get(position).getImage();

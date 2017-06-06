@@ -1,15 +1,12 @@
-package com.example.zodiac.sawa.MyFriends;
+package com.example.zodiac.sawa.FriendProfile;
 
 import android.Manifest;
-import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
-import android.net.Uri;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -27,20 +24,12 @@ import android.widget.Toast;
 import com.example.zodiac.sawa.DB.DBHandler;
 import com.example.zodiac.sawa.GeneralAppInfo;
 import com.example.zodiac.sawa.GeneralFunctions;
-import com.example.zodiac.sawa.ImageConverter.uploadImage;
-import com.example.zodiac.sawa.MenuActiviries.aboutUserActivity;
-import com.example.zodiac.sawa.MyAdapter;
-import com.example.zodiac.sawa.MyRequests.MyRequestsActivity;
-import com.example.zodiac.sawa.Profile.FriendsClass;
-import com.example.zodiac.sawa.Profile.NotFriendProfileClass;
-import com.example.zodiac.sawa.Profile.PendingFriendsClass;
+import com.example.zodiac.sawa.RecyclerViewAdapters.MyAdapter;
 import com.example.zodiac.sawa.R;
-import com.example.zodiac.sawa.RecyclerViewAdapters.SettingsAdapter;
-import com.example.zodiac.sawa.Register;
 import com.example.zodiac.sawa.interfaces.AboutUserApi;
 import com.example.zodiac.sawa.interfaces.GetFreinds;
-import com.example.zodiac.sawa.models.AboutUser;
-import com.example.zodiac.sawa.models.Authentication;
+import com.example.zodiac.sawa.models.AboutUserResponeModel;
+import com.example.zodiac.sawa.models.AuthenticationResponeModel;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -73,7 +62,7 @@ public class MyFriendProfileActivity extends AppCompatActivity {
 
     private ProgressBar progressBar_button;
     public static ObjectAnimator anim_button;
-    Authentication authentication;
+    AuthenticationResponeModel authentication;
 
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
@@ -140,10 +129,10 @@ public class MyFriendProfileActivity extends AppCompatActivity {
 
 
             GetFreinds getFreinds = retrofit.create(GetFreinds.class);
-            Call<Authentication> call = getFreinds.getFriendshipState(GeneralAppInfo.getUserID(), Id);
-            call.enqueue(new Callback<Authentication>() {
+            Call<AuthenticationResponeModel> call = getFreinds.getFriendshipState(GeneralAppInfo.getUserID(), Id);
+            call.enqueue(new Callback<AuthenticationResponeModel>() {
                 @Override
-                public void onResponse(Call<Authentication> call, Response<Authentication> response) {
+                public void onResponse(Call<AuthenticationResponeModel> call, Response<AuthenticationResponeModel> response) {
                     authentication = response.body();
                     progressBar_button.setVisibility(View.GONE);
                     FriendsClass friendsClass = new FriendsClass();
@@ -158,23 +147,21 @@ public class MyFriendProfileActivity extends AppCompatActivity {
                         mRecyclerView.setVisibility(View.VISIBLE);
                         GeneralAppInfo.friendMode = 1;
                         friendsClass.SetFriendButtn(friendStatus, mRecyclerView, MyFriendProfileActivity.this, Id1, getApplicationContext());
-                    }
-                    else if (authentication.getState() == 2) {
+                    } else if (authentication.getState() == 2) {
                         mRecyclerView.setVisibility(View.GONE);
                         GeneralAppInfo.friendMode = 2;
                         friendsClass.SetFriendButtn(friendStatus, mRecyclerView, MyFriendProfileActivity.this, Id1, getApplicationContext());
-                    }
-                    else if (authentication.getState() == 3) {
+                    } else if (authentication.getState() == 3) {
                         mRecyclerView.setVisibility(View.GONE);
                         GeneralAppInfo.friendMode = 0;
-                        friendsClass.setFriendRequestButton(friendStatus,confirmRequest,deleteRequest,Id1);
-                      //  friendsClass.SetFriendButtn(friendStatus, mRecyclerView, MyFriendProfileActivity.this, Id1, getApplicationContext());
+                        friendsClass.setFriendRequestButton(friendStatus, confirmRequest, deleteRequest, Id1);
+                        //  friendsClass.SetFriendButtn(friendStatus, mRecyclerView, MyFriendProfileActivity.this, Id1, getApplicationContext());
                     }
 
                 }
 
                 @Override
-                public void onFailure(Call<Authentication> call, Throwable t) {
+                public void onFailure(Call<AuthenticationResponeModel> call, Throwable t) {
                     Log.d("stateeee", "fail nnnnnnn");
 
                 }
@@ -196,11 +183,11 @@ public class MyFriendProfileActivity extends AppCompatActivity {
             about_song = (TextView) AboutFriendDialog.findViewById(R.id.Song);
 
             final DBHandler dbHandler = new DBHandler(this);
-            AboutUser aboutUser = dbHandler.getAboutUser(Id1);
-            if (aboutUser != null) {
-                about_bio.setText(aboutUser.getUser_bio());
-                about_status.setText(aboutUser.getUser_status());
-                about_song.setText(aboutUser.getUser_song());
+            AboutUserResponeModel aboutUserResponeModel = dbHandler.getAboutUser(Id1);
+            if (aboutUserResponeModel != null) {
+                about_bio.setText(aboutUserResponeModel.getUser_bio());
+                about_status.setText(aboutUserResponeModel.getUser_status());
+                about_song.setText(aboutUserResponeModel.getUser_song());
 
             } else {
                 getUserFromDB();
@@ -288,22 +275,22 @@ public class MyFriendProfileActivity extends AppCompatActivity {
                 .baseUrl(GeneralAppInfo.BACKEND_URL)
                 .addConverterFactory(GsonConverterFactory.create()).build();
         AboutUserApi aboutUserApi = retrofit.create(AboutUserApi.class);
-        Call<List<AboutUser>> aboutUserResponse = aboutUserApi.getAboutUser(Id1);
-        aboutUserResponse.enqueue(new Callback<List<AboutUser>>() {
+        Call<List<AboutUserResponeModel>> aboutUserResponse = aboutUserApi.getAboutUser(Id1);
+        aboutUserResponse.enqueue(new Callback<List<AboutUserResponeModel>>() {
             @Override
-            public void onResponse(Call<List<AboutUser>> call, Response<List<AboutUser>> response) {
-                List<AboutUser> aboutUser;
-                aboutUser = response.body();
-                about_bio.setText(aboutUser.get(0).getUser_bio());
-                about_status.setText(aboutUser.get(0).getUser_status());
-                about_song.setText(aboutUser.get(0).getUser_song());
-                AboutUser aboutUser1 = new AboutUser(GeneralAppInfo.getUserID(), aboutUser.get(0).getUser_bio(), aboutUser.get(0).getUser_status(), aboutUser.get(0).getUser_song());
+            public void onResponse(Call<List<AboutUserResponeModel>> call, Response<List<AboutUserResponeModel>> response) {
+                List<AboutUserResponeModel> aboutUserResponeModel;
+                aboutUserResponeModel = response.body();
+/*                about_bio.setText(aboutUserResponeModel.get(0).getUser_bio());
+                about_status.setText(aboutUserResponeModel.get(0).getUser_status());
+                about_song.setText(aboutUserResponeModel.get(0).getUser_song());
+                AboutUserResponeModel aboutUser1 = new AboutUserResponeModel(GeneralAppInfo.getUserID(), aboutUserResponeModel.get(0).getUser_bio(), aboutUserResponeModel.get(0).getUser_status(), aboutUserResponeModel.get(0).getUser_song());
                 DBHandler dbHandler = new DBHandler(getApplicationContext());
-                dbHandler.addAboutUser(aboutUser1);
+                dbHandler.addAboutUser(aboutUser1);*/
             }
 
             @Override
-            public void onFailure(Call<List<AboutUser>> call, Throwable t) {
+            public void onFailure(Call<List<AboutUserResponeModel>> call, Throwable t) {
 
             }
 

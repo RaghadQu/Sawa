@@ -1,7 +1,7 @@
 package com.example.zodiac.sawa.interfaces;
 
 import com.example.zodiac.sawa.models.AuthRequest;
-import com.example.zodiac.sawa.models.Authentication;
+import com.example.zodiac.sawa.models.AuthenticationResponeModel;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -15,5 +15,5 @@ import retrofit2.http.POST;
 public interface LoginAuth {
     @Headers("Cache-Control: max-age=64000")
     @POST("api/users/signin")
-    Call<Authentication> getState(@Body AuthRequest ARequest);
+    Call<AuthenticationResponeModel> getState(@Body AuthRequest ARequest);
 }

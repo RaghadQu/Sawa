@@ -7,9 +7,13 @@ import com.example.zodiac.sawa.models.SignResponse;
  */
 
 public class GeneralAppInfo {
-    public static String  BACKEND_URL="http://87f953bf.ngrok.io/Sawa/public/index.php/";
-    public static String IMAGE_URL="http://87f953bf.ngrok.io/Sawa/public/";
-    public  static int friendMode=-1;
+    public static String BACKEND_URL = "http://87f953bf.ngrok.io/Sawa/public/index.php/";
+    public static String IMAGE_URL = "http://87f953bf.ngrok.io/Sawa/public/";
+    public static int notifications_counter = 0;
+    public static int home_tab_position = 0;
+    public static int notifications_tab_position = 1;
+    public static int setting_tab_position = 2;
+    public static int friendMode = -1;
 
     public static int userID;
 

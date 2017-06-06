@@ -4,7 +4,7 @@ package com.example.zodiac.sawa.models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Authentication {
+public class AuthenticationResponeModel {
 
 
     @SerializedName("state")

@@ -1,25 +1,17 @@
-package com.example.zodiac.sawa.Profile;
+package com.example.zodiac.sawa.FriendProfile;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.zodiac.sawa.GeneralAppInfo;
-import com.example.zodiac.sawa.HomeTabbedActivity;
-import com.example.zodiac.sawa.MyFriends.FreindsFunctions;
-import com.example.zodiac.sawa.MyFriends.MyFriendsActivity;
-import com.example.zodiac.sawa.MyRequests.MyRequestsActivity;
 import com.example.zodiac.sawa.R;
 import com.example.zodiac.sawa.interfaces.ConfirmFriendRequest;
-import com.example.zodiac.sawa.interfaces.DeleteFriend;
-import com.example.zodiac.sawa.models.Authentication;
+import com.example.zodiac.sawa.models.AuthenticationResponeModel;
 import com.example.zodiac.sawa.models.DeleteFriendRequest;
 
 import retrofit2.Call;
@@ -177,16 +169,16 @@ public class FriendsClass {
                         .baseUrl(GeneralAppInfo.BACKEND_URL)
                         .addConverterFactory(GsonConverterFactory.create()).build();
                 service_confirm = retrofit.create(ConfirmFriendRequest.class);
-                final Call<Authentication> deleteResponse = service_confirm.getState(request);
-                deleteResponse.enqueue(new Callback<Authentication>() {
+                final Call<AuthenticationResponeModel> deleteResponse = service_confirm.getState(request);
+                deleteResponse.enqueue(new Callback<AuthenticationResponeModel>() {
                     @Override
-                    public void onResponse(Call<Authentication> call, Response<Authentication> response) {
-                        Authentication state = response.body();
+                    public void onResponse(Call<AuthenticationResponeModel> call, Response<AuthenticationResponeModel> response) {
+                        AuthenticationResponeModel state = response.body();
                         Log.d("Enter", " state is " + response.code());
                     }
 
                     @Override
-                    public void onFailure(Call<Authentication> call, Throwable t) {
+                    public void onFailure(Call<AuthenticationResponeModel> call, Throwable t) {
                         Log.d("fail to get friends ", "Failure to Get friends");
 
                     }

@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName;
  * Created by Rabee on 4/8/2017.
  */
 
-public class AddAboutUserResponse {
+public class GeneralStateResponeModel {
     @SerializedName("state")
     @Expose
     private int state;

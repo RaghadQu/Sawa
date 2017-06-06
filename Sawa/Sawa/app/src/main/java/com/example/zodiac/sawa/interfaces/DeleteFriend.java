@@ -1,7 +1,6 @@
 package com.example.zodiac.sawa.interfaces;
 
-import com.example.zodiac.sawa.models.AuthRequest;
-import com.example.zodiac.sawa.models.Authentication;
+import com.example.zodiac.sawa.models.AuthenticationResponeModel;
 import com.example.zodiac.sawa.models.DeleteFriendRequest;
 
 import retrofit2.Call;
@@ -16,5 +15,5 @@ import retrofit2.http.POST;
 public interface DeleteFriend {
     @Headers("Cache-Control: max-age=64000")
     @POST("api/users/deleteFriendship")
-    Call<Authentication> getState(@Body DeleteFriendRequest deleteRequest);
+    Call<AuthenticationResponeModel> getState(@Body DeleteFriendRequest deleteRequest);
 }

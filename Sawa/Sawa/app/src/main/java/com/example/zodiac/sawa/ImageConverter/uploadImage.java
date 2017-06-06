@@ -2,25 +2,16 @@ package com.example.zodiac.sawa.ImageConverter;
 
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.util.Base64;
 import android.util.Log;
 import android.widget.ImageView;
 
 import com.example.zodiac.sawa.GeneralAppInfo;
-import com.example.zodiac.sawa.MyFriends.MyFriendProfileActivity;
-import com.example.zodiac.sawa.R;
-import com.example.zodiac.sawa.MenuActiviries.MyProfileActivity;
-import com.example.zodiac.sawa.interfaces.AboutUserApi;
 import com.example.zodiac.sawa.interfaces.UserImageApi;
-import com.example.zodiac.sawa.models.AboutUser;
-import com.example.zodiac.sawa.models.Authentication;
+import com.example.zodiac.sawa.models.AuthenticationResponeModel;
 import com.example.zodiac.sawa.models.UserImage;
 import com.example.zodiac.sawa.models.userImageFromDb;
-import com.koushikdutta.ion.Ion;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -51,16 +42,16 @@ public class uploadImage {
                 .baseUrl(GeneralAppInfo.BACKEND_URL)
                 .addConverterFactory(GsonConverterFactory.create()).build();
         UserImageApi userImageApi = retrofit.create(UserImageApi.class);
-        Call<Authentication> userImageResponse = userImageApi.saveImageUser(userImage);
-        userImageResponse.enqueue(new Callback<Authentication>() {
+        Call<AuthenticationResponeModel> userImageResponse = userImageApi.saveImageUser(userImage);
+        userImageResponse.enqueue(new Callback<AuthenticationResponeModel>() {
             @Override
-            public void onResponse(Call<Authentication> call, Response<Authentication> response) {
+            public void onResponse(Call<AuthenticationResponeModel> call, Response<AuthenticationResponeModel> response) {
                 // int state = response.body().getState();
                 //Log.d("Image is uploaded" + state, "" + state);
             }
 
             @Override
-            public void onFailure(Call<Authentication> call, Throwable t) {
+            public void onFailure(Call<AuthenticationResponeModel> call, Throwable t) {
 
             }
         });

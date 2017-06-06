@@ -4,10 +4,12 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.zodiac.sawa.GeneralAppInfo;
 import com.example.zodiac.sawa.R;
 
 /**
@@ -65,6 +67,8 @@ public class homeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        Log.d("Notification_counter",""+ GeneralAppInfo.notifications_counter);
+
         return inflater.inflate(R.layout.fragment_home, container, false);
     }
 
@@ -78,6 +82,8 @@ public class homeFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        Log.d("Notification_counter1",""+ GeneralAppInfo.notifications_counter);
+
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {

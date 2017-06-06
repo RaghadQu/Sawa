@@ -1,4 +1,4 @@
-package com.example.zodiac.sawa.MyFriends;
+package com.example.zodiac.sawa.FriendProfile;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,20 +10,14 @@ import com.example.zodiac.sawa.GeneralAppInfo;
 import com.example.zodiac.sawa.MenuActiviries.MyProfileActivity;
 import com.example.zodiac.sawa.interfaces.DeleteFriend;
 import com.example.zodiac.sawa.interfaces.GetFreinds;
-import com.example.zodiac.sawa.interfaces.UserImageApi;
-import com.example.zodiac.sawa.models.Authentication;
+import com.example.zodiac.sawa.models.AuthenticationResponeModel;
 import com.example.zodiac.sawa.models.DeleteFriendRequest;
-import com.example.zodiac.sawa.models.userImageFromDb;
-
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-
-import static com.example.zodiac.sawa.MyFriends.MyFriendsActivity.LayoutFriendsList;
 
 /**
  * Created by Rabee on 5/5/2017.
@@ -35,11 +29,11 @@ public class FreindsFunctions {
                 .baseUrl(GeneralAppInfo.BACKEND_URL)
                 .addConverterFactory(GsonConverterFactory.create()).build();
         GetFreinds getFreinds = retrofit.create(GetFreinds.class);
-        Call<Authentication> call = getFreinds.getFriendshipState(friend1_id,friend2_id);
-        call.enqueue(new Callback<Authentication>() {
+        Call<AuthenticationResponeModel> call = getFreinds.getFriendshipState(friend1_id,friend2_id);
+        call.enqueue(new Callback<AuthenticationResponeModel>() {
             @Override
-            public void onResponse(Call<Authentication> call, Response<Authentication> response) {
-                Authentication authentication=response.body();
+            public void onResponse(Call<AuthenticationResponeModel> call, Response<AuthenticationResponeModel> response) {
+                AuthenticationResponeModel authentication=response.body();
                 Log.d("stateeee",""+authentication.getState());
                 if(authentication.getState()==2){
                     button.setText("Add as freind");
@@ -51,7 +45,7 @@ public class FreindsFunctions {
             }
 
             @Override
-            public void onFailure(Call<Authentication> call, Throwable t) {
+            public void onFailure(Call<AuthenticationResponeModel> call, Throwable t) {
                 Log.d("stateeee","fail nnnnnnn");
 
             }
@@ -103,18 +97,18 @@ public class FreindsFunctions {
         request.setFriend2_id(friend2_id);
 
 
-        final Call<Authentication> deleteResponse = service.getState(request);
-        deleteResponse.enqueue(new Callback<Authentication>() {
+        final Call<AuthenticationResponeModel> deleteResponse = service.getState(request);
+        deleteResponse.enqueue(new Callback<AuthenticationResponeModel>() {
             @Override
-            public void onResponse(Call<Authentication> call, Response<Authentication> response) {
-                Authentication authentication = response.body();
+            public void onResponse(Call<AuthenticationResponeModel> call, Response<AuthenticationResponeModel> response) {
+                AuthenticationResponeModel authentication = response.body();
                 if(authentication.getState()==1){
                 }
 
             }
 
             @Override
-            public void onFailure(Call<Authentication> call, Throwable t) {
+            public void onFailure(Call<AuthenticationResponeModel> call, Throwable t) {
                 Log.d("fail to get friends ", "Failure to Get friends");
 
             }

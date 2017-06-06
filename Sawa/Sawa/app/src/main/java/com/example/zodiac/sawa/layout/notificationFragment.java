@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.zodiac.sawa.GeneralAppInfo;
 import com.example.zodiac.sawa.R;
 
 /**
@@ -52,21 +53,7 @@ public class notificationFragment extends Fragment {
         Log.d("Deactive "," deactive now");
 
     }
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        Log.d("Notification visblse","");
 
-        // Make sure that we are currently visible
-        if (this.isVisible()) {
-            Log.d("Notification visble","");
-            if (!isVisibleToUser) {
-                Log.d("MyFragment", "Not visible anymore.  Stopping audio.");
-                // TODO stop audio playback
-            }else
-                Log.d("Notification111 visble","");
-
-        }
-    }
 
     /**
      * Use this factory method to create a new instance of
@@ -99,6 +86,8 @@ public class notificationFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        GeneralAppInfo.notifications_counter=0;
+        Log.d("Notification_counter",""+ GeneralAppInfo.notifications_counter);
         return inflater.inflate(R.layout.fragment_notification, container, false);
     }
 
@@ -109,15 +98,24 @@ public class notificationFragment extends Fragment {
         }
     }
 
+
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        Log.d("Notification111 visble","");
+
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
+    }
+    @Override
+    public void onHiddenChanged(boolean hidden)
+    {
+        Log.d("Hide","ss");
     }
 
     @Override

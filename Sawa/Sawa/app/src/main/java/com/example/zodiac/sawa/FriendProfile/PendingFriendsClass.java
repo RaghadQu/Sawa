@@ -1,4 +1,4 @@
-package com.example.zodiac.sawa.Profile;
+package com.example.zodiac.sawa.FriendProfile;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -7,7 +7,6 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.zodiac.sawa.GeneralAppInfo;
-import com.example.zodiac.sawa.MyFriends.FreindsFunctions;
 import com.example.zodiac.sawa.R;
 
 /**

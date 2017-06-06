@@ -1,15 +1,10 @@
 package com.example.zodiac.sawa;
 
-import android.app.Service;
-import android.content.Intent;
-import android.os.IBinder;
 import android.provider.Settings;
-import android.support.annotation.Nullable;
 import android.util.Log;
 
-import com.example.zodiac.sawa.interfaces.GetFreinds;
 import com.example.zodiac.sawa.interfaces.TokenApi;
-import com.example.zodiac.sawa.models.Authentication;
+import com.example.zodiac.sawa.models.AuthenticationResponeModel;
 import com.example.zodiac.sawa.models.UserTokenModel;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
@@ -50,18 +45,18 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
                 .baseUrl(GeneralAppInfo.BACKEND_URL)
                 .addConverterFactory(GsonConverterFactory.create()).build();
         TokenApi tokenApi = retrofit.create(TokenApi.class);
-        Call<Authentication> call = tokenApi.storeToken(userTokenModel);
-        call.enqueue(new Callback<Authentication>() {
+        Call<AuthenticationResponeModel> call = tokenApi.storeToken(userTokenModel);
+        call.enqueue(new Callback<AuthenticationResponeModel>() {
 
 
             @Override
-            public void onResponse(Call<Authentication> call, Response<Authentication> response) {
+            public void onResponse(Call<AuthenticationResponeModel> call, Response<AuthenticationResponeModel> response) {
                 Log.d("Arrive",""+response.body().getState());
 
             }
 
             @Override
-            public void onFailure(Call<Authentication> call, Throwable t) {
+            public void onFailure(Call<AuthenticationResponeModel> call, Throwable t) {
 
             }
         });

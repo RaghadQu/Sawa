@@ -98,25 +98,27 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="38dp"
-                    android:layout_marginLeft="138dp"
-                    android:indeterminate="false">
+                    android:layout_marginTop="40dp"
+                    android:layout_marginLeft="105dp"
+                    android:indeterminate="false"
+                    android:background="@drawable/corners"
+                    >
 
                 <Button
-                    android:layout_width="40dp"
-                    android:layout_height="32dp"
+                    android:layout_width="75dp"
+                    android:layout_height="30dp"
                     android:id="@+id/ConfirmRequest"
-                    android:paddingLeft="9dp"
+                    android:paddingLeft="26dp"
                     android:background="@drawable/left_corners"
                     android:drawableLeft="@drawable/rsz_confirm1"
                     android:visibility="invisible"
 
                     />
                 <Button
-                    android:layout_width="40dp"
-                    android:layout_height="32dp"
+                    android:layout_width="75dp"
+                    android:layout_height="30dp"
                     android:id="@+id/deleteRequest"
-                    android:paddingLeft="9dp"
+                    android:paddingLeft="26dp"
                     android:background="@drawable/rigth_corners"
                     android:drawableLeft="@drawable/rsz_delete"
                     android:visibility="invisible"

@@ -1,18 +1,15 @@
-package com.example.zodiac.sawa.MyFriends;
+package com.example.zodiac.sawa.RecyclerViewAdapters;
 
 /**
  * Created by raghadq on 5/2/2017.
  */
 
-import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -20,19 +17,16 @@ import android.widget.TextView;
 
 import com.example.zodiac.sawa.GeneralAppInfo;
 import com.example.zodiac.sawa.MenuActiviries.MyProfileActivity;
-import com.example.zodiac.sawa.MenuActiviries.aboutUserActivity;
+import com.example.zodiac.sawa.FriendProfile.FreindsFunctions;
+import com.example.zodiac.sawa.MenuActiviries.MyFriendsActivity;
 import com.example.zodiac.sawa.interfaces.DeleteFriend;
-import com.example.zodiac.sawa.interfaces.GetFreinds;
-import com.example.zodiac.sawa.models.Authentication;
+import com.example.zodiac.sawa.models.AuthenticationResponeModel;
 import com.example.zodiac.sawa.models.DeleteFriendRequest;
-import com.example.zodiac.sawa.models.getFriendsRequest;
-import com.example.zodiac.sawa.models.getFriendsResponse;
 import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView;
 import com.squareup.picasso.Picasso;
 
 import java.net.MalformedURLException;
 import java.util.ArrayList;
-import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
@@ -43,7 +37,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 import com.example.zodiac.sawa.R;
 
-import static com.example.zodiac.sawa.MyFriends.MyFriendsActivity.LayoutFriendsList;
+import static com.example.zodiac.sawa.MenuActiviries.MyFriendsActivity.LayoutFriendsList;
 
 public class FastScrollAdapter extends RecyclerView.Adapter<FastScrollAdapter.UserViewHolder>
         implements FastScrollRecyclerView.SectionedAdapter {
@@ -173,11 +167,11 @@ public class FastScrollAdapter extends RecyclerView.Adapter<FastScrollAdapter.Us
                     request.setFriend2_id(Integer.valueOf(userList.get(position).getId()));
 
 
-                    final Call<Authentication> deleteResponse = service.getState(request);
-                    deleteResponse.enqueue(new Callback<Authentication>() {
+                    final Call<AuthenticationResponeModel> deleteResponse = service.getState(request);
+                    deleteResponse.enqueue(new Callback<AuthenticationResponeModel>() {
                         @Override
-                        public void onResponse(Call<Authentication> call, Response<Authentication> response) {
-                            Authentication state = response.body();
+                        public void onResponse(Call<AuthenticationResponeModel> call, Response<AuthenticationResponeModel> response) {
+                            AuthenticationResponeModel state = response.body();
                             MyFriendsActivity.recyclerView.removeViewAt(position);
                             MyFriendsActivity.FreindsList.remove(position);
                             LayoutFriendsList.remove(position);
@@ -185,7 +179,7 @@ public class FastScrollAdapter extends RecyclerView.Adapter<FastScrollAdapter.Us
                         }
 
                         @Override
-                        public void onFailure(Call<Authentication> call, Throwable t) {
+                        public void onFailure(Call<AuthenticationResponeModel> call, Throwable t) {
                             Log.d("fail to get friends ", "Failure to Get friends");
 
                         }

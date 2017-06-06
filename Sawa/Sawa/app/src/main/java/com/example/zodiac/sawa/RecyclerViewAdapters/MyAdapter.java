@@ -1,10 +1,9 @@
-package com.example.zodiac.sawa;
+package com.example.zodiac.sawa.RecyclerViewAdapters;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
@@ -16,14 +15,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.zodiac.sawa.GeneralAppInfo;
+import com.example.zodiac.sawa.MainActivity;
 import com.example.zodiac.sawa.MenuActiviries.MyProfileActivity;
-import com.example.zodiac.sawa.MenuActiviries.aboutUserActivity;
-import com.example.zodiac.sawa.MyFriends.MyFriendsActivity;
-import com.example.zodiac.sawa.MyRequests.MyRequestsActivity;
-import com.example.zodiac.sawa.interfaces.NotificationApi;
+import com.example.zodiac.sawa.MenuActiviries.MyFriendsActivity;
+import com.example.zodiac.sawa.MenuActiviries.MyRequestsActivity;
+import com.example.zodiac.sawa.R;
 import com.example.zodiac.sawa.interfaces.logOutApi;
-import com.example.zodiac.sawa.models.Authentication;
-import com.example.zodiac.sawa.models.Notification;
 import com.example.zodiac.sawa.models.logOut;
 import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView;
 
