@@ -289,7 +289,6 @@ public class HomeTabbedActivity extends AppCompatActivity {
                             button.setColor(getResources().getColor(R.color.green));
                         }
                         else{
-                            Log.d("---", " enter and green ");
                             flag[0] =1;
                             button.setColor(getResources().getColor(android.R.color.darker_gray));}
                    //    button.setBackgroundColor());
