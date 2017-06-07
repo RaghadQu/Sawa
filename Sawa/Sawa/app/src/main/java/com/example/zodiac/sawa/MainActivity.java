@@ -1,53 +1,34 @@
 package com.example.zodiac.sawa;
 
 import android.annotation.TargetApi;
-import android.app.ActivityOptions;
-import android.animation.ObjectAnimator;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.animation.DecelerateInterpolator;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.example.zodiac.sawa.MenuActiviries.MyProfileActivity;
-import com.example.zodiac.sawa.MyFriends.MyFriendProfileActivity;
 import com.example.zodiac.sawa.RecoverPassword.RecoverPass;
 
-import com.example.zodiac.sawa.DB.DBHandler;
 import com.example.zodiac.sawa.interfaces.LoginAuth;
-import com.example.zodiac.sawa.interfaces.NotificationApi;
-import com.example.zodiac.sawa.models.AboutUser;
 import com.example.zodiac.sawa.models.AuthRequest;
-import com.example.zodiac.sawa.models.Authentication;
-import com.example.zodiac.sawa.models.Notification;
-import com.google.firebase.iid.FirebaseInstanceId;
+import com.example.zodiac.sawa.models.AuthenticationResponeModel;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-
-import static android.content.ContentValues.TAG;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -61,13 +42,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-         setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main);
 
 
         //check if the user is already signed in
         SharedPreferences sharedPreferences = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
-        String email = sharedPreferences.getString("email", "");
-        int id = sharedPreferences.getInt("id",-1);
+        int id = sharedPreferences.getInt("id", -1);
         String isLogined = sharedPreferences.getString("isLogined", "");
         GeneralAppInfo.setUserID(id);
 
@@ -78,18 +58,7 @@ public class MainActivity extends AppCompatActivity {
             finish();
         }
 
-    /*   DBHandler dbHandler = new DBHandler(getApplicationContext());
-        Bitmap bitmap= BitmapFactory.decodeResource(getResources(), R.drawable.profileimage);
-        ByteArrayOutputStream stream=new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 90, stream); // what 90 does ??
-        byte[] image=stream.toByteArray();
-        dbHandler.insertUserImage(1, image);
-        AboutUser aboutUser=new AboutUser(1,"","","");
-        dbHandler.addAboutUser(aboutUser);*/
-
-        // Address the email  and password field
-
-        logInProfress=(ProgressBar)findViewById(R.id.LogInProgress);
+        logInProfress = (ProgressBar) findViewById(R.id.LogInProgress);
         logInProfress.setVisibility(ProgressBar.INVISIBLE);
         emailEditText = (EditText) findViewById(R.id.username);
         passEditText = (EditText) findViewById(R.id.password);
@@ -103,8 +72,6 @@ public class MainActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     public void checkLogin(View arg0) {
 
-       // logInProfress.setProgress(10);
-        //logInProfress.setProgress(1,true);
         GeneralFunctions generalFunctions = new GeneralFunctions();
         boolean isOnline = generalFunctions.isOnline(getApplicationContext());
 
@@ -119,30 +86,28 @@ public class MainActivity extends AppCompatActivity {
             request.setPassword(passEditText.getText().toString());
             if (valid(request.getEmail(), request.getPassword()) == 0) {
                 logInProfress.setVisibility(ProgressBar.VISIBLE);
-                final Call<Authentication> AuthResponse = service.getState(request);
-                AuthResponse.enqueue(new Callback<Authentication>() {
+                final Call<AuthenticationResponeModel> AuthResponse = service.getState(request);
+                AuthResponse.enqueue(new Callback<AuthenticationResponeModel>() {
                     @Override
-                    public void onResponse(Call<Authentication> call, Response<Authentication> response) {
+                    public void onResponse(Call<AuthenticationResponeModel> call, Response<AuthenticationResponeModel> response) {
 
                         logInProfress.setVisibility(ProgressBar.INVISIBLE);
 
                         int statusCode = response.code();
                         Log.d("-----", " enter request " + statusCode);
 
-                        Authentication authResponse = response.body();
+                        AuthenticationResponeModel authResponse = response.body();
                         SharedPreferences sharedPreferences = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
-                        String email = sharedPreferences.getString("email", "");
 
                         if (authResponse.getState() == 1) {
                             Log.d("-----", " enter here");
 
                             GeneralAppInfo.setUserID(Integer.valueOf(authResponse.getUser_id()));
-                            //Store user info in shared prefrences file
                             sharedPreferences = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
                             SharedPreferences.Editor editor = sharedPreferences.edit();
                             editor.putString("email", emailEditText.getText().toString());
                             editor.putString("password", passEditText.getText().toString());
-                            editor.putInt("id",GeneralAppInfo.getUserID());
+                            editor.putInt("id", GeneralAppInfo.getUserID());
                             editor.putString("isLogined", "1");
                             editor.apply();
 
@@ -160,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onFailure(Call<Authentication> call, Throwable t) {
+                    public void onFailure(Call<AuthenticationResponeModel> call, Throwable t) {
                         Log.d("----", " Error " + t.getMessage());
 
 
@@ -168,13 +133,6 @@ public class MainActivity extends AppCompatActivity {
                 });
             }
         }
-        // Intent i = new Intent(getApplicationContext(), MyFriendProfileActivity.class);
-
-
-        //   Intent i = new Intent(getApplicationContext(), HomeTabbedActivity.class);
-        //startActivity(i);
-
-        //   finish();
     }
 
 

@@ -37,13 +37,16 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MyFriends.MyFriendsActivity"
+            android:name=".MenuActiviries.MyFriendsActivity"
             android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity
-            android:name=".MyRequests.MyRequestsActivity"
+            android:name=".MenuActiviries.MyRequestsActivity"
             android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity
             android:name=".Register"
+            android:configChanges="keyboardHidden|orientation|screenSize" />
+        <activity
+            android:name=".AddPostActivity"
             android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity
             android:name=".RecoverPassword.RecoverPass"
@@ -57,7 +60,7 @@
             android:name=".HomeTabbedActivity"
             android:label="@string/title_activity_home_tabbed"
             android:theme="@style/AppTheme" />
-        <activity android:name=".MyFriends.MyFriendProfileActivity" />
+        <activity android:name=".FriendProfile.MyFriendProfileActivity" />
         <activity android:name=".MyFriends.AboutFriendActivity" />
         <activity android:name=".SearchActivity"></activity>
     </application>

@@ -14,7 +14,6 @@ public class GeneralAppInfo {
     public static int notifications_tab_position = 1;
     public static int setting_tab_position = 2;
     public static int friendMode = -1;
-
     public static int userID;
 
     public static int getUserID() {

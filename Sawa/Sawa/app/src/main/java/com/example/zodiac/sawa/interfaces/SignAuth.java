@@ -1,7 +1,5 @@
 package com.example.zodiac.sawa.interfaces;
 
-import com.example.zodiac.sawa.models.AuthRequest;
-import com.example.zodiac.sawa.models.Authentication;
 import com.example.zodiac.sawa.models.SignRequest;
 import com.example.zodiac.sawa.models.SignResponse;
 

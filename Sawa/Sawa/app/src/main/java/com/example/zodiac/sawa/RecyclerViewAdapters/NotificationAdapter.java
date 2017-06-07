@@ -7,24 +7,16 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.example.zodiac.sawa.GeneralAppInfo;
-import com.example.zodiac.sawa.MyFriends.FreindsFunctions;
+import com.example.zodiac.sawa.FriendProfile.FreindsFunctions;
 import com.example.zodiac.sawa.NotificationTab;
 import com.example.zodiac.sawa.R;
 import com.example.zodiac.sawa.interfaces.NotificationApi;
-import com.example.zodiac.sawa.models.Notification;
-import com.example.zodiac.sawa.models.SettingsRecyclerViewDataProvider;
 import com.squareup.picasso.Picasso;
 
-import org.w3c.dom.Text;
-
-import java.net.MalformedURLException;
 import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;

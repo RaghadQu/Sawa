@@ -1,6 +1,5 @@
 package com.example.zodiac.sawa;
 
-import android.animation.ObjectAnimator;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
@@ -8,30 +7,17 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
-import android.view.View;
-import android.view.animation.DecelerateInterpolator;
-import android.widget.EditText;
-import android.widget.Button;
-import android.widget.ProgressBar;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.zodiac.sawa.MyFriends.FastScrollAdapter;
-import com.example.zodiac.sawa.MyFriends.MyFriendsActivity;
-import com.example.zodiac.sawa.interfaces.GetFreinds;
+import com.example.zodiac.sawa.RecyclerViewAdapters.FastScrollAdapter;
+import com.example.zodiac.sawa.MenuActiviries.MyFriendsActivity;
 import com.example.zodiac.sawa.interfaces.SerachApi;
-import com.example.zodiac.sawa.models.getFriendsRequest;
 import com.example.zodiac.sawa.models.getFriendsResponse;
 import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView;
 
-import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

@@ -13,8 +13,8 @@ import com.example.zodiac.sawa.DB.DBHandler;
 import com.example.zodiac.sawa.GeneralAppInfo;
 import com.example.zodiac.sawa.R;
 import com.example.zodiac.sawa.interfaces.AboutUserApi;
-import com.example.zodiac.sawa.models.AboutUser;
-import com.example.zodiac.sawa.models.AddAboutUserResponse;
+import com.example.zodiac.sawa.models.AboutUserResponeModel;
+import com.example.zodiac.sawa.models.GeneralStateResponeModel;
 
 import java.util.List;
 
@@ -80,18 +80,18 @@ public class aboutUserActivity extends AppCompatActivity {
         saveSong = (Button) updateSong.findViewById(R.id.Save);
 
         final DBHandler dbHandler = new DBHandler(this);
-        AboutUser aboutUser = dbHandler.getAboutUser(GeneralAppInfo.getUserID());
-        if (aboutUser != null) {
+        AboutUserResponeModel aboutUserResponeModel = dbHandler.getAboutUser(GeneralAppInfo.getUserID());
+        if (aboutUserResponeModel != null) {
 
-            bio.setText(aboutUser.getUser_bio());
-            bioDialog.setText(aboutUser.getUser_bio());
+            bio.setText(aboutUserResponeModel.getUser_bio());
+            bioDialog.setText(aboutUserResponeModel.getUser_bio());
 
-            status.setText(aboutUser.getUser_status());
-            statusDialog.setText(aboutUser.getUser_status());
+            status.setText(aboutUserResponeModel.getUser_status());
+            statusDialog.setText(aboutUserResponeModel.getUser_status());
 
             song = (TextView) findViewById(R.id.Song);
-            song.setText(aboutUser.getUser_song());
-            songDialog.setText(aboutUser.getUser_song());
+            song.setText(aboutUserResponeModel.getUser_song());
+            songDialog.setText(aboutUserResponeModel.getUser_song());
 
         } else {
             getUserFromDB();
@@ -198,15 +198,15 @@ public class aboutUserActivity extends AppCompatActivity {
     }
 
     public void updateAbout(final String bioText, final String statusText, final String songText) {
-        AboutUser aboutUser = new AboutUser(GeneralAppInfo.getUserID(), bioText, statusText, songText);
+        AboutUserResponeModel aboutUserResponeModel = new AboutUserResponeModel(GeneralAppInfo.getUserID(), bioText, statusText, songText);
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(GeneralAppInfo.BACKEND_URL)
                 .addConverterFactory(GsonConverterFactory.create()).build();
         AboutUserApi aboutUserApi = retrofit.create(AboutUserApi.class);
-        Call<AddAboutUserResponse> call = aboutUserApi.editAvoutUser(aboutUser);
-        call.enqueue(new Callback<AddAboutUserResponse>() {
+        Call<GeneralStateResponeModel> call = aboutUserApi.editAvoutUser(aboutUserResponeModel);
+        call.enqueue(new Callback<GeneralStateResponeModel>() {
             @Override
-            public void onResponse(Call<AddAboutUserResponse> call, Response<AddAboutUserResponse> response) {
+            public void onResponse(Call<GeneralStateResponeModel> call, Response<GeneralStateResponeModel> response) {
                 bio.setText(bioText);
                 status.setText(statusText);
                 song.setText(songText);
@@ -217,7 +217,7 @@ public class aboutUserActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<AddAboutUserResponse> call, Throwable t) {
+            public void onFailure(Call<GeneralStateResponeModel> call, Throwable t) {
 
             }
         });
@@ -229,32 +229,32 @@ public class aboutUserActivity extends AppCompatActivity {
                 .baseUrl(GeneralAppInfo.BACKEND_URL)
                 .addConverterFactory(GsonConverterFactory.create()).build();
         AboutUserApi aboutUserApi = retrofit.create(AboutUserApi.class);
-        Call<List<AboutUser>> aboutUserResponse = aboutUserApi.getAboutUser(GeneralAppInfo.getUserID());
-        aboutUserResponse.enqueue(new Callback<List<AboutUser>>() {
+        Call<List<AboutUserResponeModel>> aboutUserResponse = aboutUserApi.getAboutUser(GeneralAppInfo.getUserID());
+        aboutUserResponse.enqueue(new Callback<List<AboutUserResponeModel>>() {
             @Override
-            public void onResponse(Call<List<AboutUser>> call, Response<List<AboutUser>> response) {
-                List<AboutUser> aboutUser;
-                aboutUser = response.body();
+            public void onResponse(Call<List<AboutUserResponeModel>> call, Response<List<AboutUserResponeModel>> response) {
+                List<AboutUserResponeModel> aboutUserResponeModel;
+                aboutUserResponeModel = response.body();
                 bio = (TextView) findViewById(R.id.Bio);
-                bio.setText(aboutUser.get(0).getUser_bio());
+                bio.setText(aboutUserResponeModel.get(0).getUser_bio());
                 status = (TextView) findViewById(R.id.status);
-                status.setText(aboutUser.get(0).getUser_status());
+                status.setText(aboutUserResponeModel.get(0).getUser_status());
                 song = (TextView) findViewById(R.id.Song);
 
-              //  song.setText(aboutUser.get(0).getUser_song());
-                song.setText(aboutUser.get(0).getUser_song());
-                //       AboutUser aboutUser1 = new AboutUser(1, aboutUser.get(0).getUser_bio(), aboutUser.get(0).getUser_status(), aboutUser.get(0).getUser_song());
+              //  song.setText(aboutUserResponeModel.get(0).getUser_song());
+                song.setText(aboutUserResponeModel.get(0).getUser_song());
+                //       AboutUserResponeModel aboutUserResponeModel1 = new AboutUserResponeModel(1, aboutUserResponeModel.get(0).getUser_bio(), aboutUserResponeModel.get(0).getUser_status(), aboutUserResponeModel.get(0).getUser_song());
 
-                //              song.setText(aboutUser.get(0).getUser_song());
-                //            AboutUser aboutUser1 = new AboutUser(2, aboutUser.get(0).getUser_bio(), aboutUser.get(0).getUser_status(), aboutUser.get(0).getUser_song());
-                song.setText(aboutUser.get(0).getUser_song());
-                AboutUser aboutUser1 = new AboutUser(GeneralAppInfo.getUserID(), aboutUser.get(0).getUser_bio(), aboutUser.get(0).getUser_status(), aboutUser.get(0).getUser_song());
+                //              song.setText(aboutUserResponeModel.get(0).getUser_song());
+                //            AboutUserResponeModel aboutUserResponeModel1 = new AboutUserResponeModel(2, aboutUserResponeModel.get(0).getUser_bio(), aboutUserResponeModel.get(0).getUser_status(), aboutUserResponeModel.get(0).getUser_song());
+                song.setText(aboutUserResponeModel.get(0).getUser_song());
+                AboutUserResponeModel aboutUserResponeModel1 = new AboutUserResponeModel(GeneralAppInfo.getUserID(), aboutUserResponeModel.get(0).getUser_bio(), aboutUserResponeModel.get(0).getUser_status(), aboutUserResponeModel.get(0).getUser_song());
                 DBHandler dbHandler = new DBHandler(getApplicationContext());
-                dbHandler.addAboutUser(aboutUser1);
+                dbHandler.addAboutUser(aboutUserResponeModel1);
             }
 
             @Override
-            public void onFailure(Call<List<AboutUser>> call, Throwable t) {
+            public void onFailure(Call<List<AboutUserResponeModel>> call, Throwable t) {
 
             }
 

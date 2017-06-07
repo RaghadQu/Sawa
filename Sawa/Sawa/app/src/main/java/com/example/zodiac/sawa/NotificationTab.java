@@ -4,25 +4,17 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatDialogFragment;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.zodiac.sawa.DB.DBHandler;
-import com.example.zodiac.sawa.MyRequests.MyRequestsActivity;
-import com.example.zodiac.sawa.MyRequests.RequestScroll;
 import com.example.zodiac.sawa.RecyclerViewAdapters.NotificationAdapter;
-import com.example.zodiac.sawa.interfaces.AboutUserApi;
 import com.example.zodiac.sawa.interfaces.NotificationApi;
-import com.example.zodiac.sawa.models.AboutUser;
 import com.example.zodiac.sawa.models.Notification;
 import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView;
 
-import java.net.MalformedURLException;
 import java.util.ArrayList;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;

@@ -1,12 +1,9 @@
 package com.example.zodiac.sawa.MenuActiviries;
 
 import android.Manifest;
-import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.app.Dialog;
-import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -25,7 +22,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -36,10 +32,9 @@ import com.example.zodiac.sawa.GeneralAppInfo;
 import com.example.zodiac.sawa.GeneralFunctions;
 import com.example.zodiac.sawa.ImageConverter.ImageConverter;
 import com.example.zodiac.sawa.ImageConverter.uploadImage;
-import com.example.zodiac.sawa.MyAdapter;
+import com.example.zodiac.sawa.RecyclerViewAdapters.MyAdapter;
 import com.example.zodiac.sawa.R;
 import com.example.zodiac.sawa.RecyclerViewAdapters.SettingsAdapter;
-import com.example.zodiac.sawa.models.Authentication;
 
 public class MyProfileActivity extends AppCompatActivity {
 
@@ -106,7 +101,7 @@ public class MyProfileActivity extends AppCompatActivity {
             // imageView.setImageURI();
             final DBHandler dbHandler = new DBHandler(this);
             final uploadImage uploadImage = new uploadImage();
-            String imageUrl = uploadImage.getUserImageFromDB(GeneralAppInfo.getUserID(), img, MyProfileActivity.this, anim);
+            String imageUrl = uploadImage.getUserImageFromDB(GeneralAppInfo.getUserID(), img, MyProfileActivity.this,1, anim);
 
 
             img.setOnClickListener(new View.OnClickListener() {

@@ -1,7 +1,5 @@
 package com.example.zodiac.sawa.interfaces;
 
-import com.example.zodiac.sawa.models.Authentication;
-import com.example.zodiac.sawa.models.DeleteFriendRequest;
 import com.example.zodiac.sawa.models.logOut;
 
 import retrofit2.Call;
