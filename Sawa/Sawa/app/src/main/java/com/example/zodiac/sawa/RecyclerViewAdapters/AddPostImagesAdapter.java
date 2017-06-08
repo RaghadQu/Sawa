@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.zodiac.sawa.AddPostActivity;
 import com.example.zodiac.sawa.GeneralAppInfo;
 import com.example.zodiac.sawa.MenuActiviries.MyProfileActivity;
 import com.example.zodiac.sawa.FriendProfile.FreindsFunctions;
@@ -107,11 +108,30 @@ public class AddPostImagesAdapter extends RecyclerView.Adapter<AddPostImagesAdap
             ivProfile = (CircleImageView) itemView.findViewById(R.id.Image);
             tvName = (TextView) itemView.findViewById(R.id.Name);
 
+            ivProfile.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int  FriendId= Integer.valueOf(AddPostActivity.FriendPostList.get(getAdapterPosition()).getId());
+                    Log.d("AdapterID", " reciever id is : "+ FriendId);
+                    AddPostActivity.setRecieverID(FriendId);
+                    try {
+                        String recieverImage=AddPostActivity.FriendPostList.get(getAdapterPosition()).getImageResourceId();
+                      //  Picasso.with(mContext).load(recieverImage).into(AddPostActivity.receiverImage);
+                        AddPostActivity.setRecieverImage(recieverImage,mContext);
+
+                    } catch (MalformedURLException e) {
+                        Log.d("AdapterImage", " error in image");
+
+                        e.printStackTrace();
+                    }
+                }
+
+
+            });
+
 
         }
 
 
     }
-
-
 }
