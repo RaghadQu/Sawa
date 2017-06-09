@@ -62,7 +62,8 @@
             android:theme="@style/AppTheme" />
         <activity android:name=".FriendProfile.MyFriendProfileActivity" />
         <activity android:name=".MyFriends.AboutFriendActivity" />
-        <activity android:name=".SearchActivity"></activity>
+        <activity android:name=".SearchActivity" />
+        <activity android:name=".YoutubePlayerActivity"></activity>
     </application>
 
 </manifest>

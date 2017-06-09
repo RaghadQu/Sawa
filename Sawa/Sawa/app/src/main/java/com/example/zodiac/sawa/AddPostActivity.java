@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.zodiac.sawa.ImageConverter.uploadImage;
@@ -51,6 +52,8 @@ public class AddPostActivity extends Activity {
     RecyclerView.Adapter adapter;
     public static ArrayList<MyFriendsActivity.friend> FriendPostList = new ArrayList<>();
     GetFreinds service;
+    private ProgressBar postProgress;
+
     List<getFriendsResponse> FreindsList;
 
 
@@ -58,6 +61,7 @@ public class AddPostActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_post_activity);
+        postProgress=(ProgressBar) findViewById(R.id.postProgress);
         anonymousBtn = (CircleButton) findViewById(R.id.anonymous);
         Cancelbtn = (Button) findViewById(R.id.CancelBtn);
         PostBtn = (Button) findViewById(R.id.PostBtn);
@@ -135,6 +139,7 @@ public class AddPostActivity extends Activity {
 
     public void AddNewPost(int is_anon)
     {
+        postProgress.setVisibility(View.VISIBLE);
         AddPostApi Postservice;
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(GeneralAppInfo.BACKEND_URL)
@@ -158,6 +163,7 @@ public class AddPostActivity extends Activity {
             PostRespone.enqueue(new Callback<GeneralStateResponeModel>() {
                 @Override
                 public void onResponse(Call<GeneralStateResponeModel> call, Response<GeneralStateResponeModel> response) {
+                    postProgress.setVisibility(View.INVISIBLE);
                     Log.d("AddPost", " Add Post done with code " + response.code() +" " + response.body().getState());
                     Intent i = new Intent(getApplicationContext(), HomeTabbedActivity.class);
                     startActivity(i);
@@ -165,6 +171,8 @@ public class AddPostActivity extends Activity {
 
                 @Override
                 public void onFailure(Call<GeneralStateResponeModel> call, Throwable t) {
+                    postProgress.setVisibility(View.INVISIBLE);
+
                     Log.d("fail to get friends ", "Failure to Get friends in AddPostActivity");
                     Toast.makeText(AddPostActivity.this, "Oops! Something went wrong, please try again.",
                             Toast.LENGTH_SHORT).show();

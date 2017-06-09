@@ -68,6 +68,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
+
+
                     <EditText
                         android:id="@+id/PostText"
                         android:layout_width="match_parent"
@@ -87,6 +89,7 @@
                         android:textSize="15dp" />
 
 
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -99,9 +102,9 @@
                         android:id="@+id/anonymous"
                         android:layout_width="25dp"
                         android:layout_height="25dp"
+                        android:layout_marginBottom="5dp"
                         android:layout_marginTop="3dp"
                         app:cb_color="#aaa"
-                        android:layout_marginBottom="5dp"
 
                         />
 
@@ -114,6 +117,7 @@
                         android:textColor="@color/purple"
 
                         />
+
 
 
                     <Button
@@ -148,6 +152,14 @@
                         android:textColor="#000" />-->
 
             </RelativeLayout>
+            <ProgressBar
+                android:id="@+id/postProgress"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="0dp"
+                android:visibility="invisible"
+                android:indeterminateTint="@color/purple" />
         </LinearLayout>
 
     </LinearLayout>
