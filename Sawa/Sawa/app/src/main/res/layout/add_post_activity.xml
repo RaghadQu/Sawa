@@ -1,14 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+
+    <Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/purple"
+        tools:targetApi="lollipop"></Toolbar>
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginBottom="10dp"
         android:layout_marginTop="17dp"
         android:background="#fff"
         android:orientation="vertical">
@@ -17,7 +25,10 @@
             android:id="@+id/recycler"
             android:layout_width="match_parent"
             android:layout_height="70dp"
-            android:layout_margin="10dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
             android:orientation="horizontal"
             app:fastScrollPopupBgColor="@color/purple"
             app:fastScrollPopupTextColor="@android:color/primary_text_dark"
@@ -28,7 +39,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="10dp"
+
             android:background="#fff"
             android:orientation="vertical">
 
@@ -63,19 +74,23 @@
                     android:layout_marginTop="7dp"
                     android:background="@drawable/friend_picture" />
 
+
                 <LinearLayout
                     android:id="@+id/linearLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginTop="63dp"
+                    android:orientation="vertical">
 
                     <EditText
                         android:id="@+id/PostText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="3dp"
                         android:layout_marginLeft="2dp"
                         android:layout_marginRight="2dp"
-                        android:layout_marginTop="63dp"
                         android:background="#fff"
                         android:clickable="true"
                         android:gravity="top|left"
@@ -86,7 +101,33 @@
                         android:padding="5dp"
                         android:textSize="15dp" />
 
+                    <ScrollView
+                        android:id="@+id/ScrollView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
 
+                        <ImageView
+                            android:id="@+id/PostImage"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="2dp"
+                            android:layout_marginRight="2dp"
+                            android:background="#fff"
+                            android:paddingLeft="5dp"
+                            android:paddingRight="5dp" />
+                    </ScrollView>
+
+                    <TextView
+                        android:id="@+id/AddImage"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="2dp"
+                        android:layout_marginRight="2dp"
+                        android:background="#fff"
+                        android:drawableLeft="@drawable/picture"
+                        android:paddingBottom="3dp"
+                        android:paddingLeft="10dp"
+                        android:paddingTop="3dp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -99,21 +140,20 @@
                         android:id="@+id/anonymous"
                         android:layout_width="25dp"
                         android:layout_height="25dp"
+                        android:layout_marginBottom="5dp"
                         android:layout_marginTop="3dp"
                         app:cb_color="#aaa"
-                        android:layout_marginBottom="5dp"
 
                         />
 
 
                     <TextView
+                        android:id="@+id/textView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@android:color/transparent"
                         android:text="Anonymously"
-                        android:textColor="@color/purple"
-
-                        />
+                        android:textColor="@color/purple" />
 
 
                     <Button
@@ -138,14 +178,15 @@
 
                 </LinearLayout>
 
+
                 <!--    <ToggleButton
-                        android:id="@+id/toggBtn"
-                        android:layout_width="50dp"
-                        android:layout_height="35dp"
-                        android:layout_marginLeft="90dp"
-                        android:layout_marginTop="186dp"
-                        android:background="@android:color/transparent"
-                        android:textColor="#000" />-->
+                    android:id="@+id/toggBtn"
+                    android:layout_width="50dp"
+                    android:layout_height="35dp"
+                    android:layout_marginLeft="90dp"
+                    android:layout_marginTop="186dp"
+                    android:background="@android:color/transparent"
+                    android:textColor="#000" />-->
 
             </RelativeLayout>
         </LinearLayout>
