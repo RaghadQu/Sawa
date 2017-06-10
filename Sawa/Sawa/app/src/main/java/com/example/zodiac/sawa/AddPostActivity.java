@@ -7,8 +7,10 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.AttributeSet;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
@@ -59,15 +61,21 @@ public class AddPostActivity extends Activity {
     EditText PostText;
     TextView AddImage;
     ImageView PostImage;
+    TextView DeletePostImage;
     static int ReceiverID;
     static public CircleImageView senderImage, receiverImage;
-    static String postImage;
+    static String postImage = "";
     FastScrollRecyclerView recyclerView;
     RecyclerView.Adapter adapter;
     public static ArrayList<MyFriendsActivity.friend> FriendPostList = new ArrayList<>();
     GetFreinds service;
     List<getFriendsResponse> FreindsList;
 
+    @Nullable
+    @Override
+    public View onCreateView(String name, Context context, AttributeSet attrs) {
+        return super.onCreateView(name, context, attrs);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +89,9 @@ public class AddPostActivity extends Activity {
         PostText = (EditText) findViewById(R.id.PostText);
         PostImage = (ImageView) findViewById(R.id.PostImage);
         AddImage = (TextView) findViewById(R.id.AddImage);
-
+        DeletePostImage = (TextView) findViewById(R.id.cross);
+        Log.d("DeletePostImage", " " + DeletePostImage);
+       DeletePostImage.setVisibility(View.INVISIBLE);
         uploadImage uploadImage = new uploadImage();
         uploadImage.getUserImageFromDB(GeneralAppInfo.getUserID(), senderImage, AddPostActivity.this, 0, null);
 
@@ -142,6 +152,7 @@ public class AddPostActivity extends Activity {
             @Override
             public void onResponse(Call<List<getFriendsResponse>> call, Response<List<getFriendsResponse>> response) {
                 Log.d("AddPostActivity", " Add post after request with code " + response.code());
+                if(response.body()!= null){
                 FreindsList = response.body();
                 Log.d("AddPostActivity", " Add post after request with size " + FreindsList.size());
 
@@ -151,7 +162,7 @@ public class AddPostActivity extends Activity {
                             FreindsList.get(i).getFirstName() + " " + FreindsList.get(i).getLast_name()));
                     recyclerView.setAdapter(new AddPostImagesAdapter(AddPostActivity.this, FriendPostList));
                 }
-            }
+            }}
 
             @Override
             public void onFailure(Call<List<getFriendsResponse>> call, Throwable t) {
@@ -174,22 +185,45 @@ public class AddPostActivity extends Activity {
 
                 int newWidth = (int) (bitmap.getWidth());
                 int newHeight = (int) (bitmap.getHeight());
-                if (newHeight >= 500) {
-                    if (newWidth > newHeight) {
+                Log.d("ImageAddPost", " width " + newWidth + "  "+ newHeight);
+                Log.d("ImageAddPost", " width " + PostImage.getWidth() + "  "+ PostImage.getHeight());
+
+               if (newHeight >= 500) {
+                   // if (newWidth > newHeight) {
                         double scale = 920.0 / newWidth;
                         newWidth = (int) (newWidth * scale);
                         newHeight = (int) (newHeight * scale);
-                    } else {
-                        double scale = 950.0 / newHeight;
+                /*    } else {
+                        double scale = 920.0 / newWidth;
                         newWidth = (int) (newWidth * scale);
                         newHeight = (int) (newHeight * scale);
-                    }
+                    }*/
                 }
                 Bitmap resized = Bitmap.createScaledBitmap(bitmap, newWidth, newHeight, true);
                 PostImage.setImageBitmap(resized);
 
-            } catch (IOException e) {
-                e.printStackTrace();
+                //  PostImage.setImageBitmap(bitmap);
+                DeletePostImage.setVisibility(View.VISIBLE);
+
+                DeletePostImage.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        PostImage.setImageBitmap(null);
+                        DeletePostImage.setVisibility(View.INVISIBLE);
+
+                    }
+                });
+
+                Cancelbtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent i = new Intent(getApplicationContext(), HomeTabbedActivity.class);
+                        startActivity(i);
+                    }
+                });
+
+          } catch (IOException e) {
+               e.printStackTrace();
             }
             // PostImage.setImageURI(imageuri);
 
@@ -222,7 +256,7 @@ public class AddPostActivity extends Activity {
             PostRespone.enqueue(new Callback<GeneralStateResponeModel>() {
                 @Override
                 public void onResponse(Call<GeneralStateResponeModel> call, Response<GeneralStateResponeModel> response) {
-                    Log.d("AddPost", " Add Post done with code " + response.code() + " " + response.body().getState());
+                    Log.d("AddPost", " Add Post done with code " + response.code() + " ");
                     Intent i = new Intent(getApplicationContext(), HomeTabbedActivity.class);
                     startActivity(i);
                 }
