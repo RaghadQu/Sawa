@@ -38,37 +38,30 @@ public class YoutubePlayerActivity extends YouTubeBaseActivity implements YouTub
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                Log.d("Char sequense", "" + charSequence);
-                Log.d(" valid", "");
 
-                String pattern = "https://www.youtube.com/watch?v=";
-                Pattern p = Pattern.compile(pattern);
-                Matcher m = p.matcher(charSequence);
-                boolean b = m.matches();
-
-                if (b) {
-                    Log.d(" valid", "");
-                } else {
-                    Log.d(" Not valid", "");
-
-                }
-                if (isEmailValid(charSequence) == true) {
-                    Log.d(" valid", "");
-
-
-                    youTubePlayerView.setVisibility(View.VISIBLE);
-                    youTubePlayerView.initialize(api_key, YoutubePlayerActivity.this);
-                } else {
-                    Log.d("Not valid", "");
-                    youTubePlayerView.setVisibility(View.INVISIBLE);
-                }
 
 
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
-                Log.d("After ",""+editText.getText());
+
+                String pattern = "https://m.youtube.com/watch?v=";
+                String s = String.valueOf(editText.getText());
+                int i = s.indexOf(pattern);
+                Log.d("II", "" + i);
+
+                if (i == 0) {
+                    String[] split = s.split("v=");
+                    video_id = split[1];
+                    youTubePlayerView.setVisibility(View.VISIBLE);
+                    youTubePlayerView.initialize(api_key, YoutubePlayerActivity.this);
+                } else {
+                    youTubePlayerView.setVisibility(View.INVISIBLE);
+
+                }
+
+
             }
         });
 

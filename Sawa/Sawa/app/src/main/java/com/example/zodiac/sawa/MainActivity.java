@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         if ((isLogined.equals("1"))) {
-            Intent i = new Intent(getApplicationContext(), YoutubePlayerActivity.class);
+            Intent i = new Intent(getApplicationContext(), HomeTabbedActivity.class);
             startActivity(i);
             finish();
         }
