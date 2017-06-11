@@ -201,7 +201,7 @@ public class MyProfileActivity extends AppCompatActivity {
                 ImageConverter imageConverter = new ImageConverter();
                 byte[] image = imageConverter.getBytes(bitmap);
                 DBHandler dbHandler = new DBHandler(this);
-                dbHandler.updateUserImage(GeneralAppInfo.getUserID(), image);
+               // dbHandler.updateUserImage(GeneralAppInfo.getUserID(), image);
                 String encodedImage = Base64.encodeToString(image, Base64.DEFAULT);
                 uploadImage uploadImage = new uploadImage();
                 uploadImage.uploadImagetoDB(GeneralAppInfo.getUserID(), encodedImage);
