@@ -62,10 +62,10 @@ dependencies {
     compile files('activation.jar')
     compile files('additionnal.jar')
     compile files('mail.jar')
+    compile files('YouTubeAndroidPlayerApi.jar')
     compile 'com.android.support:support-v4:25.3.0'
     compile 'com.google.firebase:firebase-core:9.4.0'
     compile 'com.google.firebase:firebase-messaging:10.0.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
-
 }
 apply plugin: 'com.google.gms.google-services'

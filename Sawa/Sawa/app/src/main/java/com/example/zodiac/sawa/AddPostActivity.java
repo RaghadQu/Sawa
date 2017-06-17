@@ -10,12 +10,16 @@ import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,6 +36,10 @@ import com.example.zodiac.sawa.models.AddNewPostModel;
 import com.example.zodiac.sawa.models.GeneralStateResponeModel;
 import com.example.zodiac.sawa.models.getFriendsRequest;
 import com.example.zodiac.sawa.models.getFriendsResponse;
+import com.google.android.youtube.player.YouTubeBaseActivity;
+import com.google.android.youtube.player.YouTubeInitializationResult;
+import com.google.android.youtube.player.YouTubePlayer;
+import com.google.android.youtube.player.YouTubePlayerView;
 import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView;
 import com.squareup.picasso.Picasso;
 
@@ -51,11 +59,14 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Created by zodiac on 06/07/2017.
  */
 
-public class AddPostActivity extends Activity {
+public class AddPostActivity extends YouTubeBaseActivity implements YouTubePlayer.OnInitializedListener {
 
     private static final int SELECTED_PICTURE = 100;
 
-
+    public static String api_key = "AIzaSyAa3QEuITB2WLRgtRVtM3jZwziz9Fc5EV4";
+    public String video_id = "rzLKwtC5q1k";
+    YouTubePlayerView youTubePlayerView;
+    int youtubeFlag = 0;
     Button Cancelbtn, PostBtn;
     CircleButton anonymousBtn;
     EditText PostText;
@@ -69,6 +80,8 @@ public class AddPostActivity extends Activity {
     RecyclerView.Adapter adapter;
     public static ArrayList<MyFriendsActivity.friend> FriendPostList = new ArrayList<>();
     GetFreinds service;
+    ProgressBar postProgress;
+
     List<getFriendsResponse> FreindsList;
 
     @Nullable
@@ -80,14 +93,57 @@ public class AddPostActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        postProgress=(ProgressBar)findViewById(R.id.postProgress);
         setContentView(R.layout.add_post_activity);
+      //  youTubePlayerView = (YouTubePlayerView) findViewById(R.id.youtube);
+      //  youTubePlayerView.setVisibility(View.INVISIBLE);
+        PostText = (EditText) findViewById(R.id.PostText);
+        PostText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+                String pattern = "https://m.youtube.com/watch?v=";
+                String s = String.valueOf(PostText.getText());
+                int i = s.indexOf(pattern);
+                Log.d("II", "" + i);
+
+                if (i == 0 && youtubeFlag == 0) {
+                    String[] split = s.split("v=");
+                    video_id = split[1];
+                    youTubePlayerView = new YouTubePlayerView(AddPostActivity.this);
+                    youTubePlayerView.initialize(api_key, AddPostActivity.this);
+
+                    addContentView(youTubePlayerView, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+
+                    //  youTubePlayerView.setVisibility(View.VISIBLE);
+                    //youTubePlayerView.initialize(api_key, AddPostActivity.this);
+                    youtubeFlag=1;
+                } else if(i==-1&&youtubeFlag==0) {
+                    //youTubePlayerView.setVisibility(View.INVISIBLE);
+
+                }
+
+
+            }
+        });
+        PostImage=(ImageView)findViewById(R.id.PostImage);
+        postProgress = (ProgressBar) findViewById(R.id.postProgress);
         anonymousBtn = (CircleButton) findViewById(R.id.anonymous);
         Cancelbtn = (Button) findViewById(R.id.CancelBtn);
         PostBtn = (Button) findViewById(R.id.PostBtn);
         senderImage = (CircleImageView) findViewById(R.id.senderImage);
         receiverImage = (CircleImageView) findViewById(R.id.receiverImage);
-        PostText = (EditText) findViewById(R.id.PostText);
-        PostImage = (ImageView) findViewById(R.id.PostImage);
         AddImage = (TextView) findViewById(R.id.AddImage);
         DeletePostImage = (TextView) findViewById(R.id.cross);
         Log.d("DeletePostImage", " " + DeletePostImage);
@@ -180,8 +236,8 @@ public class AddPostActivity extends Activity {
         if (resultCode == RESULT_OK && requestCode == SELECTED_PICTURE) {
             Uri imageuri = data.getData();
             try {
-                setPostImage(imageuri);
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageuri);
+               Bitmap bitmap= setPostImage(imageuri);
+               /*  Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageuri);
 
                 int newWidth = (int) (bitmap.getWidth());
                 int newHeight = (int) (bitmap.getHeight());
@@ -193,14 +249,14 @@ public class AddPostActivity extends Activity {
                         double scale = 920.0 / newWidth;
                         newWidth = (int) (newWidth * scale);
                         newHeight = (int) (newHeight * scale);
-                /*    } else {
+                   } else {
                         double scale = 920.0 / newWidth;
                         newWidth = (int) (newWidth * scale);
                         newHeight = (int) (newHeight * scale);
-                    }*/
-                }
-                Bitmap resized = Bitmap.createScaledBitmap(bitmap, newWidth, newHeight, true);
-                PostImage.setImageBitmap(resized);
+                    }
+                }*/
+                //Bitmap resized = Bitmap.createScaledBitmap(bitmap, newWidth, newHeight, true);
+                PostImage.setImageBitmap(bitmap );
 
                 //  PostImage.setImageBitmap(bitmap);
                 DeletePostImage.setVisibility(View.VISIBLE);
@@ -231,12 +287,12 @@ public class AddPostActivity extends Activity {
     }
 
     public void AddNewPost(int is_anon) {
+        postProgress.setVisibility(ProgressBar.VISIBLE);
         AddPostApi Postservice;
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(GeneralAppInfo.BACKEND_URL)
                 .addConverterFactory(GsonConverterFactory.create()).build();
         Postservice = retrofit.create(AddPostApi.class);
-
 
         final AddNewPostModel request = new AddNewPostModel();
         request.setImage(getPostImage());
@@ -256,6 +312,10 @@ public class AddPostActivity extends Activity {
             PostRespone.enqueue(new Callback<GeneralStateResponeModel>() {
                 @Override
                 public void onResponse(Call<GeneralStateResponeModel> call, Response<GeneralStateResponeModel> response) {
+                    postProgress.setVisibility(ProgressBar.INVISIBLE);
+
+                    Log.d("AddPost", " Add Post done with code " + response.code() + " " + response.body().getState());
+                    Log.d("AddPost", " Add Post done with code " + response.code() + " " + response.body().getState());
                     Log.d("AddPost", " Add Post done with code " + response.code() + " ");
                     Intent i = new Intent(getApplicationContext(), HomeTabbedActivity.class);
                     startActivity(i);
@@ -263,6 +323,10 @@ public class AddPostActivity extends Activity {
 
                 @Override
                 public void onFailure(Call<GeneralStateResponeModel> call, Throwable t) {
+                    postProgress.setVisibility(ProgressBar.INVISIBLE);
+
+
+                    Log.d("fail to get friends ", "Failure to Get friends in AddPostActivity");
                     Log.d("fail to get friends ", "Failure to Get friends in AddPostActivity  ... " + t.getMessage());
                     Toast.makeText(AddPostActivity.this, "Oops! Something went wrong, please try again.",
                             Toast.LENGTH_SHORT).show();
@@ -279,19 +343,20 @@ public class AddPostActivity extends Activity {
         return postImage;
     }
 
-    public void setPostImage(Uri imageuri) throws IOException {
+    public Bitmap setPostImage(Uri imageuri) throws IOException {
         GeneralFunctions generalFunctions = new GeneralFunctions();
         String path = generalFunctions.getRealPathFromURI(this, imageuri);
         int rotate = generalFunctions.getPhotoOrientation(path);
         Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageuri);
-        bitmap = MyProfileActivity.scaleDown(bitmap, 1000, true);
+        bitmap = MyProfileActivity.scaleDown(bitmap, 3000, true);
         bitmap = MyProfileActivity.RotateBitmap(bitmap, rotate);
-        ImageConverter imageConverter = new ImageConverter();
+       /* ImageConverter imageConverter = new ImageConverter();
         byte[] image = imageConverter.getBytes(bitmap);
-        DBHandler dbHandler = new DBHandler(this);
-        dbHandler.updateUserImage(GeneralAppInfo.getUserID(), image);
+        //DBHandler dbHandler = new DBHandler(this);
+       // dbHandler.updateUserImage(GeneralAppInfo.getUserID(), image);
         String encodedImage = Base64.encodeToString(image, Base64.DEFAULT);
-        postImage = encodedImage;
+        postImage = encodedImage;*/
+       return  bitmap;
 
     }
 
@@ -310,4 +375,73 @@ public class AddPostActivity extends Activity {
 
     }
 
+    @Override
+    public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
+        youTubePlayer.setPlayerStateChangeListener(playerStateChangeListener);
+        youTubePlayer.setPlaybackEventListener(playbackEventListener);
+        youTubePlayer.cueVideo(video_id);
+    }
+
+    @Override
+    public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
+
+    }
+
+    private YouTubePlayer.PlayerStateChangeListener playerStateChangeListener = new YouTubePlayer.PlayerStateChangeListener() {
+        @Override
+        public void onLoading() {
+
+        }
+
+        @Override
+        public void onLoaded(String s) {
+
+        }
+
+        @Override
+        public void onAdStarted() {
+
+        }
+
+        @Override
+        public void onVideoStarted() {
+
+        }
+
+        @Override
+        public void onVideoEnded() {
+
+        }
+
+        @Override
+        public void onError(YouTubePlayer.ErrorReason errorReason) {
+
+        }
+    };
+    private YouTubePlayer.PlaybackEventListener playbackEventListener = new YouTubePlayer.PlaybackEventListener() {
+        @Override
+        public void onPlaying() {
+
+        }
+
+        @Override
+        public void onPaused() {
+
+        }
+
+        @Override
+        public void onStopped() {
+
+        }
+
+        @Override
+        public void onBuffering(boolean b) {
+
+        }
+
+        @Override
+        public void onSeekTo(int i) {
+
+        }
+    };
 }

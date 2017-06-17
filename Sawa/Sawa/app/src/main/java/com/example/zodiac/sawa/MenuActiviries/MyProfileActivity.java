@@ -51,7 +51,7 @@ public class MyProfileActivity extends AppCompatActivity {
     int image2 = R.drawable.friends_icon;
     int image3 = R.drawable.friends_icon;
     int image4 = R.drawable.image1;
-    Button editBio;
+    TextView editBio;
 
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
@@ -148,7 +148,7 @@ public class MyProfileActivity extends AppCompatActivity {
             mAdapter = new MyAdapter(this, myDataset, images);
             mRecyclerView.setAdapter(mAdapter);
             //set click listener for edit bio
-            editBio = (Button) findViewById(R.id.editBio);
+            editBio = (TextView) findViewById(R.id.editBio);
             editBio.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -201,7 +201,7 @@ public class MyProfileActivity extends AppCompatActivity {
                 ImageConverter imageConverter = new ImageConverter();
                 byte[] image = imageConverter.getBytes(bitmap);
                 DBHandler dbHandler = new DBHandler(this);
-                dbHandler.updateUserImage(GeneralAppInfo.getUserID(), image);
+               // dbHandler.updateUserImage(GeneralAppInfo.getUserID(), image);
                 String encodedImage = Base64.encodeToString(image, Base64.DEFAULT);
                 uploadImage uploadImage = new uploadImage();
                 uploadImage.uploadImagetoDB(GeneralAppInfo.getUserID(), encodedImage);

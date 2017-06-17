@@ -39,7 +39,7 @@
             android:orientation="vertical"
             >
 
-            <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+        <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/user_profile_photo"
                 android:layout_width="95dp"
                 android:layout_height="95dp"
@@ -68,40 +68,40 @@
 
 
 
-            <TextView
-                android:id="@+id/user_profile_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:background="#00000000"
-                android:padding="5dp"
-                android:layout_marginTop="23dp"
-                android:text="Ibrahim Zahra"
-                android:textColor="#000"
-                android:textColorHint="#000"
-                android:textSize="18dp" />
+                <TextView
+                    android:id="@+id/user_profile_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:background="#00000000"
+                    android:padding="5dp"
+                    android:layout_marginTop="23dp"
+                    android:text="Ibrahim Zahra"
+                    android:textColor="#000"
+                    android:textColorHint="#000"
+                    android:textSize="18dp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginLeft="35dp"
-                android:layout_marginRight="18dp"
-                android:drawableRight="@drawable/sms2"
-                android:id="@+id/editBio"
-                android:text="Civi Engineer. Hala Madrid , PS     " />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="35dp"
+                    android:layout_marginRight="18dp"
+                    android:drawableRight="@drawable/sms2"
+                    android:id="@+id/editBio"
+                    android:text="Civi Engineer. Hala Madrid , PS     " />
 
-            <Button
-                android:id="@+id/friendStatus"
-                android:layout_width="wrap_content"
-                android:layout_height="33dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="5dp"
-                android:textAllCaps="false"
-                android:textColor="@color/purple"
-                android:background="@drawable/friend_status_button"
-                android:text="Follow"
-                />
+                <Button
+                    android:id="@+id/friendStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="33dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="5dp"
+                    android:textAllCaps="false"
+                    android:textColor="@color/purple"
+                    android:background="@drawable/friend_status_button"
+                    android:text="Follow"
+                    />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -130,16 +130,16 @@
                     android:visibility="invisible"
                     />
             </LinearLayout>
-            <ProgressBar
-                android:id="@+id/progressBar_button"
-                style="?android:attr/progressBarStyleSmall"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:indeterminate="false"
-                android:elevation="2dp"
-                android:layout_marginTop="-20dp"
-                android:indeterminateTint="@color/purple"
-                android:visibility="visible" />
+                <ProgressBar
+                    android:id="@+id/progressBar_button"
+                    style="?android:attr/progressBarStyleSmall"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:indeterminate="false"
+                    android:elevation="2dp"
+                    android:layout_marginTop="-20dp"
+                    android:indeterminateTint="@color/purple"
+                    android:visibility="visible" />
 
         </LinearLayout>
 

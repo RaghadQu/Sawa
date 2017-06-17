@@ -46,6 +46,7 @@ public class MyFriendProfileActivity extends AppCompatActivity {
     Dialog AboutFriendDialog;
     TextView about_status, about_bio, about_song;
     TextView user_profile_name;
+    TextView toolBarText;
 
     ImageView imageView; // View image in dialog
     Button friendStatus;
@@ -54,7 +55,7 @@ public class MyFriendProfileActivity extends AppCompatActivity {
     int image2 = R.drawable.friends_icon;
     int image3 = R.drawable.friends_icon;
     int image4 = R.drawable.image1;
-    Button editBio;
+    TextView editBio;
 
 
     private ProgressBar progressBar;
@@ -76,6 +77,7 @@ public class MyFriendProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_friend_profile);
+        toolBarText=(TextView) findViewById(R.id.ToolbarText);
         user_profile_name = (TextView) findViewById(R.id.user_profile_name);
         //get parameters
         Bundle b = getIntent().getExtras();
@@ -89,6 +91,7 @@ public class MyFriendProfileActivity extends AppCompatActivity {
             mImageUrl = b.getString("mImageURL");
         }
         user_profile_name.setText(mName);
+        toolBarText.setText(mName);
 
         friendStatus = (Button) findViewById(R.id.friendStatus);
         friendStatus.setText(" ");
@@ -211,7 +214,7 @@ public class MyFriendProfileActivity extends AppCompatActivity {
             mRecyclerView.setAdapter(mAdapter);
 
 
-            editBio = (Button) findViewById(R.id.editBio);
+            editBio = (TextView) findViewById(R.id.editBio);
             editBio.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

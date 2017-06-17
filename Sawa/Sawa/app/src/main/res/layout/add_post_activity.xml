@@ -98,6 +98,17 @@
                     android:elevation="2dp"
                     android:indeterminate="false" />
 
+              <!--  <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="invisible">
+                <com.google.android.youtube.player.YouTubePlayerView
+                    android:id="@+id/youtube"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:visibility="invisible"
+                    />
+                </LinearLayout>-->
                 <ImageView
                     android:id="@+id/PostImage"
                     android:layout_width="match_parent"
@@ -168,5 +179,13 @@
             </LinearLayout>
         </RelativeLayout>
     </ScrollView>
-
+    <ProgressBar
+        android:visibility="invisible"
+        android:layout_marginTop="0dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        android:id="@+id/postProgress"
+        android:indeterminateTint="@color/purple"
+        />
 </LinearLayout>
