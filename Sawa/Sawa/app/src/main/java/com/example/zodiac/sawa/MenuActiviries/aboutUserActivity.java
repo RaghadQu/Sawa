@@ -67,7 +67,7 @@ public class aboutUserActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.about_test_test_test_test);
+        setContentView(R.layout.activity_about_user);
         Bundle b = getIntent().getExtras();
         int value = -1; // or other values
         if (b != null)

@@ -1,176 +1,250 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView  xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#fff">
+    android:layout_height="match_parent">
 
+    <Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginBottom="0dp"
+        android:background="@color/purple">
 
+        <TextView
+            android:id="@+id/toolBarText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/left"
+            android:drawablePadding="20dp"
+            android:gravity="center"
+            android:paddingLeft="5dp"
+            android:text="Edit Profile"
+            android:textColor="#fff"
+            android:textSize="17dp"
+            android:textStyle="bold" />
 
-    <LinearLayout  xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="vertical" android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#fff"
-        >
-
-        <Toolbar
+        <TextView
+            android:id="@+id/saveEdit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/purple"
-            android:layout_marginBottom="10dp">
+            android:paddingLeft="150dp"
+            android:text="Save"
+            android:textColor="#fff"
+            android:textSize="16dp"
+            android:textStyle="bold" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/left"
-                android:id="@+id/toolBarText"
-                android:paddingLeft="5dp"
-                android:drawablePadding="20dp"
-                android:text="Edit ele ho"
-                android:textColor="#fff"
-                android:textSize="20dp"
-                android:textStyle="bold" />
+    </Toolbar>
 
-            <TextView
+    <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="50dp"
+        android:minHeight="120dp">
+
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/app_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/AppTheme.AppBarOverlay"
+            app:elevation="6dp">
+
+            <android.support.design.widget.CollapsingToolbarLayout
+                android:id="@+id/collapse_toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/saveEdit"
-                android:paddingLeft="160dp"
-                android:text="Save"
-                android:textColor="#fff"
-                android:textSize="16dp"
-                android:textStyle="bold" />
+                android:layout_height="match_parent"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                android:fitsSystemWindows="true"
+                app:statusBarScrim="@android:color/transparent"
+                android:background="@android:color/transparent"
 
-        </Toolbar>
+                >
+
+                <ImageView
+                    android:id="@+id/AboutPicture"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fitsSystemWindows="true"
+                    android:scaleType="centerCrop"
+                    android:src="@mipmap/back_login"
+                    app:layout_collapseMode="parallax"
+                    />
+
+                <TextView
+                    android:paddingRight="25dp"
+                    android:paddingBottom="15dp"
+                    android:layout_marginBottom="3dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/editPicture"
+                    android:drawableRight="@mipmap/edit"
+                    android:layout_gravity="bottom"
+                    android:elevation="2dp"
+                    android:clickable="true"
+                    />
+
+                <android.support.v7.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="130dp"
+                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                    app:layout_collapseMode="pin"
+
+                   />
+
+            </android.support.design.widget.CollapsingToolbarLayout>
 
 
+        </android.support.design.widget.AppBarLayout>
 
 
-
-        <RelativeLayout
+        <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/corners"
-            android:layout_margin="10dp"
-            >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="BIO"
-                android:textStyle="bold"
-                android:paddingLeft="10dp"
-                android:minLines="2"
-                android:layout_margin="10dp"
-                android:textColor="#000"
-                android:background="@android:color/transparent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
 
-                />
-
-            <TextView
-                android:id="@+id/Bio"
-                android:layout_marginTop="35dp"
-                android:layout_marginLeft="2dp"
-                android:layout_marginRight="2dp"
-                android:layout_marginBottom="2dp"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="5dp"
-                android:text=""
-                android:minLines="3"
-                android:autoLink="web"
-                android:clickable="true"
-                android:background="#fff"/>
-        </RelativeLayout>
+                android:orientation="vertical">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/corners"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginBottom="10dp"
-            >
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="8dp">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Status"
-                android:textStyle="bold"
-                android:paddingLeft="10dp"
-                android:minLines="2"
-                android:layout_margin="10dp"
-                android:textColor="#000"
-                android:background="@android:color/transparent"
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:minLines="2"
+                        android:paddingLeft="10dp"
+                        android:text="Username"
+                        android:textColor="@color/purple"
+                        android:textStyle="bold" />
 
-
-                />
-
-            <TextView
-                android:id="@+id/status"
-                android:layout_marginTop="35dp"
-                android:layout_marginLeft="2dp"
-                android:padding="5dp"
-                android:layout_marginRight="2dp"
-                android:layout_marginBottom="2dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text=""
-                android:minLines="2"
-                android:autoLink="web"
-
-                android:background="#fff"/>
-        </RelativeLayout>
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/corners"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginBottom="10dp"
-            >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Song"
-                android:textStyle="bold"
-                android:paddingLeft="10dp"
-                android:minLines="2"
-                android:layout_margin="10dp"
-                android:textColor="#000"
-                android:background="@android:color/transparent"
-                android:id="@+id/SongView"
+                    <EditText
+                        android:id="@+id/userName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp"
+                        android:layout_marginTop="35dp"
+                        android:backgroundTint="@color/purple"
+                        android:clickable="true"
+                        android:paddingLeft="7dp"
+                        android:paddingRight="10dp"
+                        android:text="Raghad Qutteneh"
+                        android:textColor="#72000000"
+                        android:textSize="15dp" />
+                </RelativeLayout>
 
 
-                />
-            <Button
-                android:layout_marginTop="4dp"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:drawableLeft="@mipmap/edit"
-                android:background="@android:color/transparent"
-                android:layout_alignParentRight="true"
-                android:clickable="true"
-                android:id="@+id/SongEdit"
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="8dp">
 
-                />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="8dp"
+                        android:minLines="2"
+                        android:paddingLeft="10dp"
+                        android:text="BIO"
+                        android:textColor="@color/purple"
+                        android:textStyle="bold" />
 
-            <TextView
-                android:layout_marginTop="35dp"
-                android:layout_marginLeft="2dp"
-                android:layout_marginRight="2dp"
-                android:layout_marginBottom="2dp"
-                android:padding="5dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text=""
-                android:id="@+id/Song"
-                android:autoLink="web"
-                android:minLines="2"
-                android:background="#fff"/>
-        </RelativeLayout>
+                    <EditText
+                        android:id="@+id/Bio"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp"
+                        android:layout_marginTop="35dp"
+                        android:backgroundTint="@color/purple"
+                        android:clickable="true"
+                        android:paddingLeft="7dp"
+                        android:paddingRight="10dp"
+                        android:text=""
+                        android:textColor="#72000000"
+                        android:textSize="15dp" />
+                </RelativeLayout>
 
-    </LinearLayout>
 
-</ScrollView>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="8dp">
+
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:minLines="2"
+                        android:paddingLeft="10dp"
+                        android:text="Status"
+                        android:textColor="@color/purple"
+                        android:textStyle="bold"
+
+
+                        />
+
+                    <EditText
+                        android:id="@+id/status"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp"
+                        android:layout_marginTop="34dp"
+                        android:backgroundTint="@color/purple"
+                        android:clickable="true"
+                        android:paddingLeft="7dp"
+                        android:paddingRight="10dp"
+                        android:text=""
+                        android:textColor="#72000000"
+                        android:textSize="15dp" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="8dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:minLines="2"
+                        android:paddingLeft="10dp"
+                        android:text="Song"
+                        android:textColor="@color/purple"
+                        android:textStyle="bold"
+
+
+                        />
+
+
+                    <EditText
+                        android:id="@+id/Song"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp"
+                        android:layout_marginTop="30dp"
+                        android:backgroundTint="@color/purple"
+                        android:clickable="true"
+                        android:paddingLeft="7dp"
+                        android:paddingRight="10dp"
+                        android:text=""
+                        android:textColor="#72000000"
+                        android:textSize="15dp" />
+                </RelativeLayout>
+            </LinearLayout>
+
+        </android.support.v4.widget.NestedScrollView>
+    </android.support.design.widget.CoordinatorLayout>
+</RelativeLayout>
