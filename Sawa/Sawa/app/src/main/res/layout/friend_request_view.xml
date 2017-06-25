@@ -5,12 +5,10 @@
     android:layout_height="wrap_content"
     android:background="#fff">
 
-
-
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/image"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
         android:background="@drawable/friend_picture"
         android:layout_marginLeft="18dp"
         android:layout_marginTop="15dp"
@@ -24,7 +22,7 @@
         >
         <TextView
             android:layout_marginLeft="18dp"
-            android:layout_width="128dp"
+            android:layout_width="135dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:textColor="#000"
@@ -34,7 +32,8 @@
 
         <Button
             android:layout_width="40dp"
-            android:layout_height="32dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="10dp"
             android:id="@+id/ConfirmRequest"
             android:background="@drawable/left_corners"
             android:drawableLeft="@drawable/rsz_confirm1"
@@ -42,8 +41,9 @@
             />
         <Button
             android:layout_width="40dp"
-            android:layout_height="32dp"
+            android:layout_height="30dp"
             android:id="@+id/deleteRequest"
+            android:layout_marginLeft="-2dp"
             android:background="@drawable/rigth_corners"
             android:drawableLeft="@drawable/rsz_delete"
             android:paddingLeft="10dp"
@@ -51,10 +51,12 @@
 
     </LinearLayout>
     <View
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="10dp"
         android:layout_width="fill_parent"
         android:layout_height="1dp"
-        android:background="#999"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:background="#a5999999"
         android:layout_below="@+id/image"
         />
 

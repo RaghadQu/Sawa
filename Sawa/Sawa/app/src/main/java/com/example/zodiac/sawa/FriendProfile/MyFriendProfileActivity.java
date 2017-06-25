@@ -6,13 +6,16 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.Matrix;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
@@ -47,6 +50,7 @@ public class MyFriendProfileActivity extends AppCompatActivity {
     TextView about_status, about_bio, about_song;
     TextView user_profile_name;
     TextView toolBarText;
+    TextView aboutUsername ;
 
     ImageView imageView; // View image in dialog
     Button friendStatus;
@@ -75,6 +79,7 @@ public class MyFriendProfileActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_friend_profile);
         toolBarText=(TextView) findViewById(R.id.ToolbarText);
@@ -181,9 +186,12 @@ public class MyFriendProfileActivity extends AppCompatActivity {
 
             AboutFriendDialog = new Dialog(this);
             AboutFriendDialog.setContentView(R.layout.about_other_dialog);
+            AboutFriendDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             about_bio = (TextView) AboutFriendDialog.findViewById(R.id.Bio);
             about_status = (TextView) AboutFriendDialog.findViewById(R.id.status);
             about_song = (TextView) AboutFriendDialog.findViewById(R.id.Song);
+            aboutUsername = (TextView) AboutFriendDialog.findViewById(R.id.aboutUsername);
+            aboutUsername.setText("About "+mName);
 
             final DBHandler dbHandler = new DBHandler(this);
             AboutUserResponeModel aboutUserResponeModel = dbHandler.getAboutUser(Id1);
@@ -194,6 +202,7 @@ public class MyFriendProfileActivity extends AppCompatActivity {
 
             } else {
                 getUserFromDB();
+
             }
 
             img.setOnClickListener(new View.OnClickListener() {
@@ -228,6 +237,24 @@ public class MyFriendProfileActivity extends AppCompatActivity {
                 }
             });
         }
+
+        toolBarText.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                     Log.d("---"," Clicked on Text");
+
+                final int DRAWABLE_LEFT = 0;
+
+                if(event.getX() <= (toolBarText.getCompoundDrawables()[DRAWABLE_LEFT].getBounds().width()))
+                {     Log.d("---"," Clicked on left");
+                        finish();
+
+                        return true;
+                    }
+
+                return false;
+            }
+        });
     }
 
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
@@ -284,10 +311,11 @@ public class MyFriendProfileActivity extends AppCompatActivity {
             public void onResponse(Call<List<AboutUserResponeModel>> call, Response<List<AboutUserResponeModel>> response) {
                 List<AboutUserResponeModel> aboutUserResponeModel;
                 aboutUserResponeModel = response.body();
-/*                about_bio.setText(aboutUserResponeModel.get(0).getUser_bio());
+                Log.d("Here", "aboutUserResponeModel "+ aboutUserResponeModel.get(0).getUser_bio() + "  " +response.code());
+                about_bio.setText(aboutUserResponeModel.get(0).getUser_bio());
                 about_status.setText(aboutUserResponeModel.get(0).getUser_status());
                 about_song.setText(aboutUserResponeModel.get(0).getUser_song());
-                AboutUserResponeModel aboutUser1 = new AboutUserResponeModel(GeneralAppInfo.getUserID(), aboutUserResponeModel.get(0).getUser_bio(), aboutUserResponeModel.get(0).getUser_status(), aboutUserResponeModel.get(0).getUser_song());
+               /* AboutUserResponeModel aboutUser1 = new AboutUserResponeModel(GeneralAppInfo.getUserID(), aboutUserResponeModel.get(0).getUser_bio(), aboutUserResponeModel.get(0).getUser_status(), aboutUserResponeModel.get(0).getUser_song());
                 DBHandler dbHandler = new DBHandler(getApplicationContext());
                 dbHandler.addAboutUser(aboutUser1);*/
             }

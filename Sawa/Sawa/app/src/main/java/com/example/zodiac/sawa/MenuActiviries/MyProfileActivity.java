@@ -19,6 +19,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Base64;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
@@ -38,11 +39,12 @@ import com.example.zodiac.sawa.RecyclerViewAdapters.SettingsAdapter;
 
 public class MyProfileActivity extends AppCompatActivity {
 
+
     Uri imageuri;
     ImageView img;
     Dialog imgClick;
     Dialog ViewImgDialog;
-    TextView changePic, viewPic , RemovePic;
+    TextView changePic, viewPic, RemovePic, toolBarText;
     ImageView imageView; // View image in dialog
     private static final int SELECTED_PICTURE = 100;
     SettingsAdapter recyclerAdapter;
@@ -61,8 +63,6 @@ public class MyProfileActivity extends AppCompatActivity {
 
     private ProgressBar progressBar;
     public static ObjectAnimator anim;
-
-
 
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -101,7 +101,7 @@ public class MyProfileActivity extends AppCompatActivity {
             // imageView.setImageURI();
             final DBHandler dbHandler = new DBHandler(this);
             final uploadImage uploadImage = new uploadImage();
-            String imageUrl = uploadImage.getUserImageFromDB(GeneralAppInfo.getUserID(), img, MyProfileActivity.this,1, anim);
+            String imageUrl = uploadImage.getUserImageFromDB(GeneralAppInfo.getUserID(), img, MyProfileActivity.this, 1, anim);
 
 
             img.setOnClickListener(new View.OnClickListener() {
@@ -158,6 +158,25 @@ public class MyProfileActivity extends AppCompatActivity {
                 }
             });
         }
+        toolBarText = (TextView) findViewById(R.id.toolBarText);
+        toolBarText.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                final int DRAWABLE_LEFT = 0;
+
+                if (event.getX() <= (toolBarText.getCompoundDrawables()[DRAWABLE_LEFT].getBounds().width())) {
+                    finish();
+                    return true;
+                }
+
+                if (event.getX() >= 900) {
+                    return true;
+                }
+
+
+                return false;
+            }
+        });
     }
 
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
@@ -181,7 +200,6 @@ public class MyProfileActivity extends AppCompatActivity {
     }
 
 
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -201,7 +219,7 @@ public class MyProfileActivity extends AppCompatActivity {
                 ImageConverter imageConverter = new ImageConverter();
                 byte[] image = imageConverter.getBytes(bitmap);
                 DBHandler dbHandler = new DBHandler(this);
-               // dbHandler.updateUserImage(GeneralAppInfo.getUserID(), image);
+                // dbHandler.updateUserImage(GeneralAppInfo.getUserID(), image);
                 String encodedImage = Base64.encodeToString(image, Base64.DEFAULT);
                 uploadImage uploadImage = new uploadImage();
                 uploadImage.uploadImagetoDB(GeneralAppInfo.getUserID(), encodedImage);

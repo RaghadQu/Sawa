@@ -34,6 +34,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Created by raghadq on 5/2/2017.
  */
 
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.ProgressBar;
@@ -52,6 +53,7 @@ public class MyRequestsActivity extends Activity {
     public static ArrayList<friend> LayoutFriendsList = new ArrayList<>();
     public static FastScrollRecyclerView recyclerView;
     public static RecyclerView.Adapter adapter;
+    TextView toolbarText;
 
     @Override
     protected void onResume() {
@@ -68,6 +70,7 @@ public class MyRequestsActivity extends Activity {
                 .addConverterFactory(GsonConverterFactory.create()).build();
         service = retrofit.create(GetFreinds.class);
 
+        toolbarText= (TextView) findViewById(R.id.toolBarText);
         final ProgressBar progressBar;
         progressBar = (ProgressBar) findViewById(R.id.ProgressBar);
         progressBar.setProgress(0);
@@ -128,6 +131,18 @@ public class MyRequestsActivity extends Activity {
                 }
             });
         }
+        toolbarText.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                final int DRAWABLE_LEFT = 0;
+
+                if (event.getX() <= (toolbarText.getCompoundDrawables()[DRAWABLE_LEFT].getBounds().width()+30)) {
+                    finish();
+                    return true;
+                }
+                return false;
+            }
+        });
 
     }
 
