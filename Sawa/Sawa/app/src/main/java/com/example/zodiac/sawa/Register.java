@@ -14,6 +14,9 @@ import android.widget.ImageView;
 
 import com.example.zodiac.sawa.DB.DBHandler;
 import com.example.zodiac.sawa.MenuActiviries.aboutUserActivity;
+import com.example.zodiac.sawa.Spring.Models.SignUpModel;
+import com.example.zodiac.sawa.Spring.Models.UserModel;
+import com.example.zodiac.sawa.SpringApi.AuthInterface;
 import com.example.zodiac.sawa.interfaces.SignAuth;
 import com.example.zodiac.sawa.models.SignRequest;
 import com.example.zodiac.sawa.models.SignResponse;
@@ -41,7 +44,7 @@ public class Register extends Activity {
     private EditText mobileEditText;
     private EditText passEditText;
     private EditText confPassEditText;
-    SignAuth service;
+    AuthInterface authInterface;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -56,9 +59,9 @@ public class Register extends Activity {
         confPassEditText = (EditText) findViewById(R.id.confirmPassword);
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(GeneralAppInfo.BACKEND_URL)
+                .baseUrl(GeneralAppInfo.SPRING_URL)
                 .addConverterFactory(GsonConverterFactory.create()).build();
-        service = retrofit.create(SignAuth.class);
+        authInterface = retrofit.create(AuthInterface.class);
 
     }
 
@@ -70,26 +73,27 @@ public class Register extends Activity {
     }
 
     public void SignUp(View arg0) {
-        SignRequest request = new SignRequest();
-        request.setFirstName(first_name.getText().toString());
-        request.setLastName(last_name.getText().toString());
-        request.setMobile(mobileEditText.getText().toString());
-        request.setEmail(emailEditText.getText().toString());
-        request.setPassword(passEditText.getText().toString());
+        SignUpModel signUpModel = new SignUpModel();
+        signUpModel.setFirst_name(first_name.getText().toString());
+        signUpModel.setLast_name(last_name.getText().toString());
+
+        signUpModel.setMobile(Integer.parseInt(mobileEditText.getText().toString()));
+        signUpModel.setEmail(emailEditText.getText().toString());
+        signUpModel.setPassword(passEditText.getText().toString());
         Validation validation = new Validation();
         boolean isValide = validation.isDataValide(first_name, last_name, emailEditText, mobileEditText, passEditText, confPassEditText);
         if (isValide) {
 
-            final Call<SignResponse> signResponse = service.getState(request);
-            signResponse.enqueue(new Callback<com.example.zodiac.sawa.models.SignResponse>() {
+            final Call<UserModel> signResponse = authInterface.signUp(signUpModel);
+            signResponse.enqueue(new Callback<UserModel>() {
 
 
                 @Override
-                public void onResponse(Call<SignResponse> call, Response<SignResponse> response) {
+                public void onResponse(Call<UserModel> call, Response<UserModel> response) {
                     int statusCode = response.code();
-                    SignResponse FinalRespone = response.body();
+                    UserModel userModel = response.body();
                     // add the user in the backend with empty recode
-                    if (response.body().getState() == 1) {
+                    if (response.code() == 200) {
 
                         aboutUserActivity about = new aboutUserActivity();
 
@@ -99,7 +103,7 @@ public class Register extends Activity {
                         ByteArrayOutputStream stream=new ByteArrayOutputStream();
                         bitmap.compress(Bitmap.CompressFormat.PNG, 90, stream); // what 90 does ??
                         byte[] image=stream.toByteArray();
-                        dbHandler.insertUserImage(Integer.parseInt(FinalRespone.getUser_id()), image);
+                       // dbHandler.insertUserImage(Integer.parseInt(userModel.getId()), image);
                         Intent i = new Intent(getApplicationContext(), HomeTabbedActivity.class);
                          startActivity(i);
                     } else Log.d("valid", "already added");
@@ -107,7 +111,7 @@ public class Register extends Activity {
                 }
 
                 @Override
-                public void onFailure(Call<SignResponse> call, Throwable t) {
+                public void onFailure(Call<UserModel> call, Throwable t) {
                     Log.d("notvalid", "valid");
                 }
             });

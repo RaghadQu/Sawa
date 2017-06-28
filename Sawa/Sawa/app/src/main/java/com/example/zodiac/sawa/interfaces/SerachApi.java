@@ -13,6 +13,6 @@ import retrofit2.http.Path;
  */
 
 public interface SerachApi {
-    @GET("api/users/search/{word}")
+    @GET("/api/v1/serach/{word}")
     Call<List<getFriendsResponse>> getSearchResult(@Path("word") String word);
 }

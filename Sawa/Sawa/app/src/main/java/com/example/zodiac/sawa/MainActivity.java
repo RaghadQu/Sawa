@@ -17,6 +17,9 @@ import android.widget.Toast;
 
 import com.example.zodiac.sawa.RecoverPassword.RecoverPass;
 
+import com.example.zodiac.sawa.Spring.Models.SignInModel;
+import com.example.zodiac.sawa.Spring.Models.UserModel;
+import com.example.zodiac.sawa.SpringApi.AuthInterface;
 import com.example.zodiac.sawa.interfaces.LoginAuth;
 import com.example.zodiac.sawa.models.AuthRequest;
 import com.example.zodiac.sawa.models.AuthenticationResponeModel;
@@ -34,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
 
     private EditText emailEditText;
     private EditText passEditText;
-    LoginAuth service;
+    AuthInterface service;
     private ProgressBar logInProfress;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -63,9 +66,9 @@ public class MainActivity extends AppCompatActivity {
         emailEditText = (EditText) findViewById(R.id.username);
         passEditText = (EditText) findViewById(R.id.password);
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(GeneralAppInfo.BACKEND_URL)
+                .baseUrl(GeneralAppInfo.SPRING_URL)
                 .addConverterFactory(GsonConverterFactory.create()).build();
-        service = retrofit.create(LoginAuth.class);
+        service = retrofit.create(AuthInterface.class);
     }
 
     @TargetApi(Build.VERSION_CODES.N)
@@ -81,28 +84,27 @@ public class MainActivity extends AppCompatActivity {
                     Toast.LENGTH_LONG).show();
         } else {
 
-            final AuthRequest request = new AuthRequest();
-            request.setEmail(emailEditText.getText().toString());
-            request.setPassword(passEditText.getText().toString());
-            if (valid(request.getEmail(), request.getPassword()) == 0) {
+            final SignInModel signInModel = new SignInModel();
+            signInModel.setEmail(emailEditText.getText().toString());
+            signInModel.setPassword(passEditText.getText().toString());
+            if (valid(signInModel.getEmail(), signInModel.getPassword()) == 0) {
                 logInProfress.setVisibility(ProgressBar.VISIBLE);
-                final Call<AuthenticationResponeModel> AuthResponse = service.getState(request);
-                AuthResponse.enqueue(new Callback<AuthenticationResponeModel>() {
+                final Call<UserModel> userModelCall = service.signIn(signInModel);
+                userModelCall.enqueue(new Callback<UserModel>() {
                     @Override
-                    public void onResponse(Call<AuthenticationResponeModel> call, Response<AuthenticationResponeModel> response) {
+                    public void onResponse(Call<UserModel> call, Response<UserModel> response) {
 
                         logInProfress.setVisibility(ProgressBar.INVISIBLE);
 
                         int statusCode = response.code();
                         Log.d("-----", " enter request " + statusCode);
-
-                        AuthenticationResponeModel authResponse = response.body();
+                        UserModel userModel = response.body();
                         SharedPreferences sharedPreferences = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
 
-                        if (authResponse.getState() == 1) {
-                            Log.d("-----", " enter here");
+                        if (statusCode==200) {
+                            Log.d("-----", " enter here"+userModel.getId());
 
-                            GeneralAppInfo.setUserID(Integer.valueOf(authResponse.getUser_id()));
+                            GeneralAppInfo.setUserID(Integer.valueOf(userModel.getId()));
                             sharedPreferences = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
                             SharedPreferences.Editor editor = sharedPreferences.edit();
                             editor.putString("email", emailEditText.getText().toString());
@@ -125,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onFailure(Call<AuthenticationResponeModel> call, Throwable t) {
+                    public void onFailure(Call<UserModel> call, Throwable t) {
                         Log.d("----", " Error " + t.getMessage());
 
 

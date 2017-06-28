@@ -3,6 +3,8 @@ package com.example.zodiac.sawa;
 import android.provider.Settings;
 import android.util.Log;
 
+import com.example.zodiac.sawa.Spring.Models.DeviceTokenModel;
+import com.example.zodiac.sawa.SpringApi.DeviceTokenInterface;
 import com.example.zodiac.sawa.interfaces.TokenApi;
 import com.example.zodiac.sawa.models.AuthenticationResponeModel;
 import com.example.zodiac.sawa.models.UserTokenModel;
@@ -38,25 +40,27 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
     }
     public void storeToken(String token) {
         Log.d("Arrive",token);
-         String android_id = Settings.Secure.getString(getApplicationContext().getContentResolver(),
+         String deviceId = Settings.Secure.getString(getApplicationContext().getContentResolver(),
                 Settings.Secure.ANDROID_ID);
-        UserTokenModel userTokenModel = new UserTokenModel(android_id, token);
+        DeviceTokenModel deviceTokenModel = new DeviceTokenModel();
+        deviceTokenModel.setDeviceId(deviceId);
+        deviceTokenModel.setToken(token);
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(GeneralAppInfo.BACKEND_URL)
+                .baseUrl(GeneralAppInfo.SPRING_URL)
                 .addConverterFactory(GsonConverterFactory.create()).build();
-        TokenApi tokenApi = retrofit.create(TokenApi.class);
-        Call<AuthenticationResponeModel> call = tokenApi.storeToken(userTokenModel);
-        call.enqueue(new Callback<AuthenticationResponeModel>() {
+        DeviceTokenInterface deviceTokenInterface = retrofit.create(DeviceTokenInterface.class);
+        Call<DeviceTokenModel> call = deviceTokenInterface.storeDeviceToken(deviceTokenModel);
+        call.enqueue(new Callback<DeviceTokenModel>() {
 
 
             @Override
-            public void onResponse(Call<AuthenticationResponeModel> call, Response<AuthenticationResponeModel> response) {
-                Log.d("Arrive",""+response.body().getState());
+            public void onResponse(Call<DeviceTokenModel> call, Response<DeviceTokenModel> response) {
+                Log.d("Arrive",""+response.body().getDeviceId());
 
             }
 
             @Override
-            public void onFailure(Call<AuthenticationResponeModel> call, Throwable t) {
+            public void onFailure(Call<DeviceTokenModel> call, Throwable t) {
 
             }
         });

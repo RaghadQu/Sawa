@@ -11,6 +11,8 @@ import android.util.Log;
 
 import com.example.zodiac.sawa.RecyclerViewAdapters.FastScrollAdapter;
 import com.example.zodiac.sawa.MenuActiviries.MyFriendsActivity;
+import com.example.zodiac.sawa.Spring.Models.UserModel;
+import com.example.zodiac.sawa.SpringApi.SearchInterface;
 import com.example.zodiac.sawa.interfaces.SerachApi;
 import com.example.zodiac.sawa.models.getFriendsResponse;
 import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView;
@@ -26,8 +28,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class SearchActivity extends AppCompatActivity {
     SearchView searchView;
-    SerachApi serachApi;
+    SearchInterface searchInterface;
     public static List<getFriendsResponse> FreindsList;
+    public static List<UserModel> userModelList;
     public static ArrayList<MyFriendsActivity.friend> LayoutFriendsList = new ArrayList<>();
     public static FastScrollRecyclerView recyclerView;
     public static RecyclerView.Adapter adapter;
@@ -81,43 +84,32 @@ public class SearchActivity extends AppCompatActivity {
         LayoutFriendsList.clear();
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(GeneralAppInfo.BACKEND_URL)
+                .baseUrl(GeneralAppInfo.SPRING_URL)
                 .addConverterFactory(GsonConverterFactory.create()).build();
 
-        serachApi = retrofit.create(SerachApi.class);
+        searchInterface= retrofit.create(SearchInterface.class);
 
 
         // final getFriendsRequest request = new getFriendsRequest();
-        final Call<List<getFriendsResponse>> FriendsResponse = serachApi.getSearchResult(word);
-        FriendsResponse.enqueue(new Callback<List<getFriendsResponse>>() {
+        final Call<List<UserModel>> FriendsResponse = searchInterface.getSearchResult(word);
+        FriendsResponse.enqueue(new Callback<List<UserModel>>() {
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
-            public void onResponse(Call<List<getFriendsResponse>> call, Response<List<getFriendsResponse>> response) {
-                FreindsList = response.body();
+            public void onResponse(Call<List<UserModel>> call, Response<List<UserModel>> response) {
+                userModelList = response.body();
                 LayoutFriendsList.clear();
 
+                if (userModelList != null) {
 
-                //  LayoutFriendsList.clear();
+                    if (userModelList.size() == 0) {
 
-             /*   if (FreindsList.size() ==0 )
-                {
-
-                    setContentView(R.layout.no_friends_to_show);
-                    CircleImageView circle = (CircleImageView)findViewById(R.id.circle);
-                    circle.setImageDrawable(getDrawable(R.drawable.no_friends_to_show));
-                    TextView text= (TextView) findViewById(R.id.text);
-                    text.setText("Friends");
-
-                }*/
-                Log.d("Enter", " FriendList not null");
-                if (FreindsList != null) {
-                    if (FreindsList.size() == 0) {
                         recyclerView.setAdapter(new FastScrollAdapter(SearchActivity.this, LayoutFriendsList,1));
 
                     } else {
-                        for (int i = 0; i < FreindsList.size(); i++) {
-                            LayoutFriendsList.add(new MyFriendsActivity.friend(FreindsList.get(i).getId(), FreindsList.get(i).getUser_image(),
-                                    FreindsList.get(i).getFirstName() + " " + FreindsList.get(i).getLast_name()));
+                        Log.d("Not null",Integer.toString(userModelList.get(0).getId()));
+                        for (int i = 0; i < userModelList.size(); i++) {
+                            LayoutFriendsList.add(new MyFriendsActivity.friend((Integer.toString(userModelList.get(i).getId())), userModelList.get(i).getImage(),
+                                    userModelList.get(i).getFirst_name() + " " + userModelList.get(i).getLast_name()));
                             recyclerView.setAdapter(new FastScrollAdapter(SearchActivity.this, LayoutFriendsList,1));
                         }
                     }
@@ -129,7 +121,7 @@ public class SearchActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<List<getFriendsResponse>> call, Throwable t) {
+            public void onFailure(Call<List<UserModel>> call, Throwable t) {
                 // progressBar.setVisibility(View.GONE);
 
                 Log.d("fail to get friends ", "Failure to Get friends");

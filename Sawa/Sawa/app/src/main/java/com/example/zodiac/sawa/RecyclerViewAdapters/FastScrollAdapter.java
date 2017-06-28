@@ -112,7 +112,7 @@ public class FastScrollAdapter extends RecyclerView.Adapter<FastScrollAdapter.Us
         });
         try {
             image = user.getImageResourceId();
-            String imageUrl = GeneralAppInfo.IMAGE_URL + image;
+            String imageUrl = GeneralAppInfo.SPRING_URL +"/"+ image;
             Picasso.with(mContext).load(imageUrl).into(holder.ivProfile);
 
         } catch (MalformedURLException e) {
