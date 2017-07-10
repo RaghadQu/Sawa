@@ -9,7 +9,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
 
-import com.example.zodiac.sawa.models.AboutUserResponeModel;
+import com.example.zodiac.sawa.models.AboutUserResponeModelOld;
 
 /**
  * Created by Rabee on 4/5/2017.
@@ -59,7 +59,7 @@ public class DBHandler extends SQLiteOpenHelper {
         onCreate(sqLiteDatabase);
     }
 
-    public void addAboutUser(AboutUserResponeModel aboutUserResponeModel) {
+    public void addAboutUser(AboutUserResponeModelOld aboutUserResponeModel) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(USER_ID, aboutUserResponeModel.getUser_id()); // Shop Name
@@ -71,7 +71,7 @@ public class DBHandler extends SQLiteOpenHelper {
         db.close(); // Closing database connection
     }
 
-    public AboutUserResponeModel getAboutUser(int id) {
+    public AboutUserResponeModelOld getAboutUser(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.query(TABLE_ABOUT, new String[]{USER_ID,
                         USER_BIO, USER_STATUS, USER_SONG}, USER_ID + "=?",
@@ -79,7 +79,7 @@ public class DBHandler extends SQLiteOpenHelper {
         if (cursor != null && cursor.moveToFirst()) {
             Log.d("user found","ss");
             cursor.moveToFirst();
-            AboutUserResponeModel aboutUserResponeModel = new AboutUserResponeModel(Integer.parseInt(cursor.getString(0)),
+            AboutUserResponeModelOld aboutUserResponeModel = new AboutUserResponeModelOld(Integer.parseInt(cursor.getString(0)),
                     cursor.getString(1), cursor.getString(2), cursor.getString(3));
             db.close();
             return aboutUserResponeModel;

@@ -79,13 +79,13 @@ public class FastScrollAdapter extends RecyclerView.Adapter<FastScrollAdapter.Us
             @Override
             public void onClick(View view) {
                 //check if the same user enter his profile
-                if (Integer.parseInt(user.getId()) == GeneralAppInfo.getUserID()) {
+                if (user.getId() == GeneralAppInfo.getUserID()) {
                     Intent i = new Intent(mContext, MyProfileActivity.class);
                     mContext.startActivity(i);
                 } else {
 
                     try {
-                        freindsFunctions.startFriend(mContext, user.getUserName(), Integer.parseInt(user.getId()), user.getImageResourceId());
+                        freindsFunctions.startFriend(mContext, user.getUserName(), user.getId(), user.getImageResourceId());
                     } catch (MalformedURLException e) {
                         e.printStackTrace();
                     }
@@ -98,12 +98,12 @@ public class FastScrollAdapter extends RecyclerView.Adapter<FastScrollAdapter.Us
             @Override
             public void onClick(View view) {
 
-                if (Integer.parseInt(user.getId()) == GeneralAppInfo.getUserID()) {
+                if (user.getId() == GeneralAppInfo.getUserID()) {
                     Intent i = new Intent(mContext, MyProfileActivity.class);
                     mContext.startActivity(i);
                 } else {
                     try {
-                        freindsFunctions.startFriend(mContext, user.getUserName(), Integer.parseInt(user.getId()), user.getImageResourceId());
+                        freindsFunctions.startFriend(mContext, user.getUserName(),user.getId(), user.getImageResourceId());
                     } catch (MalformedURLException e) {
                         e.printStackTrace();
                     }
@@ -162,7 +162,11 @@ public class FastScrollAdapter extends RecyclerView.Adapter<FastScrollAdapter.Us
 
                     final int position = getAdapterPosition();
                     final DeleteFriendRequest request = new DeleteFriendRequest();
-                    Log.d("------ Y ", "  :  " + Integer.valueOf(userList.get(position).getId()));
+
+                    FreindsFunctions friendFunction = new FreindsFunctions();
+                    friendFunction.DeleteFriend(GeneralAppInfo.getUserID(),userList.get(position).getId(),remove);
+
+                /*    Log.d("------ Y ", "  :  " + Integer.valueOf(userList.get(position).getId()));
                     request.setFriend1_id(GeneralAppInfo.getUserID());
                     request.setFriend2_id(Integer.valueOf(userList.get(position).getId()));
 
@@ -185,7 +189,7 @@ public class FastScrollAdapter extends RecyclerView.Adapter<FastScrollAdapter.Us
                         }
 
 
-                    });
+                    });*/
 
 
                 }

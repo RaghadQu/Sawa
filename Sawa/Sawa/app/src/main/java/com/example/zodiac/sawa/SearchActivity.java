@@ -108,7 +108,7 @@ public class SearchActivity extends AppCompatActivity {
                     } else {
                         Log.d("Not null",Integer.toString(userModelList.get(0).getId()));
                         for (int i = 0; i < userModelList.size(); i++) {
-                            LayoutFriendsList.add(new MyFriendsActivity.friend((Integer.toString(userModelList.get(i).getId())), userModelList.get(i).getImage(),
+                            LayoutFriendsList.add(new MyFriendsActivity.friend(Integer.valueOf(userModelList.get(i).getId()), userModelList.get(i).getImage(),
                                     userModelList.get(i).getFirst_name() + " " + userModelList.get(i).getLast_name()));
                             recyclerView.setAdapter(new FastScrollAdapter(SearchActivity.this, LayoutFriendsList,1));
                         }

@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.zodiac.sawa.RecyclerViewAdapters.NotificationAdapter;
+import com.example.zodiac.sawa.Spring.Models.NotificationModel;
+import com.example.zodiac.sawa.SpringApi.NotificationInterface;
 import com.example.zodiac.sawa.interfaces.NotificationApi;
 import com.example.zodiac.sawa.models.Notification;
 import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView;
@@ -60,7 +62,7 @@ public class NotificationTab extends AppCompatDialogFragment {
 
     public static void getUserNotifications(final Context context) {
 
-         retrofit = new Retrofit.Builder()
+      /*   retrofit = new Retrofit.Builder()
                 .baseUrl(GeneralAppInfo.BACKEND_URL)
                 .addConverterFactory(GsonConverterFactory.create()).build();
         NotificationApi notificationApi = retrofit.create(NotificationApi.class);
@@ -92,6 +94,45 @@ public class NotificationTab extends AppCompatDialogFragment {
             @Override
             public void onFailure(Call<Notification> call, Throwable t) {
                 Log.d("Fail", t.getMessage());
+            }
+
+        });*/
+
+        retrofit = new Retrofit.Builder()
+                .baseUrl(GeneralAppInfo.SPRING_URL)
+                .addConverterFactory(GsonConverterFactory.create()).build();
+        NotificationInterface notificationApi = retrofit.create(NotificationInterface.class);
+        Call<NotificationModel> notificationResponse = notificationApi.getNotification(GeneralAppInfo.getUserID());
+
+        notificationResponse.enqueue(new Callback<NotificationModel>() {
+            @Override
+            public void onResponse(Call<NotificationModel> call, Response<NotificationModel> response) {
+                Log.d("NotificationSpring", " Notification code " + response.code());
+                NotificationModel UserNotification;
+                UserNotification = response.body();
+                NotificationList.clear();
+                if(UserNotification!= null){
+                    Log.d("NotificationSpring", UserNotification.getNot_sent_notifications().size() + " " +  UserNotification.getSent_notifications().size());
+
+                    for (int i = 0; i < UserNotification.getNot_sent_notifications().size(); i++) {
+                        NotificationModel.Notification notificationOne=UserNotification.getNot_sent_notifications().get(i);
+                        NotificationList.add(new NotificationAdapter.NotificationRecyclerViewDataProvider(context,notificationOne.getFriend1_id().getId(),notificationOne.getFriend1_id().getImage(),(notificationOne.getFriend1_id().getFirst_name()+" "+notificationOne.getFriend1_id().getLast_name()),String.valueOf(notificationOne.getTimestamp()),Integer.valueOf(notificationOne.getRead_flag())));
+                        NotificationList.get(i).setType(notificationOne.getType());
+                        NotificationList.get(i).setNotificatioId(notificationOne.getFriend1_id().getId());
+                    }
+
+                    for (int i = 0; i < UserNotification.getSent_notifications().size(); i++) {
+                        NotificationModel.Notification notificationOne=UserNotification.getSent_notifications().get(i);
+                        NotificationList.add(new NotificationAdapter.NotificationRecyclerViewDataProvider(context,notificationOne.getFriend1_id().getId(),notificationOne.getFriend1_id().getImage(),(notificationOne.getFriend1_id().getFirst_name()+" "+notificationOne.getFriend1_id().getLast_name()),String.valueOf(notificationOne.getTimestamp()),Integer.valueOf(notificationOne.getRead_flag())));
+                        NotificationList.get(i).setType(notificationOne.getType());
+                        NotificationList.get(i).setNotificatioId(notificationOne.getId());
+                    }}
+                recyclerView.setAdapter( new NotificationAdapter(NotificationList));
+            }
+
+            @Override
+            public void onFailure(Call<NotificationModel> call, Throwable t) {
+                Log.d("NotificationFail", t.getMessage());
             }
 
         });

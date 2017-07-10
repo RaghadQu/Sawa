@@ -71,12 +71,12 @@ public class RequestScroll extends RecyclerView.Adapter<RequestScroll.UserViewHo
             @Override
             public void onClick(View view) {
                 //check if the same user enter his profile
-                if (Integer.parseInt(user.getId()) == GeneralAppInfo.getUserID()) {
+                if (user.getId() == GeneralAppInfo.getUserID()) {
                     Intent i = new Intent(mContext, MyProfileActivity.class);
                     mContext.startActivity(i);
                 } else {
                     try {
-                        freindsFunctions.startFriend(mContext, user.getUserName(), Integer.parseInt(user.getId()),user.getImageResourceId());
+                        freindsFunctions.startFriend(mContext, user.getUserName(),user.getId(),user.getImageResourceId());
                     } catch (MalformedURLException e) {
                         e.printStackTrace();
                     }
@@ -89,12 +89,12 @@ public class RequestScroll extends RecyclerView.Adapter<RequestScroll.UserViewHo
             @Override
             public void onClick(View view) {
 
-                if (Integer.parseInt(user.getId()) == GeneralAppInfo.getUserID()) {
+                if (user.getId() == GeneralAppInfo.getUserID()) {
                     Intent i = new Intent(mContext, MyProfileActivity.class);
                     mContext.startActivity(i);
                 } else {
                     try {
-                        freindsFunctions.startFriend(mContext, user.getUserName(), Integer.parseInt(user.getId()),user.getImageResourceId());
+                        freindsFunctions.startFriend(mContext, user.getUserName(),user.getId(),user.getImageResourceId());
                     } catch (MalformedURLException e) {
                         e.printStackTrace();
                     }
@@ -103,7 +103,7 @@ public class RequestScroll extends RecyclerView.Adapter<RequestScroll.UserViewHo
         });
         try {
             image = user.getImageResourceId();
-            String imageUrl = GeneralAppInfo.IMAGE_URL + image;
+            String imageUrl = GeneralAppInfo.SPRING_URL +"/"+ image;
             Picasso.with(mContext).load(imageUrl).into(holder.ivProfile);
         } catch (MalformedURLException e) {
             holder.ivProfile.setImageResource(R.drawable.account);

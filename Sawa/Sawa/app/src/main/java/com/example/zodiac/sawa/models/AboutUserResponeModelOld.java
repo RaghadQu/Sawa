@@ -4,13 +4,13 @@ package com.example.zodiac.sawa.models;
  * Created by Rabee on 4/5/2017.
  */
 
-public class AboutUserResponeModel {
+public class AboutUserResponeModelOld {
     private int user_id;
     private String user_bio;
     private String user_status;
     private String user_song;
 
-    public AboutUserResponeModel(int user_id, String user_bio, String user_status, String user_song) {
+    public AboutUserResponeModelOld(int user_id, String user_bio, String user_status, String user_song) {
         this.user_id = user_id;
         this.user_bio = user_bio;
         this.user_status = user_status;

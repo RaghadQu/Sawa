@@ -29,9 +29,10 @@ import com.example.zodiac.sawa.GeneralAppInfo;
 import com.example.zodiac.sawa.GeneralFunctions;
 import com.example.zodiac.sawa.RecyclerViewAdapters.MyAdapter;
 import com.example.zodiac.sawa.R;
+import com.example.zodiac.sawa.SpringApi.FriendshipInterface;
 import com.example.zodiac.sawa.interfaces.AboutUserApi;
 import com.example.zodiac.sawa.interfaces.GetFreinds;
-import com.example.zodiac.sawa.models.AboutUserResponeModel;
+import com.example.zodiac.sawa.models.AboutUserResponeModelOld;
 import com.example.zodiac.sawa.models.AuthenticationResponeModel;
 import com.squareup.picasso.Picasso;
 
@@ -132,34 +133,34 @@ public class MyFriendProfileActivity extends AppCompatActivity {
                     Toast.LENGTH_LONG).show();
         } else {
             Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl(GeneralAppInfo.BACKEND_URL)
+                    .baseUrl(GeneralAppInfo.SPRING_URL)
                     .addConverterFactory(GsonConverterFactory.create()).build();
+            FriendshipInterface getFreindApi = retrofit.create(FriendshipInterface.class);
+            Call<Integer> call = getFreindApi.getFriendShipState(GeneralAppInfo.getUserID(), Id);
 
-
-            GetFreinds getFreinds = retrofit.create(GetFreinds.class);
-            Call<AuthenticationResponeModel> call = getFreinds.getFriendshipState(GeneralAppInfo.getUserID(), Id);
-            call.enqueue(new Callback<AuthenticationResponeModel>() {
+            call.enqueue(new Callback<Integer>() {
                 @Override
-                public void onResponse(Call<AuthenticationResponeModel> call, Response<AuthenticationResponeModel> response) {
-                    authentication = response.body();
+                public void onResponse(Call<Integer> call, Response<Integer> response) {
+                    Log.d("GetState", "get Friend State code is "+ response.code());
+                    Integer FriendshipState = response.body();
                     progressBar_button.setVisibility(View.GONE);
                     FriendsClass friendsClass = new FriendsClass();
 
-                    Log.d("stateeee", "" + authentication.getState());
-                    if (authentication.getState() == 0) {
+                    Log.d("stateeee", "" + FriendshipState);
+                    if (FriendshipState == 0) {
                         mRecyclerView.setVisibility(View.GONE);
                         GeneralAppInfo.friendMode = 0;
                         friendsClass.SetFriendButtn(friendStatus, mRecyclerView, MyFriendProfileActivity.this, Id1, getApplicationContext());
 
-                    } else if (authentication.getState() == 1) {
+                    } else if (FriendshipState == 1) {
                         mRecyclerView.setVisibility(View.VISIBLE);
                         GeneralAppInfo.friendMode = 1;
                         friendsClass.SetFriendButtn(friendStatus, mRecyclerView, MyFriendProfileActivity.this, Id1, getApplicationContext());
-                    } else if (authentication.getState() == 2) {
+                    } else if (FriendshipState == 2) {
                         mRecyclerView.setVisibility(View.GONE);
                         GeneralAppInfo.friendMode = 2;
                         friendsClass.SetFriendButtn(friendStatus, mRecyclerView, MyFriendProfileActivity.this, Id1, getApplicationContext());
-                    } else if (authentication.getState() == 3) {
+                    } else if (FriendshipState == 3) {
                         mRecyclerView.setVisibility(View.GONE);
                         GeneralAppInfo.friendMode = 0;
                         friendsClass.setFriendRequestButton(friendStatus, confirmRequest, deleteRequest, Id1);
@@ -169,7 +170,7 @@ public class MyFriendProfileActivity extends AppCompatActivity {
                 }
 
                 @Override
-                public void onFailure(Call<AuthenticationResponeModel> call, Throwable t) {
+                public void onFailure(Call<Integer> call, Throwable t) {
                     Log.d("stateeee", "fail nnnnnnn");
 
                 }
@@ -180,10 +181,11 @@ public class MyFriendProfileActivity extends AppCompatActivity {
             imageView = (ImageView) ViewImgDialog.findViewById(R.id.ImageView);
             img = (ImageView) findViewById(R.id.user_profile_photo);
 
-            mImageUrl = GeneralAppInfo.IMAGE_URL + mImageUrl;
-            Log.d("mImageUrl", mImageUrl);
-            Picasso.with(getApplicationContext()).load(mImageUrl).into(img);
+           // mImageUrl = GeneralAppInfo.IMAGE_URL + mImageUrl;
+            String imageUrl = GeneralAppInfo.SPRING_URL +"/"+ mImageUrl;
 
+            Picasso.with(getApplicationContext()).load(imageUrl).into(img);
+            Log.d("Image Alpha","  Here is  "+ img.getImageAlpha());
             AboutFriendDialog = new Dialog(this);
             AboutFriendDialog.setContentView(R.layout.about_other_dialog);
             AboutFriendDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -194,14 +196,14 @@ public class MyFriendProfileActivity extends AppCompatActivity {
             aboutUsername.setText("About "+mName);
 
             final DBHandler dbHandler = new DBHandler(this);
-            AboutUserResponeModel aboutUserResponeModel = dbHandler.getAboutUser(Id1);
+            AboutUserResponeModelOld aboutUserResponeModel = dbHandler.getAboutUser(Id1);
             if (aboutUserResponeModel != null) {
                 about_bio.setText(aboutUserResponeModel.getUser_bio());
                 about_status.setText(aboutUserResponeModel.getUser_status());
                 about_song.setText(aboutUserResponeModel.getUser_song());
 
             } else {
-                getUserFromDB();
+//                getUserFromDB();
 
             }
 
@@ -300,32 +302,5 @@ public class MyFriendProfileActivity extends AppCompatActivity {
     }
 
 
-    public void getUserFromDB() {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(GeneralAppInfo.BACKEND_URL)
-                .addConverterFactory(GsonConverterFactory.create()).build();
-        AboutUserApi aboutUserApi = retrofit.create(AboutUserApi.class);
-        Call<List<AboutUserResponeModel>> aboutUserResponse = aboutUserApi.getAboutUser(Id1);
-        aboutUserResponse.enqueue(new Callback<List<AboutUserResponeModel>>() {
-            @Override
-            public void onResponse(Call<List<AboutUserResponeModel>> call, Response<List<AboutUserResponeModel>> response) {
-                List<AboutUserResponeModel> aboutUserResponeModel;
-                aboutUserResponeModel = response.body();
-                Log.d("Here", "aboutUserResponeModel "+ aboutUserResponeModel.get(0).getUser_bio() + "  " +response.code());
-                about_bio.setText(aboutUserResponeModel.get(0).getUser_bio());
-                about_status.setText(aboutUserResponeModel.get(0).getUser_status());
-                about_song.setText(aboutUserResponeModel.get(0).getUser_song());
-               /* AboutUserResponeModel aboutUser1 = new AboutUserResponeModel(GeneralAppInfo.getUserID(), aboutUserResponeModel.get(0).getUser_bio(), aboutUserResponeModel.get(0).getUser_status(), aboutUserResponeModel.get(0).getUser_song());
-                DBHandler dbHandler = new DBHandler(getApplicationContext());
-                dbHandler.addAboutUser(aboutUser1);*/
-            }
 
-            @Override
-            public void onFailure(Call<List<AboutUserResponeModel>> call, Throwable t) {
-
-            }
-
-        });
-
-    }
 }

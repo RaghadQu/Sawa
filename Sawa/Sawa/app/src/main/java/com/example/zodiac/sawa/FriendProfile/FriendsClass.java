@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import com.example.zodiac.sawa.GeneralAppInfo;
 import com.example.zodiac.sawa.R;
+import com.example.zodiac.sawa.Spring.Models.FriendRequestModel;
+import com.example.zodiac.sawa.SpringApi.FriendshipInterface;
 import com.example.zodiac.sawa.interfaces.ConfirmFriendRequest;
 import com.example.zodiac.sawa.models.AuthenticationResponeModel;
 import com.example.zodiac.sawa.models.DeleteFriendRequest;
@@ -161,24 +163,26 @@ public class FriendsClass {
                 GeneralAppInfo.friendMode = 1;
                 friendStatus.setText("Friend");
 
-                final DeleteFriendRequest request = new DeleteFriendRequest();
-                request.setFriend1_id(GeneralAppInfo.getUserID());
-                request.setFriend2_id(Id);
-                ConfirmFriendRequest service_confirm;
+
                 Retrofit retrofit = new Retrofit.Builder()
-                        .baseUrl(GeneralAppInfo.BACKEND_URL)
+                        .baseUrl(GeneralAppInfo.SPRING_URL)
                         .addConverterFactory(GsonConverterFactory.create()).build();
-                service_confirm = retrofit.create(ConfirmFriendRequest.class);
-                final Call<AuthenticationResponeModel> deleteResponse = service_confirm.getState(request);
-                deleteResponse.enqueue(new Callback<AuthenticationResponeModel>() {
+                FriendshipInterface service_confirm = retrofit.create(FriendshipInterface.class);
+
+                FriendRequestModel friendshipModel = new FriendRequestModel();
+                friendshipModel.setFriend1_id(GeneralAppInfo.getUserID());
+                friendshipModel.setFriend2_id(Id);
+
+                final Call<Integer> confirmCall = service_confirm.confirmFriendship(friendshipModel);
+                confirmCall.enqueue(new Callback<Integer>() {
                     @Override
-                    public void onResponse(Call<AuthenticationResponeModel> call, Response<AuthenticationResponeModel> response) {
-                        AuthenticationResponeModel state = response.body();
-                        Log.d("Enter", " state is " + response.code());
+                    public void onResponse(Call<Integer> call, Response<Integer> response) {
+                       // Integer ConfirmFriendshipResponse = response.body();
+                        Log.d("Confirm FriendShip", " state is " + response.code());
                     }
 
                     @Override
-                    public void onFailure(Call<AuthenticationResponeModel> call, Throwable t) {
+                    public void onFailure(Call<Integer> call, Throwable t) {
                         Log.d("fail to get friends ", "Failure to Get friends");
 
                     }
@@ -187,28 +191,10 @@ public class FriendsClass {
                 });
 
             }
-            //   friendFunction.DeleteFriend(GeneralAppInfo.getUserID(), Id, friendStatus);
 
-    });
+        });
 
 
+    }
 }
-}
-/* anim_button.addListener(new Animator.AnimatorListener() {
-                        @Override
-                        public void onAnimationStart(Animator animation) {
-                        }
-                        @Override
-                        public void onAnimationEnd(Animator animation) {
-                            //friendStatus.setText("Friend");
-                        }
 
-                        @Override
-                        public void onAnimationCancel(Animator animation) {
-                        }
-
-                        @Override
-                        public void onAnimationRepeat(Animator animation) {
-                        }
-                    });
-*/

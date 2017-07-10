@@ -16,5 +16,5 @@ public interface  NotificationApi {
 
     @FormUrlEncoded
     @POST("api/notifications/set_read_flag")
-    Call<Void> setReadFlag(@Field("notification_id") String notification_id);
+    Call<Void> setReadFlag(@Field("notification_id") int notification_id);
 }

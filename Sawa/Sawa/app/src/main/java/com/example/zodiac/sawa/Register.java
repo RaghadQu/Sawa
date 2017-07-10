@@ -4,26 +4,22 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageView;
 
-import com.example.zodiac.sawa.DB.DBHandler;
+import com.example.zodiac.sawa.GeneralAppInfo;
+import com.example.zodiac.sawa.HomeTabbedActivity;
 import com.example.zodiac.sawa.MenuActiviries.aboutUserActivity;
+import com.example.zodiac.sawa.R;
 import com.example.zodiac.sawa.Spring.Models.SignUpModel;
 import com.example.zodiac.sawa.Spring.Models.UserModel;
 import com.example.zodiac.sawa.SpringApi.AuthInterface;
-import com.example.zodiac.sawa.interfaces.SignAuth;
-import com.example.zodiac.sawa.models.SignRequest;
-import com.example.zodiac.sawa.models.SignResponse;
+import com.example.zodiac.sawa.Validation;
 
 import java.io.ByteArrayOutputStream;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -49,14 +45,14 @@ public class Register extends Activity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.register);
+        setContentView(R.layout.register_name_fragment);
         first_name = (EditText) findViewById(R.id.first_name);
         last_name = (EditText) findViewById(R.id.last_name);
 
-        emailEditText = (EditText) findViewById(R.id.userEmailId);
-        mobileEditText = (EditText) findViewById(R.id.mobileNumber);
-        passEditText = (EditText) findViewById(R.id.password);
-        confPassEditText = (EditText) findViewById(R.id.confirmPassword);
+      //  emailEditText = (EditText) findViewById(R.id.userEmailId);
+      //  mobileEditText = (EditText) findViewById(R.id.mobileNumber);
+       // passEditText = (EditText) findViewById(R.id.password);
+        //confPassEditText = (EditText) findViewById(R.id.confirmPassword);
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(GeneralAppInfo.SPRING_URL)
@@ -76,7 +72,6 @@ public class Register extends Activity {
         SignUpModel signUpModel = new SignUpModel();
         signUpModel.setFirst_name(first_name.getText().toString());
         signUpModel.setLast_name(last_name.getText().toString());
-
         signUpModel.setMobile(Integer.parseInt(mobileEditText.getText().toString()));
         signUpModel.setEmail(emailEditText.getText().toString());
         signUpModel.setPassword(passEditText.getText().toString());
@@ -95,10 +90,10 @@ public class Register extends Activity {
                     // add the user in the backend with empty recode
                     if (response.code() == 200) {
 
+                        aboutUserActivity.updateAbout("","","");
                         aboutUserActivity about = new aboutUserActivity();
 
                        // about.addNewAboutUserInDB(Integer.parseInt(FinalRespone.getUser_id()));
-                        DBHandler dbHandler = new DBHandler(getApplicationContext());
                         Bitmap bitmap= BitmapFactory.decodeResource(getResources(), R.drawable.profileimage);
                         ByteArrayOutputStream stream=new ByteArrayOutputStream();
                         bitmap.compress(Bitmap.CompressFormat.PNG, 90, stream); // what 90 does ??

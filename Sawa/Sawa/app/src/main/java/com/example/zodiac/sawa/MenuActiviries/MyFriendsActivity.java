@@ -17,6 +17,9 @@ import android.widget.TextView;
 import com.example.zodiac.sawa.GeneralAppInfo;
 import com.example.zodiac.sawa.R;
 import com.example.zodiac.sawa.RecyclerViewAdapters.FastScrollAdapter;
+import com.example.zodiac.sawa.Spring.Models.FriendRequestModel;
+import com.example.zodiac.sawa.Spring.Models.FriendResponseModel;
+import com.example.zodiac.sawa.SpringApi.FriendshipInterface;
 import com.example.zodiac.sawa.interfaces.GetFreinds;
 import com.example.zodiac.sawa.models.getFriendsRequest;
 import com.example.zodiac.sawa.models.getFriendsResponse;
@@ -45,8 +48,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class MyFriendsActivity extends Activity {
 
 
-    GetFreinds service;
-    public static List<getFriendsResponse> FreindsList;
+    FriendshipInterface friendshipApi;
+    public static List<FriendResponseModel> FreindsList;
     public static ArrayList<friend> LayoutFriendsList = new ArrayList<>();
     public static FastScrollRecyclerView recyclerView;
     public static RecyclerView.Adapter adapter;
@@ -63,11 +66,11 @@ public class MyFriendsActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.friends_tab);
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(GeneralAppInfo.BACKEND_URL)
+                .baseUrl(GeneralAppInfo.SPRING_URL)
                 .addConverterFactory(GsonConverterFactory.create()).build();
 
-        service = retrofit.create(GetFreinds.class);
-        toolbarText = (TextView)findViewById(R.id.toolBarText);
+        friendshipApi = retrofit.create(FriendshipInterface.class);
+        toolbarText = (TextView) findViewById(R.id.toolBarText);
         final ProgressBar progressBar;
         progressBar = (ProgressBar) findViewById(R.id.ProgressBar);
         progressBar.setProgress(0);
@@ -79,44 +82,45 @@ public class MyFriendsActivity extends Activity {
         anim.start();
 
 
-        adapter = new FastScrollAdapter(this, LayoutFriendsList,0);
+        adapter = new FastScrollAdapter(this, LayoutFriendsList, 0);
 
         recyclerView = (FastScrollRecyclerView) findViewById(R.id.recycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
 
-        final getFriendsRequest request = new getFriendsRequest();
-        request.setId(GeneralAppInfo.getUserID());
-        final Call<List<getFriendsResponse>> FriendsResponse = service.getState(request.getId(), 1);
-        FriendsResponse.enqueue(new Callback<List<getFriendsResponse>>() {
+        final Call<List<FriendResponseModel>> FriendsResponse = friendshipApi.getUserFriends(GeneralAppInfo.getUserID(), 1);
+        FriendsResponse.enqueue(new Callback<List<FriendResponseModel>>() {
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
-            public void onResponse(Call<List<getFriendsResponse>> call, Response<List<getFriendsResponse>> response) {
+            public void onResponse(Call<List<FriendResponseModel>> call, Response<List<FriendResponseModel>> response) {
+
+                Log.d("GetFriends", " Get friends " + response.code());
                 progressBar.setVisibility(View.GONE);
                 FreindsList = response.body();
+                Log.d("GetFriends", " Get friends size " + response.body().size());
 
                 LayoutFriendsList.clear();
-                if(FreindsList!=null){
+                if (FreindsList != null) {
 
-                if (FreindsList.size() ==0 )
-                {
+                    if (FreindsList.size() == 0) {
 
-                    setContentView(R.layout.no_friends_to_show);
-                    CircleImageView circle = (CircleImageView)findViewById(R.id.circle);
-                    circle.setImageDrawable(getDrawable(R.drawable.no_friends));
-                    TextView text= (TextView) findViewById(R.id.text);
-                    text.setText("Friends");
+                        setContentView(R.layout.no_friends_to_show);
+                        CircleImageView circle = (CircleImageView) findViewById(R.id.circle);
+                        circle.setImageDrawable(getDrawable(R.drawable.no_friends));
+                        TextView text = (TextView) findViewById(R.id.text);
+                        text.setText("Friends");
 
+                    }
+                    for (int i = 0; i < FreindsList.size(); i++) {
+                        LayoutFriendsList.add(new friend(FreindsList.get(i).getFriend1_id().getId(), FreindsList.get(i).getFriend1_id().getImage(),
+                                FreindsList.get(i).getFriend1_id().getFirst_name() + " " + FreindsList.get(i).getFriend1_id().getLast_name()));
+                        recyclerView.setAdapter(new FastScrollAdapter(MyFriendsActivity.this, LayoutFriendsList, 0));
+                    }
                 }
-                for (int i = 0; i < FreindsList.size(); i++) {
-                    LayoutFriendsList.add(new friend(FreindsList.get(i).getId(), FreindsList.get(i).getUser_image(),
-                            FreindsList.get(i).getFirstName() + " " + FreindsList.get(i).getLast_name()));
-                    recyclerView.setAdapter(new FastScrollAdapter(MyFriendsActivity.this, LayoutFriendsList,0));
-                }
-            }}
+            }
 
             @Override
-            public void onFailure(Call<List<getFriendsResponse>> call, Throwable t) {
+            public void onFailure(Call<List<FriendResponseModel>> call, Throwable t) {
                 progressBar.setVisibility(View.GONE);
 
                 Log.d("fail to get friends ", "Failure to Get friends");
@@ -129,7 +133,7 @@ public class MyFriendsActivity extends Activity {
             public boolean onTouch(View v, MotionEvent event) {
                 final int DRAWABLE_LEFT = 0;
 
-                if (event.getX() <= (toolbarText.getCompoundDrawables()[DRAWABLE_LEFT].getBounds().width()+30)) {
+                if (event.getX() <= (toolbarText.getCompoundDrawables()[DRAWABLE_LEFT].getBounds().width() + 30)) {
                     finish();
                     return true;
                 }
@@ -140,19 +144,19 @@ public class MyFriendsActivity extends Activity {
 
 
     public static class friend {
-        String Id;
+        int Id;
         String imageResourceId;
         String userName;
 
-        public String getId() {
+        public int getId() {
             return Id;
         }
 
-        public void setId(String id) {
+        public void setId(int id) {
             Id = id;
         }
 
-        public friend(String Id, String imageResourceId, String userName) {
+        public friend(int Id, String imageResourceId, String userName) {
             setImageResourceId(imageResourceId);
             setUserName(userName);
             setId(Id);

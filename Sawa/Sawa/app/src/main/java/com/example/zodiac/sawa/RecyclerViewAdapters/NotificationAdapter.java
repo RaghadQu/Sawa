@@ -14,7 +14,8 @@ import com.example.zodiac.sawa.GeneralAppInfo;
 import com.example.zodiac.sawa.FriendProfile.FreindsFunctions;
 import com.example.zodiac.sawa.NotificationTab;
 import com.example.zodiac.sawa.R;
-import com.example.zodiac.sawa.interfaces.NotificationApi;
+import com.example.zodiac.sawa.Spring.Models.updateNotificationModel;
+import com.example.zodiac.sawa.SpringApi.NotificationInterface;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -23,6 +24,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by Rabee on 4/24/2017.
@@ -47,7 +50,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     public void onBindViewHolder(RecyclerViewHolder holder, int position) {
         NotificationRecyclerViewDataProvider dataProvider = notificationRecyclerViewDataProviders.get(position);
 
-        String imageUrl = GeneralAppInfo.IMAGE_URL + dataProvider.getImage();
+        String imageUrl =GeneralAppInfo.SPRING_URL +"/"+  dataProvider.getImage();
         Picasso.with(dataProvider.getContext()).load(imageUrl).into(holder.image);
         holder.text.setText(dataProvider.getText() + " sent you a friend request.");
         holder.time.setText(dataProvider.getTime());
@@ -82,30 +85,38 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
             image = (CircleImageView) view.findViewById(R.id.image);
             text = (TextView) view.findViewById(R.id.text);
             time = (TextView) view.findViewById(R.id.time);
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl(GeneralAppInfo.SPRING_URL)
+                    .addConverterFactory(GsonConverterFactory.create()).build();
+            final NotificationInterface notificationApi = retrofit.create(NotificationInterface.class);
 
-            final NotificationApi notificationApi = NotificationTab.retrofit.create(NotificationApi.class);
 
             layout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    Log.d("Success","updateReadFlag " +getAdapterPosition());
 
                     position = getAdapterPosition();
+                    updateNotificationModel notificationModel = new updateNotificationModel();
 
-                    String notificatioID = NotificationTab.NotificationList.get(position).getNotificatioId();
-                    Call<Void> notificationResponse = notificationApi.setReadFlag(notificatioID);
-                    notificationResponse.enqueue(new Callback<Void>() {
+                    int notificatioID = NotificationTab.NotificationList.get(position).getNotificatioId();
+                    notificationModel.setNotification_id(notificatioID);
+                    Call<Integer> notificationResponse = notificationApi.updateReadFlag(notificationModel);
+                    notificationResponse.enqueue(new Callback<Integer>() {
                         @Override
-                        public void onResponse(Call<Void> call, Response<Void> response) {
+                        public void onResponse(Call<Integer> call, Response<Integer> response) {
+                            Log.d("Success","updateReadFlag " + response.code());
+
                         }
 
                         @Override
-                        public void onFailure(Call<Void> call, Throwable t) {
-                            Log.d("Fail", t.getMessage());
+                        public void onFailure(Call<Integer> call, Throwable t) {
+                            Log.d("Fail","updateReadFlag : "+ t.getMessage());
                         }
                     });
 
 
-                    if (NotificationTab.NotificationList.get(position).getType().equals("3")) {
+                    if (NotificationTab.NotificationList.get(position).getType()==3) {
                         String name = NotificationTab.NotificationList.get(position).getText();
                         String image = NotificationTab.NotificationList.get(position).getImage();
                         int friend_id = NotificationTab.NotificationList.get(position).getFriend_id();
@@ -126,8 +137,8 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         Context context;
         int readFlag;
         int friend_id;
-        String type;
-        String notificatioId;
+        int type;
+        int notificatioId;
 
 
         public NotificationRecyclerViewDataProvider(Context context, int friend_id, String image, String text, String time, int readFlag) {
@@ -139,11 +150,11 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
             this.readFlag = readFlag;
         }
 
-        public String getNotificatioId() {
+        public int getNotificatioId() {
             return notificatioId;
         }
 
-        public void setNotificatioId(String notificatioId) {
+        public void setNotificatioId(int notificatioId) {
             this.notificatioId = notificatioId;
         }
 
@@ -159,11 +170,11 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
             this.readFlag = readFlag;
         }
 
-        public String getType() {
+        public int getType() {
             return type;
         }
 
-        public void setType(String type) {
+        public void setType(int type) {
             this.type = type;
         }
 

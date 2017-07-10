@@ -1,6 +1,6 @@
 package com.example.zodiac.sawa.interfaces;
 
-import com.example.zodiac.sawa.models.AboutUserResponeModel;
+import com.example.zodiac.sawa.models.AboutUserResponeModelOld;
 import com.example.zodiac.sawa.models.GeneralStateResponeModel;
 
 import java.util.List;
@@ -17,9 +17,9 @@ import retrofit2.http.Path;
 
 public interface AboutUserApi {
     @GET("api/users/getAbout/{user_id}")
-    Call<List<AboutUserResponeModel>> getAboutUser(@Path("user_id") int user_id);
+    Call<List<AboutUserResponeModelOld>> getAboutUser(@Path("user_id") int user_id);
     @POST("api/users/saveAbout")
-    Call<GeneralStateResponeModel> addAboutUser(@Body AboutUserResponeModel aboutUserResponeModel);
+    Call<GeneralStateResponeModel> addAboutUser(@Body AboutUserResponeModelOld aboutUserResponeModel);
     @POST("api/users/editAbout")
-    Call<GeneralStateResponeModel> editAvoutUser(@Body AboutUserResponeModel aboutUserResponeModel);
+    Call<GeneralStateResponeModel> editAvoutUser(@Body AboutUserResponeModelOld aboutUserResponeModel);
 }

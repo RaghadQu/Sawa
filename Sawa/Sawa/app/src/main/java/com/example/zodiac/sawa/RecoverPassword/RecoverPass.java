@@ -36,68 +36,8 @@ public class RecoverPass extends Activity {
         FragmentTransaction ft = fm.beginTransaction();
         ft.replace(R.id.your_placeholder, new SendEmailFragment());
         ft.commit();
-        /*recievedEmail = (EditText) findViewById(R.id.userEmail);
+      }
 
-        dialog = new Dialog(RecoverPass.this);
-        dialog.setContentView(R.layout.pass_dialog);
-        dialog.setTitle("Reset Password");
-        codeText = (EditText) dialog.findViewById(R.id.code);
-        btn = (Button) dialog.findViewById(R.id.btn);
-        btn.setOnClickListener(new View.OnClickListener() {
-
-<<<<<<< HEAD
-     }
-=======
-            @Override
-            public void onClick(View view) {
-                String codeString = codeText.getText().toString();
-                if (codeString.equals(uniqueID)) {
-                    nextStep();
-                } else {
-                    codeText.setError("Incorrect Code");
-                    counter++;
-                }
-                if (counter == 3) {
-                    dialog.dismiss();
-                    Toast.makeText(RecoverPass.this, "Wrong Code. Please try again", Toast.LENGTH_LONG).show();
-                    recievedEmail.setText("");
->>>>>>> c42b4d03850a5173912929a2c76e570b5009c9df
-
-                }
-
-            }
-        });
-        */
-
-    }
-
-
-
-
-
-    public void nextStep() {
-        codeText.setText("");
-        codeText.setHint("New Password");
-        codeText.setInputType(InputType.TYPE_CLASS_TEXT |
-                InputType.TYPE_TEXT_VARIATION_PASSWORD);
-        btn.setText("Change password");
-        btn.setOnClickListener(new View.OnClickListener() {
-
-            public void onClick(View v) {
-
-                String password = codeText.getText().toString();
-                if (password.length() < 8) {
-                    codeText.setError("Password must contain at least 8 characters");
-                } else {
-                    dialog.dismiss();
-                    Toast.makeText(RecoverPass.this, "Your password has been reset successfully", Toast.LENGTH_LONG).show();
-                    Intent i = new Intent(getApplicationContext(), HomeTabbedActivity.class);
-                    startActivity(i);
-
-                }
-            }
-        });
-    }
 
     public void setUniqueID(String uniqueID) {
         this.uniqueID = uniqueID;
@@ -113,8 +53,6 @@ public class RecoverPass extends Activity {
       FragmentTransaction ft=fm.beginTransaction();
       ft.replace(R.id.your_placeholder,f);
       ft.addToBackStack(null);
-
-// Commit the transaction
       ft.commit();
   }
 }

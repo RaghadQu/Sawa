@@ -63,7 +63,7 @@ public class Validation {
         return isValide;
     }
 
-    boolean isEmailValid(CharSequence email) {
+    public static boolean isEmailValid(CharSequence email) {
         String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
         Pattern p = Pattern.compile(emailPattern);
         Matcher m = p.matcher(email);
@@ -76,7 +76,7 @@ public class Validation {
 
     }
 
-    private boolean isValidMobile(String phone) {
+    public static boolean isValidMobile(String phone) {
         return android.util.Patterns.PHONE.matcher(phone).matches();
     }
 }

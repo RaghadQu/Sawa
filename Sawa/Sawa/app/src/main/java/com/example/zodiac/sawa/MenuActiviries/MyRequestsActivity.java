@@ -12,8 +12,11 @@ import android.util.Log;
 
 import com.example.zodiac.sawa.GeneralAppInfo;
 import com.example.zodiac.sawa.GeneralFunctions;
+import com.example.zodiac.sawa.RecyclerViewAdapters.FastScrollAdapter;
 import com.example.zodiac.sawa.RecyclerViewAdapters.RequestScroll;
 import com.example.zodiac.sawa.R;
+import com.example.zodiac.sawa.Spring.Models.FriendResponseModel;
+import com.example.zodiac.sawa.SpringApi.FriendshipInterface;
 import com.example.zodiac.sawa.interfaces.GetFreinds;
 import com.example.zodiac.sawa.models.getFriendsRequest;
 import com.example.zodiac.sawa.models.getFriendsResponse;
@@ -48,8 +51,8 @@ import android.widget.Toast;
 
 public class MyRequestsActivity extends Activity {
 
-    GetFreinds service;
-    public static List<getFriendsResponse> FreindsList;
+    FriendshipInterface friendshipApi;
+    public static List<FriendResponseModel> FreindsList;
     public static ArrayList<friend> LayoutFriendsList = new ArrayList<>();
     public static FastScrollRecyclerView recyclerView;
     public static RecyclerView.Adapter adapter;
@@ -66,9 +69,9 @@ public class MyRequestsActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.friend_request_tab);
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(GeneralAppInfo.BACKEND_URL)
+                .baseUrl(GeneralAppInfo.SPRING_URL)
                 .addConverterFactory(GsonConverterFactory.create()).build();
-        service = retrofit.create(GetFreinds.class);
+        friendshipApi = retrofit.create(FriendshipInterface.class);
 
         toolbarText= (TextView) findViewById(R.id.toolBarText);
         final ProgressBar progressBar;
@@ -86,8 +89,7 @@ public class MyRequestsActivity extends Activity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
 
-        final getFriendsRequest request = new getFriendsRequest();
-        request.setId(GeneralAppInfo.getUserID());
+
         GeneralFunctions generalFunctions = new GeneralFunctions();
         boolean isOnline = generalFunctions.isOnline(getApplicationContext());
 
@@ -96,36 +98,42 @@ public class MyRequestsActivity extends Activity {
             Toast.makeText(this, "no internet connection!",
                     Toast.LENGTH_LONG).show();
         } else {
-            final Call<List<getFriendsResponse>> FriendsResponse = service.getState(request.getId(), 0);
-            FriendsResponse.enqueue(new Callback<List<getFriendsResponse>>() {
-                @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-                @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+            final Call<List<FriendResponseModel>> FriendsResponse = friendshipApi.getUserFriends(GeneralAppInfo.getUserID(),0);
+            FriendsResponse.enqueue(new Callback<List<FriendResponseModel>>() {
+                @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
                 @Override
-                public void onResponse(Call<List<getFriendsResponse>> call, Response<List<getFriendsResponse>> response) {
-                    progressBar.setVisibility(View.GONE);
-                    FreindsList = response.body();
-                    LayoutFriendsList.clear();
-                    if (FreindsList != null) {
-                        if (FreindsList.size() == 0) {
+                public void onResponse(Call<List<FriendResponseModel>> call, Response<List<FriendResponseModel>> response) {
 
-                            setContentView(R.layout.no_friends_to_show);
-                            CircleImageView circle = (CircleImageView) findViewById(R.id.circle);
-                            circle.setImageDrawable(getDrawable(R.drawable.no_requests));
-                            TextView text = (TextView)findViewById(R.id.TextBody);
-                            text.setText("   No Requests To Show");
+                    Log.d("GetFriendRequests", " Get friends " + response.code());
+                    if (response.code() == 200) {
+                        progressBar.setVisibility(View.GONE);
+                        FreindsList = response.body();
+                        Log.d("GetFriendRequests", " Get friend requests size " + response.body().size());
 
-                        } else {
+                        LayoutFriendsList.clear();
+                        if (FreindsList != null) {
+
+                            if (FreindsList.size() == 0) {
+
+                                setContentView(R.layout.no_friends_to_show);
+                                CircleImageView circle = (CircleImageView) findViewById(R.id.circle);
+                                circle.setImageDrawable(getDrawable(R.drawable.no_friends));
+                                TextView text = (TextView) findViewById(R.id.text);
+                                text.setText("Friends");
+
+                            }
                             for (int i = 0; i < FreindsList.size(); i++) {
-                                LayoutFriendsList.add(new friend(FreindsList.get(i).getId(), FreindsList.get(i).getUser_image(),
-                                        FreindsList.get(i).getFirstName() + " " + FreindsList.get(i).getLast_name()));
+                                LayoutFriendsList.add(new MyRequestsActivity.friend(FreindsList.get(i).getFriend2_id().getId(), FreindsList.get(i).getFriend2_id().getImage(),
+                                        FreindsList.get(i).getFriend2_id().getFirst_name() + " " + FreindsList.get(i).getFriend2_id().getLast_name()));
                                 recyclerView.setAdapter(new RequestScroll(MyRequestsActivity.this, LayoutFriendsList));
                             }
                         }
                     }
                 }
                 @Override
-                public void onFailure(Call<List<getFriendsResponse>> call, Throwable t) {
+                public void onFailure(Call<List<FriendResponseModel>> call, Throwable t) {
                     progressBar.setVisibility(View.GONE);
+
                     Log.d("fail to get friends ", "Failure to Get friends");
 
                 }
@@ -150,21 +158,21 @@ public class MyRequestsActivity extends Activity {
 
     public class friend {
 
-        String Id;
+        int Id;
         String imageResourceId;
         String userName;
 
-        public friend(String Id, String imageResourceId, String userName) {
+        public friend(int Id, String imageResourceId, String userName) {
             setImageResourceId(imageResourceId);
             setId(Id);
             setUserName(userName);
         }
 
-        public String getId() {
+        public int getId() {
             return Id;
         }
 
-        public void setId(String id) {
+        public void setId(int id) {
             Id = id;
         }
 

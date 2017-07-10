@@ -8,6 +8,8 @@ import android.widget.Button;
 
 import com.example.zodiac.sawa.GeneralAppInfo;
 import com.example.zodiac.sawa.MenuActiviries.MyProfileActivity;
+import com.example.zodiac.sawa.Spring.Models.FriendRequestModel;
+import com.example.zodiac.sawa.SpringApi.FriendshipInterface;
 import com.example.zodiac.sawa.interfaces.DeleteFriend;
 import com.example.zodiac.sawa.interfaces.GetFreinds;
 import com.example.zodiac.sawa.models.AuthenticationResponeModel;
@@ -25,32 +27,35 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class FreindsFunctions {
     public void getFreindShipState(int friend1_id, int friend2_id, final Button button){
+
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(GeneralAppInfo.BACKEND_URL)
+                .baseUrl(GeneralAppInfo.SPRING_URL)
                 .addConverterFactory(GsonConverterFactory.create()).build();
-        GetFreinds getFreinds = retrofit.create(GetFreinds.class);
-        Call<AuthenticationResponeModel> call = getFreinds.getFriendshipState(friend1_id,friend2_id);
-        call.enqueue(new Callback<AuthenticationResponeModel>() {
+        FriendshipInterface friendshipApi = retrofit.create(FriendshipInterface.class);
+
+        Call<Integer> call = friendshipApi.getFriendShipState(friend1_id,friend2_id);
+        call.enqueue(new Callback<Integer>() {
             @Override
-            public void onResponse(Call<AuthenticationResponeModel> call, Response<AuthenticationResponeModel> response) {
-                AuthenticationResponeModel authentication=response.body();
-                Log.d("stateeee",""+authentication.getState());
-                if(authentication.getState()==2){
+            public void onResponse(Call<Integer> call, Response<Integer> response) {
+                Integer FriendshipState = response.body();
+                Log.d("stateeee",""+FriendshipState);
+                if(FriendshipState==2){
                     button.setText("Add as freind");
-                }else if(authentication.getState()==0){
+                }else if(FriendshipState==0){
                     button.setText("Pending");
-                }else if(authentication.getState()==1){
+                }else if(FriendshipState==1){
                     button.setText("Freind");
                 }
             }
 
             @Override
-            public void onFailure(Call<AuthenticationResponeModel> call, Throwable t) {
-                Log.d("stateeee","fail nnnnnnn");
+            public void onFailure(Call<Integer> call, Throwable t) {
+                Log.d("stateeee"," Failure ");
 
             }
         });
     }
+
     public void startMyProfile(Context mContext,String mName,int Id) {
         if (Id == GeneralAppInfo.getUserID()) {
             Intent i = new Intent(mContext, MyProfileActivity.class);
@@ -85,30 +90,32 @@ public class FreindsFunctions {
 
 
     public void DeleteFriend(int friend1_id, int friend2_id, final Button button){
-        DeleteFriend service;
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(GeneralAppInfo.BACKEND_URL)
+                .baseUrl(GeneralAppInfo.SPRING_URL)
                 .addConverterFactory(GsonConverterFactory.create()).build();
-        service = retrofit.create(DeleteFriend.class);
+        FriendshipInterface  FriendApi = retrofit.create(FriendshipInterface.class);
 
-        final DeleteFriendRequest request = new DeleteFriendRequest();
-        request.setFriend1_id(friend1_id);
-        request.setFriend2_id(friend2_id);
+        final FriendRequestModel FriendRequest = new FriendRequestModel();
+        FriendRequest.setFriend1_id(friend1_id);
+        FriendRequest.setFriend2_id(friend2_id);
 
 
-        final Call<AuthenticationResponeModel> deleteResponse = service.getState(request);
-        deleteResponse.enqueue(new Callback<AuthenticationResponeModel>() {
+        final Call<Integer> deleteCall = FriendApi.deleteFriendship(FriendRequest);
+        deleteCall.enqueue(new Callback<Integer>() {
             @Override
-            public void onResponse(Call<AuthenticationResponeModel> call, Response<AuthenticationResponeModel> response) {
-                AuthenticationResponeModel authentication = response.body();
-                if(authentication.getState()==1){
-                }
+            public void onResponse(Call<Integer> call, Response<Integer> response) {
+            /*    int DeleteFriendshipResponse = response.body();
+                Log.d("Confirm FriendShip", " state is " + DeleteFriendshipResponse);
+                if(DeleteFriendshipResponse==1){
+                }*/
+                Log.d("Delete FriendShip", " state is " + response.code());
+
 
             }
 
             @Override
-            public void onFailure(Call<AuthenticationResponeModel> call, Throwable t) {
+            public void onFailure(Call<Integer> call, Throwable t) {
                 Log.d("fail to get friends ", "Failure to Get friends");
 
             }

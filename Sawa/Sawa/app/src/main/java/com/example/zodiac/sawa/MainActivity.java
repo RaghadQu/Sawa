@@ -17,12 +17,10 @@ import android.widget.Toast;
 
 import com.example.zodiac.sawa.RecoverPassword.RecoverPass;
 
+import com.example.zodiac.sawa.RegisterPkg.RegisterActivity;
 import com.example.zodiac.sawa.Spring.Models.SignInModel;
 import com.example.zodiac.sawa.Spring.Models.UserModel;
 import com.example.zodiac.sawa.SpringApi.AuthInterface;
-import com.example.zodiac.sawa.interfaces.LoginAuth;
-import com.example.zodiac.sawa.models.AuthRequest;
-import com.example.zodiac.sawa.models.AuthenticationResponeModel;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -43,9 +41,11 @@ public class MainActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        System.gc();
+        System.gc();
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_main);
+
 
 
         //check if the user is already signed in
@@ -101,8 +101,8 @@ public class MainActivity extends AppCompatActivity {
                         UserModel userModel = response.body();
                         SharedPreferences sharedPreferences = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
 
-                        if (statusCode==200) {
-                            Log.d("-----", " enter here"+userModel.getId());
+                        if (statusCode == 200) {
+                            Log.d("-----", " enter here" + userModel.getId());
 
                             GeneralAppInfo.setUserID(Integer.valueOf(userModel.getId()));
                             sharedPreferences = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
@@ -145,7 +145,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void register(View arg0) {
-        Intent i = new Intent(getApplicationContext(), Register.class);
+        Intent i = new Intent(getApplicationContext(), RegisterActivity.class);
         startActivity(i);
 
     }

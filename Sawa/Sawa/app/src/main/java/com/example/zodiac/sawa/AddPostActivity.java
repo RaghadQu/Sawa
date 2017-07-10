@@ -214,7 +214,7 @@ public class AddPostActivity extends YouTubeBaseActivity implements YouTubePlaye
 
                 FriendPostList.clear();
                 for (int i = 0; i < FreindsList.size(); i++) {
-                    FriendPostList.add(new MyFriendsActivity.friend(FreindsList.get(i).getId(), FreindsList.get(i).getUser_image(),
+                    FriendPostList.add(new MyFriendsActivity.friend(Integer.valueOf(FreindsList.get(i).getId()), FreindsList.get(i).getUser_image(),
                             FreindsList.get(i).getFirstName() + " " + FreindsList.get(i).getLast_name()));
                     recyclerView.setAdapter(new AddPostImagesAdapter(AddPostActivity.this, FriendPostList));
                 }
