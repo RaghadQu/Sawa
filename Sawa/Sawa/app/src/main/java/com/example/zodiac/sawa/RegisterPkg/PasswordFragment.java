@@ -1,10 +1,12 @@
 package com.example.zodiac.sawa.RegisterPkg;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -25,6 +27,8 @@ public class PasswordFragment extends android.app.Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        InputMethodManager imgr = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imgr.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_IMPLICIT_ONLY);
         View view = inflater.inflate(R.layout.register_password_fragment, container, false);
         Password=(EditText)view.findViewById(R.id.password);
         ConfirmPassword =(EditText)view.findViewById(R.id.confirmPassword);
@@ -38,9 +42,7 @@ public class PasswordFragment extends android.app.Fragment {
                 if ((Password.getText().toString().trim().equals(""))) {
                     Password.setError("Password is required");
                 }else
-                if ((ConfirmPassword.getText().toString().trim().equals(""))) {
-                    ConfirmPassword.setError("Password is required");
-                } else if (Password.getText().toString().length() < 8) {
+               if (Password.getText().toString().length() < 8) {
                     Password.setError("Password must contain at least 8 characters");
                 } else if (!((ConfirmPassword.getText().toString()).equals(Password.getText().toString()))) {
                     ConfirmPassword.setError("Confirm password  doesn't match password!");

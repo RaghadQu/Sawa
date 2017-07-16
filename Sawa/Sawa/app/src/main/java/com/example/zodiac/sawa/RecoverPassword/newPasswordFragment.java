@@ -12,7 +12,6 @@ import com.example.zodiac.sawa.HomeTabbedActivity;
 import com.example.zodiac.sawa.R;
 import com.example.zodiac.sawa.RecoverPassword.RecoverPass;
 
-
 public class newPasswordFragment extends android.app.Fragment {
 
     Button btn;
@@ -30,15 +29,16 @@ public class newPasswordFragment extends android.app.Fragment {
 
             public void onClick(View v) {
 
-                String password = newPassword.getText().toString();
-                if (password.length() < 8) {
-                    newPassword.setError("Password less than 8 characters");
-                } else {
-
+                if ((newPassword.getText().toString().trim().equals(""))) {
+                    newPassword.setError("Password is required");
+                }else{
+                if (newPassword.getText().toString().length() < 8) {
+                    newPassword.setError("Password must contain at least 8 characters");
+                } else{
                     Intent i = new Intent((RecoverPass)getActivity(), HomeTabbedActivity.class);
                     startActivity(i);
 
-                }
+                }}
             }
         });
         return view;

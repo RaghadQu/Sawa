@@ -22,6 +22,7 @@ import com.example.zodiac.sawa.SpringApi.AuthInterface;
 import com.example.zodiac.sawa.Validation;
 
 import java.io.ByteArrayOutputStream;
+import java.util.Date;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -40,6 +41,8 @@ public class RegisterActivity extends Activity {
     String userEmail;
     String Password;
     int mobileNumber;
+    String userGender;
+    Date userBirthDate;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -61,12 +64,28 @@ public class RegisterActivity extends Activity {
     }
 
 
+    public Date getUserBirthDate() {
+        return userBirthDate;
+    }
+
+    public void setUserBirthDate(Date userBirthDate) {
+        this.userBirthDate = userBirthDate;
+    }
+
     public int getMobileNumber() {
         return mobileNumber;
     }
 
     public void setMobileNumber(int mobileNumber) {
         this.mobileNumber = mobileNumber;
+    }
+
+    public String getUserGender() {
+        return userGender;
+    }
+
+    public void setUserGender(String userGender) {
+        this.userGender = userGender;
     }
 
     public String getUserEmail() {

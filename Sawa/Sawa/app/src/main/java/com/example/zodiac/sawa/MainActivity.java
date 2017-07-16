@@ -46,8 +46,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-
         //check if the user is already signed in
         SharedPreferences sharedPreferences = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
         int id = sharedPreferences.getInt("id", -1);
@@ -82,6 +80,9 @@ public class MainActivity extends AppCompatActivity {
         if (isOnline == false) {
             Toast.makeText(this, "no internet connection!",
                     Toast.LENGTH_LONG).show();
+            Intent i = new Intent(getApplicationContext(), HomeTabbedActivity.class);
+            startActivity(i);
+            finish();
         } else {
 
             final SignInModel signInModel = new SignInModel();
@@ -120,7 +121,8 @@ public class MainActivity extends AppCompatActivity {
                             finish();
 
                         } else {
-                            emailEditText.setError("Invalid Email or Password");
+                            if(statusCode==409 || statusCode==204)
+                            emailEditText.setError("Incorrect Email or Password");
                         }
 
 
@@ -129,8 +131,6 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onFailure(Call<UserModel> call, Throwable t) {
                         Log.d("----", " Error " + t.getMessage());
-
-
                     }
                 });
             }
