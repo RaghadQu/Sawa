@@ -7,7 +7,9 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.Matrix;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
@@ -28,6 +30,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.zodiac.sawa.AddPostActivity;
 import com.example.zodiac.sawa.DB.DBHandler;
 import com.example.zodiac.sawa.GeneralAppInfo;
 import com.example.zodiac.sawa.GeneralFunctions;
@@ -40,10 +43,12 @@ import com.example.zodiac.sawa.RecyclerViewAdapters.SettingsAdapter;
 public class MyProfileActivity extends AppCompatActivity {
 
 
+    TextView friendsTxt , requestsTxt , newPostTxt;
     Uri imageuri;
     ImageView img;
     Dialog imgClick;
     Dialog ViewImgDialog;
+    Dialog editMyBio;
     TextView changePic, viewPic, RemovePic, toolBarText;
     ImageView imageView; // View image in dialog
     private static final int SELECTED_PICTURE = 100;
@@ -72,6 +77,9 @@ public class MyProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_my_profile);
         GeneralFunctions generalFunctions = new GeneralFunctions();
         boolean isOnline = generalFunctions.isOnline(getApplicationContext());
+        friendsTxt= (TextView) findViewById(R.id.friendsTxt);
+        requestsTxt= (TextView) findViewById(R.id.requestTxt);
+        newPostTxt= (TextView) findViewById(R.id.newPostTxt);
 
 
         if (isOnline == false) {
@@ -95,6 +103,11 @@ public class MyProfileActivity extends AppCompatActivity {
             Log.d("Set", "s");
             ViewImgDialog = new Dialog(this, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
             ViewImgDialog.setContentView(R.layout.view_profilepic_dialog);
+
+            editMyBio = new Dialog(this);
+            editMyBio.setContentView(R.layout.edit_my_bio_dialog);
+            editMyBio.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
             imageView = (ImageView) ViewImgDialog.findViewById(R.id.ImageView);
 
             img = (ImageView) findViewById(R.id.user_profile_photo);
@@ -152,8 +165,10 @@ public class MyProfileActivity extends AppCompatActivity {
             editBio.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent i = new Intent(getApplicationContext(), aboutUserActivity.class);
-                    startActivity(i);
+                  //  Intent i = new Intent(getApplicationContext(), aboutUserActivity.class);
+                    //startActivity(i);
+
+                    editMyBio.show();
 
                 }
             });
@@ -177,6 +192,34 @@ public class MyProfileActivity extends AppCompatActivity {
                 return false;
             }
         });
+
+
+
+        friendsTxt.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+
+                Intent i = new Intent(getApplicationContext(), MyFriendsActivity.class);
+                startActivity(i);
+            }
+        });
+
+        requestsTxt.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+
+                Intent i = new Intent(getApplicationContext(), MyRequestsActivity.class);
+                startActivity(i);
+            }
+        });
+
+        newPostTxt.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+
+                Intent i = new Intent(getApplicationContext(), AddPostActivity.class);
+                startActivity(i);
+            }
+        });
+
+
     }
 
     private static final int REQUEST_EXTERNAL_STORAGE = 1;

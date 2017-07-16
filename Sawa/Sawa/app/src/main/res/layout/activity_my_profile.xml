@@ -15,13 +15,13 @@
         <Toolbar
             android:layout_width="match_parent"
             android:layout_height="45dp"
-            android:background="@color/purple">
+            android:background="@color/purple"
+            >
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:drawableLeft="@drawable/left"
-                android:drawableRight="@drawable/more"
                 android:id="@+id/toolBarText"
                 android:gravity="center"
                 android:paddingLeft="5dp"
@@ -163,6 +163,7 @@
             android:textColor="@color/purple"
             android:textAllCaps="false"
             android:clickable="true"
+            android:id="@+id/friendsTxt"
             android:padding="10dp"
             />
 
@@ -180,6 +181,7 @@
             android:text="Requests"
             android:layout_marginLeft="28dp"
             android:textSize="14dp"
+            android:id="@+id/requestTxt"
             android:textColor="@color/purple"
             android:textAllCaps="false"
             android:clickable="true"
@@ -190,14 +192,15 @@
                 android:layout_width="0.1dp"
                 android:layout_height="33dp"
                 android:layout_marginTop="3dp"
-                android:layout_marginLeft="25dp"
+                android:layout_marginLeft="22dp"
                 android:layout_marginBottom="3dp"
                 android:background="#ACACAC" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="New Post"
-            android:layout_marginLeft="22dp"
+            android:id="@+id/newPostTxt"
+            android:layout_marginLeft="20dp"
             android:textSize="14dp"
             android:textColor="@color/purple"
             android:textAllCaps="false"
