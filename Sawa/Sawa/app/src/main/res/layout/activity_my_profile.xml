@@ -112,14 +112,14 @@
                 android:layout_marginTop="25dp"
                 android:text="Raghad Qutteneh"
                 android:textColor="#000"
-                android:paddingRight="20dp"
+                android:paddingRight="25dp"
                 android:textColorHint="#000"
                 android:textSize="18dp" />
 
             <de.hdodenhof.circleimageview.CircleImageView
-                android:layout_width="17dp"
-                android:layout_height="17dp"
-                android:layout_marginTop="31dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginTop="29dp"
                 android:id="@+id/editProfile"
                 android:src="@drawable/edit_edit"
                 android:layout_alignRight="@+id/user_profile_name"
