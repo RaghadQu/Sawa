@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginBottom="0dp"
+        android:background="@color/purple">
+
+        <TextView
+            android:id="@+id/toolBarText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/left"
+            android:drawablePadding="20dp"
+            android:gravity="center"
+            android:paddingLeft="5dp"
+            android:text="Edit Profile"
+            android:textColor="#fff"
+            android:textSize="17dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/saveEdit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="150dp"
+            android:text="Save"
+            android:textColor="#fff"
+            android:textSize="16dp"
+            android:textStyle="bold" />
+
+    </Toolbar>
+
+    <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="50dp"
+        android:minHeight="120dp">
+
+
+
+        <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="8dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:minLines="2"
+                        android:paddingLeft="10dp"
+                        android:text="Username"
+                        android:textAllCaps="false"
+                        android:textColor="@color/purple"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/userName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp"
+                        android:layout_marginTop="32dp"
+                        android:backgroundTint="@color/purple"
+                        android:clickable="true"
+                        android:paddingLeft="7dp"
+                        android:paddingRight="10dp"
+                        android:text="Raghad Qutteneh"
+                        android:textColor="#72000000"
+                        android:textSize="15dp" />
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="8dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:minLines="2"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="7dp"
+                        android:paddingLeft="10dp"
+                        android:text="Mobile"
+                        android:textAllCaps="false"
+                        android:textColor="@color/purple"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/Bio"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp"
+                        android:layout_marginTop="32dp"
+                        android:backgroundTint="@color/purple"
+                        android:clickable="true"
+                        android:paddingLeft="7dp"
+                        android:paddingRight="10dp"
+                        android:text=""
+                        android:textColor="#72000000"
+                        android:textSize="15dp" />
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="8dp">
+
+                    <TextView
+                        android:textAllCaps="false"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="7dp"
+                        android:minLines="2"
+                        android:paddingLeft="10dp"
+                        android:text="Birth Date"
+                        android:textColor="@color/purple"
+                        android:textStyle="bold"
+
+
+                        />
+
+                    <DatePicker
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:datePickerMode="spinner"
+                        android:id="@+id/BirthDatePicker"
+                        android:spinnersShown="true"
+                        android:orientation="vertical"
+                        android:layout_marginTop="25dp"
+                        android:layout_marginLeft="80dp"
+                        android:endYear="2100"
+                        android:startYear="1900"
+                        style="@style/date_picker_theme"
+                        android:layout_gravity="center"
+
+                        >
+
+                    </DatePicker>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:minLines="2"
+                        android:paddingLeft="10dp"
+                        android:layout_marginLeft="18dp"
+                        android:text="Gender"
+                        android:textColor="@color/purple"
+                        android:textStyle="bold"
+                        android:textAllCaps="false"
+
+
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true" />
+
+
+                    <RadioGroup
+                        android:id="@+id/radioGrp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginTop="28dp"
+                        android:layout_marginLeft="70dp"
+                        android:backgroundTint="@color/purple"
+
+
+                        >
+                        <RadioButton
+                         android:buttonTint="@color/purple"
+                            android:id="@+id/radioM"
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:checked="false"
+                            android:layout_weight="1"
+                            android:textSize="14dp"
+                            android:text="Male"
+                            android:scaleX="0.9"
+                            android:scaleY="0.9"
+                            />
+                        <RadioButton
+                            android:buttonTint="@color/purple"
+
+                            android:id="@+id/radioF"
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:checked="false"
+                            android:layout_marginTop="6dp"
+                            android:layout_weight="1"
+                            android:textSize="14dp"
+                            android:scaleX="0.9"
+                            android:scaleY="0.9"
+                            android:text="Female"
+                            />
+                    </RadioGroup>
+                </RelativeLayout>
+            </LinearLayout>
+
+        </android.support.v4.widget.NestedScrollView>
+    </android.support.design.widget.CoordinatorLayout>
+</RelativeLayout>

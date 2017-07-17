@@ -12,11 +12,11 @@ import android.graphics.Matrix;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Base64;
@@ -24,7 +24,6 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -36,14 +35,18 @@ import com.example.zodiac.sawa.GeneralAppInfo;
 import com.example.zodiac.sawa.GeneralFunctions;
 import com.example.zodiac.sawa.ImageConverter.ImageConverter;
 import com.example.zodiac.sawa.ImageConverter.uploadImage;
-import com.example.zodiac.sawa.RecyclerViewAdapters.MyAdapter;
 import com.example.zodiac.sawa.R;
+import com.example.zodiac.sawa.RecyclerViewAdapters.MyAdapter;
 import com.example.zodiac.sawa.RecyclerViewAdapters.SettingsAdapter;
+import com.example.zodiac.sawa.EditProfileActivity;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MyProfileActivity extends AppCompatActivity {
 
 
     TextView friendsTxt , requestsTxt , newPostTxt;
+    CircleImageView editProfile;
     Uri imageuri;
     ImageView img;
     Dialog imgClick;
@@ -80,6 +83,7 @@ public class MyProfileActivity extends AppCompatActivity {
         friendsTxt= (TextView) findViewById(R.id.friendsTxt);
         requestsTxt= (TextView) findViewById(R.id.requestTxt);
         newPostTxt= (TextView) findViewById(R.id.newPostTxt);
+        editProfile = (CircleImageView) findViewById(R.id.editProfile);
 
 
         if (isOnline == false) {
@@ -219,6 +223,13 @@ public class MyProfileActivity extends AppCompatActivity {
             }
         });
 
+        editProfile.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+
+                Intent i = new Intent(getApplicationContext(), EditProfileActivity.class);
+                startActivity(i);
+            }
+        });
 
     }
 
