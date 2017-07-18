@@ -2,6 +2,7 @@ package com.example.zodiac.sawa.SpringApi;
 
 import com.example.zodiac.sawa.Spring.Models.AboutUserResponseModel;
 import com.example.zodiac.sawa.Spring.Models.AboutUserRequestModel;
+import com.example.zodiac.sawa.Spring.Models.UserModel;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -21,4 +22,8 @@ public interface AboutUserInterface {
 
     @GET("/api/v1/user/getAbout/{id}")
     Call<AboutUserResponseModel> getAboutUser(@Path("id") int id);
+
+    @GET("/api/v1/user/getUser/{id}")
+    Call<UserModel> getUserInfo(@Path("id") int id);
+
 }

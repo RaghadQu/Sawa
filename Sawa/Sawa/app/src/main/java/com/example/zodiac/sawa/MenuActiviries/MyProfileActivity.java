@@ -4,7 +4,6 @@ import android.Manifest;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -22,7 +21,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Base64;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
@@ -35,6 +33,7 @@ import android.widget.Toast;
 
 import com.example.zodiac.sawa.AddPostActivity;
 import com.example.zodiac.sawa.DB.DBHandler;
+import com.example.zodiac.sawa.EditProfileActivity;
 import com.example.zodiac.sawa.GeneralAppInfo;
 import com.example.zodiac.sawa.GeneralFunctions;
 import com.example.zodiac.sawa.ImageConverter.ImageConverter;
@@ -42,7 +41,6 @@ import com.example.zodiac.sawa.ImageConverter.uploadImage;
 import com.example.zodiac.sawa.R;
 import com.example.zodiac.sawa.RecyclerViewAdapters.MyAdapter;
 import com.example.zodiac.sawa.RecyclerViewAdapters.SettingsAdapter;
-import com.example.zodiac.sawa.EditProfileActivity;
 import com.example.zodiac.sawa.Spring.Models.AboutUserRequestModel;
 import com.example.zodiac.sawa.Spring.Models.AboutUserResponseModel;
 import com.example.zodiac.sawa.SpringApi.AboutUserInterface;
@@ -59,10 +57,11 @@ public class MyProfileActivity extends AppCompatActivity {
 
     String bioBeforeUpdate, statusBeforeUpdate;
     TextView friendsTxt, requestsTxt, newPostTxt;
+    TextView profileBio;
     CircleImageView editProfile;
     Button saveAbout;
     Uri imageuri;
-    ImageView img;
+    ImageView img, coverImage;
     EditText bioTxt, statusTxt;
     Dialog imgClick;
     Dialog ViewImgDialog;
@@ -99,6 +98,10 @@ public class MyProfileActivity extends AppCompatActivity {
         requestsTxt = (TextView) findViewById(R.id.requestTxt);
         newPostTxt = (TextView) findViewById(R.id.newPostTxt);
         editProfile = (CircleImageView) findViewById(R.id.editProfile);
+        coverImage = (ImageView) findViewById(R.id.coverImage);
+        profileBio = (TextView) findViewById(R.id.profileBio);
+
+
 
 
         if (isOnline == false) {
@@ -115,8 +118,6 @@ public class MyProfileActivity extends AppCompatActivity {
 
             imgClick = new Dialog(this);
             imgClick.setContentView(R.layout.profile_picture_dialog);
-            imgClick.getWindow().getAttributes().y = -130;
-            imgClick.getWindow().getAttributes().x = 70;
 
 
             Log.d("Set", "s");
@@ -124,12 +125,13 @@ public class MyProfileActivity extends AppCompatActivity {
             ViewImgDialog.setContentView(R.layout.view_profilepic_dialog);
 
             editMyBio = new Dialog(this);
-            editMyBio.setCancelable(false);
             editMyBio.setContentView(R.layout.edit_my_bio_dialog);
             editMyBio.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             saveAbout = (Button) editMyBio.findViewById(R.id.saveAbout);
             bioTxt = (EditText) editMyBio.findViewById(R.id.bioTxt);
             statusTxt = (EditText) editMyBio.findViewById(R.id.statusTxt);
+
+            fillAbout(bioTxt, statusTxt);
 
 
             imageView = (ImageView) ViewImgDialog.findViewById(R.id.ImageView);
@@ -138,44 +140,7 @@ public class MyProfileActivity extends AppCompatActivity {
             // imageView.setImageURI();
             final DBHandler dbHandler = new DBHandler(this);
             final uploadImage uploadImage = new uploadImage();
-            String imageUrl = uploadImage.getUserImageFromDB(GeneralAppInfo.getUserID(), img, MyProfileActivity.this, 1, anim);
-
-
-            img.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    imgClick.show();
-                    changePic = (TextView) imgClick.findViewById(R.id.EditPic);
-                    viewPic = (TextView) imgClick.findViewById(R.id.ViewPic);
-                    RemovePic = (TextView) imgClick.findViewById(R.id.RemovePic);
-
-                    changePic.setOnClickListener(new View.OnClickListener() {
-                        public void onClick(View v) {
-                            imgClick.dismiss();
-                            Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                            startActivityForResult(intent, SELECTED_PICTURE);
-                        }
-                    });
-
-                    viewPic.setOnClickListener(new View.OnClickListener() {
-                        public void onClick(View v) {
-                            imgClick.dismiss();
-                            imageView.setImageDrawable(img.getDrawable());
-                            ViewImgDialog.show();
-
-                        }
-                    });
-
-                    RemovePic.setOnClickListener(new View.OnClickListener() {
-                        public void onClick(View v) {
-                            imgClick.dismiss();
-                            img.setImageResource(R.drawable.account);
-                            //  imageView.setImageDrawable(img.getDrawable());
-                            // ViewImgDialog.show();
-
-                        }
-                    });
-                }
-            });
+          //  String imageUrl = uploadImage.getUserImageFromDB(GeneralAppInfo.getUserID(), img, MyProfileActivity.this, 1, anim);
             mRecyclerView = (RecyclerView) findViewById(R.id.Viewer);
             mRecyclerView.setNestedScrollingEnabled(false);
 
@@ -188,6 +153,97 @@ public class MyProfileActivity extends AppCompatActivity {
             editBio = (TextView) findViewById(R.id.editBio);
 
             toolBarText = (TextView) findViewById(R.id.toolBarText);
+
+
+            //Profile Picture
+            img.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    imgClick.getWindow().getAttributes().y = -90;
+                    imgClick.getWindow().getAttributes().x = 130;
+                    imgClick.show();
+                    changePic = (TextView) imgClick.findViewById(R.id.EditPic);
+                    changePic.setText("Change Profile Picture");
+                    viewPic = (TextView) imgClick.findViewById(R.id.ViewPic);
+                    viewPic.setText("View Profile Picture");
+                    RemovePic = (TextView) imgClick.findViewById(R.id.RemovePic);
+                    RemovePic.setText("Remove Profile Picture");
+                    changePic.setOnClickListener(new View.OnClickListener() {
+                        public void onClick(View v) {
+                            imgClick.dismiss();
+                            Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                            startActivityForResult(intent, 100);
+                        }
+                    });
+
+                    viewPic.setOnClickListener(new View.OnClickListener() {
+                        public void onClick(View v) {
+                            imgClick.dismiss();
+                            imageView.setImageDrawable(img.getDrawable());
+                            ImageView coverImageDialog = (ImageView) ViewImgDialog.findViewById(R.id.ImageView);
+                            coverImageDialog.setImageDrawable(img.getDrawable());
+                            ViewImgDialog.show();
+
+                        }
+                    });
+
+                    RemovePic.setOnClickListener(new View.OnClickListener() {
+                        public void onClick(View v) {
+                            imgClick.dismiss();
+                            img.setImageResource(R.drawable.default_profile);
+                            //  imageView.setImageDrawable(img.getDrawable());
+                            // ViewImgDialog.show();
+
+                        }
+                    });
+                }
+            });
+
+            coverImage.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    imgClick.getWindow().getAttributes().y = -280;
+                    imgClick.getWindow().getAttributes().x = 30;
+                    imgClick.show();
+                    changePic = (TextView) imgClick.findViewById(R.id.EditPic);
+                    changePic.setText("Change Cover Picture");
+                    viewPic = (TextView) imgClick.findViewById(R.id.ViewPic);
+                    viewPic.setText("View Cover Picture");
+                    RemovePic = (TextView) imgClick.findViewById(R.id.RemovePic);
+                    RemovePic.setText("Remove Cover Picture");
+
+                    changePic.setOnClickListener(new View.OnClickListener() {
+                        public void onClick(View v) {
+                            imgClick.dismiss();
+                            Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                            startActivityForResult(intent, 200);
+                        }
+                    });
+
+                    viewPic.setOnClickListener(new View.OnClickListener() {
+                        public void onClick(View v) {
+                            imgClick.dismiss();
+                            coverImage.setImageDrawable(coverImage.getDrawable());
+                            ImageView coverImageDialog = (ImageView) ViewImgDialog.findViewById(R.id.ImageView);
+                            coverImageDialog.setImageDrawable(coverImage.getDrawable());
+                            ViewImgDialog.show();
+
+
+                        }
+                    });
+
+                    RemovePic.setOnClickListener(new View.OnClickListener() {
+                        public void onClick(View v) {
+                            imgClick.dismiss();
+                            coverImage.setImageDrawable(null);
+
+                            //  img.setImageResource(R.drawable.default_profile);
+                            //  coverImage.setImageDrawable(img.getDrawable());
+                            // ViewImgDialog.show();
+
+                        }
+                    });
+                }
+            });
+
             toolBarText.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
@@ -242,8 +298,9 @@ public class MyProfileActivity extends AppCompatActivity {
             editBio.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+
                     editMyBio.show();
-                    fillAbout(bioTxt, statusTxt);
+
                 }
             });
 
@@ -309,7 +366,7 @@ public class MyProfileActivity extends AppCompatActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK && requestCode == SELECTED_PICTURE) {
+        if (resultCode == RESULT_OK && (requestCode == 100 || requestCode == 200)) {
             imageuri = data.getData();
             try {
                 verifyStoragePermissions(this);
@@ -321,8 +378,13 @@ public class MyProfileActivity extends AppCompatActivity {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageuri);
                 bitmap = scaleDown(bitmap, 1000, true);
                 bitmap = RotateBitmap(bitmap, rotate);
-                img.setImageBitmap(bitmap);
-                ImageConverter imageConverter = new ImageConverter();
+                if (requestCode == 100) {
+                    img.setImageBitmap(bitmap);
+                }
+                if (requestCode == 200){
+                    coverImage.setImageBitmap(bitmap);
+                }
+                    ImageConverter imageConverter = new ImageConverter();
                 byte[] image = imageConverter.getBytes(bitmap);
                 DBHandler dbHandler = new DBHandler(this);
                 // dbHandler.updateUserImage(GeneralAppInfo.getUserID(), image);
@@ -372,6 +434,7 @@ public class MyProfileActivity extends AppCompatActivity {
             public void onResponse(Call<AboutUserResponseModel> call, Response<AboutUserResponseModel> response) {
                 if (response != null) {
                     if (response.body() != null) {
+                        profileBio.setText(response.body().getUserBio());
                         bio.setText(response.body().getUserBio());
                         status.setText(response.body().getUserStatus());
                         bioBeforeUpdate = bioTxt.getText().toString();

@@ -16,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:background="@color/purple"
-            >
+            android:focusableInTouchMode="true"            >
 
             <TextView
                 android:layout_width="match_parent"
@@ -50,14 +50,6 @@
 
                 <!-- Cover Image -->
 
-                <ImageView
-                    android:id="@+id/image"
-                    android:layout_width="match_parent"
-                    android:layout_height="160dp"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/cover" />
-
-
 
                 <!-- Round image -->
 
@@ -73,6 +65,14 @@
                     android:src="@mipmap/back_login"
                     android:elevation="5dp"
                     android:scaleType="centerCrop" />
+
+                <ImageView
+                    android:id="@+id/coverImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="160dp"
+                    android:background="#3d4b052a"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/cover" />
 
 
             </FrameLayout>
@@ -94,7 +94,7 @@
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:layout_marginLeft="105dp"
                 android:gravity="center"
                 android:orientation="horizontal"
 
@@ -131,9 +131,9 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="15dp"
+                android:id="@+id/profileBio"
                 android:layout_marginLeft="25dp"
-                android:layout_marginRight="18dp"
-                android:text="Eng... Palestine, Jerusalem     " />
+                android:layout_marginRight="18dp" />
 
 
             <TextView

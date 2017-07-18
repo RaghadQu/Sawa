@@ -4,26 +4,21 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-
 import android.os.Build;
+import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.zodiac.sawa.RecoverPassword.RecoverPass;
-
 import com.example.zodiac.sawa.RegisterPkg.RegisterActivity;
 import com.example.zodiac.sawa.Spring.Models.SignInModel;
 import com.example.zodiac.sawa.Spring.Models.UserModel;
 import com.example.zodiac.sawa.SpringApi.AuthInterface;
-
-import org.w3c.dom.Text;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -40,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText passEditText;
     AuthInterface service;
     private ProgressBar logInProfress;
+    static UserModel userModel;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -106,7 +102,9 @@ public class MainActivity extends AppCompatActivity {
 
                         int statusCode = response.code();
                         Log.d("-----", " enter request " + statusCode);
-                        UserModel userModel = response.body();
+                        userModel = response.body();
+                        Log.d("USERModel", " enter request " + userModel.getFirst_name());
+
                         SharedPreferences sharedPreferences = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
 
                         if (statusCode == 200) {
@@ -129,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
 
                         } else {
                             if(statusCode==409 || statusCode==204)
-                            emailEditText.setError("Incorrect Email or Password");
+                                emailEditText.setError("Incorrect Email or Password");
                         }
 
 
