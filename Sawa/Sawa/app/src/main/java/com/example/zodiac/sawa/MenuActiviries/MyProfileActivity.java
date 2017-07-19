@@ -58,14 +58,14 @@ public class MyProfileActivity extends AppCompatActivity {
     String bioBeforeUpdate, statusBeforeUpdate;
     TextView friendsTxt, requestsTxt, newPostTxt;
     TextView profileBio;
-    CircleImageView editProfile;
-    Button saveAbout;
+    CircleImageView editProfile,editSong;
+    Button saveAbout, saveSong;
     Uri imageuri;
     ImageView img, coverImage;
-    EditText bioTxt, statusTxt;
+    EditText bioTxt, statusTxt, songTxt;
     Dialog imgClick;
     Dialog ViewImgDialog;
-    Dialog editMyBio;
+    Dialog editMyBio , editMySong;
     TextView changePic, viewPic, RemovePic, toolBarText;
     ImageView imageView; // View image in dialog
     private static final int SELECTED_PICTURE = 100;
@@ -98,6 +98,7 @@ public class MyProfileActivity extends AppCompatActivity {
         requestsTxt = (TextView) findViewById(R.id.requestTxt);
         newPostTxt = (TextView) findViewById(R.id.newPostTxt);
         editProfile = (CircleImageView) findViewById(R.id.editProfile);
+        editSong = (CircleImageView) findViewById(R.id.editSong);
         coverImage = (ImageView) findViewById(R.id.coverImage);
         profileBio = (TextView) findViewById(R.id.profileBio);
 
@@ -130,8 +131,15 @@ public class MyProfileActivity extends AppCompatActivity {
             saveAbout = (Button) editMyBio.findViewById(R.id.saveAbout);
             bioTxt = (EditText) editMyBio.findViewById(R.id.bioTxt);
             statusTxt = (EditText) editMyBio.findViewById(R.id.statusTxt);
-
             fillAbout(bioTxt, statusTxt);
+
+            editMySong = new Dialog(this);
+            editMySong.setContentView(R.layout.edit_song_profile_dialog);
+            editMySong.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            songTxt= (EditText)editMySong.findViewById(R.id.songTxt);
+            saveSong= (Button) editMySong.findViewById(R.id.saveSong);
+
+
 
 
             imageView = (ImageView) ViewImgDialog.findViewById(R.id.ImageView);
@@ -153,6 +161,7 @@ public class MyProfileActivity extends AppCompatActivity {
             editBio = (TextView) findViewById(R.id.editBio);
 
             toolBarText = (TextView) findViewById(R.id.toolBarText);
+
 
 
             //Profile Picture
@@ -306,11 +315,33 @@ public class MyProfileActivity extends AppCompatActivity {
 
             saveAbout.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                    String bioText, statusText;
+                    String bioText, statusText,songText;
                     bioText = bioTxt.getText().toString();
+                    songText= songTxt.getText().toString();
                     statusText = statusTxt.getText().toString();
-                    updateAbout(bioText, statusText, "");
+                    updateAbout(bioText, statusText,songText );
                     editMyBio.dismiss();
+
+                }
+            });
+
+            editSong.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+
+                    editMySong.show();
+
+                }
+            });
+
+            saveSong.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+
+                    String bioText, statusText,songText;
+                    bioText = bioTxt.getText().toString();
+                    songText= songTxt.getText().toString();
+                    statusText = statusTxt.getText().toString();
+                    updateAbout(bioText, statusText,songText );
+                    editMySong.dismiss();
 
                 }
             });
@@ -437,6 +468,7 @@ public class MyProfileActivity extends AppCompatActivity {
                         profileBio.setText(response.body().getUserBio());
                         bio.setText(response.body().getUserBio());
                         status.setText(response.body().getUserStatus());
+                        songTxt.setText(response.body().getUserSong());
                         bioBeforeUpdate = bioTxt.getText().toString();
                         statusBeforeUpdate = statusTxt.getText().toString();
                     }

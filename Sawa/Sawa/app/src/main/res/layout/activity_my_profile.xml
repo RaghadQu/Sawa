@@ -149,6 +149,13 @@
                 android:textAlignment="center"
                 android:background="@drawable/selector_xml_btn_yellow"
                 />
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="25dp"
+                android:id="@+id/editSong"
+                android:layout_height="25dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                android:src="@drawable/music"/>
 
 
             <!--android:visibility="gone"-->

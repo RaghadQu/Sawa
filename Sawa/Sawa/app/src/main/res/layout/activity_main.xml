@@ -77,8 +77,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/LogInProgress"
-        android:layout_alignLeft="@+id/AppName"
-        android:layout_alignStart="@+id/AppName" />
+        android:layout_marginLeft="52dp"
+         />
 
 
       <ProgressBar
@@ -103,10 +103,14 @@
 
         <com.google.android.gms.common.SignInButton
             android:id="@+id/loginWithGoogleBtn"
-            android:layout_width="290dp"
-            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:layout_width="181dp"
+            android:layout_marginTop="8dp"
+            android:layout_height="37dp"
             android:layout_alignBottom="@+id/login_button"
-            android:layout_marginTop="20dp" />
+
+             />
+
 
         <TextView
           android:layout_below="@+id/LogInProgress"
@@ -118,7 +122,7 @@
           android:textSize="15dp"
           android:id="@+id/textView3"
           android:layout_gravity="center_horizontal"
-          android:layout_marginTop="40dp"
+          android:layout_marginTop="33dp"
           android:clickable="true"
           android:onClick="forgot_pass"
           />
