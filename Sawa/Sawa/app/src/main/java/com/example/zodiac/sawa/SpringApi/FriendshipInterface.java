@@ -17,19 +17,20 @@ import retrofit2.http.Path;
  */
 
 
-
-
 public interface FriendshipInterface {
 
 
     @Headers("Cache-Control: max-age=64000")
-    @GET("/api/v1/friends/{id}/{state}")
-    Call<List<FriendResponseModel>> getUserFriends(@Path("id") int id, @Path("state") int state);
+    @GET("/api/v1/friends/{id}")
+    Call<List<FriendResponseModel>> getUserFriends(@Path("id") int id);
 
+    @Headers("Cache-Control: max-age=64000")
+    @GET("/api/v1/friendRequest/{id}")
+    Call<List<FriendResponseModel>> getUserFriendRequests(@Path("id") int id);
 
     @Headers("Cache-Control: max-age=64000")
     @GET("/api/v1/friends/getFriendShipState/{friend1_id}/{friend2_id}")
-    Call<Integer> getFriendShipState(@Path("friend1_id") int friend1_id,@Path("friend2_id") int friend2_id);
+    Call<Integer> getFriendShipState(@Path("friend1_id") int friend1_id, @Path("friend2_id") int friend2_id);
 
     @Headers("Cache-Control: max-age=64000")
     @POST("/api/v1/friend/addNewFriendship")

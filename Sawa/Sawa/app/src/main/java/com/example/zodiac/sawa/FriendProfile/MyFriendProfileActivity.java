@@ -225,8 +225,8 @@ public class MyFriendProfileActivity extends AppCompatActivity {
             mRecyclerView.setAdapter(mAdapter);
 
 
-            editBio = (TextView) findViewById(R.id.editBio);
-            editBio.setOnClickListener(new View.OnClickListener() {
+          editBio = (TextView) findViewById(R.id.editBio);
+           editBio.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
 
