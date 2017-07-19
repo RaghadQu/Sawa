@@ -1,5 +1,7 @@
 package com.example.zodiac.sawa.SpringApi;
 
+import com.example.zodiac.sawa.Spring.Models.LoginWIthGoogleModel;
+import com.example.zodiac.sawa.Spring.Models.LoginWithFacebookModel;
 import com.example.zodiac.sawa.Spring.Models.SignInModel;
 import com.example.zodiac.sawa.Spring.Models.SignUpModel;
 import com.example.zodiac.sawa.Spring.Models.UserModel;
@@ -22,4 +24,8 @@ public interface AuthInterface {
     @Headers("Cache-Control: max-age=64000")
     @POST("/api/v1/user/signUp")
     Call<UserModel> signUp(@Body SignUpModel signUpModel);
+    @POST("/api/v1/user/login-with-google")
+    Call<UserModel> loginWithGoogle(@Body LoginWIthGoogleModel loginWIthGoogleModel);
+    @POST("/api/v1/user/login-with-facebook")
+    Call<UserModel> loginWithFacebook(@Body LoginWithFacebookModel loginWithFacebookModel);
 }

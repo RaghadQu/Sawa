@@ -72,9 +72,16 @@
         android:background="@drawable/selector_xml_btn_yellow"
         android:onClick="checkLogin"/>
 
+    <com.facebook.login.widget.LoginButton
+        android:id="@+id/login_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/LogInProgress"
+        android:layout_alignLeft="@+id/AppName"
+        android:layout_alignStart="@+id/AppName" />
 
 
-   <ProgressBar
+      <ProgressBar
         android:layout_below="@+id/button"
         android:id="@+id/LogInProgress"
         android:layout_width="0dp"
@@ -92,7 +99,16 @@
         android:orientation="vertical"
         android:layout_below="@+id/RelativeLayout"
         >
-      <TextView
+
+
+        <com.google.android.gms.common.SignInButton
+            android:id="@+id/loginWithGoogleBtn"
+            android:layout_width="290dp"
+            android:layout_height="30dp"
+            android:layout_alignBottom="@+id/login_button"
+            android:layout_marginTop="20dp" />
+
+        <TextView
           android:layout_below="@+id/LogInProgress"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
