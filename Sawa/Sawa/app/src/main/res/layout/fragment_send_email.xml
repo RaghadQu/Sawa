@@ -1,56 +1,53 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".RecoverPassword.SendEmailFragment">
-
-    <!-- TODO: Update blank fragment layout -->
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="30dp"
-        android:background="@mipmap/three">
-
-        <TextView
+        android:layout_height="match_parent">
+        <!-- TODO: Update blank fragment layout -->
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="210dp"
-            android:text="Forgot your password ? Please enter your email address to reset it."
-            android:textSize="18dp"
-            android:textColor="#7c017c"
-            android:textAlignment="center"/>
-        <EditText
-            android:id="@+id/userEmail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:drawableLeft="@mipmap/email"
-            android:drawablePadding="5dp"
-            android:ems="20"
-            android:hint="Email"
-            android:inputType="text"
-            android:paddingLeft="0dp"
-            android:textColor="#000"
-            android:textSize="15dp"
-            android:textColorHint="#7c017c"
-            />
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="40dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="35dp"
+                android:text="Forgot your password ? Please enter your email address to reset it."
+                android:textSize="18dp"
+                android:textColor="@color/purple"
+                android:textAlignment="center"/>
+
+            <EditText
+                android:id="@+id/userEmail"
+                android:focusableInTouchMode="true"
+                android:drawableLeft="@mipmap/email"
+                android:layout_marginTop="20dp"
+                android:drawablePadding="7dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Email"
+                android:padding="10dp"
+                android:textColor="@color/purple"
+                android:textColorHint="@color/purple"
+                android:textSize="15dp" />
+
+            <Button
+                android:layout_marginTop="18dp"
+                android:text="Reset Password"
+                android:id="@+id/button"
+                android:layout_width="150dp"
+                android:layout_height="40dp"
+                android:background="@drawable/selector_xml_btn_yellow"
+                android:padding="10dp"
+                android:textColor="@color/purple"
+                android:textSize="13dp"
 
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="18dp"
-            android:text="Reset Password"
-            android:id="@+id/button"
-            android:textColor="#FFF"
-            android:background="@drawable/selector_xml_btn_yellow"
-            android:layout_gravity="center_horizontal"
-            />
+                />
+        </LinearLayout>
 
 
-    </LinearLayout>
+    </FrameLayout>
 
-
-
-</FrameLayout>

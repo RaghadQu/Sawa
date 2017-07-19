@@ -8,8 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:padding="30dp"
-        android:background="@mipmap/three"
+        android:padding="40dp"
         android:gravity="center">
 
             <EditText
@@ -37,16 +36,15 @@
                       />-->
         <Button
             android:id="@+id/btn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="150dp"
+            android:layout_height="40dp"
             android:padding="10dp"
-            android:layout_margin="4dp"
+            android:layout_margin="20dp"
             android:text="Next"
             style="DefaultButtonText"
             android:background="@drawable/selector_xml_btn_yellow"
-            android:textColor="#fff"
+            android:textColor="@color/purple"
             android:textSize="13dp"
-            android:layout_marginTop="10dp"
 
 
             />

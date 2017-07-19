@@ -7,14 +7,16 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.Matrix;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Base64;
@@ -23,27 +25,47 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.zodiac.sawa.AddPostActivity;
 import com.example.zodiac.sawa.DB.DBHandler;
+import com.example.zodiac.sawa.EditProfileActivity;
 import com.example.zodiac.sawa.GeneralAppInfo;
 import com.example.zodiac.sawa.GeneralFunctions;
 import com.example.zodiac.sawa.ImageConverter.ImageConverter;
 import com.example.zodiac.sawa.ImageConverter.uploadImage;
-import com.example.zodiac.sawa.RecyclerViewAdapters.MyAdapter;
 import com.example.zodiac.sawa.R;
+import com.example.zodiac.sawa.RecyclerViewAdapters.MyAdapter;
 import com.example.zodiac.sawa.RecyclerViewAdapters.SettingsAdapter;
+import com.example.zodiac.sawa.Spring.Models.AboutUserRequestModel;
+import com.example.zodiac.sawa.Spring.Models.AboutUserResponseModel;
+import com.example.zodiac.sawa.SpringApi.AboutUserInterface;
+
+import de.hdodenhof.circleimageview.CircleImageView;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MyProfileActivity extends AppCompatActivity {
 
 
+    String bioBeforeUpdate, statusBeforeUpdate;
+    TextView friendsTxt, requestsTxt, newPostTxt;
+    TextView profileBio;
+    CircleImageView editProfile;
+    Button saveAbout;
     Uri imageuri;
-    ImageView img;
+    ImageView img, coverImage;
+    EditText bioTxt, statusTxt;
     Dialog imgClick;
     Dialog ViewImgDialog;
+    Dialog editMyBio;
     TextView changePic, viewPic, RemovePic, toolBarText;
     ImageView imageView; // View image in dialog
     private static final int SELECTED_PICTURE = 100;
@@ -72,6 +94,14 @@ public class MyProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_my_profile);
         GeneralFunctions generalFunctions = new GeneralFunctions();
         boolean isOnline = generalFunctions.isOnline(getApplicationContext());
+        friendsTxt = (TextView) findViewById(R.id.friendsTxt);
+        requestsTxt = (TextView) findViewById(R.id.requestTxt);
+        newPostTxt = (TextView) findViewById(R.id.newPostTxt);
+        editProfile = (CircleImageView) findViewById(R.id.editProfile);
+        coverImage = (ImageView) findViewById(R.id.coverImage);
+        profileBio = (TextView) findViewById(R.id.profileBio);
+
+
 
 
         if (isOnline == false) {
@@ -88,57 +118,29 @@ public class MyProfileActivity extends AppCompatActivity {
 
             imgClick = new Dialog(this);
             imgClick.setContentView(R.layout.profile_picture_dialog);
-            imgClick.getWindow().getAttributes().y = -130;
-            imgClick.getWindow().getAttributes().x = 70;
 
 
             Log.d("Set", "s");
             ViewImgDialog = new Dialog(this, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
             ViewImgDialog.setContentView(R.layout.view_profilepic_dialog);
+
+            editMyBio = new Dialog(this);
+            editMyBio.setContentView(R.layout.edit_my_bio_dialog);
+            editMyBio.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            saveAbout = (Button) editMyBio.findViewById(R.id.saveAbout);
+            bioTxt = (EditText) editMyBio.findViewById(R.id.bioTxt);
+            statusTxt = (EditText) editMyBio.findViewById(R.id.statusTxt);
+
+            fillAbout(bioTxt, statusTxt);
+
+
             imageView = (ImageView) ViewImgDialog.findViewById(R.id.ImageView);
 
             img = (ImageView) findViewById(R.id.user_profile_photo);
             // imageView.setImageURI();
             final DBHandler dbHandler = new DBHandler(this);
             final uploadImage uploadImage = new uploadImage();
-            String imageUrl = uploadImage.getUserImageFromDB(GeneralAppInfo.getUserID(), img, MyProfileActivity.this, 1, anim);
-
-
-            img.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    imgClick.show();
-                    changePic = (TextView) imgClick.findViewById(R.id.EditPic);
-                    viewPic = (TextView) imgClick.findViewById(R.id.ViewPic);
-                    RemovePic = (TextView) imgClick.findViewById(R.id.RemovePic);
-
-                    changePic.setOnClickListener(new View.OnClickListener() {
-                        public void onClick(View v) {
-                            imgClick.dismiss();
-                            Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                            startActivityForResult(intent, SELECTED_PICTURE);
-                        }
-                    });
-
-                    viewPic.setOnClickListener(new View.OnClickListener() {
-                        public void onClick(View v) {
-                            imgClick.dismiss();
-                            imageView.setImageDrawable(img.getDrawable());
-                            ViewImgDialog.show();
-
-                        }
-                    });
-
-                    RemovePic.setOnClickListener(new View.OnClickListener() {
-                        public void onClick(View v) {
-                            imgClick.dismiss();
-                            img.setImageResource(R.drawable.account);
-                            //  imageView.setImageDrawable(img.getDrawable());
-                            // ViewImgDialog.show();
-
-                        }
-                    });
-                }
-            });
+          //  String imageUrl = uploadImage.getUserImageFromDB(GeneralAppInfo.getUserID(), img, MyProfileActivity.this, 1, anim);
             mRecyclerView = (RecyclerView) findViewById(R.id.Viewer);
             mRecyclerView.setNestedScrollingEnabled(false);
 
@@ -149,34 +151,195 @@ public class MyProfileActivity extends AppCompatActivity {
             mRecyclerView.setAdapter(mAdapter);
             //set click listener for edit bio
             editBio = (TextView) findViewById(R.id.editBio);
+
+            toolBarText = (TextView) findViewById(R.id.toolBarText);
+
+
+            //Profile Picture
+            img.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    imgClick.getWindow().getAttributes().y = -90;
+                    imgClick.getWindow().getAttributes().x = 130;
+                    imgClick.show();
+                    changePic = (TextView) imgClick.findViewById(R.id.EditPic);
+                    changePic.setText("Change Profile Picture");
+                    viewPic = (TextView) imgClick.findViewById(R.id.ViewPic);
+                    viewPic.setText("View Profile Picture");
+                    RemovePic = (TextView) imgClick.findViewById(R.id.RemovePic);
+                    RemovePic.setText("Remove Profile Picture");
+                    changePic.setOnClickListener(new View.OnClickListener() {
+                        public void onClick(View v) {
+                            imgClick.dismiss();
+                            Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                            startActivityForResult(intent, 100);
+                        }
+                    });
+
+                    viewPic.setOnClickListener(new View.OnClickListener() {
+                        public void onClick(View v) {
+                            imgClick.dismiss();
+                            imageView.setImageDrawable(img.getDrawable());
+                            ImageView coverImageDialog = (ImageView) ViewImgDialog.findViewById(R.id.ImageView);
+                            coverImageDialog.setImageDrawable(img.getDrawable());
+                            ViewImgDialog.show();
+
+                        }
+                    });
+
+                    RemovePic.setOnClickListener(new View.OnClickListener() {
+                        public void onClick(View v) {
+                            imgClick.dismiss();
+                            img.setImageResource(R.drawable.default_profile);
+                            //  imageView.setImageDrawable(img.getDrawable());
+                            // ViewImgDialog.show();
+
+                        }
+                    });
+                }
+            });
+
+            coverImage.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    imgClick.getWindow().getAttributes().y = -280;
+                    imgClick.getWindow().getAttributes().x = 30;
+                    imgClick.show();
+                    changePic = (TextView) imgClick.findViewById(R.id.EditPic);
+                    changePic.setText("Change Cover Picture");
+                    viewPic = (TextView) imgClick.findViewById(R.id.ViewPic);
+                    viewPic.setText("View Cover Picture");
+                    RemovePic = (TextView) imgClick.findViewById(R.id.RemovePic);
+                    RemovePic.setText("Remove Cover Picture");
+
+                    changePic.setOnClickListener(new View.OnClickListener() {
+                        public void onClick(View v) {
+                            imgClick.dismiss();
+                            Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                            startActivityForResult(intent, 200);
+                        }
+                    });
+
+                    viewPic.setOnClickListener(new View.OnClickListener() {
+                        public void onClick(View v) {
+                            imgClick.dismiss();
+                            coverImage.setImageDrawable(coverImage.getDrawable());
+                            ImageView coverImageDialog = (ImageView) ViewImgDialog.findViewById(R.id.ImageView);
+                            coverImageDialog.setImageDrawable(coverImage.getDrawable());
+                            ViewImgDialog.show();
+
+
+                        }
+                    });
+
+                    RemovePic.setOnClickListener(new View.OnClickListener() {
+                        public void onClick(View v) {
+                            imgClick.dismiss();
+                            coverImage.setImageDrawable(null);
+
+                            //  img.setImageResource(R.drawable.default_profile);
+                            //  coverImage.setImageDrawable(img.getDrawable());
+                            // ViewImgDialog.show();
+
+                        }
+                    });
+                }
+            });
+
+            toolBarText.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    final int DRAWABLE_LEFT = 0;
+
+                    if (event.getX() <= (toolBarText.getCompoundDrawables()[DRAWABLE_LEFT].getBounds().width())) {
+                        finish();
+                        return true;
+                    }
+
+                    if (event.getX() >= 900) {
+                        return true;
+                    }
+
+
+                    return false;
+                }
+            });
+
+
+            friendsTxt.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+
+                    Intent i = new Intent(getApplicationContext(), MyFriendsActivity.class);
+                    startActivity(i);
+                }
+            });
+
+            requestsTxt.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+
+                    Intent i = new Intent(getApplicationContext(), MyRequestsActivity.class);
+                    startActivity(i);
+                }
+            });
+
+            newPostTxt.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+
+                    Intent i = new Intent(getApplicationContext(), AddPostActivity.class);
+                    startActivity(i);
+                }
+            });
+
+            editProfile.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+
+                    Intent i = new Intent(getApplicationContext(), EditProfileActivity.class);
+                    startActivity(i);
+                }
+            });
             editBio.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent i = new Intent(getApplicationContext(), aboutUserActivity.class);
-                    startActivity(i);
+
+                    editMyBio.show();
 
                 }
             });
+
+            saveAbout.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    String bioText, statusText;
+                    bioText = bioTxt.getText().toString();
+                    statusText = statusTxt.getText().toString();
+                    updateAbout(bioText, statusText, "");
+                    editMyBio.dismiss();
+
+                }
+            });
+
+          /*  editMyBio.setOnKeyListener(new Dialog.OnKeyListener() {
+
+                @Override
+                public boolean onKey(DialogInterface arg0, int keyCode,
+                                     KeyEvent event) {
+                    if (keyCode == KeyEvent.KEYCODE_BACK) {
+                        Log.d("Enter"," Flag is " + flag);
+                        Log.d("TEXTS", bioBeforeUpdate + " " + bioTxt.getText().toString() + " " + statusBeforeUpdate + statusTxt.getText().toString());
+
+                        if (flag==1 ||( bioTxt.getText().toString().equals(bioBeforeUpdate) && statusTxt.getText().toString().equals(statusBeforeUpdate))) {
+                            editMyBio.dismiss();
+                            flag=0;
+                            return true;
+                        } else {
+                            Toast.makeText(MyProfileActivity.this, "Please save changes or press back again to discard.", Toast.LENGTH_SHORT).show();
+                            flag=1;
+                            return false ;
+                        }
+                    }
+                    return true;
+                }
+            });*/
         }
-        toolBarText = (TextView) findViewById(R.id.toolBarText);
-        toolBarText.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                final int DRAWABLE_LEFT = 0;
-
-                if (event.getX() <= (toolBarText.getCompoundDrawables()[DRAWABLE_LEFT].getBounds().width())) {
-                    finish();
-                    return true;
-                }
-
-                if (event.getX() >= 900) {
-                    return true;
-                }
 
 
-                return false;
-            }
-        });
     }
 
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
@@ -203,7 +366,7 @@ public class MyProfileActivity extends AppCompatActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK && requestCode == SELECTED_PICTURE) {
+        if (resultCode == RESULT_OK && (requestCode == 100 || requestCode == 200)) {
             imageuri = data.getData();
             try {
                 verifyStoragePermissions(this);
@@ -215,8 +378,13 @@ public class MyProfileActivity extends AppCompatActivity {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageuri);
                 bitmap = scaleDown(bitmap, 1000, true);
                 bitmap = RotateBitmap(bitmap, rotate);
-                img.setImageBitmap(bitmap);
-                ImageConverter imageConverter = new ImageConverter();
+                if (requestCode == 100) {
+                    img.setImageBitmap(bitmap);
+                }
+                if (requestCode == 200){
+                    coverImage.setImageBitmap(bitmap);
+                }
+                    ImageConverter imageConverter = new ImageConverter();
                 byte[] image = imageConverter.getBytes(bitmap);
                 DBHandler dbHandler = new DBHandler(this);
                 // dbHandler.updateUserImage(GeneralAppInfo.getUserID(), image);
@@ -253,4 +421,57 @@ public class MyProfileActivity extends AppCompatActivity {
         matrix.postRotate(angle);
         return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(), matrix, true);
     }
+
+
+    public void fillAbout(final EditText bio, final EditText status) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(GeneralAppInfo.SPRING_URL)
+                .addConverterFactory(GsonConverterFactory.create()).build();
+        AboutUserInterface aboutUserApi = retrofit.create(AboutUserInterface.class);
+        Call<AboutUserResponseModel> call = aboutUserApi.getAboutUser(GeneralAppInfo.getUserID());
+        call.enqueue(new Callback<AboutUserResponseModel>() {
+            @Override
+            public void onResponse(Call<AboutUserResponseModel> call, Response<AboutUserResponseModel> response) {
+                if (response != null) {
+                    if (response.body() != null) {
+                        profileBio.setText(response.body().getUserBio());
+                        bio.setText(response.body().getUserBio());
+                        status.setText(response.body().getUserStatus());
+                        bioBeforeUpdate = bioTxt.getText().toString();
+                        statusBeforeUpdate = statusTxt.getText().toString();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<AboutUserResponseModel> call, Throwable t) {
+                Log.d("AboutUserFill", "Failure " + t.getMessage());
+            }
+        });
+
+    }
+
+    public void updateAbout(final String bioText, final String statusText, final String songText) {
+        AboutUserRequestModel aboutUserModel = new AboutUserRequestModel(GeneralAppInfo.getUserID(), bioText, statusText, songText);
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(GeneralAppInfo.SPRING_URL)
+                .addConverterFactory(GsonConverterFactory.create()).build();
+        AboutUserInterface aboutUserApi = retrofit.create(AboutUserInterface.class);
+
+        Call<AboutUserResponseModel> call = aboutUserApi.addNewAboutUser(aboutUserModel);
+        call.enqueue(new Callback<AboutUserResponseModel>() {
+            @Override
+            public void onResponse(Call<AboutUserResponseModel> call, Response<AboutUserResponseModel> response) {
+                Log.d("AboutUserUpdate", "Done successfully");
+            }
+
+            @Override
+            public void onFailure(Call<AboutUserResponseModel> call, Throwable t) {
+                Log.d("AboutUserUpdate", "Failure " + t.getMessage());
+            }
+        });
+
+    }
+
+
 }

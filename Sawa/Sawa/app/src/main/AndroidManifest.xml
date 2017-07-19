@@ -54,7 +54,8 @@
             android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity
             android:name=".RecoverPassword.RecoverPass"
-            android:configChanges="orientation|keyboardHidden|screenSize" />
+            android:windowSoftInputMode="adjustResize|stateVisible"
+            android:configChanges="orientation|keyboard|screenSize" />
         <activity
             android:name=".MainActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -68,6 +69,7 @@
             android:name=".RegisterPkg.RegisterActivity"
             android:configChanges="orientation|screenSize|keyboard"
             android:windowSoftInputMode="adjustResize|stateVisible" />
+
         <activity android:name=".MenuActiviries.MyProfileActivity" />
         <activity android:name=".MenuActiviries.aboutUserActivity" />
         <activity
@@ -75,6 +77,8 @@
             android:label="@string/title_activity_home_tabbed"
             android:theme="@style/AppTheme" />
         <activity android:name=".FriendProfile.MyFriendProfileActivity" />
+        <activity android:name=".EditProfileActivity" />
+
         <activity android:name=".SearchActivity" />
         <activity android:name=".YoutubePlayerActivity"></activity>
         <meta-data android:name="com.facebook.sdk.ApplicationId"

@@ -72,7 +72,8 @@ public class uploadImage {
                 List<userImageFromDb> userImageFromDbs;
                 userImageFromDbs = response.body();
 //     here  //
-        imageUrl = userImageFromDbs.get(0).getUser_image();
+                Log.d("ImageUpload"," "+ response.code());
+      //  imageUrl = userImageFromDbs.get(0).getUser_image();
                 Log.d("Arrive to ge fro Db11", "s" + imageUrl);
                 imageUrl = GeneralAppInfo.IMAGE_URL + imageUrl;
                 Log.d("imageYtl", imageUrl);

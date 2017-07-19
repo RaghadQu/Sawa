@@ -55,7 +55,7 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
 
             @Override
             public void onResponse(Call<DeviceTokenModel> call, Response<DeviceTokenModel> response) {
-                Log.d("Arrive",""+response.body().getDeviceId());
+//                Log.d("Arrive",""+response.body().getDeviceId());
 
             }
 

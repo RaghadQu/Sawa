@@ -1,0 +1,58 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <!-- TODO: Update blank fragment layout -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="40dp">
+
+        <TextView
+            android:layout_width="250dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="7dp"
+            android:text="Select your Birth Date : "
+            android:textAllCaps="false"
+            android:textSize="16dp"
+            android:gravity="center_horizontal"
+            android:textColor="@color/purple"
+            />
+
+        <DatePicker
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:datePickerMode="spinner"
+            android:id="@+id/BirthDatePicker"
+            android:spinnersShown="true"
+            android:orientation="vertical"
+            android:layout_marginTop="0dp"
+            android:endYear="2100"
+            android:startYear="1900"
+            style="@style/date_picker_theme"
+            android:layout_gravity="center"
+
+            >
+
+        </DatePicker>
+
+        <Button
+            android:id="@+id/nextBtn"
+            style="DefaultButtonText"
+            android:layout_width="150dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/selector_xml_btn_yellow"
+            android:padding="10dp"
+            android:text="Next"
+            android:textColor="@color/purple"
+            android:textSize="13dp"
+
+
+            />
+    </LinearLayout>
+
+
+</FrameLayout>
