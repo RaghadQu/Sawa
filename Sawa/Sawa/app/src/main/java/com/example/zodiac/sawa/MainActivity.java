@@ -463,6 +463,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     protected void setGooglePlusButtonText(SignInButton signInButton, String buttonText) {
         // Find the TextView that is inside of the SignInButton and set its text
+
         for (int i = 0; i < signInButton.getChildCount(); i++) {
             View v = signInButton.getChildAt(i);
 

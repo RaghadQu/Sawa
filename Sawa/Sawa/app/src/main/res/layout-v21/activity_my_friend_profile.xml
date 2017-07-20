@@ -109,6 +109,9 @@
                 android:textColor="#000"
                 android:textColorHint="#000"
                 android:textSize="18dp" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -116,10 +119,17 @@
                 android:layout_gravity="center"
                 android:layout_marginLeft="35dp"
                 android:id="@+id/editBio"
-                android:layout_marginRight="18dp"
-                android:drawableRight="@drawable/sms2"
-                android:text="Civi Engineer. Hala Madrid , PS     " />
+                android:layout_marginRight="10dp"
+                android:text="Civi Engineer. Hala Madrid , PS " />
 
+            <ImageView
+                android:layout_marginTop="5dp"
+                android:layout_width="22dp"
+                android:id="@+id/aboutFriendIcon"
+                android:layout_height="22dp"
+                android:src="@drawable/about_icon"/>
+
+            </LinearLayout>
             <Button
                 android:id="@+id/friendStatus"
                 android:layout_width="150dp"
