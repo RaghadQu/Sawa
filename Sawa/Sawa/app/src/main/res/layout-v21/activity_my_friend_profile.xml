@@ -117,13 +117,12 @@
                 android:layout_marginLeft="35dp"
                 android:id="@+id/editBio"
                 android:layout_marginRight="18dp"
-                android:drawableRight="@drawable/sms2"
-                android:text="Civi Engineer. Hala Madrid , PS     " />
+                android:drawableRight="@drawable/sms2"/>
 
             <Button
                 android:id="@+id/friendStatus"
-                android:layout_width="150dp"
-                android:layout_height="38dp"
+                android:layout_width="120dp"
+                android:layout_height="31dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="5dp"
                 android:textAllCaps="false"
@@ -140,21 +139,21 @@
                 android:orientation="horizontal"
                 android:layout_marginTop="-38dp">
                 <Button
-                    android:layout_width="75dp"
-                    android:layout_height="30dp"
+                    android:layout_width="60dp"
+                    android:layout_height="31dp"
                     android:id="@+id/ConfirmRequest"
                     android:paddingLeft="26dp"
-                    android:background="@drawable/left_corners"
+                    android:background="@drawable/left_corners_50dp"
                     android:drawableLeft="@drawable/rsz_confirm1"
                     android:visibility="invisible"
 
                     />
                 <Button
-                    android:layout_width="75dp"
-                    android:layout_height="30dp"
+                    android:layout_width="60dp"
+                    android:layout_height="31dp"
                     android:id="@+id/deleteRequest"
                     android:paddingLeft="26dp"
-                    android:background="@drawable/rigth_corners"
+                    android:background="@drawable/right_corners_50dp"
                     android:drawableLeft="@drawable/rsz_delete"
                     android:visibility="invisible"
                     />

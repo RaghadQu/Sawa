@@ -116,6 +116,7 @@ public class MyFriendProfileActivity extends AppCompatActivity {
         progressBar = (ProgressBar) findViewById(R.id.circular_progress_bar);
         progressBar.setProgress(0);
         progressBar.setMax(100);
+        progressBar.setVisibility(View.VISIBLE);
         anim = ObjectAnimator.ofInt(progressBar, "progress", 0, 100);
         anim.setDuration(2000);
         anim.setInterpolator(new DecelerateInterpolator());
@@ -143,7 +144,8 @@ public class MyFriendProfileActivity extends AppCompatActivity {
                 public void onResponse(Call<Integer> call, Response<Integer> response) {
                     Log.d("GetState", "get Friend State code is "+ response.code());
                     Integer FriendshipState = response.body();
-                    progressBar_button.setVisibility(View.GONE);
+                    progressBar.setVisibility(View.INVISIBLE);
+                    progressBar_button.setVisibility(View.INVISIBLE);
                     FriendsClass friendsClass = new FriendsClass();
 
                     Log.d("stateeee", "" + FriendshipState);
@@ -152,15 +154,15 @@ public class MyFriendProfileActivity extends AppCompatActivity {
                         GeneralAppInfo.friendMode = 0;
                         friendsClass.SetFriendButtn(friendStatus, mRecyclerView, MyFriendProfileActivity.this, Id1, getApplicationContext());
 
-                    } else if (FriendshipState == 1) {
+                    } else if (FriendshipState == 1) { // Friend
                         mRecyclerView.setVisibility(View.VISIBLE);
                         GeneralAppInfo.friendMode = 1;
                         friendsClass.SetFriendButtn(friendStatus, mRecyclerView, MyFriendProfileActivity.this, Id1, getApplicationContext());
-                    } else if (FriendshipState == 2) {
-                        mRecyclerView.setVisibility(View.GONE);
-                        GeneralAppInfo.friendMode = 2;
-                        friendsClass.SetFriendButtn(friendStatus, mRecyclerView, MyFriendProfileActivity.this, Id1, getApplicationContext());
                     } else if (FriendshipState == 3) {
+                        mRecyclerView.setVisibility(View.GONE);
+                        GeneralAppInfo.friendMode = 3;
+                        friendsClass.SetFriendButtn(friendStatus, mRecyclerView, MyFriendProfileActivity.this, Id1, getApplicationContext());
+                    } else if (FriendshipState == 2) { // user = friend_id 2, friend = friend_id 1  .. friend sends to user
                         mRecyclerView.setVisibility(View.GONE);
                         GeneralAppInfo.friendMode = 0;
                         friendsClass.setFriendRequestButton(friendStatus, confirmRequest, deleteRequest, Id1);
