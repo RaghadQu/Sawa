@@ -107,19 +107,19 @@ public class MyRequestsActivity extends Activity {
                     Log.d("GetFriendRequests", " Get friends " + response.code());
                     if (response.code() == 200) {
                         progressBar.setVisibility(View.GONE);
+                        LayoutFriendsList.clear();
                         FreindsList = response.body();
                         Log.d("GetFriendRequests", " Get friend requests size " + response.body().size());
 
-                        LayoutFriendsList.clear();
                         if (FreindsList != null) {
 
                             if (FreindsList.size() == 0) {
 
                                 setContentView(R.layout.no_friends_to_show);
                                 CircleImageView circle = (CircleImageView) findViewById(R.id.circle);
-                                circle.setImageDrawable(getDrawable(R.drawable.no_friends));
+                                circle.setImageDrawable(getDrawable(R.drawable.no_requests));
                                 TextView text = (TextView) findViewById(R.id.text);
-                                text.setText("Friends");
+                                text.setText("Friend Requests");
 
                             }
                             for (int i = 0; i < FreindsList.size(); i++) {

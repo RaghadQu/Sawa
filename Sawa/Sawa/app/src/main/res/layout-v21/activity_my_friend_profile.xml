@@ -109,6 +109,9 @@
                 android:textColor="#000"
                 android:textColorHint="#000"
                 android:textSize="18dp" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -116,9 +119,17 @@
                 android:layout_gravity="center"
                 android:layout_marginLeft="35dp"
                 android:id="@+id/editBio"
-                android:layout_marginRight="18dp"
-                android:drawableRight="@drawable/sms2"/>
+                android:layout_marginRight="15dp"/>
 
+
+            <ImageView
+                android:layout_marginTop="5dp"
+                android:layout_width="22dp"
+                android:id="@+id/aboutFriendIcon"
+                android:layout_height="22dp"
+                android:src="@drawable/about_icon"/>
+
+            </LinearLayout>
             <Button
                 android:id="@+id/friendStatus"
                 android:layout_width="120dp"
@@ -137,12 +148,12 @@
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:orientation="horizontal"
-                android:layout_marginTop="-38dp">
+                android:layout_marginTop="-32dp">
                 <Button
                     android:layout_width="60dp"
                     android:layout_height="31dp"
                     android:id="@+id/ConfirmRequest"
-                    android:paddingLeft="26dp"
+                    android:paddingLeft="20dp"
                     android:background="@drawable/left_corners_50dp"
                     android:drawableLeft="@drawable/rsz_confirm1"
                     android:visibility="invisible"
@@ -152,7 +163,7 @@
                     android:layout_width="60dp"
                     android:layout_height="31dp"
                     android:id="@+id/deleteRequest"
-                    android:paddingLeft="26dp"
+                    android:paddingLeft="18dp"
                     android:background="@drawable/right_corners_50dp"
                     android:drawableLeft="@drawable/rsz_delete"
                     android:visibility="invisible"
@@ -165,7 +176,7 @@
                 android:layout_height="20dp"
                 android:indeterminate="false"
                 android:elevation="2dp"
-                android:layout_marginTop="-20dp"
+                android:layout_marginTop="-24dp"
                 android:indeterminateTint="@color/purple"
                 android:visibility="visible" />
 
