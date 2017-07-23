@@ -11,6 +11,7 @@ import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -47,6 +48,7 @@ import org.json.JSONObject;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -61,6 +63,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ProgressBar logInProfress;
     CallbackManager callbackManager;
     SignInButton signInButton;
+    CircleImageView fb , google;
     GoogleApiClient googleApiClient;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -102,6 +105,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             }
         });*/
+
+        fb = (CircleImageView) findViewById(R.id.fb);
+        google = (CircleImageView) findViewById(R.id.google);
 
 
         loginButton = (LoginButton) findViewById(R.id.login_button);
@@ -322,6 +328,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 signIn();
                 break;
         }
+        if (v == fb) {
+            loginButton.performClick();
+        }
+        if(v == google)
+        {
+            signInButton.performClick();
+            signIn();
+        }
+
     }
 
     @Override
