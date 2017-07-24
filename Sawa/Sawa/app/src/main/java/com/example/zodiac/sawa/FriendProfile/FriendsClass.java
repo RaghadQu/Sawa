@@ -118,12 +118,6 @@ public class FriendsClass {
                     NotFriendProfileClass notFriendProfileClass = new NotFriendProfileClass();
                     notFriendProfileClass.addNewFriendShip(GeneralAppInfo.getUserID(), Id);
                 }
-
-
-                //    if(view==friendStatus){
-                //friendStatus.setText("Pending");
-
-                //  }
             }
         });
     }
