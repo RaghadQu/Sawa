@@ -2,6 +2,7 @@ package com.example.zodiac.sawa.SpringApi;
 
 import com.example.zodiac.sawa.Spring.Models.AboutUserResponseModel;
 import com.example.zodiac.sawa.Spring.Models.AboutUserRequestModel;
+import com.example.zodiac.sawa.Spring.Models.EditProfileModel;
 import com.example.zodiac.sawa.Spring.Models.UserModel;
 
 import retrofit2.Call;
@@ -25,5 +26,9 @@ public interface AboutUserInterface {
 
     @GET("/api/v1/user/getUser/{id}")
     Call<UserModel> getUserInfo(@Path("id") int id);
+
+    @Headers("Cache-Control: max-age=64000")
+    @POST("/api/v1/user/editProfile")
+    Call<Integer> updateProfile(@Body EditProfileModel editUserModel);
 
 }

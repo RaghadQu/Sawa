@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
+import com.example.zodiac.sawa.Spring.Models.EditProfileModel;
 import com.example.zodiac.sawa.Spring.Models.UserModel;
 import com.example.zodiac.sawa.SpringApi.AboutUserInterface;
 
@@ -31,6 +32,7 @@ public class EditProfileActivity extends Activity {
     DatePicker birthDate;
     AboutUserInterface service;
     UserModel userModel;
+    EditProfileModel editProfileModle;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -52,6 +54,45 @@ public class EditProfileActivity extends Activity {
             @Override
             public void onClick(View view) {
                 finish();
+            }
+        });
+
+        saveEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                editProfileModle= new EditProfileModel();
+                String stringDate= String.valueOf(birthDate.getYear())+"-"+ String.valueOf(birthDate.getMonth()+1)+"-"+ String.valueOf(birthDate.getDayOfMonth());
+
+                String gender = "";
+                if (maleBtn.isChecked()) gender = "male";
+                if (femaleBtn.isChecked()) gender = "female";
+
+                editProfileModle.setFirst_name(firstName.getText().toString());
+                editProfileModle.setLast_name(lastName.getText().toString());
+                editProfileModle.setMobile(Integer.valueOf(number.getText().toString()));
+                editProfileModle.setBirthdate(stringDate);
+                editProfileModle.setGender(gender);
+
+                Retrofit retrofit = new Retrofit.Builder()
+                        .baseUrl(GeneralAppInfo.SPRING_URL)
+                        .addConverterFactory(GsonConverterFactory.create()).build();
+                AboutUserInterface aboutUserApi = retrofit.create(AboutUserInterface.class);
+
+                Call<Integer> call = aboutUserApi.updateProfile(editProfileModle);
+                call.enqueue(new Callback<Integer>() {
+                    @Override
+                    public void onResponse(Call<Integer> call, Response<Integer> response) {
+                        Log.d("AboutProfileUpdate", "Done successfully");
+                    }
+
+                    @Override
+                    public void onFailure(Call<Integer> call, Throwable t) {
+                        Log.d("AboutProfileUpdate", "Failure " + t.getMessage());
+                    }
+                });
+
+
             }
         });
 
@@ -78,6 +119,13 @@ public class EditProfileActivity extends Activity {
                     lastName.setText(userModel.getLast_name());
                     number.setText(String.valueOf(userModel.getMobile()));
                     femaleBtn.setChecked(true);
+                    String userBirthdate = userModel.getBirthdate();
+                    String[] separated = userBirthdate.split("-");
+                    Log.d("Birthdate", " String is  "+ userBirthdate);
+                    String year= separated[0]; // this will contain "Fruit"
+                    String month= separated[1]; // this will contain " they taste good"
+                    String day= separated[2];
+                    birthDate.updateDate(Integer.valueOf(year),Integer.valueOf(month)-1,Integer.valueOf(day));
                 }
 
             }

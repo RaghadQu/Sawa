@@ -64,6 +64,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     CallbackManager callbackManager;
     SignInButton signInButton;
     CircleImageView fb , google;
+    Button fb1;
     GoogleApiClient googleApiClient;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -232,6 +233,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                         if (statusCode == 200) {
                             Log.d("-----", " enter here" + userModel.getId());
+                            Log.d("UserDate" , " in Sign is " +userModel.getBirthdate());
 
                             GeneralAppInfo.setUserID(Integer.valueOf(userModel.getId()));
                             sharedPreferences = getSharedPreferences("userInfo", Context.MODE_PRIVATE);

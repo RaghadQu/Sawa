@@ -72,6 +72,7 @@ public class MyFriendProfileActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager mLayoutManager;
     String[] myDataset = {"Profile", "Friends", "Friend Requests", "Log out"};
     int[] images = {image1, image2, image3, image4};
+    ImageView coverPhoto;
 
     int Id1;
 
@@ -99,6 +100,7 @@ public class MyFriendProfileActivity extends AppCompatActivity {
         friendStatus = (Button) findViewById(R.id.friendStatus);
         friendStatus.setText(" ");
         aboutFriendIcon=(ImageView) findViewById(R.id.aboutFriendIcon);
+        coverPhoto = (ImageView) findViewById(R.id.coverPhoto);
 
         final Button confirmRequest = (Button) findViewById(R.id.ConfirmRequest);
         final Button deleteRequest = (Button) findViewById(R.id.deleteRequest);
@@ -213,6 +215,14 @@ public class MyFriendProfileActivity extends AppCompatActivity {
                     ViewImgDialog.show();
                 }
             });
+
+            coverPhoto.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    imageView.setImageDrawable(coverPhoto.getDrawable());
+                    ViewImgDialog.show();
+                }
+            });
+
             mRecyclerView = (RecyclerView) findViewById(R.id.Viewer);
             mRecyclerView.setVisibility(View.GONE);
 
@@ -257,6 +267,8 @@ public class MyFriendProfileActivity extends AppCompatActivity {
                 return false;
             }
         });
+
+
     }
 
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
