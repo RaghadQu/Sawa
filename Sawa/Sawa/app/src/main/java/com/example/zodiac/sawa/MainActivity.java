@@ -1,6 +1,7 @@
 package com.example.zodiac.sawa;
 
 import android.annotation.TargetApi;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -64,8 +65,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     CallbackManager callbackManager;
     SignInButton signInButton;
     CircleImageView fb , google;
-    Button fb1;
     GoogleApiClient googleApiClient;
+    Dialog LoggingInDialog;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -75,20 +76,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_main);
-       /* try{
-            PackageInfo info = getPackageManager().getPackageInfo(
-                    "com.example.zodiac.sawa", PackageManager.GET_SIGNATURES);
-            for (Signature signature : info.signatures) {
-                MessageDigest md = MessageDigest.getInstance("SHA");
-                md.update(signature.toByteArray());
-                Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
 
-            }
-        } catch (PackageManager.NameNotFoundException e) {
-
-        } catch (NoSuchAlgorithmException e) {
-
-        }*/
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .build();
@@ -96,28 +84,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
+
         signInButton = (SignInButton) findViewById(R.id.loginWithGoogleBtn);
         signInButton.setOnClickListener(this);
         signInButton.setSize(SignInButton.SIZE_STANDARD);
         setGooglePlusButtonText(signInButton,"Log in with google ");
-  /*      Button a = (Button) findViewById(R.id.btnGooglePlus);
-        a.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-
-            }
-        });*/
-
         fb = (CircleImageView) findViewById(R.id.fb);
         google = (CircleImageView) findViewById(R.id.google);
-
-
         loginButton = (LoginButton) findViewById(R.id.login_button);
         loginButton.setReadPermissions("email");
-
-        //loginButton.setReadPermissions("first_name");
-        // loginButton.setReadPermissions("last_name");
-
-
+        LoggingInDialog = new Dialog(this);
+        LoggingInDialog.setContentView(R.layout.logging_in_dialog);
 
         callbackManager = CallbackManager.Factory.create();
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
@@ -213,13 +190,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Toast.makeText(this, "no internet connection!",
                     Toast.LENGTH_LONG).show();
         } else {
-
             final SignInModel signInModel = new SignInModel();
             signInModel.setEmail(emailEditText.getText().toString());
             signInModel.setPassword(passEditText.getText().toString());
             if (valid(signInModel.getEmail(), signInModel.getPassword()) == 0) {
-                logInProfress.setVisibility(ProgressBar.VISIBLE);
-                final Call<UserModel> userModelCall = service.signIn(signInModel);
+                LoggingInDialog.show();
+               final Call<UserModel> userModelCall = service.signIn(signInModel);
                 userModelCall.enqueue(new Callback<UserModel>() {
                     @Override
                     public void onResponse(Call<UserModel> call, Response<UserModel> response) {
@@ -232,6 +208,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         SharedPreferences sharedPreferences = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
 
                         if (statusCode == 200) {
+                            LoggingInDialog.dismiss();
+
                             Log.d("-----", " enter here" + userModel.getId());
                             Log.d("UserDate" , " in Sign is " +userModel.getBirthdate());
 
