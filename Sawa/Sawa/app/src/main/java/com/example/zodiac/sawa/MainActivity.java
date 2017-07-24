@@ -61,7 +61,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private EditText emailEditText;
     private EditText passEditText;
     AuthInterface service;
-    private ProgressBar logInProfress;
     CallbackManager callbackManager;
     SignInButton signInButton;
     CircleImageView fb , google;
@@ -71,7 +70,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        System.gc();
         System.gc();
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getApplicationContext());
@@ -168,8 +166,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             finish();
         }
 
-        logInProfress = (ProgressBar) findViewById(R.id.LogInProgress);
-        logInProfress.setVisibility(ProgressBar.INVISIBLE);
+
         emailEditText = (EditText) findViewById(R.id.username);
         passEditText = (EditText) findViewById(R.id.password);
         Retrofit retrofit = new Retrofit.Builder()
@@ -200,7 +197,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     @Override
                     public void onResponse(Call<UserModel> call, Response<UserModel> response) {
 
-                        logInProfress.setVisibility(ProgressBar.INVISIBLE);
 
                         int statusCode = response.code();
                         Log.d("-----", " enter request " + statusCode);
@@ -218,6 +214,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             SharedPreferences.Editor editor = sharedPreferences.edit();
                             editor.putString("email", emailEditText.getText().toString());
                             editor.putString("password", passEditText.getText().toString());
+                            editor.putString("userName",(userModel.getFirst_name()+ " "+ userModel.getLast_name()));
                             editor.putInt("id", GeneralAppInfo.getUserID());
                             editor.putString("isLogined", "1");
                             editor.apply();

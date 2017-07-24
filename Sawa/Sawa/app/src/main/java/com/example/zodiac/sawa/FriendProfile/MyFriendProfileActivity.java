@@ -158,7 +158,7 @@ public class MyFriendProfileActivity extends AppCompatActivity {
                         mRecyclerView.setVisibility(View.VISIBLE);
                         GeneralAppInfo.friendMode = 1;
                         friendsClass.SetFriendButtn(friendStatus, mRecyclerView, MyFriendProfileActivity.this, Id1, getApplicationContext());
-                    } else if (FriendshipState == 3) {
+                    } else if (FriendshipState == 3) { // Not a friend
                         mRecyclerView.setVisibility(View.GONE);
                         GeneralAppInfo.friendMode = 3;
                         friendsClass.SetFriendButtn(friendStatus, mRecyclerView, MyFriendProfileActivity.this, Id1, getApplicationContext());

@@ -23,7 +23,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class EditProfileActivity extends Activity {
 
     TextView backEdit, saveEdit;
-    EditText firstName, lastName, number;
+    EditText firstName, lastName;
     RadioButton maleBtn, femaleBtn;
     DatePicker birthDate;
     AboutUserInterface service;
@@ -38,7 +38,6 @@ public class EditProfileActivity extends Activity {
         saveEdit = (TextView) findViewById(R.id.saveEdit);
         firstName = (EditText) findViewById(R.id.FirstName);
         lastName = (EditText) findViewById(R.id.LastName);
-        number = (EditText) findViewById(R.id.userNumber);
         maleBtn = (RadioButton) findViewById(R.id.radioM);
         femaleBtn = (RadioButton) findViewById(R.id.radioF);
         birthDate = (DatePicker) findViewById(R.id.BirthDatePicker);
@@ -61,7 +60,6 @@ public class EditProfileActivity extends Activity {
                 if (femaleBtn.isChecked()) gender = "female";
                 editProfileModle.setFirst_name(firstName.getText().toString());
                 editProfileModle.setLast_name(lastName.getText().toString());
-                editProfileModle.setMobile(Integer.valueOf(number.getText().toString()));
                 editProfileModle.setBirthdate(stringDate);
                 editProfileModle.setGender(gender);
 
@@ -102,7 +100,6 @@ public class EditProfileActivity extends Activity {
                     userModel = response.body();
                     firstName.setText(userModel.getFirst_name());
                     lastName.setText(userModel.getLast_name());
-                    number.setText(String.valueOf(userModel.getMobile()));
                     if(userModel.getGender().equals("female"))
                     femaleBtn.setChecked(true);
                     else if(userModel.getGender().equals("male"))
