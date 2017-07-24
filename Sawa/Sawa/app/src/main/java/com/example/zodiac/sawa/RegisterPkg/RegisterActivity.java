@@ -123,6 +123,7 @@ public class RegisterActivity extends Activity {
         signUpModel.setMobile(getMobileNumber());
         signUpModel.setEmail(getUserEmail());
         signUpModel.setPassword(getPassword());
+        signUpModel.setGender(getUserGender());
         signUpModel.setBirthdate(getUserBirthDate());
 
         AuthInterface authInterface;

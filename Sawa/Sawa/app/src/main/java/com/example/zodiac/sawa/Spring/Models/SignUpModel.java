@@ -11,14 +11,25 @@ public class SignUpModel {
     String password;
     Integer mobile;
     String Birthdate;
+    String gender;
 
     public String getBirthdate() {
         return Birthdate;
     }
 
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
     public void setBirthdate(String birthdate) {
         Birthdate = birthdate;
     }
+
     public String getFirst_name() {
         return first_name;
     }

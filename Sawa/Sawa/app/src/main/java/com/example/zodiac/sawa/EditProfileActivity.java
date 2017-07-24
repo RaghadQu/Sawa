@@ -84,6 +84,7 @@ public class EditProfileActivity extends Activity {
                     @Override
                     public void onResponse(Call<Integer> call, Response<Integer> response) {
                         Log.d("AboutProfileUpdate", "Done successfully");
+                        finish();
                     }
 
                     @Override
@@ -118,14 +119,18 @@ public class EditProfileActivity extends Activity {
                     firstName.setText(userModel.getFirst_name());
                     lastName.setText(userModel.getLast_name());
                     number.setText(String.valueOf(userModel.getMobile()));
+                    if(userModel.getGender().equals("female"))
                     femaleBtn.setChecked(true);
-                    String userBirthdate = userModel.getBirthdate();
+                    else if(userModel.getGender().equals("male"))
+                    maleBtn.setChecked(true);
+
+                /*    String userBirthdate = userModel.getBirthdate();
                     String[] separated = userBirthdate.split("-");
                     Log.d("Birthdate", " String is  "+ userBirthdate);
                     String year= separated[0]; // this will contain "Fruit"
                     String month= separated[1]; // this will contain " they taste good"
                     String day= separated[2];
-                    birthDate.updateDate(Integer.valueOf(year),Integer.valueOf(month)-1,Integer.valueOf(day));
+                    birthDate.updateDate(Integer.valueOf(year),Integer.valueOf(month)-1,Integer.valueOf(day));*/
                 }
 
             }
