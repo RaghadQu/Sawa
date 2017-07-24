@@ -1,20 +1,15 @@
 package com.example.zodiac.sawa.RegisterPkg;
 
-import android.content.Context;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.EditText;
 
 import com.example.zodiac.sawa.R;
-import com.example.zodiac.sawa.Validation;
 
-import java.util.Date;
+import java.text.SimpleDateFormat;
 
 /**
  * Created by zodiac on 07/16/2017.
@@ -44,9 +39,11 @@ public class BirthDateFragment extends android.app.Fragment {
                 birthdatePicker.getYear();
                 birthdatePicker.getMonth();
                 birthdatePicker.getDayOfMonth();
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                String stringDate= String.valueOf(birthdatePicker.getYear())+"-"+ String.valueOf(birthdatePicker.getMonth()+1)+"-"+ String.valueOf(birthdatePicker.getDayOfMonth());
+                //String a =dateFormat.format(userBirthDate);
 
-                Date userBirthDate = new Date(birthdatePicker.getYear(), birthdatePicker.getYear(), birthdatePicker.getYear());
-                ((RegisterActivity) getActivity()).setUserBirthDate(userBirthDate);
+                ((RegisterActivity) getActivity()).setUserBirthDate(stringDate);
                 android.app.Fragment f = new GenderFragment();
                 ((RegisterActivity) getActivity()).replaceFragmnets(f);
 
@@ -56,4 +53,5 @@ public class BirthDateFragment extends android.app.Fragment {
         return view;
     }
 }
+
 

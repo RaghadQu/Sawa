@@ -9,20 +9,16 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
-import android.view.View;
 
 import com.example.zodiac.sawa.GeneralAppInfo;
 import com.example.zodiac.sawa.HomeTabbedActivity;
 import com.example.zodiac.sawa.MenuActiviries.aboutUserActivity;
 import com.example.zodiac.sawa.R;
-import com.example.zodiac.sawa.RecoverPassword.SendEmailFragment;
 import com.example.zodiac.sawa.Spring.Models.SignUpModel;
 import com.example.zodiac.sawa.Spring.Models.UserModel;
 import com.example.zodiac.sawa.SpringApi.AuthInterface;
-import com.example.zodiac.sawa.Validation;
 
 import java.io.ByteArrayOutputStream;
-import java.util.Date;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -42,7 +38,7 @@ public class RegisterActivity extends Activity {
     String Password;
     int mobileNumber;
     String userGender;
-    Date userBirthDate;
+    String userBirthDate;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -64,11 +60,11 @@ public class RegisterActivity extends Activity {
     }
 
 
-    public Date getUserBirthDate() {
+    public String getUserBirthDate() {
         return userBirthDate;
     }
 
-    public void setUserBirthDate(Date userBirthDate) {
+    public void setUserBirthDate(String userBirthDate) {
         this.userBirthDate = userBirthDate;
     }
 
@@ -127,6 +123,9 @@ public class RegisterActivity extends Activity {
         signUpModel.setMobile(getMobileNumber());
         signUpModel.setEmail(getUserEmail());
         signUpModel.setPassword(getPassword());
+        signUpModel.setGender(getUserGender());
+        signUpModel.setBirthdate(getUserBirthDate());
+
         AuthInterface authInterface;
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(GeneralAppInfo.SPRING_URL)
