@@ -8,19 +8,18 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.zodiac.sawa.GeneralAppInfo;
-import com.example.zodiac.sawa.MenuActiviries.MyProfileActivity;
 import com.example.zodiac.sawa.FriendProfile.FreindsFunctions;
+import com.example.zodiac.sawa.GeneralAppInfo;
 import com.example.zodiac.sawa.MenuActiviries.MyFriendsActivity;
+import com.example.zodiac.sawa.MenuActiviries.MyProfileActivity;
+import com.example.zodiac.sawa.R;
 import com.example.zodiac.sawa.interfaces.DeleteFriend;
-import com.example.zodiac.sawa.models.AuthenticationResponeModel;
 import com.example.zodiac.sawa.models.DeleteFriendRequest;
 import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView;
 import com.squareup.picasso.Picasso;
@@ -29,15 +28,8 @@ import java.net.MalformedURLException;
 import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-
-import com.example.zodiac.sawa.R;
-
-import static com.example.zodiac.sawa.MenuActiviries.MyFriendsActivity.LayoutFriendsList;
 
 public class FastScrollAdapter extends RecyclerView.Adapter<FastScrollAdapter.UserViewHolder>
         implements FastScrollRecyclerView.SectionedAdapter {
@@ -75,6 +67,16 @@ public class FastScrollAdapter extends RecyclerView.Adapter<FastScrollAdapter.Us
         final FreindsFunctions freindsFunctions = new FreindsFunctions();
         final MyFriendsActivity.friend user = userList.get(position);
         holder.tvName.setText(user.getUserName());
+        String image;
+        try {
+            image = user.getImageResourceId();
+            String imageUrl = GeneralAppInfo.SPRING_URL +"/"+ image;
+            Picasso.with(mContext).load(imageUrl).into(holder.ivProfile);
+
+        } catch (MalformedURLException e) {
+            holder.ivProfile.setImageResource(R.drawable.account);
+            e.printStackTrace();
+        }
         holder.tvName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -93,7 +95,6 @@ public class FastScrollAdapter extends RecyclerView.Adapter<FastScrollAdapter.Us
 
             }
         });
-        String image;
         holder.ivProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -110,15 +111,7 @@ public class FastScrollAdapter extends RecyclerView.Adapter<FastScrollAdapter.Us
                 }
             }
         });
-        try {
-            image = user.getImageResourceId();
-            String imageUrl = GeneralAppInfo.SPRING_URL +"/"+ image;
-            Picasso.with(mContext).load(imageUrl).into(holder.ivProfile);
 
-        } catch (MalformedURLException e) {
-            holder.ivProfile.setImageResource(R.drawable.account);
-            e.printStackTrace();
-        }
 
 
     }

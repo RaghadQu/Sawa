@@ -19,6 +19,7 @@
         android:text="Friend Requests"
         android:textColor="#fff"
         android:textSize="19dp"
+        android:focusableInTouchMode="true"
         />
 
 

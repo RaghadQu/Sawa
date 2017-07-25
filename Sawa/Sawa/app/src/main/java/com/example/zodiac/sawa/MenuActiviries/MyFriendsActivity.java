@@ -17,12 +17,8 @@ import android.widget.TextView;
 import com.example.zodiac.sawa.GeneralAppInfo;
 import com.example.zodiac.sawa.R;
 import com.example.zodiac.sawa.RecyclerViewAdapters.FastScrollAdapter;
-import com.example.zodiac.sawa.Spring.Models.FriendRequestModel;
 import com.example.zodiac.sawa.Spring.Models.FriendResponseModel;
 import com.example.zodiac.sawa.SpringApi.FriendshipInterface;
-import com.example.zodiac.sawa.interfaces.GetFreinds;
-import com.example.zodiac.sawa.models.getFriendsRequest;
-import com.example.zodiac.sawa.models.getFriendsResponse;
 import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView;
 
 import java.net.MalformedURLException;
@@ -95,7 +91,6 @@ public class MyFriendsActivity extends Activity {
             public void onResponse(Call<List<FriendResponseModel>> call, Response<List<FriendResponseModel>> response) {
 
                 Log.d("GetFriends", " Get friends " + response.code());
-                progressBar.setVisibility(View.GONE);
                 FreindsList = response.body();
                 Log.d("GetFriends", " Get friends size " + response.body().size());
 
@@ -115,7 +110,10 @@ public class MyFriendsActivity extends Activity {
                         LayoutFriendsList.add(new friend(FreindsList.get(i).getFriend1_id().getId(), FreindsList.get(i).getFriend1_id().getImage(),
                                 FreindsList.get(i).getFriend1_id().getFirst_name() + " " + FreindsList.get(i).getFriend1_id().getLast_name()));
                         recyclerView.setAdapter(new FastScrollAdapter(MyFriendsActivity.this, LayoutFriendsList, 0));
+
                     }
+                    progressBar.setVisibility(View.GONE);
+
                 }
             }
 

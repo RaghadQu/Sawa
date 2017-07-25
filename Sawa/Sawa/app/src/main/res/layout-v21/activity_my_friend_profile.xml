@@ -13,7 +13,8 @@
         <Toolbar
             android:layout_width="match_parent"
             android:layout_height="45dp"
-            android:background="@color/purple">
+            android:background="@color/purple"
+            android:focusableInTouchMode="true">
 
             <TextView
                 android:id="@+id/ToolbarText"

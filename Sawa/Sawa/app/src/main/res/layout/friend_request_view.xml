@@ -36,7 +36,7 @@
             android:layout_marginLeft="10dp"
             android:id="@+id/ConfirmRequest"
             android:background="@drawable/left_corners"
-            android:drawableLeft="@drawable/rsz_confirm1"
+            android:drawableLeft="@mipmap/new_tick"
             android:paddingLeft="10dp"
             />
         <Button
@@ -45,8 +45,8 @@
             android:id="@+id/deleteRequest"
             android:layout_marginLeft="-2dp"
             android:background="@drawable/rigth_corners"
-            android:drawableLeft="@drawable/rsz_delete"
-            android:paddingLeft="10dp"
+            android:drawableLeft="@mipmap/new_cross"
+            android:paddingLeft="7dp"
             />
 
     </LinearLayout>

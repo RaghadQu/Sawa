@@ -47,12 +47,6 @@
                 android:layout_height="250dp"
                 android:background="#fff">
 
-
-                <!-- Cover Image -->
-
-
-                <!-- Round image -->
-
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/user_profile_photo"
                     android:layout_width="95dp"
@@ -157,18 +151,6 @@
                 android:layout_marginTop="5dp"
                 android:src="@drawable/music"/>
 
-
-            <!--android:visibility="gone"-->
-            <!--    <Button
-                    android:id="@+id/editBio"
-                    android:layout_width="40dp"
-                    android:layout_height="38dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="20dp"
-                    android:drawableLeft="@mipmap/edit"
-                    android:background="@android:color/transparent"
-                    />
--->
         </LinearLayout>
 
         <View
