@@ -9,17 +9,14 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 
 import com.example.zodiac.sawa.GeneralAppInfo;
 import com.example.zodiac.sawa.R;
-import com.example.zodiac.sawa.RecoverPassword.CheckCodeFragment;
-import com.example.zodiac.sawa.RecoverPassword.RecoverPass;
-import com.example.zodiac.sawa.RecoverPassword.newPasswordFragment;
 import com.example.zodiac.sawa.Spring.Models.SignInModel;
 import com.example.zodiac.sawa.Spring.Models.UserModel;
 import com.example.zodiac.sawa.SpringApi.AuthInterface;
 import com.example.zodiac.sawa.Validation;
-import com.example.zodiac.sawa.emailSender.BackgroungSender;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -51,6 +48,7 @@ public class EmailFragment extends android.app.Fragment {
         email=(EditText)view.findViewById(R.id.userEmail);
         email.setFocusable(true);
         nextbtn=(Button)view.findViewById(R.id.nextBtn);
+        final ProgressBar checkEmailProgress =(ProgressBar) view.findViewById(R.id.checkEmailProgress);
 
         nextbtn.setOnClickListener(new View.OnClickListener() {
 
@@ -65,6 +63,7 @@ public class EmailFragment extends android.app.Fragment {
 
                 else
                 {
+                    checkEmailProgress.setVisibility(View.VISIBLE);
                     Retrofit retrofit = new Retrofit.Builder()
                             .baseUrl(GeneralAppInfo.SPRING_URL)
                             .addConverterFactory(GsonConverterFactory.create()).build();
@@ -76,9 +75,10 @@ public class EmailFragment extends android.app.Fragment {
                     userModelCall.enqueue(new Callback<UserModel>() {
                         @Override
                         public void onResponse(Call<UserModel> call, Response<UserModel> response) {
+                            checkEmailProgress.setVisibility(View.INVISIBLE);
+
                             Log.d("EmailChecker", " " + response.code());
                             if(response.code()==204){
-
                                 ((RegisterActivity) getActivity()).setUserEmail(email.getText().toString());
                                 android.app.Fragment f=new MobileFragment();
                                 ((RegisterActivity)getActivity()).replaceFragmnets(f);
@@ -89,6 +89,7 @@ public class EmailFragment extends android.app.Fragment {
 
                         @Override
                         public void onFailure(Call<UserModel> call, Throwable t) {
+                            checkEmailProgress.setVisibility(View.INVISIBLE);
                             Log.d("Email.Register", " Error " + t.getMessage());
                         }
                     });

@@ -19,7 +19,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:drawableLeft="@drawable/left"
+                android:drawableLeft="@mipmap/left"
                 android:id="@+id/ToolbarText"
                 android:gravity="center"
                 android:text="Ibrahim Zahra"

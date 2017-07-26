@@ -50,12 +50,27 @@ public class MobileFragment extends android.app.Fragment {
                     if (!Validation.isValidMobile(userMobile.getText().toString())) {
                         userMobile.setError("Mobile number is not valid");
                     } else {
-                        String phoneCode = ccp.getFullNumber();
+                        String phoneCode = ccp.getSelectedCountryCode();
+                        String phoneNumber = userMobile.getText().toString();
+                        int phoneNumberInt = Integer.valueOf(phoneNumber);
+                        Log.d("MobileUser", " 1 " + phoneNumberInt );
 
-                        Log.d("MobileUser ", phoneCode + " "+ ccp.getSelectedCountryCodeAsInt());
-                        ((RegisterActivity) getActivity()).setMobileNumber(Integer.parseInt(userMobile.getText().toString()));
-                        android.app.Fragment f = new BirthDateFragment();
-                        ((RegisterActivity) getActivity()).replaceFragmnets(f);
+                        String fullPhoneNumber = phoneCode+String.valueOf(phoneNumberInt);
+                        Log.d("MobileUser", " 2 " + fullPhoneNumber );
+
+
+                       // Log.d("MobileUser", " 3 " + Integer.valueOf(fullPhoneNumber) );
+
+
+                        try {
+                            long IntNumber = Long.parseLong(fullPhoneNumber);
+                           ((RegisterActivity) getActivity()).setMobileNumber((int)IntNumber);
+                            android.app.Fragment f = new BirthDateFragment();
+                            ((RegisterActivity) getActivity()).replaceFragmnets(f);
+                        }catch (NumberFormatException e){
+                            Log.d("MobileUser", " not a number " + e.getMessage() );
+                        }
+
                     }
 
                 }

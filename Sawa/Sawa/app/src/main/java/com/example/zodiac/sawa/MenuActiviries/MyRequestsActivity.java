@@ -1,7 +1,6 @@
 package com.example.zodiac.sawa.MenuActiviries;
 
 import android.animation.ObjectAnimator;
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.os.Build;
 import android.os.Bundle;
@@ -9,17 +8,20 @@ import android.support.annotation.RequiresApi;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.animation.DecelerateInterpolator;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.zodiac.sawa.GeneralAppInfo;
 import com.example.zodiac.sawa.GeneralFunctions;
-import com.example.zodiac.sawa.RecyclerViewAdapters.FastScrollAdapter;
-import com.example.zodiac.sawa.RecyclerViewAdapters.RequestScroll;
 import com.example.zodiac.sawa.R;
+import com.example.zodiac.sawa.RecyclerViewAdapters.RequestScroll;
 import com.example.zodiac.sawa.Spring.Models.FriendResponseModel;
 import com.example.zodiac.sawa.SpringApi.FriendshipInterface;
-import com.example.zodiac.sawa.interfaces.GetFreinds;
-import com.example.zodiac.sawa.models.getFriendsRequest;
-import com.example.zodiac.sawa.models.getFriendsResponse;
 import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView;
 
 import java.net.MalformedURLException;
@@ -36,13 +38,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 /**
  * Created by raghadq on 5/2/2017.
  */
-
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.animation.DecelerateInterpolator;
-import android.widget.ProgressBar;
-import android.widget.TextView;
-import android.widget.Toast;
 
 /**
  * Created by zodiac on 04/03/2017.
@@ -74,6 +69,7 @@ public class MyRequestsActivity extends Activity {
         friendshipApi = retrofit.create(FriendshipInterface.class);
 
         toolbarText= (TextView) findViewById(R.id.toolBarText);
+        final LinearLayout noRequestsLaout= (LinearLayout) findViewById(R.id.no_request_Layout);
         final ProgressBar progressBar;
         progressBar = (ProgressBar) findViewById(R.id.ProgressBar);
         progressBar.setProgress(0);
@@ -98,41 +94,41 @@ public class MyRequestsActivity extends Activity {
             Toast.makeText(this, "no internet connection!",
                     Toast.LENGTH_LONG).show();
         } else {
+            LayoutFriendsList.clear();
+
             final Call<List<FriendResponseModel>> FriendsResponse = friendshipApi.getUserFriendRequests(GeneralAppInfo.getUserID());
             FriendsResponse.enqueue(new Callback<List<FriendResponseModel>>() {
                 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
                 @Override
                 public void onResponse(Call<List<FriendResponseModel>> call, Response<List<FriendResponseModel>> response) {
-
-                    Log.d("GetFriendRequests", " Get friends " + response.code());
+                    progressBar.setVisibility(View.INVISIBLE);
+                    Log.d("GetFriendRequests", " Get friends " + response.code() + LayoutFriendsList.size());
                     if (response.code() == 200) {
-                        progressBar.setVisibility(View.GONE);
-                        LayoutFriendsList.clear();
                         FreindsList = response.body();
-                        Log.d("GetFriendRequests", " Get friend requests size " + response.body().size());
-
+                    //    LayoutFriendsList.clear();
                         if (FreindsList != null) {
 
                             if (FreindsList.size() == 0) {
-
-                                setContentView(R.layout.no_friends_to_show);
+                                noRequestsLaout.setVisibility(View.VISIBLE);
                                 CircleImageView circle = (CircleImageView) findViewById(R.id.circle);
                                 circle.setImageDrawable(getDrawable(R.drawable.no_requests));
-                                TextView text = (TextView) findViewById(R.id.text);
-                                text.setText("Friend Requests");
-
                             }
-                            for (int i = 0; i < FreindsList.size(); i++) {
+                            else{
+                                progressBar.setVisibility(View.GONE);
+                                noRequestsLaout.setVisibility(View.GONE);
+                                LayoutFriendsList.clear();
+
+                                for (int i = 0; i < FreindsList.size(); i++) {
                                 LayoutFriendsList.add(new MyRequestsActivity.friend(FreindsList.get(i).getFriend1_id().getId(), FreindsList.get(i).getFriend1_id().getImage(),
                                         FreindsList.get(i).getFriend1_id().getFirst_name() + " " + FreindsList.get(i).getFriend1_id().getLast_name()));
-                                recyclerView.setAdapter(new RequestScroll(MyRequestsActivity.this, LayoutFriendsList));
                             }
-                        }
-                    }
-                }
+
+                            }
+                    }}
+               }
                 @Override
                 public void onFailure(Call<List<FriendResponseModel>> call, Throwable t) {
-                    progressBar.setVisibility(View.GONE);
+                    progressBar.setVisibility(View.INVISIBLE);
 
                     Log.d("fail to get friends ", "Failure to Get friends");
 

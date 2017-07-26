@@ -6,9 +6,37 @@
     android:background="#fff"
     android:id="@+id/relativeRequest"
     >
+    <Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@color/purple"
+        android:focusableInTouchMode="true"            >
 
-    <TextView
-        android:drawableLeft="@drawable/left"
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:drawableLeft="@mipmap/left"
+            android:id="@+id/toolBarText"
+            android:paddingRight="10dp"
+            android:textColor="#fff"
+            android:textSize="19dp"
+            android:focusableInTouchMode="true"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_marginTop="7dp"
+            android:layout_height="40dp"
+            android:paddingRight="10dp"
+            android:text="Friend Requests"
+            android:textColor="#fff"
+            android:textSize="19dp"
+            android:focusableInTouchMode="true"
+            android:textStyle="bold" />
+
+    </Toolbar>
+ <!--   <TextView
+        android:drawableLeft="@mipmap/left"
         android:drawablePadding="10dp"
         android:id="@+id/toolBarText"
         android:layout_width="match_parent"
@@ -19,23 +47,55 @@
         android:text="Friend Requests"
         android:textColor="#fff"
         android:textSize="19dp"
+        android:layout_marginTop="-2dp"
         android:focusableInTouchMode="true"
-        />
+        />-->
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
-        android:orientation="horizontal">
+        android:layout_marginTop="50dp"
+        android:orientation="vertical">
 
 
         <ProgressBar
             android:id="@+id/ProgressBar"
             android:layout_width="match_parent"
             android:indeterminateTint="@color/purple"
-            android:layout_height="40dp"
-            android:layout_marginTop="10dp" />
+            android:layout_height="40dp" />
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:orientation="vertical" android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#ffffff"
+            android:visibility="invisible"
+            android:id="@+id/no_request_Layout">
+
+
+            <de.hdodenhof.circleimageview.CircleImageView
+
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginTop="110dp"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:id="@+id/circle"
+                android:src="@drawable/no_friends"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/TextBody"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:textColor="#878787"
+                android:textSize="24dp"
+                android:layout_marginTop="-1dp"
+                android:textAlignment="center"
+                android:fontFamily="cursive"
+                android:text="   No Requests To Show"
+                />
+
+        </LinearLayout>
 
         <com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView
             android:id="@+id/recycler"

@@ -12,9 +12,7 @@ import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -204,7 +202,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         SharedPreferences sharedPreferences = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
 
                         if (statusCode == 200) {
-                            LoggingInDialog.dismiss();
 
                             Log.d("-----", " enter here" + userModel.getId());
                             Log.d("UserDate" , " in Sign is " +userModel.getBirthdate());
@@ -220,12 +217,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             editor.apply();
 
                             Intent i = new Intent(getApplicationContext(), HomeTabbedActivity.class);
+                            LoggingInDialog.dismiss();
                             startActivity(i);
                             overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 
                             finish();
 
                         } else {
+                            LoggingInDialog.dismiss();
+
                             emailEditText.setError("Invalid Email or Password");
                         }
 

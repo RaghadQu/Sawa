@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -79,7 +80,7 @@ public class MyFriendsActivity extends Activity {
 
 
         adapter = new FastScrollAdapter(this, LayoutFriendsList, 0);
-
+        final LinearLayout noFriendsLayout = (LinearLayout) findViewById(R.id.no_friends_Layout);
         recyclerView = (FastScrollRecyclerView) findViewById(R.id.recycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
@@ -89,37 +90,41 @@ public class MyFriendsActivity extends Activity {
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
             public void onResponse(Call<List<FriendResponseModel>> call, Response<List<FriendResponseModel>> response) {
+                progressBar.setVisibility(View.INVISIBLE);
 
                 Log.d("GetFriends", " Get friends " + response.code());
                 FreindsList = response.body();
-                Log.d("GetFriends", " Get friends size " + response.body().size());
-
                 LayoutFriendsList.clear();
                 if (FreindsList != null) {
 
                     if (FreindsList.size() == 0) {
 
-                        setContentView(R.layout.no_friends_to_show);
+                        noFriendsLayout.setVisibility(View.VISIBLE);
                         CircleImageView circle = (CircleImageView) findViewById(R.id.circle);
                         circle.setImageDrawable(getDrawable(R.drawable.no_friends));
-                        TextView text = (TextView) findViewById(R.id.text);
-                        text.setText("Friends");
 
+                    } else {
+                        Log.d("GetFriends", " Friends are : " + FreindsList.size());
+                        progressBar.setVisibility(View.GONE);
+                        noFriendsLayout.setVisibility(View.GONE);
+                        for (int i = 0; i < FreindsList.size(); i++) {
+                            if (FreindsList.get(i).getFriend2_id().getId() == GeneralAppInfo.getUserID()) {
+                                LayoutFriendsList.add(new friend(FreindsList.get(i).getFriend1_id().getId(), FreindsList.get(i).getFriend1_id().getImage(),
+                                        FreindsList.get(i).getFriend1_id().getFirst_name() + " " + FreindsList.get(i).getFriend1_id().getLast_name()));
+                            } else {
+                                LayoutFriendsList.add(new friend(FreindsList.get(i).getFriend2_id().getId(), FreindsList.get(i).getFriend2_id().getImage(),
+                                        FreindsList.get(i).getFriend2_id().getFirst_name() + " " + FreindsList.get(i).getFriend2_id().getLast_name()));
+                            }
+                            recyclerView.setAdapter(new FastScrollAdapter(MyFriendsActivity.this, LayoutFriendsList, 0));
+
+                        }
                     }
-                    for (int i = 0; i < FreindsList.size(); i++) {
-                        LayoutFriendsList.add(new friend(FreindsList.get(i).getFriend1_id().getId(), FreindsList.get(i).getFriend1_id().getImage(),
-                                FreindsList.get(i).getFriend1_id().getFirst_name() + " " + FreindsList.get(i).getFriend1_id().getLast_name()));
-                        recyclerView.setAdapter(new FastScrollAdapter(MyFriendsActivity.this, LayoutFriendsList, 0));
-
-                    }
-                    progressBar.setVisibility(View.GONE);
-
                 }
             }
 
             @Override
             public void onFailure(Call<List<FriendResponseModel>> call, Throwable t) {
-                progressBar.setVisibility(View.GONE);
+                progressBar.setVisibility(View.INVISIBLE);
 
                 Log.d("fail to get friends ", "Failure to Get friends");
 

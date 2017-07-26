@@ -13,7 +13,7 @@
             android:id="@+id/toolBarText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/left"
+            android:drawableLeft="@mipmap/left"
             android:drawablePadding="20dp"
             android:gravity="center"
             android:paddingLeft="5dp"

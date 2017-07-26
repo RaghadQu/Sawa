@@ -21,7 +21,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:drawableLeft="@drawable/left"
+                android:drawableLeft="@mipmap/left"
                 android:id="@+id/toolBarText"
                 android:gravity="center"
                 android:paddingLeft="5dp"
