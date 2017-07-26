@@ -36,7 +36,7 @@ public class RegisterActivity extends Activity {
     String LastName;
     String userEmail;
     String Password;
-    int mobileNumber;
+    Long mobileNumber;
     String userGender;
     String userBirthDate;
 
@@ -68,11 +68,11 @@ public class RegisterActivity extends Activity {
         this.userBirthDate = userBirthDate;
     }
 
-    public int getMobileNumber() {
+    public Long getMobileNumber() {
         return mobileNumber;
     }
 
-    public void setMobileNumber(int mobileNumber) {
+    public void setMobileNumber(Long mobileNumber) {
         this.mobileNumber = mobileNumber;
     }
 

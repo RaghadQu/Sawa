@@ -64,7 +64,7 @@ public class MobileFragment extends android.app.Fragment {
 
                         try {
                             long IntNumber = Long.parseLong(fullPhoneNumber);
-                           ((RegisterActivity) getActivity()).setMobileNumber((int)IntNumber);
+                           ((RegisterActivity) getActivity()).setMobileNumber(IntNumber);
                             android.app.Fragment f = new BirthDateFragment();
                             ((RegisterActivity) getActivity()).replaceFragmnets(f);
                         }catch (NumberFormatException e){

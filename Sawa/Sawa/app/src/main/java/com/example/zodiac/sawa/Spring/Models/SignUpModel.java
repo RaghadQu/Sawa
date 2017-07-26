@@ -9,7 +9,7 @@ public class SignUpModel {
     String last_name;
     String email;
     String password;
-    Integer mobile;
+    Long mobile;
     String Birthdate;
     String gender;
 
@@ -62,11 +62,11 @@ public class SignUpModel {
         this.password = password;
     }
 
-    public Integer getMobile() {
+    public Long getMobile() {
         return mobile;
     }
 
-    public void setMobile(Integer mobile) {
+    public void setMobile(Long mobile) {
         this.mobile = mobile;
     }
 }
