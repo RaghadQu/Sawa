@@ -125,6 +125,7 @@ public class RegisterActivity extends Activity {
         signUpModel.setPassword(getPassword());
         signUpModel.setGender(getUserGender());
         signUpModel.setBirthdate(getUserBirthDate());
+        Log.d("Birthdate", getUserBirthDate());
 
         AuthInterface authInterface;
         Retrofit retrofit = new Retrofit.Builder()

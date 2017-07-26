@@ -10,11 +10,11 @@ public class SignUpModel {
     String email;
     String password;
     Long mobile;
-    String Birthdate;
+    String birthdate;
     String gender;
 
     public String getBirthdate() {
-        return Birthdate;
+        return birthdate;
     }
 
 
@@ -27,7 +27,7 @@ public class SignUpModel {
     }
 
     public void setBirthdate(String birthdate) {
-        Birthdate = birthdate;
+        birthdate = birthdate;
     }
 
     public String getFirst_name() {
