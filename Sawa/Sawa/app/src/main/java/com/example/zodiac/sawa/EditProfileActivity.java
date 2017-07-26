@@ -58,6 +58,7 @@ public class EditProfileActivity extends Activity {
                 String gender = "";
                 if (maleBtn.isChecked()) gender = "male";
                 if (femaleBtn.isChecked()) gender = "female";
+                editProfileModle.setId(GeneralAppInfo.getUserID());
                 editProfileModle.setFirst_name(firstName.getText().toString());
                 editProfileModle.setLast_name(lastName.getText().toString());
                 editProfileModle.setBirthdate(stringDate);
@@ -72,7 +73,7 @@ public class EditProfileActivity extends Activity {
                 call.enqueue(new Callback<Integer>() {
                     @Override
                     public void onResponse(Call<Integer> call, Response<Integer> response) {
-                        Log.d("AboutProfileUpdate", "Done successfully "+ response.code());
+                        Log.d("AboutProfileUpdate", "Done successfully "+ response.code() + " " +response.body());
                         finish();
                     }
                     @Override
@@ -105,13 +106,13 @@ public class EditProfileActivity extends Activity {
                     else if(userModel.getGender().equals("male"))
                     maleBtn.setChecked(true);
 
-                /*    String userBirthdate = userModel.getBirthdate();
+                    String userBirthdate = userModel.getBirthdate();
                     String[] separated = userBirthdate.split("-");
                     Log.d("Birthdate", " String is  "+ userBirthdate);
                     String year= separated[0]; // this will contain "Fruit"
                     String month= separated[1]; // this will contain " they taste good"
                     String day= separated[2];
-                    birthDate.updateDate(Integer.valueOf(year),Integer.valueOf(month)-1,Integer.valueOf(day));*/
+                    birthDate.updateDate(Integer.valueOf(year),Integer.valueOf(month)-1,Integer.valueOf(day));
                 }
             }
 

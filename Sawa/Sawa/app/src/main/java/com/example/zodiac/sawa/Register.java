@@ -72,7 +72,7 @@ public class Register extends Activity {
         SignUpModel signUpModel = new SignUpModel();
         signUpModel.setFirst_name(first_name.getText().toString());
         signUpModel.setLast_name(last_name.getText().toString());
-        signUpModel.setMobile(Integer.parseInt(mobileEditText.getText().toString()));
+        signUpModel.setMobile(Long.parseLong(mobileEditText.getText().toString()));
         signUpModel.setEmail(emailEditText.getText().toString());
         signUpModel.setPassword(passEditText.getText().toString());
         Validation validation = new Validation();

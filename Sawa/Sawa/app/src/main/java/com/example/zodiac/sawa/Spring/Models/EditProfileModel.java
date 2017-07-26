@@ -10,7 +10,6 @@ public class EditProfileModel {
     String last_name;
     String gender;
     String birthdate;
-    int mobile;
 
 
     public int getId() {
@@ -43,14 +42,6 @@ public class EditProfileModel {
 
     public void setBirthdate(String birthdate) {
         this.birthdate = birthdate;
-    }
-
-    public int getMobile() {
-        return mobile;
-    }
-
-    public void setMobile(int mobile) {
-        this.mobile = mobile;
     }
 
     public String getGender() {
