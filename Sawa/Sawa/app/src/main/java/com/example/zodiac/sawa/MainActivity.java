@@ -4,24 +4,21 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.Signature;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.example.zodiac.sawa.RecoverPassword.RecoverPass;
-
 import com.example.zodiac.sawa.RegisterPkg.RegisterActivity;
 import com.example.zodiac.sawa.Spring.Models.LoginWIthGoogleModel;
 import com.example.zodiac.sawa.Spring.Models.LoginWithFacebookModel;
@@ -34,7 +31,6 @@ import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
-import com.facebook.Profile;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.Auth;
@@ -50,8 +46,6 @@ import com.google.android.gms.common.api.Scope;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -79,6 +73,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_main);
+        YoYo.with(Techniques.SlideInLeft)
+                .duration(700)
+                .repeat(0)
+                .playOn(findViewById(R.id.AppName));
+        YoYo.with(Techniques.FadeIn)
+                .duration(1000)
+                .repeat(0)
+                .playOn(findViewById(R.id.login_button));
+        YoYo.with(Techniques.FadeIn)
+                .duration(700)
+                .repeat(0)
+                .playOn(findViewById(R.id.loginWithGoogleBtn));
        /* try{
             PackageInfo info = getPackageManager().getPackageInfo(
                     "com.example.zodiac.sawa", PackageManager.GET_SIGNATURES);
@@ -93,14 +99,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } catch (NoSuchAlgorithmException e) {
 
         }*/
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestProfile()
+                .requestEmail()
+                .build();
+        googleApiClient =  new GoogleApiClient.Builder(this)
+                .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .build();
+        signInButton = (SignInButton) findViewById(R.id.loginWithGoogleBtn);
+        signInButton.setOnClickListener(this);
+        signInButton.setSize(SignInButton.SIZE_STANDARD);
+        setGooglePlusButtonText(signInButton,"Log in with google ");
+  /*      Button a = (Button) findViewById(R.id.btnGooglePlus);
+        a.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+
+            }
+        });*/
+
 
         loginButton = (LoginButton) findViewById(R.id.login_button);
         loginButton.setReadPermissions("email");
+
         //loginButton.setReadPermissions("first_name");
         // loginButton.setReadPermissions("last_name");
 
 
-        //
+
         callbackManager = CallbackManager.Factory.create();
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
@@ -119,13 +144,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             loginWithFacebookModel.setEmail(object.getString("email"));
                             loginWithFacebookModel.setFirstName(object.getString("first_name"));
                             loginWithFacebookModel.setLastName(object.getString("last_name"));
+                          //  loginWithFacebookModel.(object.getString("gender"));
                             loginWithFacebookModel.setId(loginResult.getAccessToken().getUserId());
                             loginWithFacebookModel.setAccessToken(loginResult.getAccessToken().getToken());
                             loginWithFacebookModel.setImage("");
+                            loginWithFacebookModel.setGender(object.getString("gender"));
                             loginWithFacebook(loginWithFacebookModel);
                             Log.d("Facebook email", "" + object.getString("email"));
                             Log.d("Facebook email", "" + object.getString("first_name"));
-                            Log.d("Facebook email", "" + object.getString("last_name"));
+                            Log.d("Facebook gender", "" + object.getString("gender"));
+                          //  Log.d("Facebook gender", "" + object.getString("user_birthday"));
+
+
 
 
                         } catch (JSONException e) {
@@ -153,12 +183,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
         //Sign in with google section
-        signInButton = (SignInButton) findViewById(R.id.loginWithGoogleBtn);
-        signInButton.setOnClickListener(this);
-        GoogleSignInOptions signInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().
-                requestIdToken(getString(R.string.default_web_client_id)).
-                requestServerAuthCode(getString(R.string.default_web_client_id)).requestScopes(new Scope(Scopes.DRIVE_APPFOLDER)).build();
-        googleApiClient = new GoogleApiClient.Builder(this).enableAutoManage(this, this).addApi(Auth.GOOGLE_SIGN_IN_API, signInOptions).build();
+
+        GoogleSignInOptions signInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().requestProfile()
+                .requestIdToken(getString(R.string.default_web_client_id)).
+                requestServerAuthCode(getString(R.string.default_web_client_id)).requestScopes(new Scope(Scopes.PLUS_LOGIN)).build();
+
         //end section
 
         //check if the user is already signed in
@@ -233,6 +262,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             finish();
 
                         } else {
+                            YoYo.with(Techniques.Shake)
+                                    .duration(700)
+                                    .repeat(0)
+                                    .playOn(findViewById(R.id.username));
+                            YoYo.with(Techniques.Shake)
+                                    .duration(700)
+                                    .repeat(0)
+                                    .playOn(findViewById(R.id.password));
                             emailEditText.setError("Invalid Email or Password");
                         }
 
@@ -450,6 +487,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
 
     }
+
+    protected void setGooglePlusButtonText(SignInButton signInButton, String buttonText) {
+        // Find the TextView that is inside of the SignInButton and set its text
+
+        for (int i = 0; i < signInButton.getChildCount(); i++) {
+            View v = signInButton.getChildAt(i);
+
+            if (v instanceof TextView) {
+                TextView tv = (TextView) v;
+                tv.setText(buttonText);
+                return;
+            }
+        }
+    }
+
+
 }
 
 

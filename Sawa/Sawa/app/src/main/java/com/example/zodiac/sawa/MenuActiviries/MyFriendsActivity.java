@@ -88,7 +88,7 @@ public class MyFriendsActivity extends Activity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
 
-        final Call<List<FriendResponseModel>> FriendsResponse = friendshipApi.getUserFriends(GeneralAppInfo.getUserID(), 1);
+        final Call<List<FriendResponseModel>> FriendsResponse = friendshipApi.getUserFriends(GeneralAppInfo.getUserID());
         FriendsResponse.enqueue(new Callback<List<FriendResponseModel>>() {
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override

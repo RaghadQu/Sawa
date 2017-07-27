@@ -9,6 +9,7 @@ android {
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -63,6 +64,7 @@ repositories {
     mavenCentral()
 }
 dependencies {
+    compile 'com.android.support:multidex:1.0.0'
     compile files('activation.jar')
     compile files('additionnal.jar')
     compile files('mail.jar')
@@ -75,6 +77,8 @@ dependencies {
     compile 'com.google.android.gms:play-services-auth:10.0.1'
     compile group: 'org.apache.httpcomponents' , name: 'httpclient-android' , version: '4.3.5.1'
 
+    compile 'com.daimajia.easing:library:2.0@aar'
+    compile 'com.daimajia.androidanimations:library:2.3@aar'
 
 }
 apply plugin: 'com.google.gms.google-services'

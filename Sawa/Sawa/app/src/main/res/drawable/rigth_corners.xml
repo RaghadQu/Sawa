@@ -9,8 +9,8 @@
             >
 
             <corners
-                android:bottomRightRadius="5dp"
-                android:topRightRadius="5dp"
+                android:bottomRightRadius="50dp"
+                android:topRightRadius="50dp"
                 />
 
             <solid
@@ -34,8 +34,8 @@
     >
 
     <corners
-        android:bottomRightRadius="5dp"
-        android:topRightRadius="5dp"
+        android:bottomRightRadius="50dp"
+        android:topRightRadius="50dp"
         />
 
     <solid

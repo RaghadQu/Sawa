@@ -98,7 +98,7 @@ public class MyRequestsActivity extends Activity {
             Toast.makeText(this, "no internet connection!",
                     Toast.LENGTH_LONG).show();
         } else {
-            final Call<List<FriendResponseModel>> FriendsResponse = friendshipApi.getUserFriends(GeneralAppInfo.getUserID(),0);
+            final Call<List<FriendResponseModel>> FriendsResponse = friendshipApi.getUserFriendRequests(GeneralAppInfo.getUserID());
             FriendsResponse.enqueue(new Callback<List<FriendResponseModel>>() {
                 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
                 @Override
@@ -123,8 +123,8 @@ public class MyRequestsActivity extends Activity {
 
                             }
                             for (int i = 0; i < FreindsList.size(); i++) {
-                                LayoutFriendsList.add(new MyRequestsActivity.friend(FreindsList.get(i).getFriend2_id().getId(), FreindsList.get(i).getFriend2_id().getImage(),
-                                        FreindsList.get(i).getFriend2_id().getFirst_name() + " " + FreindsList.get(i).getFriend2_id().getLast_name()));
+                                LayoutFriendsList.add(new MyRequestsActivity.friend(FreindsList.get(i).getFriend1_id().getId(), FreindsList.get(i).getFriend1_id().getImage(),
+                                        FreindsList.get(i).getFriend1_id().getFirst_name() + " " + FreindsList.get(i).getFriend1_id().getLast_name()));
                                 recyclerView.setAdapter(new RequestScroll(MyRequestsActivity.this, LayoutFriendsList));
                             }
                         }

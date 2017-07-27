@@ -9,9 +9,9 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -24,19 +24,15 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.zodiac.sawa.DB.DBHandler;
 import com.example.zodiac.sawa.GeneralAppInfo;
 import com.example.zodiac.sawa.GeneralFunctions;
-import com.example.zodiac.sawa.RecyclerViewAdapters.MyAdapter;
 import com.example.zodiac.sawa.R;
+import com.example.zodiac.sawa.RecyclerViewAdapters.MyAdapter;
+import com.example.zodiac.sawa.Spring.Models.AboutUserResponseModel;
+import com.example.zodiac.sawa.SpringApi.AboutUserInterface;
 import com.example.zodiac.sawa.SpringApi.FriendshipInterface;
-import com.example.zodiac.sawa.interfaces.AboutUserApi;
-import com.example.zodiac.sawa.interfaces.GetFreinds;
-import com.example.zodiac.sawa.models.AboutUserResponeModelOld;
 import com.example.zodiac.sawa.models.AuthenticationResponeModel;
 import com.squareup.picasso.Picasso;
-
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -61,6 +57,7 @@ public class MyFriendProfileActivity extends AppCompatActivity {
     int image3 = R.drawable.friends_icon;
     int image4 = R.drawable.image1;
     TextView editBio;
+    ImageView aboutFriendIcon;
 
 
     private ProgressBar progressBar;
@@ -101,6 +98,7 @@ public class MyFriendProfileActivity extends AppCompatActivity {
 
         friendStatus = (Button) findViewById(R.id.friendStatus);
         friendStatus.setText(" ");
+        aboutFriendIcon=(ImageView) findViewById(R.id.aboutFriendIcon);
 
         final Button confirmRequest = (Button) findViewById(R.id.ConfirmRequest);
         final Button deleteRequest = (Button) findViewById(R.id.deleteRequest);
@@ -166,6 +164,8 @@ public class MyFriendProfileActivity extends AppCompatActivity {
                         friendsClass.setFriendRequestButton(friendStatus, confirmRequest, deleteRequest, Id1);
                         //  friendsClass.SetFriendButtn(friendStatus, mRecyclerView, MyFriendProfileActivity.this, Id1, getApplicationContext());
                     }
+                    fillAbout(about_bio,about_status,about_song,Id1);
+
 
                 }
 
@@ -194,18 +194,16 @@ public class MyFriendProfileActivity extends AppCompatActivity {
             about_song = (TextView) AboutFriendDialog.findViewById(R.id.Song);
             aboutUsername = (TextView) AboutFriendDialog.findViewById(R.id.aboutUsername);
             aboutUsername.setText("About "+mName);
+            editBio = (TextView) findViewById(R.id.editBio);
 
-            final DBHandler dbHandler = new DBHandler(this);
-            AboutUserResponeModelOld aboutUserResponeModel = dbHandler.getAboutUser(Id1);
-            if (aboutUserResponeModel != null) {
-                about_bio.setText(aboutUserResponeModel.getUser_bio());
+
+            /*    about_bio.setText(aboutUserResponeModel.getUser_bio());
+                editBio.setText(aboutUserResponeModel.getUser_bio());
                 about_status.setText(aboutUserResponeModel.getUser_status());
                 about_song.setText(aboutUserResponeModel.getUser_song());
 
-            } else {
-//                getUserFromDB();
+          */
 
-            }
 
             img.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
@@ -225,8 +223,8 @@ public class MyFriendProfileActivity extends AppCompatActivity {
             mRecyclerView.setAdapter(mAdapter);
 
 
-            editBio = (TextView) findViewById(R.id.editBio);
-            editBio.setOnClickListener(new View.OnClickListener() {
+
+            aboutFriendIcon.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
 
@@ -301,6 +299,35 @@ public class MyFriendProfileActivity extends AppCompatActivity {
         return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(), matrix, true);
     }
 
+    public void fillAbout(final TextView bio, final TextView status, final TextView song, final int ID) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(GeneralAppInfo.SPRING_URL)
+                .addConverterFactory(GsonConverterFactory.create()).build();
+        AboutUserInterface aboutUserApi = retrofit.create(AboutUserInterface.class);
+        Call<AboutUserResponseModel> call = aboutUserApi.getAboutUser(ID);
+        call.enqueue(new Callback<AboutUserResponseModel>() {
+            @Override
+            public void onResponse(Call<AboutUserResponseModel> call, Response<AboutUserResponseModel> response) {
+                Log.d("AboutUserFill", "Success  " + response.code() );
 
+                if (response != null) {
+                    if (response.body() != null) {
+                        Log.d("AboutUserFill", "Success" );
+
+                        editBio.setText(response.body().getUserBio());
+                        bio.setText(response.body().getUserBio());
+                        status.setText(response.body().getUserStatus());
+                        song.setText(response.body().getUserSong());
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<AboutUserResponseModel> call, Throwable t) {
+                Log.d("AboutUserFill", "Failure " + t.getMessage() + " "+ID);
+            }
+        });
+
+    }
 
 }
