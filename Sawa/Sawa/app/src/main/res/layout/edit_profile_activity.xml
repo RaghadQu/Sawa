@@ -13,7 +13,7 @@
             android:id="@+id/backEdit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/left"
+            android:drawableLeft="@mipmap/left"
             android:drawablePadding="20dp"
             android:gravity="center"
             android:paddingLeft="5dp"
@@ -61,7 +61,8 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="8dp">
+                    android:layout_marginTop="15dp"
+                    android:layout_marginLeft="8dp">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -85,7 +86,6 @@
                         android:clickable="true"
                         android:paddingLeft="7dp"
                         android:paddingRight="10dp"
-                        android:text="Raghad"
                         android:textColor="#72000000"
                         android:textSize="15dp" />
 
@@ -113,50 +113,14 @@
                         android:clickable="true"
                         android:paddingLeft="7dp"
                         android:paddingRight="10dp"
-                        android:text="Qutteneh"
                         android:textColor="#72000000"
                         android:textSize="15dp" />
                 </RelativeLayout>
 
-
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="8dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:minLines="2"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginTop="7dp"
-                        android:paddingLeft="10dp"
-                        android:text="Mobile"
-                        android:textAllCaps="false"
-                        android:textColor="@color/purple"
-                        android:textStyle="bold" />
-
-                    <EditText
-                        android:id="@+id/userNumber"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginRight="15dp"
-                        android:layout_marginTop="32dp"
-                        android:backgroundTint="@color/purple"
-                        android:clickable="true"
-                        android:paddingLeft="7dp"
-                        android:paddingRight="10dp"
-                        android:text=""
-                        android:textColor="#72000000"
-                        android:textSize="15dp" />
-                </RelativeLayout>
-
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="8dp">
+                    android:layout_margin="10dp">
 
                     <TextView
                         android:textAllCaps="false"
@@ -169,8 +133,6 @@
                         android:text="Birth Date"
                         android:textColor="@color/purple"
                         android:textStyle="bold"
-
-
                         />
 
                     <DatePicker
@@ -180,7 +142,7 @@
                         android:id="@+id/BirthDatePicker"
                         android:spinnersShown="true"
                         android:orientation="vertical"
-                        android:layout_marginTop="25dp"
+                        android:layout_marginTop="30dp"
                         android:layout_marginLeft="80dp"
                         android:endYear="2100"
                         android:startYear="1900"

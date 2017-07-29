@@ -1,19 +1,17 @@
 package com.example.zodiac.sawa.RegisterPkg;
 
-import android.content.Context;
 import android.os.Bundle;
-import android.os.IBinder;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.EditText;
 
 import com.example.zodiac.sawa.R;
-import com.example.zodiac.sawa.Validation;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -40,13 +38,22 @@ public class BirthDateFragment extends android.app.Fragment {
 
             @Override
             public void onClick(View view) {
-
+                Date myDate;
                 birthdatePicker.getYear();
                 birthdatePicker.getMonth();
                 birthdatePicker.getDayOfMonth();
 
-                Date userBirthDate = new Date(birthdatePicker.getYear(), birthdatePicker.getYear(), birthdatePicker.getYear());
-                ((RegisterActivity) getActivity()).setUserBirthDate(userBirthDate);
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                String stringDate= String.valueOf(birthdatePicker.getYear())+"-"+ String.valueOf(birthdatePicker.getMonth()+1)+"-"+ String.valueOf(birthdatePicker.getDayOfMonth());
+                //String a =dateFormat.format(userBirthDate);
+                try {
+                    myDate = dateFormat.parse(stringDate);
+
+                    ((RegisterActivity) getActivity()).setUserBirthDate(stringDate);
+
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
                 android.app.Fragment f = new GenderFragment();
                 ((RegisterActivity) getActivity()).replaceFragmnets(f);
 
@@ -56,4 +63,5 @@ public class BirthDateFragment extends android.app.Fragment {
         return view;
     }
 }
+
 

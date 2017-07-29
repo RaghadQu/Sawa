@@ -1,5 +1,7 @@
 package com.example.zodiac.sawa.Spring.Models;
 
+import java.util.Date;
+
 /**
  * Created by Rabee on 6/26/2017.
  */
@@ -9,8 +11,9 @@ public class UserModel {
     String first_name;
     String last_name;
     String email;
-    Double birthdate;
-    int mobile;
+    String gender;
+    String birthdate;
+    String mobile;
     String image;
     int sign_in_out;
     int anon_post;
@@ -48,19 +51,19 @@ public class UserModel {
         this.email = email;
     }
 
-    public Double getBirthdate() {
+    public String getBirthdate() {
         return birthdate;
     }
 
-    public void setBirthdate(Double birthdate) {
+    public void setBirthdate(String birthdate) {
         this.birthdate = birthdate;
     }
 
-    public int getMobile() {
+    public String getMobile() {
         return mobile;
     }
 
-    public void setMobile(int mobile) {
+    public void setMobile(String mobile) {
         this.mobile = mobile;
     }
 
@@ -94,5 +97,13 @@ public class UserModel {
 
     public void setPublic_post_view(int public_post_view) {
         this.public_post_view = public_post_view;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 }

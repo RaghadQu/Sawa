@@ -40,7 +40,7 @@ public class FriendsClass {
             friendStatus.setText("Pending");
         if (GeneralAppInfo.friendMode == 1)
             friendStatus.setText("Friend");
-        if (GeneralAppInfo.friendMode == 2)
+        if (GeneralAppInfo.friendMode == 3)
             friendStatus.setText("Follow");
 
 
@@ -49,7 +49,6 @@ public class FriendsClass {
         ConfirmDeletion.setContentView(R.layout.confirm_delete_friend_or_request_dialog);
         NoBtn = (Button) ConfirmDeletion.findViewById(R.id.NoBtn);
         YesBtn = (Button) ConfirmDeletion.findViewById(R.id.YesBtn);
-
 
         textMsg = (TextView) ConfirmDeletion.findViewById(R.id.TextMsg);
 
@@ -77,7 +76,7 @@ public class FriendsClass {
                         public void onClick(View view) {
                             // recyclerView.setVisibility(View.GONE);
 
-                            GeneralAppInfo.friendMode = 2;
+                            GeneralAppInfo.friendMode = 3;
                             friendStatus.setText("Follow");
                             ConfirmDeletion.dismiss();
                             friendFunction.DeleteFriend(GeneralAppInfo.getUserID(), Id, friendStatus);
@@ -106,7 +105,6 @@ public class FriendsClass {
                         public void onClick(View view) {
                             GeneralAppInfo.friendMode = 2;
                             recyclerView.setVisibility(View.GONE);
-
                             friendStatus.setText("Follow");
                             ConfirmDeletion.dismiss();
                             friendFunction.DeleteFriend(GeneralAppInfo.getUserID(), Id, friendStatus);
@@ -114,18 +112,12 @@ public class FriendsClass {
                     });
                 }
                 //not friend state
-                else if (GeneralAppInfo.friendMode == 2) {
+                else if (GeneralAppInfo.friendMode == 3) {
                     GeneralAppInfo.friendMode = 0;
                     friendStatus.setText("Pending");
                     NotFriendProfileClass notFriendProfileClass = new NotFriendProfileClass();
                     notFriendProfileClass.addNewFriendShip(GeneralAppInfo.getUserID(), Id);
                 }
-
-
-                //    if(view==friendStatus){
-                //friendStatus.setText("Pending");
-
-                //  }
             }
         });
     }

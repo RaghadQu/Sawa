@@ -51,7 +51,7 @@ public class NotFriendProfileClass {
     public void addNewFriendShip(int friend1_id, int friend2_id) {
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(GeneralAppInfo.BACKEND_URL)
+                .baseUrl(GeneralAppInfo.SPRING_URL)
                 .addConverterFactory(GsonConverterFactory.create()).build();
         FriendshipInterface FriendApi = retrofit.create(FriendshipInterface.class);
 
@@ -59,12 +59,13 @@ public class NotFriendProfileClass {
         friendshipModel.setFriend1_id(friend1_id);
         friendshipModel.setFriend2_id(friend2_id);
 
+
         Call<FriendResponseModel> addFrienshipCall = FriendApi.addNewFriendShip(friendshipModel);
         addFrienshipCall.enqueue(new Callback<FriendResponseModel>() {
             @Override
             public void onResponse(Call<FriendResponseModel> call, Response<FriendResponseModel> response) {
                 FriendResponseModel FriendshipResponse = response.body();
-                Log.d("Add friend ship", "" + FriendshipResponse);
+                Log.d("AddFriendShip", "" + FriendshipResponse +" " + response.code());
 
             }
 

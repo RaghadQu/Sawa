@@ -3,40 +3,82 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fff"
-
-    >
+    android:background="#fff">
 
 
-    <TextView
-        android:drawableLeft="@drawable/left"
-        android:drawablePadding="10dp"
-        android:id="@+id/toolBarText"
+    <Toolbar
         android:layout_width="match_parent"
-        android:gravity="center_vertical"
-        android:layout_height="55dp"
+        android:layout_height="45dp"
         android:background="@color/purple"
-        android:paddingLeft="10dp"
-        android:text="Friends"
-        android:textColor="#fff"
-        android:textSize="20dp"
-        />
+        android:focusableInTouchMode="true">
 
+        <TextView
+            android:id="@+id/toolBarText"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:drawableLeft="@mipmap/left"
+            android:focusableInTouchMode="true"
+            android:paddingRight="10dp"
+            android:textColor="#fff"
+            android:textSize="19dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="7dp"
+            android:focusableInTouchMode="true"
+            android:paddingRight="10dp"
+            android:text="Friends"
+            android:textColor="#fff"
+            android:textSize="19dp"
+            android:textStyle="bold" />
+
+    </Toolbar>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
-        android:orientation="horizontal"
-        >
+        android:layout_marginTop="50dp"
+        android:orientation="horizontal">
 
         <ProgressBar
             android:id="@+id/ProgressBar"
-            android:indeterminateTint="@color/purple"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:layout_marginTop="10dp"
-            />
+            android:indeterminateTint="@color/purple" />
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/no_friends_Layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#ffffff"
+            android:orientation="vertical"
+            android:visibility="invisible">
+
+
+            <de.hdodenhof.circleimageview.CircleImageView
+
+                android:id="@+id/circle"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:layout_marginTop="110dp"
+                android:src="@drawable/no_friends" />
+
+            <TextView
+                android:id="@+id/TextBody"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:layout_marginTop="-1dp"
+                android:fontFamily="cursive"
+                android:text="   No Requests To Show"
+                android:textAlignment="center"
+                android:textColor="#878787"
+                android:textSize="24dp" />
+
+        </LinearLayout>
 
         <com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView
             android:id="@+id/recycler"

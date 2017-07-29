@@ -304,12 +304,12 @@ public class HomeTabbedActivity extends AppCompatActivity {
             } else if (getArguments().getInt(ARG_SECTION_NUMBER) == 3) {
                 GeneralFunctions.getSharedPreferences(getContext());
                 View rootView = inflater.inflate(R.layout.fragment_settings, container, false);
-                mRecyclerView = (RecyclerView) rootView.findViewById(R.id.Viewer);
+               /* mRecyclerView = (RecyclerView) rootView.findViewById(R.id.Viewer);
                 mRecyclerView.setHasFixedSize(true);
                 mLayoutManager = new LinearLayoutManager(getContext());
                 mRecyclerView.setLayoutManager(mLayoutManager);
                 MyAdapter settingAdapter = new MyAdapter(getContext(), myDataset, images);
-                mRecyclerView.setAdapter(settingAdapter);
+                mRecyclerView.setAdapter(settingAdapter);*/
                 return rootView;
 
             } else {

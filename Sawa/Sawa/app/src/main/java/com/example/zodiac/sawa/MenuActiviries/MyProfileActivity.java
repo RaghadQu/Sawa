@@ -4,7 +4,9 @@ import android.Manifest;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -75,7 +77,7 @@ public class MyProfileActivity extends AppCompatActivity {
     int image2 = R.drawable.friends_icon;
     int image3 = R.drawable.friends_icon;
     int image4 = R.drawable.image1;
-    TextView editBio;
+    TextView userName,editBio;
 
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
@@ -101,9 +103,11 @@ public class MyProfileActivity extends AppCompatActivity {
         editSong = (CircleImageView) findViewById(R.id.editSong);
         coverImage = (ImageView) findViewById(R.id.coverImage);
         profileBio = (TextView) findViewById(R.id.profileBio);
+        userName = (TextView) findViewById(R.id.user_profile_name);
 
-
-
+        SharedPreferences sharedPreferences = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
+        String stringUserName = sharedPreferences.getString("userName","");
+        userName.setText(stringUserName);
 
         if (isOnline == false) {
             Toast.makeText(this, "no internet connection!",
@@ -120,8 +124,6 @@ public class MyProfileActivity extends AppCompatActivity {
             imgClick = new Dialog(this);
             imgClick.setContentView(R.layout.profile_picture_dialog);
 
-
-            Log.d("Set", "s");
             ViewImgDialog = new Dialog(this, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
             ViewImgDialog.setContentView(R.layout.view_profilepic_dialog);
 
@@ -138,9 +140,6 @@ public class MyProfileActivity extends AppCompatActivity {
             editMySong.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             songTxt= (EditText)editMySong.findViewById(R.id.songTxt);
             saveSong= (Button) editMySong.findViewById(R.id.saveSong);
-
-
-
 
             imageView = (ImageView) ViewImgDialog.findViewById(R.id.ImageView);
 
@@ -159,10 +158,7 @@ public class MyProfileActivity extends AppCompatActivity {
             mRecyclerView.setAdapter(mAdapter);
             //set click listener for edit bio
             editBio = (TextView) findViewById(R.id.editBio);
-
             toolBarText = (TextView) findViewById(R.id.toolBarText);
-
-
 
             //Profile Picture
             img.setOnClickListener(new View.OnClickListener() {

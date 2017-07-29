@@ -16,6 +16,8 @@ import com.example.zodiac.sawa.MenuActiviries.MyProfileActivity;
 import com.example.zodiac.sawa.MenuActiviries.MyRequestsActivity;
 import com.example.zodiac.sawa.FriendProfile.FreindsFunctions;
 import com.example.zodiac.sawa.R;
+import com.example.zodiac.sawa.Spring.Models.FriendRequestModel;
+import com.example.zodiac.sawa.SpringApi.FriendshipInterface;
 import com.example.zodiac.sawa.interfaces.ConfirmFriendRequest;
 import com.example.zodiac.sawa.interfaces.DeleteFriend;
 import com.example.zodiac.sawa.models.AuthenticationResponeModel;
@@ -40,6 +42,7 @@ public class RequestScroll extends RecyclerView.Adapter<RequestScroll.UserViewHo
     private Context mContext;
     DeleteFriend service;
     ConfirmFriendRequest service_confirm;
+    FreindsFunctions friendFunction;
 
     ArrayList<MyRequestsActivity.friend> userList;
 
@@ -135,47 +138,39 @@ public class RequestScroll extends RecyclerView.Adapter<RequestScroll.UserViewHo
             ivProfile = (CircleImageView) itemView.findViewById(R.id.image);
             tvName = (TextView) itemView.findViewById(R.id.Name);
             remove = (Button) itemView.findViewById(R.id.deleteRequest);
+            friendFunction = new FreindsFunctions();
             remove.setOnClickListener(new View.OnClickListener() {
 
                 @Override
                 public void onClick(View v) {
                     final int position = getAdapterPosition();
-                    final DeleteFriendRequest request = new DeleteFriendRequest();
-                    Log.d("------ Y ", "  :  " + Integer.valueOf(userList.get(position).getId()));
-                    request.setFriend1_id(GeneralAppInfo.getUserID());
-                    request.setFriend2_id(Integer.valueOf(userList.get(position).getId()));
+                    Retrofit retrofit = new Retrofit.Builder()
+                            .baseUrl(GeneralAppInfo.SPRING_URL)
+                            .addConverterFactory(GsonConverterFactory.create()).build();
+                    FriendshipInterface FriendApi = retrofit.create(FriendshipInterface.class);
 
-                    final Call<AuthenticationResponeModel> deleteResponse = service.getState(request);
-                    deleteResponse.enqueue(new Callback<AuthenticationResponeModel>() {
+                    final FriendRequestModel FriendRequest = new FriendRequestModel();
+                    FriendRequest.setFriend1_id(GeneralAppInfo.getUserID());
+                    FriendRequest.setFriend2_id(Integer.valueOf(userList.get(position).getId()));
+
+
+                    final Call<Integer> deleteCall = FriendApi.deleteFriendship(FriendRequest);
+                    deleteCall.enqueue(new Callback<Integer>() {
                         @Override
-                        public void onResponse(Call<AuthenticationResponeModel> call, Response<AuthenticationResponeModel> response) {
-                            AuthenticationResponeModel state = response.body();
-
-
+                        public void onResponse(Call<Integer> call, Response<Integer> response) {
                             MyRequestsActivity.recyclerView.removeViewAt(position);
                             MyRequestsActivity.FreindsList.remove(position);
                             MyRequestsActivity.LayoutFriendsList.remove(position);
-                      /*      notifyItemRemoved(position);
-                           if (MyRequestsActivity.FreindsList.size()==0)
-                           {
-                               Intent i = new Intent(mContext, MyRequestsActivity.class);
-                               mContext.startActivity(i);
-                           }
-                            // notifyItemRangeChanged(position,MyFriendsActivity.FreindsList.size());
+            }
 
-                            //MyFriendsActivity.recyclerView.setAdapter(MyFriendsActivity.adapter);
-                            Log.d("----- Remove ", "removed" + MyRequestsActivity.FreindsList.size());*/
+            @Override
+            public void onFailure(Call<Integer> call, Throwable t) {
+                Log.d("fail to get friends ", "Failure to Get friends");
 
-                        }
-
-                        @Override
-                        public void onFailure(Call<AuthenticationResponeModel> call, Throwable t) {
-                            Log.d("fail to get friends ", "Failure to Get friends");
-
-                        }
+            }
 
 
-                    });
+        });
 
 
                 }
@@ -191,42 +186,40 @@ public class RequestScroll extends RecyclerView.Adapter<RequestScroll.UserViewHo
                 public void onClick(View v) {
                     final int position = getAdapterPosition();
 
-                    final DeleteFriendRequest request = new DeleteFriendRequest();
-                    Log.d("------ Y ", "  :  " + Integer.valueOf(userList.get(position).getId()));
-                    request.setFriend1_id(GeneralAppInfo.getUserID());
-                    request.setFriend2_id(Integer.valueOf(userList.get(position).getId()));
+                    Retrofit retrofit = new Retrofit.Builder()
+                            .baseUrl(GeneralAppInfo.SPRING_URL)
+                            .addConverterFactory(GsonConverterFactory.create()).build();
+                    FriendshipInterface service_confirm = retrofit.create(FriendshipInterface.class);
 
-                    final Call<AuthenticationResponeModel> deleteResponse = service_confirm.getState(request);
-                    deleteResponse.enqueue(new Callback<AuthenticationResponeModel>() {
+                    FriendRequestModel friendshipModel = new FriendRequestModel();
+                    friendshipModel.setFriend1_id(GeneralAppInfo.getUserID());
+                    friendshipModel.setFriend2_id(Integer.valueOf(userList.get(position).getId()));
+
+                    final Call<Integer> confirmCall = service_confirm.confirmFriendship(friendshipModel);
+                    confirmCall.enqueue(new Callback<Integer>() {
                         @Override
-                        public void onResponse(Call<AuthenticationResponeModel> call, Response<AuthenticationResponeModel> response) {
-                            AuthenticationResponeModel state = response.body();
-                            Log.d("-----------", " Body" + response.code() + " : " + state.getState());
+                        public void onResponse(Call<Integer> call, Response<Integer> response) {
 
-                            MyRequestsActivity.recyclerView.removeViewAt(position);
+                        //    MyRequestsActivity.recyclerView.removeViewAt(position);
                             MyRequestsActivity.FreindsList.remove(position);
-                            //notifyItemRemoved(position);
-                            //  notifyDataSetChanged();
                             MyRequestsActivity.LayoutFriendsList.remove(position);
                             notifyItemRemoved(position);
-                            // notifyItemRangeChanged(position,MyFriendsActivity.FreindsList.size());
-
-                            //MyFriendsActivity.recyclerView.setAdapter(MyFriendsActivity.adapter);
                             Log.d("----- Remove ", "removed" + MyRequestsActivity.FreindsList.size());
 
                         }
 
-                        @Override
-                        public void onFailure(Call<AuthenticationResponeModel> call, Throwable t) {
-                            Log.d("fail to get friends ", "Failure to Get friends");
+                    @Override
+                    public void onFailure(Call<Integer> call, Throwable t) {
+                        Log.d("fail to get friends ", "Failure to Get friends");
 
-                        }
-
-
-                    });
+                    }
 
 
-                }
+                });
+
+
+
+            }
             });
         }
     }

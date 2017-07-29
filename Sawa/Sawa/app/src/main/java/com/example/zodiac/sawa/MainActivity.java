@@ -1,6 +1,7 @@
 package com.example.zodiac.sawa;
 
 import android.annotation.TargetApi;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -12,12 +13,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
+import com.example.zodiac.sawa.MenuActiviries.MyProfileActivity;
 import com.example.zodiac.sawa.RecoverPassword.RecoverPass;
 import com.example.zodiac.sawa.RegisterPkg.RegisterActivity;
 import com.example.zodiac.sawa.Spring.Models.LoginWIthGoogleModel;
@@ -49,6 +50,7 @@ import org.json.JSONObject;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -60,15 +62,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private EditText emailEditText;
     private EditText passEditText;
     AuthInterface service;
-    private ProgressBar logInProfress;
     CallbackManager callbackManager;
     SignInButton signInButton;
+    CircleImageView fb , google;
     GoogleApiClient googleApiClient;
+    Dialog LoggingInDialog;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        System.gc();
         System.gc();
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getApplicationContext());
@@ -99,32 +101,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } catch (NoSuchAlgorithmException e) {
 
         }*/
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestProfile()
+       // GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestProfile()
+
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .build();
         googleApiClient =  new GoogleApiClient.Builder(this)
                 .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
+
         signInButton = (SignInButton) findViewById(R.id.loginWithGoogleBtn);
         signInButton.setOnClickListener(this);
         signInButton.setSize(SignInButton.SIZE_STANDARD);
         setGooglePlusButtonText(signInButton,"Log in with google ");
-  /*      Button a = (Button) findViewById(R.id.btnGooglePlus);
-        a.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-
-            }
-        });*/
-
-
+        fb = (CircleImageView) findViewById(R.id.fb);
+        google = (CircleImageView) findViewById(R.id.google);
         loginButton = (LoginButton) findViewById(R.id.login_button);
         loginButton.setReadPermissions("email");
-
-        //loginButton.setReadPermissions("first_name");
-        // loginButton.setReadPermissions("last_name");
-
-
+        LoggingInDialog = new Dialog(this);
+        LoggingInDialog.setContentView(R.layout.logging_in_dialog);
 
         callbackManager = CallbackManager.Factory.create();
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
@@ -198,13 +194,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
         if ((isLogined.equals("1"))) {
-            Intent i = new Intent(getApplicationContext(), HomeTabbedActivity.class);
+            Intent i = new Intent(getApplicationContext(), MyProfileActivity.class);
             startActivity(i);
             finish();
         }
 
-        logInProfress = (ProgressBar) findViewById(R.id.LogInProgress);
-        logInProfress.setVisibility(ProgressBar.INVISIBLE);
+
         emailEditText = (EditText) findViewById(R.id.username);
         passEditText = (EditText) findViewById(R.id.password);
         Retrofit retrofit = new Retrofit.Builder()
@@ -225,18 +220,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Toast.makeText(this, "no internet connection!",
                     Toast.LENGTH_LONG).show();
         } else {
-
             final SignInModel signInModel = new SignInModel();
             signInModel.setEmail(emailEditText.getText().toString());
             signInModel.setPassword(passEditText.getText().toString());
             if (valid(signInModel.getEmail(), signInModel.getPassword()) == 0) {
-                logInProfress.setVisibility(ProgressBar.VISIBLE);
-                final Call<UserModel> userModelCall = service.signIn(signInModel);
+                LoggingInDialog.show();
+               final Call<UserModel> userModelCall = service.signIn(signInModel);
                 userModelCall.enqueue(new Callback<UserModel>() {
                     @Override
                     public void onResponse(Call<UserModel> call, Response<UserModel> response) {
 
-                        logInProfress.setVisibility(ProgressBar.INVISIBLE);
 
                         int statusCode = response.code();
                         Log.d("-----", " enter request " + statusCode);
@@ -244,18 +237,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         SharedPreferences sharedPreferences = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
 
                         if (statusCode == 200) {
+
                             Log.d("-----", " enter here" + userModel.getId());
+                            Log.d("UserDate" , " in Sign is " +userModel.getBirthdate());
 
                             GeneralAppInfo.setUserID(Integer.valueOf(userModel.getId()));
                             sharedPreferences = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
                             SharedPreferences.Editor editor = sharedPreferences.edit();
                             editor.putString("email", emailEditText.getText().toString());
                             editor.putString("password", passEditText.getText().toString());
+                            editor.putString("userName",(userModel.getFirst_name()+ " "+ userModel.getLast_name()));
                             editor.putInt("id", GeneralAppInfo.getUserID());
                             editor.putString("isLogined", "1");
                             editor.apply();
 
-                            Intent i = new Intent(getApplicationContext(), HomeTabbedActivity.class);
+                            Intent i = new Intent(getApplicationContext(), MyProfileActivity.class);
+                            LoggingInDialog.dismiss();
                             startActivity(i);
                             overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 
@@ -270,6 +267,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                     .duration(700)
                                     .repeat(0)
                                     .playOn(findViewById(R.id.password));
+                            LoggingInDialog.dismiss();
+
                             emailEditText.setError("Invalid Email or Password");
                         }
 
@@ -349,6 +348,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 signIn();
                 break;
         }
+        if (v == fb) {
+            loginButton.performClick();
+        }
+        if(v == google)
+        {
+            signInButton.performClick();
+            signIn();
+        }
+
     }
 
     @Override

@@ -4,19 +4,6 @@
     android:layout_height="match_parent"
     android:background="#ffffff">
 
-    <TextView
-        android:drawableLeft="@drawable/left"
-        android:drawablePadding="10dp"
-        android:id="@+id/text"
-        android:layout_width="match_parent"
-        android:gravity="center_vertical"
-        android:layout_height="55dp"
-        android:background="@color/purple"
-        android:paddingLeft="10dp"
-        android:text="Friend Requests"
-        android:textColor="#fff"
-        android:textSize="19dp"
-        />
 
     <de.hdodenhof.circleimageview.CircleImageView
 

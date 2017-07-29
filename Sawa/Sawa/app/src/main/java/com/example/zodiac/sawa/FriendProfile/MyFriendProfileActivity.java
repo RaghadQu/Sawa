@@ -34,6 +34,7 @@ import com.example.zodiac.sawa.SpringApi.FriendshipInterface;
 import com.example.zodiac.sawa.models.AuthenticationResponeModel;
 import com.squareup.picasso.Picasso;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -41,13 +42,13 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MyFriendProfileActivity extends AppCompatActivity {
-    ImageView img;
+    CircleImageView img;
     Dialog ViewImgDialog;
     Dialog AboutFriendDialog;
     TextView about_status, about_bio, about_song;
     TextView user_profile_name;
     TextView toolBarText;
-    TextView aboutUsername ;
+    TextView aboutUsername;
 
     ImageView imageView; // View image in dialog
     Button friendStatus;
@@ -72,6 +73,7 @@ public class MyFriendProfileActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager mLayoutManager;
     String[] myDataset = {"Profile", "Friends", "Friend Requests", "Log out"};
     int[] images = {image1, image2, image3, image4};
+    ImageView coverPhoto;
 
     int Id1;
 
@@ -80,7 +82,7 @@ public class MyFriendProfileActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_friend_profile);
-        toolBarText=(TextView) findViewById(R.id.ToolbarText);
+        toolBarText = (TextView) findViewById(R.id.ToolbarText);
         user_profile_name = (TextView) findViewById(R.id.user_profile_name);
         //get parameters
         Bundle b = getIntent().getExtras();
@@ -98,7 +100,8 @@ public class MyFriendProfileActivity extends AppCompatActivity {
 
         friendStatus = (Button) findViewById(R.id.friendStatus);
         friendStatus.setText(" ");
-        aboutFriendIcon=(ImageView) findViewById(R.id.aboutFriendIcon);
+        aboutFriendIcon = (ImageView) findViewById(R.id.aboutFriendIcon);
+        coverPhoto = (ImageView) findViewById(R.id.coverPhoto);
 
         final Button confirmRequest = (Button) findViewById(R.id.ConfirmRequest);
         final Button deleteRequest = (Button) findViewById(R.id.deleteRequest);
@@ -114,11 +117,15 @@ public class MyFriendProfileActivity extends AppCompatActivity {
         progressBar = (ProgressBar) findViewById(R.id.circular_progress_bar);
         progressBar.setProgress(0);
         progressBar.setMax(100);
+       // progressBar.setVisibility(View.VISIBLE);
         anim = ObjectAnimator.ofInt(progressBar, "progress", 0, 100);
         anim.setDuration(2000);
         anim.setInterpolator(new DecelerateInterpolator());
         anim.start();
 
+        img = (CircleImageView) findViewById(R.id.user_profile_photo);
+        String imageUrl = GeneralAppInfo.SPRING_URL +"/"+ mImageUrl;
+        Picasso.with(getApplicationContext()).load(imageUrl).into(img);
 
         Id1 = Id;
         Log.d("IDD1", "" + Id);
@@ -139,9 +146,10 @@ public class MyFriendProfileActivity extends AppCompatActivity {
             call.enqueue(new Callback<Integer>() {
                 @Override
                 public void onResponse(Call<Integer> call, Response<Integer> response) {
-                    Log.d("GetState", "get Friend State code is "+ response.code());
+                    Log.d("GetState", "get Friend State code is " + response.code());
                     Integer FriendshipState = response.body();
-                    progressBar_button.setVisibility(View.GONE);
+                    progressBar.setVisibility(View.INVISIBLE);
+                    progressBar_button.setVisibility(View.INVISIBLE);
                     FriendsClass friendsClass = new FriendsClass();
 
                     Log.d("stateeee", "" + FriendshipState);
@@ -150,21 +158,21 @@ public class MyFriendProfileActivity extends AppCompatActivity {
                         GeneralAppInfo.friendMode = 0;
                         friendsClass.SetFriendButtn(friendStatus, mRecyclerView, MyFriendProfileActivity.this, Id1, getApplicationContext());
 
-                    } else if (FriendshipState == 1) {
+                    } else if (FriendshipState == 1) { // Friend
                         mRecyclerView.setVisibility(View.VISIBLE);
                         GeneralAppInfo.friendMode = 1;
                         friendsClass.SetFriendButtn(friendStatus, mRecyclerView, MyFriendProfileActivity.this, Id1, getApplicationContext());
-                    } else if (FriendshipState == 2) {
+                    } else if (FriendshipState == 3) { // Not a friend
                         mRecyclerView.setVisibility(View.GONE);
-                        GeneralAppInfo.friendMode = 2;
+                        GeneralAppInfo.friendMode = 3;
                         friendsClass.SetFriendButtn(friendStatus, mRecyclerView, MyFriendProfileActivity.this, Id1, getApplicationContext());
-                    } else if (FriendshipState == 3) {
+                    } else if (FriendshipState == 2) { // user = friend_id 2, friend = friend_id 1  .. friend sends to user
                         mRecyclerView.setVisibility(View.GONE);
                         GeneralAppInfo.friendMode = 0;
                         friendsClass.setFriendRequestButton(friendStatus, confirmRequest, deleteRequest, Id1);
                         //  friendsClass.SetFriendButtn(friendStatus, mRecyclerView, MyFriendProfileActivity.this, Id1, getApplicationContext());
                     }
-                    fillAbout(about_bio,about_status,about_song,Id1);
+                    fillAbout(about_bio, about_status, about_song, Id1);
 
 
                 }
@@ -179,13 +187,8 @@ public class MyFriendProfileActivity extends AppCompatActivity {
             ViewImgDialog = new Dialog(this, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
             ViewImgDialog.setContentView(R.layout.view_profilepic_dialog);
             imageView = (ImageView) ViewImgDialog.findViewById(R.id.ImageView);
-            img = (ImageView) findViewById(R.id.user_profile_photo);
 
-           // mImageUrl = GeneralAppInfo.IMAGE_URL + mImageUrl;
-            String imageUrl = GeneralAppInfo.SPRING_URL +"/"+ mImageUrl;
-
-            Picasso.with(getApplicationContext()).load(imageUrl).into(img);
-            Log.d("Image Alpha","  Here is  "+ img.getImageAlpha());
+            Log.d("Image Alpha", "  Here is  " + img.getImageAlpha());
             AboutFriendDialog = new Dialog(this);
             AboutFriendDialog.setContentView(R.layout.about_other_dialog);
             AboutFriendDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -193,7 +196,7 @@ public class MyFriendProfileActivity extends AppCompatActivity {
             about_status = (TextView) AboutFriendDialog.findViewById(R.id.status);
             about_song = (TextView) AboutFriendDialog.findViewById(R.id.Song);
             aboutUsername = (TextView) AboutFriendDialog.findViewById(R.id.aboutUsername);
-            aboutUsername.setText("About "+mName);
+            aboutUsername.setText("About " + mName);
             editBio = (TextView) findViewById(R.id.editBio);
 
 
@@ -211,6 +214,14 @@ public class MyFriendProfileActivity extends AppCompatActivity {
                     ViewImgDialog.show();
                 }
             });
+
+            coverPhoto.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    imageView.setImageDrawable(coverPhoto.getDrawable());
+                    ViewImgDialog.show();
+                }
+            });
+
             mRecyclerView = (RecyclerView) findViewById(R.id.Viewer);
             mRecyclerView.setVisibility(View.GONE);
 
@@ -221,7 +232,6 @@ public class MyFriendProfileActivity extends AppCompatActivity {
             mRecyclerView.setLayoutManager(mLayoutManager);
             mAdapter = new MyAdapter(this, myDataset, images);
             mRecyclerView.setAdapter(mAdapter);
-
 
 
             aboutFriendIcon.setOnClickListener(new View.OnClickListener() {
@@ -241,20 +251,22 @@ public class MyFriendProfileActivity extends AppCompatActivity {
         toolBarText.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                     Log.d("---"," Clicked on Text");
+                Log.d("---", " Clicked on Text");
 
                 final int DRAWABLE_LEFT = 0;
 
-                if(event.getX() <= (toolBarText.getCompoundDrawables()[DRAWABLE_LEFT].getBounds().width()))
-                {     Log.d("---"," Clicked on left");
-                        finish();
+                if (event.getX() <= (toolBarText.getCompoundDrawables()[DRAWABLE_LEFT].getBounds().width())) {
+                    Log.d("---", " Clicked on left");
+                    finish();
 
-                        return true;
-                    }
+                    return true;
+                }
 
                 return false;
             }
         });
+
+
     }
 
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
@@ -308,11 +320,11 @@ public class MyFriendProfileActivity extends AppCompatActivity {
         call.enqueue(new Callback<AboutUserResponseModel>() {
             @Override
             public void onResponse(Call<AboutUserResponseModel> call, Response<AboutUserResponseModel> response) {
-                Log.d("AboutUserFill", "Success  " + response.code() );
+                Log.d("AboutUserFill", "Success  " + response.code());
 
                 if (response != null) {
                     if (response.body() != null) {
-                        Log.d("AboutUserFill", "Success" );
+                        Log.d("AboutUserFill", "Success");
 
                         editBio.setText(response.body().getUserBio());
                         bio.setText(response.body().getUserBio());
@@ -324,7 +336,7 @@ public class MyFriendProfileActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<AboutUserResponseModel> call, Throwable t) {
-                Log.d("AboutUserFill", "Failure " + t.getMessage() + " "+ID);
+                Log.d("AboutUserFill", "Failure " + t.getMessage() + " " + ID);
             }
         });
 
