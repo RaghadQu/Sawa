@@ -4,24 +4,21 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
-
-import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
-
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -29,18 +26,19 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.example.zodiac.sawa.MenuActiviries.MyFriendsActivity;
 import com.example.zodiac.sawa.MenuActiviries.MyProfileActivity;
 import com.example.zodiac.sawa.MenuActiviries.MyRequestsActivity;
-import com.example.zodiac.sawa.RecyclerViewAdapters.MyAdapter;
 import com.example.zodiac.sawa.RecyclerViewAdapters.NotificationAdapter;
-import com.example.zodiac.sawa.interfaces.logOutApi;
+import com.example.zodiac.sawa.Spring.Models.SignOutModel;
+import com.example.zodiac.sawa.Spring.Models.UserModel;
+import com.example.zodiac.sawa.SpringApi.AboutUserInterface;
+import com.example.zodiac.sawa.SpringApi.AuthInterface;
 import com.example.zodiac.sawa.models.logOut;
-import com.google.android.gms.vision.text.Line;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView;
 
@@ -74,16 +72,19 @@ public class HomeTabbedActivity extends AppCompatActivity {
     private ViewPager mViewPager;
 
     static BadgeView badge;
+    static UserModel userInfo;
     static SharedPreferences sharedPreferences;
     static ImageView imageView;
     static TabLayout tabLayout;
     public static Handler UIHandler;
-
+    static TextView userName;
     static Context context ;
+    public static Activity activity = null;
 
     @Override
     protected void onResume() {
         super.onResume();
+        Log.d("Hello", " new resume");
         NotificationTab.getUserNotifications(getApplicationContext());
         showBadge(getApplicationContext());
         PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putInt("isRunning",
@@ -116,6 +117,7 @@ public class HomeTabbedActivity extends AppCompatActivity {
         UIHandler = new Handler(Looper.getMainLooper());
         setContentView(R.layout.activity_home_tabbed2);
         context = getApplicationContext();
+        activity= this;
         //set As logined for badge number
         PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putInt("isRunning",
                 1).commit();
@@ -321,6 +323,8 @@ public class HomeTabbedActivity extends AppCompatActivity {
             } else if (getArguments().getInt(ARG_SECTION_NUMBER) == 3) {
                 GeneralFunctions.getSharedPreferences(getContext());
                 View rootView = inflater.inflate(R.layout.fragment_settings, container, false);
+               userName = (TextView) rootView.findViewById(R.id.userName);
+                getUserInfo();
                 CircleImageView friendsIcon , requestsIcon , savedPostsIcon , settingsIcon, logoutIcon;
                 friendsIcon = (CircleImageView) rootView.findViewById(R.id.friendsIcon);
                 requestsIcon =(CircleImageView) rootView.findViewById(R.id.requestsIcon);
@@ -423,35 +427,74 @@ public class HomeTabbedActivity extends AppCompatActivity {
     }
 
     public static void logout(){
-        SharedPreferences preferences = context.getSharedPreferences("userInfo", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.clear();
-        editor.commit();
 
         String android_id = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(GeneralAppInfo.BACKEND_URL)
+                .baseUrl(GeneralAppInfo.SPRING_URL)
                 .addConverterFactory(GsonConverterFactory.create()).build();
-        logOutApi log_outApi = retrofit.create(logOutApi.class);
+        AuthInterface logoutApi = retrofit.create(AuthInterface.class);
         logOut log_out = new logOut(GeneralAppInfo.getUserID(), android_id);
 
-        Call<Void> logOutnResponse = log_outApi.getLogOut(log_out);
+        SignOutModel signOutModel = new SignOutModel();
+        signOutModel.setDeviceId(android_id);
+        signOutModel.setUserId(GeneralAppInfo.getUserID());
+        Call<Integer> logOutnResponse = logoutApi.signOut(signOutModel);
 
-        logOutnResponse.enqueue(new Callback<Void>() {
+        logOutnResponse.enqueue(new Callback<Integer>() {
             @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
+            public void onResponse(Call<Integer> call, Response<Integer> response) {
+                Log.d("SignOut", " "  +response.code());
+                SharedPreferences preferences = context.getSharedPreferences("userInfo", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.clear();
+                editor.commit();
                 Intent i = new Intent(context, MainActivity.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 context.startActivity(i);
-                ActivityCompat.finishAffinity((Activity) context);
+                HomeTabbedActivity.activity.finish();
+
+//                ActivityCompat.finishAffinity((Activity) context);
 
             }
 
             @Override
-            public void onFailure(Call<Void> call, Throwable t) {
+            public void onFailure(Call<Integer> call, Throwable t) {
                 Log.d("Fail", t.getMessage());
             }
 
         });
+    }
+
+    public static void getUserInfo() {
+        Log.d("InfoUser", " Enter here ");
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(GeneralAppInfo.SPRING_URL)
+                .addConverterFactory(GsonConverterFactory.create()).build();
+        AboutUserInterface service = retrofit.create(AboutUserInterface.class);
+        Log.d("InfoUser", " Enter before call ");
+
+        final Call<UserModel> userModelCall = service.getUserInfo(GeneralAppInfo.getUserID());
+        userModelCall.enqueue(new Callback<UserModel>() {
+            @Override
+            public void onResponse(Call<UserModel> call, Response<UserModel> response) {
+
+                Log.d("InfoUser", " " + response.code());
+                int statusCode = response.code();
+                if (statusCode == 200) {
+                    userInfo = response.body();
+                    Log.d("InfoUser", " " + userInfo.getFirst_name());
+                    userName.setText((userInfo.getFirst_name()+ " "+userInfo.getLast_name()));
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UserModel> call, Throwable t) {
+                Log.d("----", " Error " + t.getMessage());
+            }
+        });
+
     }
 
 

@@ -4,9 +4,7 @@ import android.Manifest;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -45,6 +43,7 @@ import com.example.zodiac.sawa.RecyclerViewAdapters.MyAdapter;
 import com.example.zodiac.sawa.RecyclerViewAdapters.SettingsAdapter;
 import com.example.zodiac.sawa.Spring.Models.AboutUserRequestModel;
 import com.example.zodiac.sawa.Spring.Models.AboutUserResponseModel;
+import com.example.zodiac.sawa.Spring.Models.UserModel;
 import com.example.zodiac.sawa.SpringApi.AboutUserInterface;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -62,6 +61,7 @@ public class MyProfileActivity extends AppCompatActivity {
     TextView profileBio;
     CircleImageView editProfile,editSong;
     Button saveAbout, saveSong;
+    static UserModel userInfo;
     Uri imageuri;
     ImageView img, coverImage;
     EditText bioTxt, statusTxt, songTxt;
@@ -88,11 +88,18 @@ public class MyProfileActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     public static ObjectAnimator anim;
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getUserInfo();
+    }
+
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getUserInfo();
         setContentView(R.layout.activity_my_profile);
         GeneralFunctions generalFunctions = new GeneralFunctions();
         boolean isOnline = generalFunctions.isOnline(getApplicationContext());
@@ -105,9 +112,6 @@ public class MyProfileActivity extends AppCompatActivity {
         profileBio = (TextView) findViewById(R.id.profileBio);
         userName = (TextView) findViewById(R.id.user_profile_name);
 
-        SharedPreferences sharedPreferences = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
-        String stringUserName = sharedPreferences.getString("userName","");
-        userName.setText(stringUserName);
 
         if (isOnline == false) {
             Toast.makeText(this, "no internet connection!",
@@ -496,6 +500,38 @@ public class MyProfileActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<AboutUserResponseModel> call, Throwable t) {
                 Log.d("AboutUserUpdate", "Failure " + t.getMessage());
+            }
+        });
+
+    }
+
+    public void getUserInfo() {
+        Log.d("InfoUser", " Enter here ");
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(GeneralAppInfo.SPRING_URL)
+                .addConverterFactory(GsonConverterFactory.create()).build();
+        AboutUserInterface service = retrofit.create(AboutUserInterface.class);
+        Log.d("InfoUser", " Enter before call ");
+
+        final Call<UserModel> userModelCall = service.getUserInfo(GeneralAppInfo.getUserID());
+        userModelCall.enqueue(new Callback<UserModel>() {
+            @Override
+            public void onResponse(Call<UserModel> call, Response<UserModel> response) {
+
+                Log.d("InfoUser", " " + response.code());
+                int statusCode = response.code();
+                if (statusCode == 200) {
+                    MyProfileActivity.userInfo = response.body();
+                    Log.d("InfoUser", " " + userInfo.getFirst_name());
+                    userName.setText((userInfo.getFirst_name()+ " "+userInfo.getLast_name()));
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UserModel> call, Throwable t) {
+                Log.d("----", " Error " + t.getMessage());
             }
         });
 
