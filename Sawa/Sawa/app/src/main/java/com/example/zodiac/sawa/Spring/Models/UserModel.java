@@ -1,5 +1,7 @@
 package com.example.zodiac.sawa.Spring.Models;
 
+import java.util.Date;
+
 /**
  * Created by Rabee on 6/26/2017.
  */
@@ -11,7 +13,7 @@ public class UserModel {
     String email;
     String gender;
     String birthdate;
-    int mobile;
+    String mobile;
     String image;
     int sign_in_out;
     int anon_post;
@@ -57,11 +59,11 @@ public class UserModel {
         this.birthdate = birthdate;
     }
 
-    public int getMobile() {
+    public String getMobile() {
         return mobile;
     }
 
-    public void setMobile(int mobile) {
+    public void setMobile(String mobile) {
         this.mobile = mobile;
     }
 

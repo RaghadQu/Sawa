@@ -1,5 +1,7 @@
 package com.example.zodiac.sawa.Spring.Models;
 
+import java.util.Date;
+
 /**
  * Created by Rabee on 6/27/2017.
  */
@@ -9,7 +11,7 @@ public class SignUpModel {
     String last_name;
     String email;
     String password;
-    Long mobile;
+    String mobile;
     String birthdate;
     String gender;
 
@@ -62,11 +64,11 @@ public class SignUpModel {
         this.password = password;
     }
 
-    public Long getMobile() {
+    public String getMobile() {
         return mobile;
     }
 
-    public void setMobile(Long mobile) {
+    public void setMobile(String mobile) {
         this.mobile = mobile;
     }
 }

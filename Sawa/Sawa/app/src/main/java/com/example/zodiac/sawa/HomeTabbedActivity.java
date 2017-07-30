@@ -144,7 +144,7 @@ public class HomeTabbedActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-            // Create the adapter that will return a fragment for each of the three
+        // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
         // Set up the ViewPager with the sections adapter.
@@ -323,7 +323,7 @@ public class HomeTabbedActivity extends AppCompatActivity {
             } else if (getArguments().getInt(ARG_SECTION_NUMBER) == 3) {
                 GeneralFunctions.getSharedPreferences(getContext());
                 View rootView = inflater.inflate(R.layout.fragment_settings, container, false);
-               userName = (TextView) rootView.findViewById(R.id.userName);
+                userName = (TextView) rootView.findViewById(R.id.userName);
                 getUserInfo();
                 CircleImageView friendsIcon , requestsIcon , savedPostsIcon , settingsIcon, logoutIcon;
                 friendsIcon = (CircleImageView) rootView.findViewById(R.id.friendsIcon);
@@ -362,9 +362,9 @@ public class HomeTabbedActivity extends AppCompatActivity {
                     }
                 });
 
-           //     mRecyclerView = (RecyclerView) rootView.findViewById(R.id.Viewer);
-             //   mRecyclerView.setHasFixedSize(true);
-               // mLayoutManager = new LinearLayoutManager(getContext());
+                //     mRecyclerView = (RecyclerView) rootView.findViewById(R.id.Viewer);
+                //   mRecyclerView.setHasFixedSize(true);
+                // mLayoutManager = new LinearLayoutManager(getContext());
                 //mRecyclerView.setLayoutManager(mLayoutManager);
                 //MyAdapter settingAdapter = new MyAdapter(getContext(), myDataset, images);
                 //mRecyclerView.setAdapter(settingAdapter);

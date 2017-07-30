@@ -62,6 +62,9 @@ public class EditProfileActivity extends Activity {
                 editProfileModle.setFirst_name(firstName.getText().toString());
                 editProfileModle.setLast_name(lastName.getText().toString());
                 editProfileModle.setBirthdate(stringDate);
+                Log.d("stringDate",stringDate);
+                Log.d("stringDate",GeneralAppInfo.getUserID()+"");
+
                 editProfileModle.setGender(gender);
 
                 Retrofit retrofit = new Retrofit.Builder()

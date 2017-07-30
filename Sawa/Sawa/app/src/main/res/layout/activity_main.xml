@@ -137,13 +137,6 @@
           android:layout_marginTop="23dp"
           android:textStyle="bold" />
 
-      <com.google.android.gms.common.SignInButton
-          android:id="@+id/loginWithGoogleBtn"
-          android:layout_width="1dp"
-          android:layout_height="1dp"
-          android:visibility="gone"
-          />
-
       <de.hdodenhof.circleimageview.CircleImageView
           android:id="@+id/google"
           android:clickable="true"
@@ -178,6 +171,18 @@
         android:layout_below="@+id/RelativeLayout"
         >
 
+
+        <com.google.android.gms.common.SignInButton
+            android:id="@+id/loginWithGoogleBtn"
+            android:layout_gravity="center"
+            android:layout_width="181dp"
+            android:layout_marginTop="8dp"
+            android:layout_height="37dp"
+            android:gravity="left"
+            android:foregroundGravity="center"
+            android:layout_alignBottom="@+id/login_button"
+            android:background="@color/colorAccent"
+            />
         <TextView
           android:layout_below="@+id/LogInProgress"
           android:layout_width="wrap_content"

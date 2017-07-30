@@ -10,7 +10,9 @@ import android.widget.DatePicker;
 
 import com.example.zodiac.sawa.R;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Created by zodiac on 07/16/2017.
@@ -36,15 +38,22 @@ public class BirthDateFragment extends android.app.Fragment {
 
             @Override
             public void onClick(View view) {
-
+                Date myDate;
                 birthdatePicker.getYear();
                 birthdatePicker.getMonth();
                 birthdatePicker.getDayOfMonth();
+
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                 String stringDate= String.valueOf(birthdatePicker.getYear())+"-"+ String.valueOf(birthdatePicker.getMonth()+1)+"-"+ String.valueOf(birthdatePicker.getDayOfMonth());
                 //String a =dateFormat.format(userBirthDate);
+                try {
+                    myDate = dateFormat.parse(stringDate);
 
-                ((RegisterActivity) getActivity()).setUserBirthDate(stringDate);
+                    ((RegisterActivity) getActivity()).setUserBirthDate(stringDate);
+
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
                 android.app.Fragment f = new GenderFragment();
                 ((RegisterActivity) getActivity()).replaceFragmnets(f);
 

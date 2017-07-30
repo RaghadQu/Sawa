@@ -16,6 +16,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
+import com.example.zodiac.sawa.MenuActiviries.MyProfileActivity;
 import com.example.zodiac.sawa.RecoverPassword.RecoverPass;
 import com.example.zodiac.sawa.RegisterPkg.RegisterActivity;
 import com.example.zodiac.sawa.Spring.Models.LoginWIthGoogleModel;
@@ -73,6 +76,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_main);
+        YoYo.with(Techniques.SlideInLeft)
+                .duration(700)
+                .repeat(0)
+                .playOn(findViewById(R.id.AppName));
+        YoYo.with(Techniques.FadeIn)
+                .duration(1000)
+                .repeat(0)
+                .playOn(findViewById(R.id.login_button));
+        YoYo.with(Techniques.FadeIn)
+                .duration(700)
+                .repeat(0)
+                .playOn(findViewById(R.id.loginWithGoogleBtn));
+       /* try{
+            PackageInfo info = getPackageManager().getPackageInfo(
+                    "com.example.zodiac.sawa", PackageManager.GET_SIGNATURES);
+            for (Signature signature : info.signatures) {
+                MessageDigest md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
+
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+
+        } catch (NoSuchAlgorithmException e) {
+
+        }*/
+       // GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestProfile()
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
@@ -111,13 +141,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             loginWithFacebookModel.setEmail(object.getString("email"));
                             loginWithFacebookModel.setFirstName(object.getString("first_name"));
                             loginWithFacebookModel.setLastName(object.getString("last_name"));
+                          //  loginWithFacebookModel.(object.getString("gender"));
                             loginWithFacebookModel.setId(loginResult.getAccessToken().getUserId());
                             loginWithFacebookModel.setAccessToken(loginResult.getAccessToken().getToken());
                             loginWithFacebookModel.setImage("");
+                            loginWithFacebookModel.setGender(object.getString("gender"));
                             loginWithFacebook(loginWithFacebookModel);
                             Log.d("Facebook email", "" + object.getString("email"));
                             Log.d("Facebook email", "" + object.getString("first_name"));
-                            Log.d("Facebook email", "" + object.getString("last_name"));
+                            Log.d("Facebook gender", "" + object.getString("gender"));
+                          //  Log.d("Facebook gender", "" + object.getString("user_birthday"));
+
+
 
 
                         } catch (JSONException e) {
@@ -146,9 +181,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
         //Sign in with google section
 
-        GoogleSignInOptions signInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().
-                requestIdToken(getString(R.string.default_web_client_id)).
-                requestServerAuthCode(getString(R.string.default_web_client_id)).requestScopes(new Scope(Scopes.DRIVE_APPFOLDER)).build();
+        GoogleSignInOptions signInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().requestProfile()
+                .requestIdToken(getString(R.string.default_web_client_id)).
+                requestServerAuthCode(getString(R.string.default_web_client_id)).requestScopes(new Scope(Scopes.PLUS_LOGIN)).build();
 
         //end section
 
@@ -223,6 +258,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                         }
                      else if( response.code() == 404) {
+
+                        } else {
+                            YoYo.with(Techniques.Shake)
+                                    .duration(700)
+                                    .repeat(0)
+                                    .playOn(findViewById(R.id.username));
+                            YoYo.with(Techniques.Shake)
+                                    .duration(700)
+                                    .repeat(0)
+                                    .playOn(findViewById(R.id.password));
                             LoggingInDialog.dismiss();
                             emailEditText.setError("Oops. Server is down");
 
