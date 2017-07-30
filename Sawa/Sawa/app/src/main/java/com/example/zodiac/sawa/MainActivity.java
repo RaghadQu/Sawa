@@ -258,8 +258,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                         }
                      else if( response.code() == 404) {
+                            LoggingInDialog.dismiss();
+                            emailEditText.setError("Oops. Server is down");
 
                         } else {
+                            LoggingInDialog.dismiss();
                             YoYo.with(Techniques.Shake)
                                     .duration(700)
                                     .repeat(0)
@@ -268,14 +271,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                     .duration(700)
                                     .repeat(0)
                                     .playOn(findViewById(R.id.password));
-                            LoggingInDialog.dismiss();
-                            emailEditText.setError("Oops. Server is down");
+                            emailEditText.setError("Invalid Email or Password");
+
 
                     }
-                        else {
-                            LoggingInDialog.dismiss();
-                            emailEditText.setError("Invalid Email or Password");
-                        }
 
 
                     }
