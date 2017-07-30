@@ -27,7 +27,7 @@ public class SignUpModel {
     }
 
     public void setBirthdate(String birthdate) {
-        birthdate = birthdate;
+        this.birthdate = birthdate;
     }
 
     public String getFirst_name() {
