@@ -68,6 +68,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     GoogleApiClient googleApiClient;
     Dialog LoggingInDialog;
 
+
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -238,15 +239,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                         if (statusCode == 200) {
 
-                            Log.d("-----", " enter here" + userModel.getId());
-                            Log.d("UserDate" , " in Sign is " +userModel.getBirthdate());
-
                             GeneralAppInfo.setUserID(Integer.valueOf(userModel.getId()));
                             sharedPreferences = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
                             SharedPreferences.Editor editor = sharedPreferences.edit();
                             editor.putString("email", emailEditText.getText().toString());
                             editor.putString("password", passEditText.getText().toString());
-                            editor.putString("userName",(userModel.getFirst_name()+ " "+ userModel.getLast_name()));
                             editor.putInt("id", GeneralAppInfo.getUserID());
                             editor.putString("isLogined", "1");
                             editor.apply();
