@@ -194,7 +194,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
         if ((isLogined.equals("1"))) {
-            Intent i = new Intent(getApplicationContext(), MyProfileActivity.class);
+            Intent i = new Intent(getApplicationContext(), HomeTabbedActivity.class);
             startActivity(i);
             finish();
         }
@@ -251,7 +251,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             editor.putString("isLogined", "1");
                             editor.apply();
 
-                            Intent i = new Intent(getApplicationContext(), MyProfileActivity.class);
+                            Intent i = new Intent(getApplicationContext(), HomeTabbedActivity.class);
                             LoggingInDialog.dismiss();
                             startActivity(i);
                             overridePendingTransition(R.anim.fade_in, R.anim.fade_out);

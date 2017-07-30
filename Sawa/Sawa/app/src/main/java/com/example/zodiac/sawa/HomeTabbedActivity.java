@@ -1,5 +1,6 @@
 package com.example.zodiac.sawa;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,6 +11,7 @@ import android.provider.Settings;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -31,12 +33,24 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.example.zodiac.sawa.MenuActiviries.MyFriendsActivity;
+import com.example.zodiac.sawa.MenuActiviries.MyProfileActivity;
+import com.example.zodiac.sawa.MenuActiviries.MyRequestsActivity;
 import com.example.zodiac.sawa.RecyclerViewAdapters.MyAdapter;
 import com.example.zodiac.sawa.RecyclerViewAdapters.NotificationAdapter;
+import com.example.zodiac.sawa.interfaces.logOutApi;
+import com.example.zodiac.sawa.models.logOut;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView;
 
 import java.util.ArrayList;
+
+import de.hdodenhof.circleimageview.CircleImageView;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 import static com.example.zodiac.sawa.R.id.container;
 
@@ -64,6 +78,7 @@ public class HomeTabbedActivity extends AppCompatActivity {
     static TabLayout tabLayout;
     public static Handler UIHandler;
 
+    static Context context ;
 
     @Override
     protected void onResume() {
@@ -99,6 +114,7 @@ public class HomeTabbedActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         UIHandler = new Handler(Looper.getMainLooper());
         setContentView(R.layout.activity_home_tabbed2);
+        context = getApplicationContext();
         //set As logined for badge number
         PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putInt("isRunning",
                 1).commit();
@@ -125,7 +141,7 @@ public class HomeTabbedActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-            // Create the adapter that will return a fragment for each of the three
+        // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
         // Set up the ViewPager with the sections adapter.
@@ -304,12 +320,49 @@ public class HomeTabbedActivity extends AppCompatActivity {
             } else if (getArguments().getInt(ARG_SECTION_NUMBER) == 3) {
                 GeneralFunctions.getSharedPreferences(getContext());
                 View rootView = inflater.inflate(R.layout.fragment_settings, container, false);
-               /* mRecyclerView = (RecyclerView) rootView.findViewById(R.id.Viewer);
-                mRecyclerView.setHasFixedSize(true);
-                mLayoutManager = new LinearLayoutManager(getContext());
-                mRecyclerView.setLayoutManager(mLayoutManager);
-                MyAdapter settingAdapter = new MyAdapter(getContext(), myDataset, images);
-                mRecyclerView.setAdapter(settingAdapter);*/
+                CircleImageView friendsIcon , requestsIcon , savedPostsIcon , settingsIcon, logoutIcon;
+                friendsIcon = (CircleImageView) rootView.findViewById(R.id.friendsIcon);
+                requestsIcon =(CircleImageView) rootView.findViewById(R.id.requestsIcon);
+                savedPostsIcon = (CircleImageView) rootView.findViewById(R.id.savedPostsIcon);
+                settingsIcon = (CircleImageView) rootView.findViewById(R.id.settingsIcon);
+                logoutIcon = (CircleImageView) rootView.findViewById(R.id.logoutIcon);
+                LinearLayout showProfileLayout = (LinearLayout) rootView.findViewById(R.id.showProfileLayout);
+
+
+                showProfileLayout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent i = new Intent(context, MyProfileActivity.class);
+                        startActivity(i);
+                    }
+                });
+                friendsIcon.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent i = new Intent(context, MyFriendsActivity.class);
+                        startActivity(i);
+                    }
+                });
+                requestsIcon.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent i = new Intent(context, MyRequestsActivity.class);
+                        startActivity(i);
+                    }
+                });
+                logoutIcon.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        logout();
+                    }
+                });
+
+                //     mRecyclerView = (RecyclerView) rootView.findViewById(R.id.Viewer);
+                //   mRecyclerView.setHasFixedSize(true);
+                // mLayoutManager = new LinearLayoutManager(getContext());
+                //mRecyclerView.setLayoutManager(mLayoutManager);
+                //MyAdapter settingAdapter = new MyAdapter(getContext(), myDataset, images);
+                //mRecyclerView.setAdapter(settingAdapter);
                 return rootView;
 
             } else {
@@ -365,6 +418,38 @@ public class HomeTabbedActivity extends AppCompatActivity {
                     badge.hide();
                 }
             }
+        });
+    }
+
+    public static void logout(){
+        SharedPreferences preferences = context.getSharedPreferences("userInfo", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.clear();
+        editor.commit();
+
+        String android_id = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(GeneralAppInfo.BACKEND_URL)
+                .addConverterFactory(GsonConverterFactory.create()).build();
+        logOutApi log_outApi = retrofit.create(logOutApi.class);
+        logOut log_out = new logOut(GeneralAppInfo.getUserID(), android_id);
+
+        Call<Void> logOutnResponse = log_outApi.getLogOut(log_out);
+
+        logOutnResponse.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                Intent i = new Intent(context, MainActivity.class);
+                context.startActivity(i);
+                ActivityCompat.finishAffinity((Activity) context);
+
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Log.d("Fail", t.getMessage());
+            }
+
         });
     }
 
