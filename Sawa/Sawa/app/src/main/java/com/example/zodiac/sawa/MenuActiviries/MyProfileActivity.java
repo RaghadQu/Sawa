@@ -92,6 +92,7 @@ public class MyProfileActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         getUserInfo();
+        fillAbout();
     }
 
 
@@ -137,7 +138,7 @@ public class MyProfileActivity extends AppCompatActivity {
             saveAbout = (Button) editMyBio.findViewById(R.id.saveAbout);
             bioTxt = (EditText) editMyBio.findViewById(R.id.bioTxt);
             statusTxt = (EditText) editMyBio.findViewById(R.id.statusTxt);
-            fillAbout(bioTxt, statusTxt);
+            fillAbout();
 
             editMySong = new Dialog(this);
             editMySong.setContentView(R.layout.edit_song_profile_dialog);
@@ -454,7 +455,7 @@ public class MyProfileActivity extends AppCompatActivity {
     }
 
 
-    public void fillAbout(final EditText bio, final EditText status) {
+    public void fillAbout() {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(GeneralAppInfo.SPRING_URL)
                 .addConverterFactory(GsonConverterFactory.create()).build();
@@ -466,8 +467,8 @@ public class MyProfileActivity extends AppCompatActivity {
                 if (response != null) {
                     if (response.body() != null) {
                         profileBio.setText(response.body().getUserBio());
-                        bio.setText(response.body().getUserBio());
-                        status.setText(response.body().getUserStatus());
+                        bioTxt.setText(response.body().getUserBio());
+                        statusTxt.setText(response.body().getUserStatus());
                         songTxt.setText(response.body().getUserSong());
                         bioBeforeUpdate = bioTxt.getText().toString();
                         statusBeforeUpdate = statusTxt.getText().toString();
@@ -495,6 +496,7 @@ public class MyProfileActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<AboutUserResponseModel> call, Response<AboutUserResponseModel> response) {
                 Log.d("AboutUserUpdate", "Done successfully");
+                fillAbout();
             }
 
             @Override
