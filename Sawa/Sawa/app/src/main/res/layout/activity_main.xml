@@ -137,6 +137,12 @@
           android:layout_marginTop="23dp"
           android:textStyle="bold" />
 
+      <com.google.android.gms.common.SignInButton
+          android:layout_width="wrap_content"
+          android:visibility="gone"
+          android:id="@+id/loginWithGoogleBtn"
+          android:layout_height="wrap_content"/>
+
       <de.hdodenhof.circleimageview.CircleImageView
           android:id="@+id/google"
           android:clickable="true"

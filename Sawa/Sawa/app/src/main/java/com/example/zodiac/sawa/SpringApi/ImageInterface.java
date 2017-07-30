@@ -23,6 +23,10 @@ public interface ImageInterface {
     @POST("/api/v1/uploadFile")
     Call<ResponseBody> postImage(@Part MultipartBody.Part image, @Part("name") RequestBody name);
     @Multipart
-    @POST("/api/v1/uploadFile")
-    Call<UserModel> uploadImage(@Part MultipartBody.Part file,@Query("id") int id );
+    @POST("/api/v1/uploadProfilePic")
+    Call<UserModel> uploadProfileImage(@Part MultipartBody.Part file,@Query("id") int id );
+    @Multipart
+    @POST("/api/v1/uploadCoverPic")
+    Call<UserModel> uploadCoverImage(@Part MultipartBody.Part file,@Query("id") int id );
+
 }

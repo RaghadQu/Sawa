@@ -18,6 +18,7 @@ public class UserModel {
     int sign_in_out;
     int anon_post;
     int public_post_view;
+    String cover_image;
 
     public int getId() {
         return id;
@@ -105,5 +106,14 @@ public class UserModel {
 
     public void setGender(String gender) {
         this.gender = gender;
+    }
+
+
+    public String getCover_image() {
+        return cover_image;
+    }
+
+    public void setCover_image(String cover_image) {
+        this.cover_image = cover_image;
     }
 }

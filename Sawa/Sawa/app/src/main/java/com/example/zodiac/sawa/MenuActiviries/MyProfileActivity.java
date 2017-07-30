@@ -4,6 +4,7 @@ import android.Manifest;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -45,6 +46,7 @@ import com.example.zodiac.sawa.Spring.Models.AboutUserRequestModel;
 import com.example.zodiac.sawa.Spring.Models.AboutUserResponseModel;
 import com.example.zodiac.sawa.Spring.Models.UserModel;
 import com.example.zodiac.sawa.SpringApi.AboutUserInterface;
+import com.squareup.picasso.Picasso;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
@@ -56,14 +58,14 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class MyProfileActivity extends AppCompatActivity {
 
 
-    String bioBeforeUpdate, statusBeforeUpdate;
     TextView friendsTxt, requestsTxt, newPostTxt;
     TextView profileBio;
     CircleImageView editProfile,editSong;
     Button saveAbout, saveSong;
     static UserModel userInfo;
     Uri imageuri;
-    ImageView img, coverImage;
+    static ImageView img;
+    static ImageView coverImage;
     EditText bioTxt, statusTxt, songTxt;
     Dialog imgClick;
     Dialog ViewImgDialog;
@@ -71,13 +73,14 @@ public class MyProfileActivity extends AppCompatActivity {
     TextView changePic, viewPic, RemovePic, toolBarText;
     ImageView imageView; // View image in dialog
     private static final int SELECTED_PICTURE = 100;
-    SettingsAdapter recyclerAdapter;
-    RecyclerView.LayoutManager layoutManager;
     int image1 = R.drawable.image1;
     int image2 = R.drawable.friends_icon;
     int image3 = R.drawable.friends_icon;
     int image4 = R.drawable.image1;
-    TextView userName,editBio;
+    static TextView userName;
+    TextView editBio;
+    static Context context;
+
 
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
@@ -102,6 +105,7 @@ public class MyProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         getUserInfo();
         setContentView(R.layout.activity_my_profile);
+        context=this;
         GeneralFunctions generalFunctions = new GeneralFunctions();
         boolean isOnline = generalFunctions.isOnline(getApplicationContext());
         friendsTxt = (TextView) findViewById(R.id.friendsTxt);
@@ -424,7 +428,8 @@ public class MyProfileActivity extends AppCompatActivity {
                 uploadImage uploadImage = new uploadImage();
                 Log.d("XX","arrive");
 
-                uploadImage.uploadImagetoDB(GeneralAppInfo.getUserID(), encodedImage,path,bitmap);
+                uploadImage.uploadImagetoDB(GeneralAppInfo.getUserID(), encodedImage,path,bitmap,requestCode
+                );
 
 
             } catch (Exception e) {
@@ -472,8 +477,7 @@ public class MyProfileActivity extends AppCompatActivity {
                         bioTxt.setText(response.body().getUserBio());
                         statusTxt.setText(response.body().getUserStatus());
                         songTxt.setText(response.body().getUserSong());
-                        bioBeforeUpdate = bioTxt.getText().toString();
-                        statusBeforeUpdate = statusTxt.getText().toString();
+
                     }
                 }
             }
@@ -509,7 +513,7 @@ public class MyProfileActivity extends AppCompatActivity {
 
     }
 
-    public void getUserInfo() {
+    public static void getUserInfo() {
         Log.d("InfoUser", " Enter here ");
 
         Retrofit retrofit = new Retrofit.Builder()
@@ -529,6 +533,11 @@ public class MyProfileActivity extends AppCompatActivity {
                     MyProfileActivity.userInfo = response.body();
                     Log.d("InfoUser", " " + userInfo.getFirst_name());
                     userName.setText((userInfo.getFirst_name()+ " "+userInfo.getLast_name()));
+                    String imageUrl = GeneralAppInfo.IMAGE_URL + userInfo.getImage();
+                    Picasso.with(context).load(imageUrl).into(img);
+                    String coverUrl = GeneralAppInfo.IMAGE_URL+userInfo.getCover_image();
+                    Picasso.with(context).load(coverUrl).into(coverImage);
+
 
                 }
             }

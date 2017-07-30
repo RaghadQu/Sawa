@@ -10,6 +10,7 @@ import android.widget.ImageView;
 
 import com.example.zodiac.sawa.GeneralAppInfo;
 import com.example.zodiac.sawa.GeneralFunctions;
+import com.example.zodiac.sawa.MenuActiviries.MyProfileActivity;
 import com.example.zodiac.sawa.Spring.Models.UserModel;
 import com.example.zodiac.sawa.SpringApi.ImageInterface;
 import com.example.zodiac.sawa.interfaces.UserImageApi;
@@ -49,7 +50,7 @@ public class uploadImage {
 
     }
 
-    public void uploadImagetoDB(int user_id, String encodedImage,String path,Bitmap bitmap) {
+    public void uploadImagetoDB(int user_id, String encodedImage,String path,Bitmap bitmap , int requestCode) {
         File file = new File(path);
         GeneralFunctions generalFunctions=new GeneralFunctions();
 
@@ -58,23 +59,34 @@ public class uploadImage {
         // create RequestBody instance from file
         RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
 
-        MultipartBody.Part body =
+        final MultipartBody.Part body =
                 MultipartBody.Part.createFormData("uploadfile", file.getName(), requestFile);
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(GeneralAppInfo.SPRING_URL)
                 .addConverterFactory(GsonConverterFactory.create()).build();
         ImageInterface imageInterface = retrofit.create(ImageInterface.class);
-        Call<UserModel> userImageResponse = imageInterface.uploadImage(body,GeneralAppInfo.userID);
+        Call<UserModel> userImageResponse;
+        if(requestCode==100) {
+            userImageResponse = imageInterface.uploadProfileImage(body, GeneralAppInfo.userID);
+            Log.d("images","  Profile");
+        }
+        else {
+            userImageResponse = imageInterface.uploadCoverImage(body, GeneralAppInfo.userID);
+            Log.d("images","  Cover");
+
+        }
+
         userImageResponse.enqueue(new Callback<UserModel>() {
             @Override
             public void onResponse(Call<UserModel> call, Response<UserModel> response) {
-                // int state = response.body().getState();
-                //Log.d("Image is uploaded" + state, "" + state);
+                Log.d("ImagesCode ", " " + response.code() );
+                MyProfileActivity.getUserInfo();
             }
 
             @Override
             public void onFailure(Call<UserModel> call, Throwable t) {
+                Log.d("ImagesCode ", " Error " +t.getMessage() );
 
             }
         });
