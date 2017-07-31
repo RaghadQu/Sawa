@@ -275,7 +275,7 @@ public class aboutUserActivity extends AppCompatActivity {
                 byte[] image = imageConverter.getBytes(bitmap);
                 String encodedImage = Base64.encodeToString(image, Base64.DEFAULT);
                 uploadImage uploadImage = new uploadImage();
-                uploadImage.uploadImagetoDB(GeneralAppInfo.getUserID(), encodedImage);
+                //uploadImage.uploadImagetoDB(GeneralAppInfo.getUserID(), encodedImage,"");
 
 
             } catch (Exception e) {

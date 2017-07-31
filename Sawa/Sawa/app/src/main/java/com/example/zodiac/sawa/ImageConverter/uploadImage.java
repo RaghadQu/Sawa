@@ -4,18 +4,34 @@ import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.net.http.AndroidHttpClient;
 import android.util.Log;
 import android.widget.ImageView;
 
 import com.example.zodiac.sawa.GeneralAppInfo;
+import com.example.zodiac.sawa.GeneralFunctions;
+import com.example.zodiac.sawa.MenuActiviries.MyProfileActivity;
+import com.example.zodiac.sawa.Spring.Models.UserModel;
+import com.example.zodiac.sawa.SpringApi.ImageInterface;
 import com.example.zodiac.sawa.interfaces.UserImageApi;
 import com.example.zodiac.sawa.models.AuthenticationResponeModel;
 import com.example.zodiac.sawa.models.UserImage;
 import com.example.zodiac.sawa.models.userImageFromDb;
 import com.squareup.picasso.Picasso;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.FileEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
+
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -34,27 +50,61 @@ public class uploadImage {
 
     }
 
-    public void uploadImagetoDB(int user_id, String encodedImage) {
-        UserImage userImage = new UserImage(user_id, encodedImage);
-        Log.d("encoded image", encodedImage);
+    public void uploadImagetoDB(int user_id, String encodedImage,String path,Bitmap bitmap , int requestCode) {
+        File file = new File(path);
+        GeneralFunctions generalFunctions=new GeneralFunctions();
+
+        file=generalFunctions.saveBitmap(bitmap,path);
+
+        // create RequestBody instance from file
+        RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+
+        final MultipartBody.Part body =
+                MultipartBody.Part.createFormData("uploadfile", file.getName(), requestFile);
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(GeneralAppInfo.BACKEND_URL)
+                .baseUrl(GeneralAppInfo.SPRING_URL)
                 .addConverterFactory(GsonConverterFactory.create()).build();
-        UserImageApi userImageApi = retrofit.create(UserImageApi.class);
-        Call<AuthenticationResponeModel> userImageResponse = userImageApi.saveImageUser(userImage);
-        userImageResponse.enqueue(new Callback<AuthenticationResponeModel>() {
+        ImageInterface imageInterface = retrofit.create(ImageInterface.class);
+        Call<UserModel> userImageResponse;
+        if(requestCode==100) {
+            userImageResponse = imageInterface.uploadProfileImage(body, GeneralAppInfo.userID);
+            Log.d("images","  Profile");
+        }
+        else {
+            userImageResponse = imageInterface.uploadCoverImage(body, GeneralAppInfo.userID);
+            Log.d("images","  Cover");
+
+        }
+
+        userImageResponse.enqueue(new Callback<UserModel>() {
             @Override
-            public void onResponse(Call<AuthenticationResponeModel> call, Response<AuthenticationResponeModel> response) {
-                // int state = response.body().getState();
-                //Log.d("Image is uploaded" + state, "" + state);
+            public void onResponse(Call<UserModel> call, Response<UserModel> response) {
+                Log.d("ImagesCode ", " " + response.code() );
+                MyProfileActivity.getUserInfo();
             }
 
             @Override
-            public void onFailure(Call<AuthenticationResponeModel> call, Throwable t) {
+            public void onFailure(Call<UserModel> call, Throwable t) {
+                Log.d("ImagesCode ", " Error " +t.getMessage() );
 
             }
         });
+        /*HttpClient httpClient = new DefaultHttpClient();
+        HttpPost httpPost = new HttpPost("http://4bfb21e0.ngrok.io/api/v1/uploadFile");
+        Log.d("XX","arrive2");
+
+        httpPost.setEntity(new FileEntity(new File(path), "application/octet-stream"));
+
+        try {
+            Log.d("XX","arrive3");
+
+            HttpResponse response = httpClient.execute(httpPost);
+            Log.d("XX","arrive4");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }*/
     }
 
 

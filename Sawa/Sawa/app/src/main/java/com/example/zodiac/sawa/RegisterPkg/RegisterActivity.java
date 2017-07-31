@@ -19,6 +19,7 @@ import com.example.zodiac.sawa.Spring.Models.UserModel;
 import com.example.zodiac.sawa.SpringApi.AuthInterface;
 
 import java.io.ByteArrayOutputStream;
+import java.util.Date;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -36,7 +37,7 @@ public class RegisterActivity extends Activity {
     String LastName;
     String userEmail;
     String Password;
-    Long mobileNumber;
+    String mobileNumber;
     String userGender;
     String userBirthDate;
 
@@ -68,11 +69,11 @@ public class RegisterActivity extends Activity {
         this.userBirthDate = userBirthDate;
     }
 
-    public Long getMobileNumber() {
+    public String getMobileNumber() {
         return mobileNumber;
     }
 
-    public void setMobileNumber(Long mobileNumber) {
+    public void setMobileNumber(String mobileNumber) {
         this.mobileNumber = mobileNumber;
     }
 
@@ -125,7 +126,7 @@ public class RegisterActivity extends Activity {
         signUpModel.setPassword(getPassword());
         signUpModel.setGender(getUserGender());
         signUpModel.setBirthdate(getUserBirthDate());
-        Log.d("Birthdate", getUserBirthDate());
+        Log.d("Birthdate1", getUserBirthDate().toString().trim());
 
         AuthInterface authInterface;
         Retrofit retrofit = new Retrofit.Builder()

@@ -7,8 +7,8 @@ import com.example.zodiac.sawa.models.SignResponse;
  */
 
 public class GeneralAppInfo {
-    public static String BACKEND_URL = "http://faf7c217.ngrok.io/Sawa/public/index.php/";
-    public static String IMAGE_URL = "http://faf7c217.ngrok.io/Sawa/public/";
+    public static String BACKEND_URL = "http://cb2d8852.ngrok.io/Sawa/public/index.php/";
+    public static String IMAGE_URL = "http://cb2d8852.ngrok.io/Sawa/public/";
 
     public static String SPRING_URL="http://a2203e01.ngrok.io";
     public static int notifications_counter = 0;
