@@ -4,7 +4,6 @@ import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.net.http.AndroidHttpClient;
 import android.util.Log;
 import android.widget.ImageView;
 
@@ -14,19 +13,10 @@ import com.example.zodiac.sawa.MenuActiviries.MyProfileActivity;
 import com.example.zodiac.sawa.Spring.Models.UserModel;
 import com.example.zodiac.sawa.SpringApi.ImageInterface;
 import com.example.zodiac.sawa.interfaces.UserImageApi;
-import com.example.zodiac.sawa.models.AuthenticationResponeModel;
-import com.example.zodiac.sawa.models.UserImage;
 import com.example.zodiac.sawa.models.userImageFromDb;
 import com.squareup.picasso.Picasso;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.FileEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
-
 import java.io.File;
-import java.io.IOException;
 import java.util.List;
 
 import okhttp3.MediaType;

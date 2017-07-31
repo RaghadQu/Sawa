@@ -1,6 +1,5 @@
 package com.example.zodiac.sawa;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -13,19 +12,16 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
-import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.zodiac.sawa.DB.DBHandler;
-import com.example.zodiac.sawa.ImageConverter.ImageConverter;
 import com.example.zodiac.sawa.ImageConverter.uploadImage;
 import com.example.zodiac.sawa.MenuActiviries.MyFriendsActivity;
 import com.example.zodiac.sawa.MenuActiviries.MyProfileActivity;
@@ -95,8 +91,8 @@ public class AddPostActivity extends YouTubeBaseActivity implements YouTubePlaye
         super.onCreate(savedInstanceState);
         postProgress=(ProgressBar)findViewById(R.id.postProgress);
         setContentView(R.layout.add_post_activity);
-      //  youTubePlayerView = (YouTubePlayerView) findViewById(R.id.youtube);
-      //  youTubePlayerView.setVisibility(View.INVISIBLE);
+        youTubePlayerView = (YouTubePlayerView) findViewById(R.id.youtube);
+        youTubePlayerView.setVisibility(View.GONE);
         PostText = (EditText) findViewById(R.id.PostText);
         PostText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -126,11 +122,11 @@ public class AddPostActivity extends YouTubeBaseActivity implements YouTubePlaye
 
                     addContentView(youTubePlayerView, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
 
-                    //  youTubePlayerView.setVisibility(View.VISIBLE);
-                    //youTubePlayerView.initialize(api_key, AddPostActivity.this);
+                      youTubePlayerView.setVisibility(View.VISIBLE);
+                    youTubePlayerView.initialize(api_key, AddPostActivity.this);
                     youtubeFlag=1;
                 } else if(i==-1&&youtubeFlag==0) {
-                    //youTubePlayerView.setVisibility(View.INVISIBLE);
+                    youTubePlayerView.setVisibility(View.INVISIBLE);
 
                 }
 

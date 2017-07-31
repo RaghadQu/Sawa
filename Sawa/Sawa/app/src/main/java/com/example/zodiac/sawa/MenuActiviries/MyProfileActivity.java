@@ -41,7 +41,6 @@ import com.example.zodiac.sawa.ImageConverter.ImageConverter;
 import com.example.zodiac.sawa.ImageConverter.uploadImage;
 import com.example.zodiac.sawa.R;
 import com.example.zodiac.sawa.RecyclerViewAdapters.MyAdapter;
-import com.example.zodiac.sawa.RecyclerViewAdapters.SettingsAdapter;
 import com.example.zodiac.sawa.Spring.Models.AboutUserRequestModel;
 import com.example.zodiac.sawa.Spring.Models.AboutUserResponseModel;
 import com.example.zodiac.sawa.Spring.Models.UserModel;
@@ -531,11 +530,12 @@ public class MyProfileActivity extends AppCompatActivity {
                 int statusCode = response.code();
                 if (statusCode == 200) {
                     MyProfileActivity.userInfo = response.body();
-                    Log.d("InfoUser", " " + userInfo.getFirst_name());
                     userName.setText((userInfo.getFirst_name()+ " "+userInfo.getLast_name()));
-                    String imageUrl = GeneralAppInfo.IMAGE_URL + userInfo.getImage();
-                    Picasso.with(context).load(imageUrl).into(img);
-                    String coverUrl = GeneralAppInfo.IMAGE_URL+userInfo.getCover_image();
+                    String imageUrl = GeneralAppInfo.SPRING_URL + "/"+ userInfo.getImage();
+                    Log.d("InfoUser", " " + imageUrl);
+
+                      Picasso.with(context).load(imageUrl).into(img);
+                    String coverUrl = GeneralAppInfo.SPRING_URL+"/"+userInfo.getCover_image();
                     Picasso.with(context).load(coverUrl).into(coverImage);
 
 
