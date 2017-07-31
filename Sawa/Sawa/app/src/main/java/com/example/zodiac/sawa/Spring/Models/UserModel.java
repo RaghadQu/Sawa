@@ -15,9 +15,19 @@ public class UserModel {
     String birthdate;
     String mobile;
     String image;
+    String cover_image;
+
     int sign_in_out;
     int anon_post;
     int public_post_view;
+
+    public String getCover_image() {
+        return cover_image;
+    }
+
+    public void setCover_image(String cover_image) {
+        this.cover_image = cover_image;
+    }
 
     public int getId() {
         return id;

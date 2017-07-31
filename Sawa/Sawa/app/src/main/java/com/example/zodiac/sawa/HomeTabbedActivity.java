@@ -449,7 +449,7 @@ public class HomeTabbedActivity extends AppCompatActivity {
                 editor.clear();
                 editor.commit();
                 Intent i = new Intent(context, MainActivity.class);
-                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(i);
                 HomeTabbedActivity.activity.finish();
 
