@@ -158,7 +158,7 @@ public class RegisterActivity extends Activity {
 
             @Override
             public void onFailure(Call<UserModel> call, Throwable t) {
-                Log.d("notvalid", "valid");
+                Log.d("notvalid", "valid" + t.getMessage());
             }
         });
 
