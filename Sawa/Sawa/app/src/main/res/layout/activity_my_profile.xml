@@ -1,28 +1,27 @@
-<android.support.v4.widget.NestedScrollView xmlns:tools="http://schemas.android.com/tools"
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="#fff"
-    >
+    android:background="#fff">
 
-    <LinearLayout android:layout_width="match_parent"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:background="#fff"
-        >
+        android:orientation="vertical">
 
         <Toolbar
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:background="@color/purple"
-            android:focusableInTouchMode="true"            >
+            android:focusableInTouchMode="true">
 
             <TextView
+                android:id="@+id/toolBarText"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:drawableLeft="@mipmap/left"
-                android:id="@+id/toolBarText"
                 android:gravity="center"
                 android:paddingLeft="5dp"
                 android:paddingRight="10dp"
@@ -32,8 +31,6 @@
                 android:textStyle="bold" />
 
         </Toolbar>
-
-
 
 
         <LinearLayout
@@ -64,11 +61,19 @@
                     android:layout_width="match_parent"
                     android:layout_height="160dp"
                     android:background="#3d4b052a"
-                    android:scaleType="fitXY"/>
+                    android:scaleType="fitXY" />
+
+                <ProgressBar
+                    android:id="@+id/coverProgressBar"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:indeterminateTint="@color/purple"
+                    android:visibility="invisible"
+                    android:layout_marginTop="-20dp"/>
 
 
             </FrameLayout>
-
 
 
             <ProgressBar
@@ -78,11 +83,11 @@
                 android:layout_height="50dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="-112dp"
-                android:visibility="invisible"
-                android:progressDrawable="@drawable/circular_progress_bar"
-                android:max="48"
                 android:background="@drawable/progress_bar_backgroung"
-                />
+                android:max="48"
+                android:progressDrawable="@drawable/circular_progress_bar"
+                android:visibility="invisible" />
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -93,36 +98,36 @@
                 >
 
 
-            <TextView
-                android:id="@+id/user_profile_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawablePadding="7dp"
-                android:layout_marginLeft="15dp"
-                android:background="#00000000"
-                android:layout_marginTop="25dp"
-                android:textColor="#000"
-                android:paddingRight="25dp"
-                android:textColorHint="#000"
-                android:textSize="18dp" />
+                <TextView
+                    android:id="@+id/user_profile_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="25dp"
+                    android:background="#00000000"
+                    android:drawablePadding="7dp"
+                    android:paddingRight="25dp"
+                    android:textColor="#000"
+                    android:textColorHint="#000"
+                    android:textSize="18dp" />
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_marginTop="29dp"
-                android:id="@+id/editProfile"
-                android:src="@drawable/edit_edit"
-                android:layout_alignRight="@+id/user_profile_name"
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/editProfile"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_alignRight="@+id/user_profile_name"
+                    android:layout_marginTop="29dp"
+                    android:src="@drawable/edit_edit"
 
-                />
+                    />
             </RelativeLayout>
+
             <TextView
+                android:id="@+id/profileBio"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="15dp"
-                android:id="@+id/profileBio"
-                />
+                android:layout_marginBottom="15dp" />
 
 
             <TextView
@@ -130,109 +135,105 @@
                 android:layout_width="120dp"
                 android:layout_height="32dp"
                 android:layout_gravity="center"
+                android:background="@drawable/selector_xml_btn_yellow"
                 android:gravity="center"
-                android:textSize="14dp"
                 android:text="Edit Bio"
+                android:textAlignment="center"
                 android:textAllCaps="false"
                 android:textColor="@color/purple"
-                android:textAlignment="center"
-                android:background="@drawable/selector_xml_btn_yellow"
-                />
+                android:textSize="14dp" />
+
             <de.hdodenhof.circleimageview.CircleImageView
-                android:layout_width="25dp"
                 android:id="@+id/editSong"
+                android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="5dp"
-                android:src="@drawable/music"/>
+                android:src="@drawable/music" />
 
         </LinearLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="0.1dp"
-            android:layout_marginTop="-45dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
+            android:layout_marginTop="-45dp"
             android:background="#e2acacac" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Friends"
-            android:layout_marginLeft="28dp"
-            android:textSize="14dp"
-            android:textColor="@color/purple"
-            android:textAllCaps="false"
-            android:clickable="true"
-            android:id="@+id/friendsTxt"
-            android:padding="10dp"
-            />
 
-        <View
-            android:layout_width="0.1dp"
-            android:layout_height="33dp"
-            android:layout_marginTop="3dp"
-            android:layout_marginLeft="25dp"
-            android:layout_marginBottom="3dp"
-            android:background="#ACACAC" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Requests"
-            android:layout_marginLeft="28dp"
-            android:textSize="14dp"
-            android:id="@+id/requestTxt"
-            android:textColor="@color/purple"
-            android:textAllCaps="false"
-            android:clickable="true"
-            android:padding="10dp"
-            />
+            <TextView
+                android:id="@+id/friendsTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="28dp"
+                android:clickable="true"
+                android:padding="10dp"
+                android:text="Friends"
+                android:textAllCaps="false"
+                android:textColor="@color/purple"
+                android:textSize="14dp" />
 
             <View
                 android:layout_width="0.1dp"
                 android:layout_height="33dp"
-                android:layout_marginTop="3dp"
-                android:layout_marginLeft="22dp"
                 android:layout_marginBottom="3dp"
+                android:layout_marginLeft="25dp"
+                android:layout_marginTop="3dp"
                 android:background="#ACACAC" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="New Post"
-            android:id="@+id/newPostTxt"
-            android:layout_marginLeft="20dp"
-            android:textSize="14dp"
-            android:textColor="@color/purple"
-            android:textAllCaps="false"
-            android:clickable="true"
-            android:padding="10dp"
-            />
+
+            <TextView
+                android:id="@+id/requestTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="28dp"
+                android:clickable="true"
+                android:padding="10dp"
+                android:text="Requests"
+                android:textAllCaps="false"
+                android:textColor="@color/purple"
+                android:textSize="14dp" />
+
+            <View
+                android:layout_width="0.1dp"
+                android:layout_height="33dp"
+                android:layout_marginBottom="3dp"
+                android:layout_marginLeft="22dp"
+                android:layout_marginTop="3dp"
+                android:background="#ACACAC" />
+
+            <TextView
+                android:id="@+id/newPostTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:clickable="true"
+                android:padding="10dp"
+                android:text="New Post"
+                android:textAllCaps="false"
+                android:textColor="@color/purple"
+                android:textSize="14dp" />
 
 
         </LinearLayout>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="0.1dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:background="#ACACAC" />
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/Viewer"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:scrollbars="vertical"
-            >
-
-        </android.support.v7.widget.RecyclerView>
-
-
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
 
     </LinearLayout>

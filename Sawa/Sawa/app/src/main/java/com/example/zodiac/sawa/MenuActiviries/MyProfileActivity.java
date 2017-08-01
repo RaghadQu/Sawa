@@ -17,7 +17,6 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Base64;
@@ -45,6 +44,10 @@ import com.example.zodiac.sawa.Spring.Models.AboutUserRequestModel;
 import com.example.zodiac.sawa.Spring.Models.AboutUserResponseModel;
 import com.example.zodiac.sawa.Spring.Models.UserModel;
 import com.example.zodiac.sawa.SpringApi.AboutUserInterface;
+import com.example.zodiac.sawa.YoutubePlayerDialogActivity;
+import com.google.android.youtube.player.YouTubeBaseActivity;
+import com.google.android.youtube.player.YouTubeInitializationResult;
+import com.google.android.youtube.player.YouTubePlayer;
 import com.squareup.picasso.Picasso;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -54,7 +57,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class MyProfileActivity extends AppCompatActivity {
+public class MyProfileActivity  extends YouTubeBaseActivity implements YouTubePlayer.OnInitializedListener {
 
 
     TextView friendsTxt, requestsTxt, newPostTxt;
@@ -86,6 +89,7 @@ public class MyProfileActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager mLayoutManager;
     String[] myDataset = {"Profile", "Friends", "Friend Requests", "Log out"};
     int[] images = {image1, image2, image3, image4};
+    ProgressBar coverProgressBar;
 
     private ProgressBar progressBar;
     public static ObjectAnimator anim;
@@ -115,6 +119,7 @@ public class MyProfileActivity extends AppCompatActivity {
         coverImage = (ImageView) findViewById(R.id.coverImage);
         profileBio = (TextView) findViewById(R.id.profileBio);
         userName = (TextView) findViewById(R.id.user_profile_name);
+        coverProgressBar= (ProgressBar)findViewById(R.id.coverProgressBar);
 
 
         if (isOnline == false) {
@@ -331,8 +336,10 @@ public class MyProfileActivity extends AppCompatActivity {
 
             editSong.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-
-                    editMySong.show();
+                    Log.d("EditSong", " Edit Song youtubePlayer");
+                    Intent i = new Intent(getApplicationContext(), YoutubePlayerDialogActivity.class);
+                    startActivity(i);
+                  //  editMySong.show();
 
                 }
             });
@@ -427,8 +434,7 @@ public class MyProfileActivity extends AppCompatActivity {
                 uploadImage uploadImage = new uploadImage();
                 Log.d("XX","arrive");
 
-                uploadImage.uploadImagetoDB(GeneralAppInfo.getUserID(), encodedImage,path,bitmap,requestCode
-                );
+                uploadImage.uploadImagetoDB(GeneralAppInfo.getUserID(), encodedImage,path,bitmap,requestCode,coverProgressBar);
 
 
             } catch (Exception e) {
@@ -551,4 +557,13 @@ public class MyProfileActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
+
+    }
+
+    @Override
+    public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
+
+    }
 }

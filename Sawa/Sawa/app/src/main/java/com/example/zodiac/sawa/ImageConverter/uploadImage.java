@@ -5,7 +5,9 @@ import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import com.example.zodiac.sawa.GeneralAppInfo;
 import com.example.zodiac.sawa.GeneralFunctions;
@@ -40,7 +42,7 @@ public class uploadImage {
 
     }
 
-    public void uploadImagetoDB(int user_id, String encodedImage,String path,Bitmap bitmap , int requestCode) {
+    public void uploadImagetoDB(int user_id, String encodedImage, String path, Bitmap bitmap , int requestCode , final ProgressBar imageProgressBar) {
         File file = new File(path);
         GeneralFunctions generalFunctions=new GeneralFunctions();
 
@@ -72,6 +74,8 @@ public class uploadImage {
             public void onResponse(Call<UserModel> call, Response<UserModel> response) {
                 Log.d("ImagesCode ", " " + response.code() );
                 MyProfileActivity.getUserInfo();
+                imageProgressBar.setVisibility(View.INVISIBLE);
+
             }
 
             @Override

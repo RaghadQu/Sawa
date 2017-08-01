@@ -82,5 +82,6 @@ dependencies {
     compile 'com.hbb20:ccp:2.0.2'
 
 
+    compile 'javax.inject:javax.inject:1'
 }
 apply plugin: 'com.google.gms.google-services'
