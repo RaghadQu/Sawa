@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     AuthInterface service;
     CallbackManager callbackManager;
     SignInButton signInButton;
-    CircleImageView fb , google;
+    CircleImageView fb, google;
     GoogleApiClient googleApiClient;
     Dialog LoggingInDialog;
 
@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         YoYo.with(Techniques.SlideInLeft)
                 .duration(700)
-                .repeat(0)
+                .repeat(3)
                 .playOn(findViewById(R.id.AppName));
         YoYo.with(Techniques.FadeIn)
                 .duration(1000)
@@ -88,26 +88,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .duration(700)
                 .repeat(0)
                 .playOn(findViewById(R.id.loginWithGoogleBtn));
-       /* try{
-            PackageInfo info = getPackageManager().getPackageInfo(
-                    "com.example.zodiac.sawa", PackageManager.GET_SIGNATURES);
-            for (Signature signature : info.signatures) {
-                MessageDigest md = MessageDigest.getInstance("SHA");
-                md.update(signature.toByteArray());
-                Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
-
-            }
-        } catch (PackageManager.NameNotFoundException e) {
-
-        } catch (NoSuchAlgorithmException e) {
-
-        }*/
-       // GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestProfile()
-
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+              GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .build();
-        googleApiClient =  new GoogleApiClient.Builder(this)
+        googleApiClient = new GoogleApiClient.Builder(this)
                 .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
@@ -115,7 +99,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         signInButton = (SignInButton) findViewById(R.id.loginWithGoogleBtn);
         signInButton.setOnClickListener(this);
         signInButton.setSize(SignInButton.SIZE_STANDARD);
-        setGooglePlusButtonText(signInButton,"Log in with google ");
+        setGooglePlusButtonText(signInButton, "Log in with google ");
         fb = (CircleImageView) findViewById(R.id.fb);
         google = (CircleImageView) findViewById(R.id.google);
         loginButton = (LoginButton) findViewById(R.id.login_button);
@@ -137,7 +121,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         // Get facebook data from login
                         // Bundle bFacebookData = getFacebookData(object);
                         try {
-                            LoginWithFacebookModel loginWithFacebookModel=new LoginWithFacebookModel();
+                            LoginWithFacebookModel loginWithFacebookModel = new LoginWithFacebookModel();
                             loginWithFacebookModel.setEmail(object.getString("email"));
                             loginWithFacebookModel.setFirstName(object.getString("first_name"));
                             loginWithFacebookModel.setLastName(object.getString("last_name"));
@@ -226,7 +210,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             signInModel.setPassword(passEditText.getText().toString());
             if (valid(signInModel.getEmail(), signInModel.getPassword()) == 0) {
                 LoggingInDialog.show();
-               final Call<UserModel> userModelCall = service.signIn(signInModel);
+                final Call<UserModel> userModelCall = service.signIn(signInModel);
                 userModelCall.enqueue(new Callback<UserModel>() {
                     @Override
                     public void onResponse(Call<UserModel> call, Response<UserModel> response) {
@@ -255,7 +239,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                             finish();
 
+                        }
+                     else if( response.code() == 404) {
+                            LoggingInDialog.dismiss();
+                            emailEditText.setError("Oops. Server is down");
+
                         } else {
+                            LoggingInDialog.dismiss();
                             YoYo.with(Techniques.Shake)
                                     .duration(700)
                                     .repeat(0)
@@ -264,10 +254,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                     .duration(700)
                                     .repeat(0)
                                     .playOn(findViewById(R.id.password));
-                            LoggingInDialog.dismiss();
-
                             emailEditText.setError("Invalid Email or Password");
-                        }
+
+
+                    }
 
 
                     }
@@ -330,7 +320,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onActivityResult(int requestCode, int responseCode, Intent data) {
         if (requestCode == 9001) {
-           // data.getStringExtra("")
+            // data.getStringExtra("")
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             handleResult(result);
         } else
@@ -348,8 +338,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (v == fb) {
             loginButton.performClick();
         }
-        if(v == google)
-        {
+        if (v == google) {
             signInButton.performClick();
             signIn();
         }
@@ -370,8 +359,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (googleSignInResult.isSuccess()) {
             GoogleSignInAccount account = googleSignInResult.getSignInAccount();
             String email = account.getEmail();
-            String userId=account.getId();
-            LoginWIthGoogleModel loginWIthGoogleModel=new LoginWIthGoogleModel();
+            String userId = account.getId();
+            LoginWIthGoogleModel loginWIthGoogleModel = new LoginWIthGoogleModel();
             loginWIthGoogleModel.setEmail(email);
             loginWIthGoogleModel.setAccessToken(account.getIdToken());
             loginWIthGoogleModel.setFirstName(account.getGivenName());
@@ -390,11 +379,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         }
     }
+
     public void loginWithGoogle(LoginWIthGoogleModel loginWIthGoogleModel) {
-        Log.d("-----", " enter here" );
+        Log.d("-----", " enter here");
 
         final SharedPreferences sharedPreferences = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
-        Log.d("-----", " enter here" );
+        Log.d("-----", " enter here");
 
         final Call<UserModel> userModelCall = service.loginWithGoogle(loginWIthGoogleModel);
         userModelCall.enqueue(new Callback<UserModel>() {
@@ -407,7 +397,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 UserModel userModel = response.body();
                 //SharedPreferences sharedPreferences = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
 
-                if (statusCode == 200||statusCode == 202) {
+                if (statusCode == 200 || statusCode == 202) {
                     Log.d("-----", " enter here" + userModel.getId());
 
                     GeneralAppInfo.setUserID(Integer.valueOf(userModel.getId()));
@@ -424,6 +414,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 
                     finish();
+
+                } else if (response.code() == 404) {
+                    emailEditText.setError("Oops. Server is down");
 
                 } else {
                     emailEditText.setError("Invalid Email or Password");
@@ -441,24 +434,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
 
     }
+
     public void loginWithFacebook(LoginWithFacebookModel loginWithFacebookModel) {
-        Log.d("-----", " enter here" );
+        Log.d("-----", " enter here");
 
         final SharedPreferences sharedPreferences = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
-        Log.d("-----", " enter here" );
+        Log.d("-----", " enter here");
 
         final Call<UserModel> userModelCall = service.loginWithFacebook(loginWithFacebookModel);
         userModelCall.enqueue(new Callback<UserModel>() {
             @Override
             public void onResponse(Call<UserModel> call, Response<UserModel> response) {
-
-
                 int statusCode = response.code();
                 Log.d("-----", " enter request " + statusCode);
                 UserModel userModel = response.body();
                 //SharedPreferences sharedPreferences = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
 
-                if (statusCode == 200||statusCode == 202) {
+                if (statusCode == 200 || statusCode == 202) {
                     Log.d("-----", " enter here" + userModel.getId());
 
                     GeneralAppInfo.setUserID(Integer.valueOf(userModel.getId()));
@@ -476,6 +468,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                     finish();
 
+                } else if (response.code() == 404) {
+                    emailEditText.setError("Oops. Server is down");
                 } else {
                     emailEditText.setError("Invalid Email or Password");
                 }

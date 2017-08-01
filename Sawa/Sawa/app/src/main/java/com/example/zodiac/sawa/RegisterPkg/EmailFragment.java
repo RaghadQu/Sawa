@@ -82,7 +82,7 @@ public class EmailFragment extends android.app.Fragment {
                                 ((RegisterActivity) getActivity()).setUserEmail(email.getText().toString());
                                 android.app.Fragment f=new MobileFragment();
                                 ((RegisterActivity)getActivity()).replaceFragmnets(f);
-                            } else {
+                            } else if(response.code()==409 || response.code() ==200) {
                                 email.setError("Email is already used!");
                             }
                         }

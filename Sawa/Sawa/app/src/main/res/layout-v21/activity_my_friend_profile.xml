@@ -145,7 +145,7 @@
                     android:layout_width="60dp"
                     android:layout_height="31dp"
                     android:background="@drawable/left_corners_50dp"
-                    android:drawableLeft="@drawable/rsz_confirm1"
+                    android:drawableLeft="@mipmap/checkmark2"
                     android:paddingLeft="20dp"
                     android:visibility="invisible"
 
@@ -156,7 +156,7 @@
                     android:layout_width="60dp"
                     android:layout_height="31dp"
                     android:background="@drawable/right_corners_50dp"
-                    android:drawableLeft="@drawable/rsz_delete"
+                    android:drawableLeft="@mipmap/deletemark2"
                     android:paddingLeft="18dp"
                     android:visibility="invisible" />
             </LinearLayout>

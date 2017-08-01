@@ -15,11 +15,11 @@ public class UserModel {
     String birthdate;
     String mobile;
     String image;
-    String cover_image;
 
     int sign_in_out;
     int anon_post;
     int public_post_view;
+    String cover_image;
 
     public String getCover_image() {
         return cover_image;
@@ -116,4 +116,7 @@ public class UserModel {
     public void setGender(String gender) {
         this.gender = gender;
     }
+
+
+
 }

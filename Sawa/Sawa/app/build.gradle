@@ -62,6 +62,8 @@ final def var = dependencies {
 }
 repositories {
     mavenCentral()
+    maven { url "https://jitpack.io" }
+
 }
 dependencies {
     compile 'com.android.support:multidex:1.0.0'
@@ -80,6 +82,9 @@ dependencies {
     compile 'com.daimajia.easing:library:2.0@aar'
     compile 'com.daimajia.androidanimations:library:2.3@aar'
     compile 'com.hbb20:ccp:2.0.2'
+    compile 'com.facebook.rebound:rebound:0.3.8'
+
+    compile 'com.github.2359media:EasyAndroidAnimations:0.8'
 
 
 }

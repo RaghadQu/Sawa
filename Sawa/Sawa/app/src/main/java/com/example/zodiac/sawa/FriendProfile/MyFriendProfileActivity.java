@@ -152,6 +152,7 @@ public class MyFriendProfileActivity extends AppCompatActivity {
                     progressBar_button.setVisibility(View.INVISIBLE);
                     FriendsClass friendsClass = new FriendsClass();
 
+                    if(FriendshipState != null){
                     Log.d("stateeee", "" + FriendshipState);
                     if (FriendshipState == 0) {
                         mRecyclerView.setVisibility(View.GONE);
@@ -175,7 +176,7 @@ public class MyFriendProfileActivity extends AppCompatActivity {
                     fillAbout(about_bio, about_status, about_song, Id1);
 
 
-                }
+                }}
 
                 @Override
                 public void onFailure(Call<Integer> call, Throwable t) {
