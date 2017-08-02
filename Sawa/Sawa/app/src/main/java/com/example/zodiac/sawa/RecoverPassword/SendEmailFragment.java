@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 
 import com.example.zodiac.sawa.GeneralAppInfo;
+import com.example.zodiac.sawa.GeneralFunctions;
 import com.example.zodiac.sawa.HomeTabbedActivity;
 import com.example.zodiac.sawa.R;
 import com.example.zodiac.sawa.Spring.Models.SignInModel;
@@ -80,13 +81,18 @@ public class SendEmailFragment extends android.app.Fragment {
                                 android.app.Fragment f = new CheckCodeFragment();
                                 ((RecoverPass) getActivity()).replaceFragmnets(f);
 
-                                } else {
+                                } else  if (response.code() == 404||response.code()==500||response.code()==502||response.code()==400){
+                                    GeneralFunctions generalFunctions=new GeneralFunctions();
+                                    generalFunctions.showErrorMesaage(getActivity().getApplicationContext());
+                                }else {
                                     recievedEmail.setError("Incorrect Email");
                                 }
                             }
 
                             @Override
                             public void onFailure(Call<UserModel> call, Throwable t) {
+                                GeneralFunctions generalFunctions=new GeneralFunctions();
+                                generalFunctions.showErrorMesaage(getActivity().getApplicationContext());
                                 Log.d("Email.PassRecover", " Error " + t.getMessage());
                             }
                         });

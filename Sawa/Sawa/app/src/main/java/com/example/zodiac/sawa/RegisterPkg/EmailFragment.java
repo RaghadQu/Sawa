@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 
 import com.example.zodiac.sawa.GeneralAppInfo;
+import com.example.zodiac.sawa.GeneralFunctions;
 import com.example.zodiac.sawa.R;
 import com.example.zodiac.sawa.Spring.Models.SignInModel;
 import com.example.zodiac.sawa.Spring.Models.UserModel;
@@ -84,11 +85,16 @@ public class EmailFragment extends android.app.Fragment {
                                 ((RegisterActivity)getActivity()).replaceFragmnets(f);
                             } else if(response.code()==409 || response.code() ==200) {
                                 email.setError("Email is already used!");
+                            }else if(response.code() == 404||response.code()==500||response.code()==502||response.code()==400){
+                                GeneralFunctions generalFunctions=new GeneralFunctions();
+                                generalFunctions.showErrorMesaage(getActivity().getApplicationContext());
                             }
                         }
 
                         @Override
                         public void onFailure(Call<UserModel> call, Throwable t) {
+                            GeneralFunctions generalFunctions=new GeneralFunctions();
+                            generalFunctions.showErrorMesaage(getActivity().getApplicationContext());
                             checkEmailProgress.setVisibility(View.INVISIBLE);
                             Log.d("Email.Register", " Error " + t.getMessage());
                         }

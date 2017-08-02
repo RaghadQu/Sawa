@@ -16,6 +16,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.zodiac.sawa.GeneralAppInfo;
+import com.example.zodiac.sawa.GeneralFunctions;
 import com.example.zodiac.sawa.R;
 import com.example.zodiac.sawa.RecyclerViewAdapters.FastScrollAdapter;
 import com.example.zodiac.sawa.Spring.Models.FriendResponseModel;
@@ -93,6 +94,12 @@ public class MyFriendsActivity extends Activity {
                 progressBar.setVisibility(View.INVISIBLE);
 
                 Log.d("GetFriends", " Get friends " + response.code());
+                if(response.code() == 404||response.code()==500||response.code()==502||response.code()==400){
+                    GeneralFunctions generalFunctions=new GeneralFunctions();
+                    generalFunctions.showErrorMesaage(getApplicationContext());
+                }else {
+
+
                 FreindsList = response.body();
                 LayoutFriendsList.clear();
                 if (FreindsList != null) {
@@ -121,11 +128,13 @@ public class MyFriendsActivity extends Activity {
                     }
                 }
             }
+            }
 
             @Override
             public void onFailure(Call<List<FriendResponseModel>> call, Throwable t) {
                 progressBar.setVisibility(View.INVISIBLE);
-
+                GeneralFunctions generalFunctions=new GeneralFunctions();
+                generalFunctions.showErrorMesaage(getApplicationContext());
                 Log.d("fail to get friends ", "Failure to Get friends");
 
             }

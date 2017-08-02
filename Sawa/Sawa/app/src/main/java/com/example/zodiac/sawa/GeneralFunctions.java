@@ -13,6 +13,7 @@ import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.zodiac.sawa.interfaces.TokenApi;
 import com.example.zodiac.sawa.models.AuthenticationResponeModel;
@@ -29,6 +30,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+
+import static com.facebook.FacebookSdk.getApplicationContext;
 
 /**
  * Created by Rabee on 4/17/2017.
@@ -88,15 +91,20 @@ public class GeneralFunctions {
 
             @Override
             public void onResponse(Call<AuthenticationResponeModel> call, Response<AuthenticationResponeModel> response) {
-
+                if (response.code() == 404||response.code()==500||response.code()==502||response.code()==400)  {
+                    GeneralFunctions generalFunctions = new GeneralFunctions();
+                    generalFunctions.showErrorMesaage(getApplicationContext());
+                }
             }
 
             @Override
             public void onFailure(Call<AuthenticationResponeModel> call, Throwable t) {
-
+                GeneralFunctions generalFunctions = new GeneralFunctions();
+                generalFunctions.showErrorMesaage(getApplicationContext());
             }
         });
     }
+
     public boolean isOnline(Context c) {
         ConnectivityManager cm = (ConnectivityManager) c.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
@@ -105,11 +113,11 @@ public class GeneralFunctions {
         }
         return false;
     }
+
     public static boolean isAppRunning(final Context context, final String packageName) {
         final ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         final List<ActivityManager.RunningAppProcessInfo> procInfos = activityManager.getRunningAppProcesses();
-        if (procInfos != null)
-        {
+        if (procInfos != null) {
             for (final ActivityManager.RunningAppProcessInfo processInfo : procInfos) {
                 if (processInfo.processName.equals(packageName)) {
                     return true;
@@ -118,16 +126,18 @@ public class GeneralFunctions {
         }
         return false;
     }
-    public static SharedPreferences getSharedPreferences (Context ctxt) {
 
-        SharedPreferences sharedPreferences= ctxt.getSharedPreferences("userInfo", Context.MODE_PRIVATE);
+    public static SharedPreferences getSharedPreferences(Context ctxt) {
+
+        SharedPreferences sharedPreferences = ctxt.getSharedPreferences("userInfo", Context.MODE_PRIVATE);
         int notifications_counter = sharedPreferences.getInt("notifications_counter", 0);
-        Log.d("notifications_counte",""+notifications_counter);
+        Log.d("notifications_counte", "" + notifications_counter);
 
 
-        return  sharedPreferences;
+        return sharedPreferences;
 
     }
+
     public File saveBitmap(Bitmap bitmap, String path) {
         File file = null;
         if (bitmap != null) {
@@ -155,5 +165,10 @@ public class GeneralFunctions {
             }
         }
         return file;
+    }
+
+    public void showErrorMesaage(Context context) {
+        Toast.makeText(context, "Something went worng",
+                Toast.LENGTH_LONG).show();
     }
 }

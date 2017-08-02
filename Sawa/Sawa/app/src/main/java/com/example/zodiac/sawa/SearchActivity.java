@@ -43,9 +43,9 @@ public class SearchActivity extends AppCompatActivity {
         //mSearchView.setSelected(true);
         mSearchView.setIconifiedByDefault(false);
         mSearchView.setIconified(false);
-     //   mSearchView.setFocusable(true);
+        //   mSearchView.setFocusable(true);
 
-        adapter = new FastScrollAdapter(this, LayoutFriendsList,1);
+        adapter = new FastScrollAdapter(this, LayoutFriendsList, 1);
         recyclerView = (FastScrollRecyclerView) findViewById(R.id.recycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
@@ -67,9 +67,8 @@ public class SearchActivity extends AppCompatActivity {
                 Log.d("Enter the query", " Enter search change " + s + " here is the change");
                 if (s.length() == 0) {
                     LayoutFriendsList.clear();
-                    recyclerView.setAdapter(new FastScrollAdapter(SearchActivity.this, LayoutFriendsList,1));
+                    recyclerView.setAdapter(new FastScrollAdapter(SearchActivity.this, LayoutFriendsList, 1));
                 } else sendSearchQuery(s);
-
 
 
                 return false;
@@ -87,7 +86,7 @@ public class SearchActivity extends AppCompatActivity {
                 .baseUrl(GeneralAppInfo.SPRING_URL)
                 .addConverterFactory(GsonConverterFactory.create()).build();
 
-        searchInterface= retrofit.create(SearchInterface.class);
+        searchInterface = retrofit.create(SearchInterface.class);
 
 
         // final getFriendsRequest request = new getFriendsRequest();
@@ -96,21 +95,28 @@ public class SearchActivity extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
             public void onResponse(Call<List<UserModel>> call, Response<List<UserModel>> response) {
-                userModelList = response.body();
-                LayoutFriendsList.clear();
+                if (response.code() == 404||response.code()==500||response.code()==502||response.code()==400)  {
+                    GeneralFunctions generalFunctions = new GeneralFunctions();
+                    generalFunctions.showErrorMesaage(getApplicationContext());
+                } else {
 
-                if (userModelList != null) {
 
-                    if (userModelList.size() == 0) {
+                    userModelList = response.body();
+                    LayoutFriendsList.clear();
 
-                        recyclerView.setAdapter(new FastScrollAdapter(SearchActivity.this, LayoutFriendsList,1));
+                    if (userModelList != null) {
 
-                    } else {
-                        Log.d("Not null",Integer.toString(userModelList.get(0).getId()));
-                        for (int i = 0; i < userModelList.size(); i++) {
-                            LayoutFriendsList.add(new MyFriendsActivity.friend(Integer.valueOf(userModelList.get(i).getId()), userModelList.get(i).getImage(),
-                                    userModelList.get(i).getFirst_name() + " " + userModelList.get(i).getLast_name()));
-                            recyclerView.setAdapter(new FastScrollAdapter(SearchActivity.this, LayoutFriendsList,1));
+                        if (userModelList.size() == 0) {
+
+                            recyclerView.setAdapter(new FastScrollAdapter(SearchActivity.this, LayoutFriendsList, 1));
+
+                        } else {
+                            Log.d("Not null", Integer.toString(userModelList.get(0).getId()));
+                            for (int i = 0; i < userModelList.size(); i++) {
+                                LayoutFriendsList.add(new MyFriendsActivity.friend(Integer.valueOf(userModelList.get(i).getId()), userModelList.get(i).getImage(),
+                                        userModelList.get(i).getFirst_name() + " " + userModelList.get(i).getLast_name()));
+                                recyclerView.setAdapter(new FastScrollAdapter(SearchActivity.this, LayoutFriendsList, 1));
+                            }
                         }
                     }
                 }
@@ -123,7 +129,8 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<List<UserModel>> call, Throwable t) {
                 // progressBar.setVisibility(View.GONE);
-
+                GeneralFunctions generalFunctions=new GeneralFunctions();
+                generalFunctions.showErrorMesaage(getApplicationContext());
                 Log.d("fail to get friends ", "Failure to Get friends");
 
             }

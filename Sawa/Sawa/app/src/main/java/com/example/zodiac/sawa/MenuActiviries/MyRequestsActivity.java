@@ -124,12 +124,18 @@ public class MyRequestsActivity extends Activity {
                             }
 
                             }
-                    }}
-               }
+                    }}else if(response.code() == 404||response.code()==500||response.code()==502||response.code()==400){
+                        progressBar.setVisibility(View.INVISIBLE);
+
+                        GeneralFunctions generalFunctions=new GeneralFunctions();
+                        generalFunctions.showErrorMesaage(getApplicationContext());
+                    }
+                }
                 @Override
                 public void onFailure(Call<List<FriendResponseModel>> call, Throwable t) {
                     progressBar.setVisibility(View.INVISIBLE);
-
+                    GeneralFunctions generalFunctions=new GeneralFunctions();
+                    generalFunctions.showErrorMesaage(getApplicationContext());
                     Log.d("fail to get friends ", "Failure to Get friends");
 
                 }

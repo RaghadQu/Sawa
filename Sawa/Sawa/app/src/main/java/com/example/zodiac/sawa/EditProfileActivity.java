@@ -20,6 +20,8 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import static com.facebook.FacebookSdk.getApplicationContext;
+
 public class EditProfileActivity extends Activity {
 
     TextView backEdit, saveEdit;
@@ -76,11 +78,18 @@ public class EditProfileActivity extends Activity {
                 call.enqueue(new Callback<Integer>() {
                     @Override
                     public void onResponse(Call<Integer> call, Response<Integer> response) {
-                        Log.d("AboutProfileUpdate", "Done successfully "+ response.code() + " " +response.body());
+                        if(response.code() == 404||response.code()==500||response.code()==502||response.code()==400)
+                        {
+                            GeneralFunctions generalFunctions=new GeneralFunctions();
+                            generalFunctions.showErrorMesaage(getApplicationContext());
+                        }
+                        Log.d("AboutProfileUpdate", "Done successfully " + response.code() + " " + response.body());
                         finish();
                     }
                     @Override
                     public void onFailure(Call<Integer> call, Throwable t) {
+                        GeneralFunctions generalFunctions=new GeneralFunctions();
+                        generalFunctions.showErrorMesaage(getApplicationContext());
                         Log.d("AboutProfileUpdate", "Failure " + t.getMessage());
                     }
                 });
@@ -120,7 +129,8 @@ public class EditProfileActivity extends Activity {
             }
 
            @Override
-            public void onFailure(Call<UserModel> call, Throwable t) {
+            public void onFailure(Call<UserModel> call, Throwable t) {    GeneralFunctions generalFunctions = new GeneralFunctions();
+               generalFunctions.showErrorMesaage(getApplicationContext());
                 Log.d("----", " Error " + t.getMessage());
             }
         });

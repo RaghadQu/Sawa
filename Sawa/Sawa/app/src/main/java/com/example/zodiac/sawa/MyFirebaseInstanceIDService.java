@@ -18,6 +18,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 import static android.content.ContentValues.TAG;
+import static com.facebook.FacebookSdk.getApplicationContext;
 
 /**
  * Created by Rabee on 5/13/2017.
@@ -55,13 +56,18 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
 
             @Override
             public void onResponse(Call<DeviceTokenModel> call, Response<DeviceTokenModel> response) {
+                if(response.code() == 404||response.code()==500||response.code()==502||response.code()==400) {
+                    GeneralFunctions generalFunctions=new GeneralFunctions();
+                    generalFunctions.showErrorMesaage(getApplicationContext());
+                }
 //                Log.d("Arrive",""+response.body().getDeviceId());
 
             }
 
             @Override
             public void onFailure(Call<DeviceTokenModel> call, Throwable t) {
-
+                GeneralFunctions generalFunctions=new GeneralFunctions();
+                generalFunctions.showErrorMesaage(getApplicationContext());
             }
         });
     }

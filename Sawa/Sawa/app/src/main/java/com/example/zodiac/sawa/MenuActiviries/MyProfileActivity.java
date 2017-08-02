@@ -19,6 +19,8 @@ import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Base64;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -27,6 +29,7 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -44,6 +47,11 @@ import com.example.zodiac.sawa.Spring.Models.AboutUserRequestModel;
 import com.example.zodiac.sawa.Spring.Models.AboutUserResponseModel;
 import com.example.zodiac.sawa.Spring.Models.UserModel;
 import com.example.zodiac.sawa.SpringApi.AboutUserInterface;
+import com.google.android.youtube.player.YouTubeBaseActivity;
+import com.google.android.youtube.player.YouTubeInitializationResult;
+import com.google.android.youtube.player.YouTubePlayer;
+import com.google.android.youtube.player.YouTubePlayerView;
+
 import com.example.zodiac.sawa.YoutubePlayerDialogActivity;
 import com.google.android.youtube.player.YouTubeBaseActivity;
 import com.google.android.youtube.player.YouTubeInitializationResult;
@@ -57,12 +65,16 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class MyProfileActivity  extends YouTubeBaseActivity implements YouTubePlayer.OnInitializedListener {
+public class MyProfileActivity extends YouTubeBaseActivity implements YouTubePlayer.OnInitializedListener {
+    public static String api_key = "AIzaSyAa3QEuITB2WLRgtRVtM3jZwziz9Fc5EV4";
 
+    public String video_id = "rzLKwtC5q1k";
+    YouTubePlayerView youTubePlayerView;
+    int youtubeFlag = 0;
 
     TextView friendsTxt, requestsTxt, newPostTxt;
     TextView profileBio;
-    CircleImageView editProfile,editSong;
+    CircleImageView editProfile, editSong;
     Button saveAbout, saveSong;
     static UserModel userInfo;
     Uri imageuri;
@@ -71,7 +83,7 @@ public class MyProfileActivity  extends YouTubeBaseActivity implements YouTubePl
     EditText bioTxt, statusTxt, songTxt;
     Dialog imgClick;
     Dialog ViewImgDialog;
-    Dialog editMyBio , editMySong;
+    Dialog editMyBio, editMySong;
     TextView changePic, viewPic, RemovePic, toolBarText;
     ImageView imageView; // View image in dialog
     private static final int SELECTED_PICTURE = 100;
@@ -79,6 +91,7 @@ public class MyProfileActivity  extends YouTubeBaseActivity implements YouTubePl
     int image2 = R.drawable.friends_icon;
     int image3 = R.drawable.friends_icon;
     int image4 = R.drawable.image1;
+
     static TextView userName;
     TextView editBio;
     static Context context;
@@ -108,7 +121,7 @@ public class MyProfileActivity  extends YouTubeBaseActivity implements YouTubePl
         super.onCreate(savedInstanceState);
         getUserInfo();
         setContentView(R.layout.activity_my_profile);
-        context=this;
+        context = this;
         GeneralFunctions generalFunctions = new GeneralFunctions();
         boolean isOnline = generalFunctions.isOnline(getApplicationContext());
         friendsTxt = (TextView) findViewById(R.id.friendsTxt);
@@ -119,7 +132,7 @@ public class MyProfileActivity  extends YouTubeBaseActivity implements YouTubePl
         coverImage = (ImageView) findViewById(R.id.coverImage);
         profileBio = (TextView) findViewById(R.id.profileBio);
         userName = (TextView) findViewById(R.id.user_profile_name);
-        coverProgressBar= (ProgressBar)findViewById(R.id.coverProgressBar);
+        coverProgressBar = (ProgressBar) findViewById(R.id.coverProgressBar);
 
 
         if (isOnline == false) {
@@ -151,8 +164,51 @@ public class MyProfileActivity  extends YouTubeBaseActivity implements YouTubePl
             editMySong = new Dialog(this);
             editMySong.setContentView(R.layout.edit_song_profile_dialog);
             editMySong.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-            songTxt= (EditText)editMySong.findViewById(R.id.songTxt);
-            saveSong= (Button) editMySong.findViewById(R.id.saveSong);
+            youTubePlayerView = (YouTubePlayerView) findViewById(R.id.youtube);
+            youTubePlayerView.setVisibility(View.INVISIBLE);
+            songTxt = (EditText) editMySong.findViewById(R.id.songTxt);
+            //Youtube viewer for song edit text
+            songTxt.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+
+                    String pattern = "https://m.youtube.com/watch?v=";
+                    String s = String.valueOf(songTxt.getText());
+                    int i = s.indexOf(pattern);
+                    Log.d("II", "" + i);
+
+                    if (i == 0 && youtubeFlag == 0) {
+                        String[] split = s.split("v=");
+                        video_id = split[1];
+                        youTubePlayerView = new YouTubePlayerView(MyProfileActivity.this);
+                        youTubePlayerView.initialize(api_key, MyProfileActivity.this);
+
+                        addContentView(youTubePlayerView, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+
+                        youTubePlayerView.setVisibility(View.VISIBLE);
+                        youTubePlayerView.initialize(api_key, MyProfileActivity.this);
+                        youtubeFlag = 1;
+                    } else if (i == -1 && youtubeFlag == 0) {
+                        //youTubePlayerView.setVisibility(View.INVISIBLE);
+
+                    }
+
+
+                }
+            });
+            //
+            saveSong = (Button) editMySong.findViewById(R.id.saveSong);
 
             imageView = (ImageView) ViewImgDialog.findViewById(R.id.ImageView);
 
@@ -160,7 +216,7 @@ public class MyProfileActivity  extends YouTubeBaseActivity implements YouTubePl
             // imageView.setImageURI();
             final DBHandler dbHandler = new DBHandler(this);
             final uploadImage uploadImage = new uploadImage();
-          //  String imageUrl = uploadImage.getUserImageFromDB(GeneralAppInfo.getUserID(), img, MyProfileActivity.this, 1, anim);
+            //  String imageUrl = uploadImage.getUserImageFromDB(GeneralAppInfo.getUserID(), img, MyProfileActivity.this, 1, anim);
             mRecyclerView = (RecyclerView) findViewById(R.id.Viewer);
             mRecyclerView.setNestedScrollingEnabled(false);
 
@@ -324,11 +380,11 @@ public class MyProfileActivity  extends YouTubeBaseActivity implements YouTubePl
 
             saveAbout.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                    String bioText, statusText,songText;
+                    String bioText, statusText, songText;
                     bioText = bioTxt.getText().toString();
-                    songText= songTxt.getText().toString();
+                    songText = songTxt.getText().toString();
                     statusText = statusTxt.getText().toString();
-                    updateAbout(bioText, statusText,songText );
+                    updateAbout(bioText, statusText, songText);
                     editMyBio.dismiss();
 
                 }
@@ -339,7 +395,7 @@ public class MyProfileActivity  extends YouTubeBaseActivity implements YouTubePl
                     Log.d("EditSong", " Edit Song youtubePlayer");
                     Intent i = new Intent(getApplicationContext(), YoutubePlayerDialogActivity.class);
                     startActivity(i);
-                  //  editMySong.show();
+                    //  editMySong.show();
 
                 }
             });
@@ -347,11 +403,11 @@ public class MyProfileActivity  extends YouTubeBaseActivity implements YouTubePl
             saveSong.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
 
-                    String bioText, statusText,songText;
+                    String bioText, statusText, songText;
                     bioText = bioTxt.getText().toString();
-                    songText= songTxt.getText().toString();
+                    songText = songTxt.getText().toString();
                     statusText = statusTxt.getText().toString();
-                    updateAbout(bioText, statusText,songText );
+                    updateAbout(bioText, statusText, songText);
                     editMySong.dismiss();
 
                 }
@@ -423,18 +479,19 @@ public class MyProfileActivity  extends YouTubeBaseActivity implements YouTubePl
                 if (requestCode == 100) {
                     img.setImageBitmap(bitmap);
                 }
-                if (requestCode == 200){
+                if (requestCode == 200) {
                     coverImage.setImageBitmap(bitmap);
                 }
-                    ImageConverter imageConverter = new ImageConverter();
+                ImageConverter imageConverter = new ImageConverter();
                 byte[] image = imageConverter.getBytes(bitmap);
                 DBHandler dbHandler = new DBHandler(this);
                 // dbHandler.updateUserImage(GeneralAppInfo.getUserID(), image);
                 String encodedImage = Base64.encodeToString(image, Base64.DEFAULT);
                 uploadImage uploadImage = new uploadImage();
-                Log.d("XX","arrive");
+                Log.d("XX", "arrive");
 
-                uploadImage.uploadImagetoDB(GeneralAppInfo.getUserID(), encodedImage,path,bitmap,requestCode,coverProgressBar);
+
+                uploadImage.uploadImagetoDB(GeneralAppInfo.getUserID(), encodedImage, path, bitmap, requestCode, coverProgressBar);
 
 
             } catch (Exception e) {
@@ -476,19 +533,28 @@ public class MyProfileActivity  extends YouTubeBaseActivity implements YouTubePl
         call.enqueue(new Callback<AboutUserResponseModel>() {
             @Override
             public void onResponse(Call<AboutUserResponseModel> call, Response<AboutUserResponseModel> response) {
-                if (response != null) {
-                    if (response.body() != null) {
-                        profileBio.setText(response.body().getUserBio());
-                        bioTxt.setText(response.body().getUserBio());
-                        statusTxt.setText(response.body().getUserStatus());
-                        songTxt.setText(response.body().getUserSong());
+                if (response.code() == 404 || response.code() == 500 || response.code() == 502 || response.code() == 400) {
+                    GeneralFunctions generalFunctions=new GeneralFunctions();
+                    generalFunctions.showErrorMesaage(getApplicationContext());
+                } else {
 
+
+                    if (response != null) {
+                        if (response.body() != null) {
+                            profileBio.setText(response.body().getUserBio());
+                            bioTxt.setText(response.body().getUserBio());
+                            statusTxt.setText(response.body().getUserStatus());
+                            songTxt.setText(response.body().getUserSong());
+
+                        }
                     }
                 }
             }
 
             @Override
             public void onFailure(Call<AboutUserResponseModel> call, Throwable t) {
+                GeneralFunctions generalFunctions = new GeneralFunctions();
+                generalFunctions.showErrorMesaage(MyProfileActivity.context);
                 Log.d("AboutUserFill", "Failure " + t.getMessage());
             }
         });
@@ -506,12 +572,21 @@ public class MyProfileActivity  extends YouTubeBaseActivity implements YouTubePl
         call.enqueue(new Callback<AboutUserResponseModel>() {
             @Override
             public void onResponse(Call<AboutUserResponseModel> call, Response<AboutUserResponseModel> response) {
-                Log.d("AboutUserUpdate", "Done successfully");
-                fillAbout();
+                if (response.code() == 404 || response.code() == 500 || response.code() == 502 || response.code() == 400) {
+                    GeneralFunctions generalFunctions=new GeneralFunctions();
+                    generalFunctions.showErrorMesaage(getApplicationContext());
+                } else {
+
+
+                    Log.d("AboutUserUpdate", "Done successfully");
+                    fillAbout();
+                }
             }
 
             @Override
             public void onFailure(Call<AboutUserResponseModel> call, Throwable t) {
+                GeneralFunctions generalFunctions = new GeneralFunctions();
+                generalFunctions.showErrorMesaage(getApplicationContext());
                 Log.d("AboutUserUpdate", "Failure " + t.getMessage());
             }
         });
@@ -536,30 +611,96 @@ public class MyProfileActivity  extends YouTubeBaseActivity implements YouTubePl
                 int statusCode = response.code();
                 if (statusCode == 200) {
                     MyProfileActivity.userInfo = response.body();
-                    userName.setText((userInfo.getFirst_name()+ " "+userInfo.getLast_name()));
-                    String imageUrl = GeneralAppInfo.SPRING_URL + "/"+ userInfo.getImage();
+                    Log.d("InfoUser", " " + userInfo.getFirst_name());
+                    userName.setText((userInfo.getFirst_name() + " " + userInfo.getLast_name()));
+
+                    String imageUrl = GeneralAppInfo.SPRING_URL + "/" + userInfo.getImage();
                     Log.d("InfoUser", " " + imageUrl);
 
-                      Picasso.with(context).load(imageUrl).into(img);
-                    String coverUrl = GeneralAppInfo.SPRING_URL+"/"+userInfo.getCover_image();
+                    Picasso.with(context).load(imageUrl).into(img);
+                    String coverUrl = GeneralAppInfo.SPRING_URL + "/" + userInfo.getCover_image();
                     Picasso.with(context).load(coverUrl).into(coverImage);
 
 
+                } else if (response.code() == 404 || response.code() == 500 || response.code() == 502 || response.code() == 400) {
+                    GeneralFunctions generalFunctions=new GeneralFunctions();
+                    generalFunctions.showErrorMesaage(MyProfileActivity.context);
                 }
             }
 
             @Override
             public void onFailure(Call<UserModel> call, Throwable t) {
+                GeneralFunctions generalFunctions = new GeneralFunctions();
+                generalFunctions.showErrorMesaage(MyProfileActivity.context);
                 Log.d("----", " Error " + t.getMessage());
             }
         });
 
     }
 
+    private YouTubePlayer.PlayerStateChangeListener playerStateChangeListener = new YouTubePlayer.PlayerStateChangeListener() {
+        @Override
+        public void onLoading() {
+
+        }
+
+        @Override
+        public void onLoaded(String s) {
+
+        }
+
+        @Override
+        public void onAdStarted() {
+
+        }
+
+        @Override
+        public void onVideoStarted() {
+
+        }
+
+        @Override
+        public void onVideoEnded() {
+
+        }
+
+        @Override
+        public void onError(YouTubePlayer.ErrorReason errorReason) {
+
+        }
+    };
+    private YouTubePlayer.PlaybackEventListener playbackEventListener = new YouTubePlayer.PlaybackEventListener() {
+        @Override
+        public void onPlaying() {
+
+        }
+
+        @Override
+        public void onPaused() {
+
+        }
+
+        @Override
+        public void onStopped() {
+
+        }
+
+        @Override
+        public void onBuffering(boolean b) {
+
+        }
+
+        @Override
+        public void onSeekTo(int i) {
+
+        }
+    };
 
     @Override
     public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
-
+        youTubePlayer.setPlayerStateChangeListener(playerStateChangeListener);
+        youTubePlayer.setPlaybackEventListener(playbackEventListener);
+        youTubePlayer.cueVideo(video_id);
     }
 
     @Override

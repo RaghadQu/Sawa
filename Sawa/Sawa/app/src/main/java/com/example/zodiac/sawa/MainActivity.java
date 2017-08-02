@@ -75,12 +75,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         System.gc();
         super.onCreate(savedInstanceState);
+        GeneralFunctions generalFunctions = new GeneralFunctions();
         FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_main);
 
         YoYo.with(Techniques.SlideInLeft)
                 .duration(700)
-                .repeat(0)
+                .repeat(3)
                 .playOn(findViewById(R.id.AppName));
         YoYo.with(Techniques.FadeIn)
                 .duration(1000)
@@ -205,7 +206,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     public void checkLogin(View arg0) {
 
-        GeneralFunctions generalFunctions = new GeneralFunctions();
+        final GeneralFunctions generalFunctions = new GeneralFunctions();
         boolean isOnline = generalFunctions.isOnline(getApplicationContext());
 
 
@@ -247,10 +248,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                             finish();
 
-                        } else if (response.code() == 404) {
-                            LoggingInDialog.dismiss();
-                            emailEditText.setError("Oops. Server is down");
 
+                        } else if (response.code() == 404||response.code()==500||response.code()==502||response.code()==400) {
+                            LoggingInDialog.dismiss();
+                            generalFunctions.showErrorMesaage(getApplicationContext());
                         } else {
                             LoggingInDialog.dismiss();
                             YoYo.with(Techniques.Shake)
@@ -271,6 +272,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                     @Override
                     public void onFailure(Call<UserModel> call, Throwable t) {
+                        GeneralFunctions generalFunctions=new GeneralFunctions();
+                        generalFunctions.showErrorMesaage(getApplicationContext());
                         Log.d("----", " Error " + t.getMessage());
 
 
@@ -429,8 +432,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                     finish();
 
-                } else if (response.code() == 404) {
-                    emailEditText.setError("Oops. Server is down");
+                } else if (response.code() == 404||response.code()==500||response.code()==502||response.code()==400) {
+                    GeneralFunctions generalFunctions=new GeneralFunctions();
+                    generalFunctions.showErrorMesaage(getApplicationContext());
 
                 } else {
                     emailEditText.setError("Invalid Email or Password");
@@ -441,6 +445,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             @Override
             public void onFailure(Call<UserModel> call, Throwable t) {
+                GeneralFunctions generalFunctions=new GeneralFunctions();
+                generalFunctions.showErrorMesaage(getApplicationContext());
                 Log.d("----", " Error " + t.getMessage());
 
 
@@ -483,8 +489,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                     finish();
 
-                } else if (response.code() == 404) {
-                    emailEditText.setError("Oops. Server is down");
+                } else if (response.code() == 404||response.code()==500||response.code()==502||response.code()==400) {
+                    GeneralFunctions generalFunctions=new GeneralFunctions();
+                    generalFunctions.showErrorMesaage(getApplicationContext());
                 } else {
                     emailEditText.setError("Invalid Email or Password");
                 }
@@ -494,6 +501,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             @Override
             public void onFailure(Call<UserModel> call, Throwable t) {
+                GeneralFunctions generalFunctions=new GeneralFunctions();
+                generalFunctions.showErrorMesaage(getApplicationContext());
                 Log.d("----", " Error " + t.getMessage());
 
 
