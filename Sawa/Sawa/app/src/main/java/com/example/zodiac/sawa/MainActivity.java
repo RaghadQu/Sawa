@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -18,7 +19,6 @@ import android.widget.Toast;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
-import com.example.zodiac.sawa.MenuActiviries.MyProfileActivity;
 import com.example.zodiac.sawa.RecoverPassword.RecoverPass;
 import com.example.zodiac.sawa.RegisterPkg.RegisterActivity;
 import com.example.zodiac.sawa.Spring.Models.LoginWIthGoogleModel;
@@ -67,6 +67,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     CircleImageView fb, google;
     GoogleApiClient googleApiClient;
     Dialog LoggingInDialog;
+    Dialog progressDoalog;
 
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -76,6 +77,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_main);
+
         YoYo.with(Techniques.SlideInLeft)
                 .duration(700)
                 .repeat(0)
@@ -88,7 +90,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .duration(700)
                 .repeat(0)
                 .playOn(findViewById(R.id.loginWithGoogleBtn));
-              GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .build();
         googleApiClient = new GoogleApiClient.Builder(this)
@@ -106,11 +108,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         loginButton.setReadPermissions("email");
         LoggingInDialog = new Dialog(this);
         LoggingInDialog.setContentView(R.layout.logging_in_dialog);
+        progressDoalog = new Dialog(MainActivity.this);
+        progressDoalog.setContentView(R.layout.facebook_progress_dialog);
+        progressDoalog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
 
         callbackManager = CallbackManager.Factory.create();
+
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(final LoginResult loginResult) {
+
                 Log.d("Facebook user id ", "" + loginResult.getAccessToken().getUserId());
                 Log.d("Facebook token ", "" + loginResult.getAccessToken().getToken());
                 GraphRequest request = GraphRequest.newMeRequest(loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
@@ -121,11 +128,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         // Get facebook data from login
                         // Bundle bFacebookData = getFacebookData(object);
                         try {
+
                             LoginWithFacebookModel loginWithFacebookModel = new LoginWithFacebookModel();
                             loginWithFacebookModel.setEmail(object.getString("email"));
                             loginWithFacebookModel.setFirstName(object.getString("first_name"));
                             loginWithFacebookModel.setLastName(object.getString("last_name"));
-                          //  loginWithFacebookModel.(object.getString("gender"));
+                            //  loginWithFacebookModel.(object.getString("gender"));
                             loginWithFacebookModel.setId(loginResult.getAccessToken().getUserId());
                             loginWithFacebookModel.setAccessToken(loginResult.getAccessToken().getToken());
                             loginWithFacebookModel.setImage("");
@@ -134,9 +142,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             Log.d("Facebook email", "" + object.getString("email"));
                             Log.d("Facebook email", "" + object.getString("first_name"));
                             Log.d("Facebook gender", "" + object.getString("gender"));
-                          //  Log.d("Facebook gender", "" + object.getString("user_birthday"));
-
-
+                            //  Log.d("Facebook gender", "" + object.getString("user_birthday"));
 
 
                         } catch (JSONException e) {
@@ -156,10 +162,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onCancel() {
                 Log.d("Facebook token ", "Canceld");
 
+
             }
 
             @Override
             public void onError(FacebookException error) {
+
 
             }
         });
@@ -167,7 +175,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         GoogleSignInOptions signInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().requestProfile()
                 .requestIdToken(getString(R.string.default_web_client_id)).
-                requestServerAuthCode(getString(R.string.default_web_client_id)).requestScopes(new Scope(Scopes.PLUS_LOGIN)).build();
+                        requestServerAuthCode(getString(R.string.default_web_client_id)).requestScopes(new Scope(Scopes.PLUS_LOGIN)).build();
 
         //end section
 
@@ -239,8 +247,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                             finish();
 
-                        }
-                     else if( response.code() == 404) {
+                        } else if (response.code() == 404) {
                             LoggingInDialog.dismiss();
                             emailEditText.setError("Oops. Server is down");
 
@@ -257,7 +264,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             emailEditText.setError("Invalid Email or Password");
 
 
-                    }
+                        }
 
 
                     }
@@ -319,12 +326,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onActivityResult(int requestCode, int responseCode, Intent data) {
+
+
         if (requestCode == 9001) {
             // data.getStringExtra("")
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             handleResult(result);
-        } else
+        } else {
+            progressDoalog.dismiss();
             callbackManager.onActivityResult(requestCode, responseCode, data);
+        }
 
     }
 
@@ -336,7 +347,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
         }
         if (v == fb) {
+            progressDoalog.show();
             loginButton.performClick();
+
         }
         if (v == google) {
             signInButton.performClick();
@@ -356,6 +369,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void handleResult(GoogleSignInResult googleSignInResult) {
+
         if (googleSignInResult.isSuccess()) {
             GoogleSignInAccount account = googleSignInResult.getSignInAccount();
             String email = account.getEmail();
@@ -436,6 +450,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void loginWithFacebook(LoginWithFacebookModel loginWithFacebookModel) {
+
         Log.d("-----", " enter here");
 
         final SharedPreferences sharedPreferences = getSharedPreferences("userInfo", Context.MODE_PRIVATE);

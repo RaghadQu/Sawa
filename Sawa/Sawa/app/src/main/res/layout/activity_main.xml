@@ -73,6 +73,8 @@
         android:background="@drawable/selector_xml_btn_yellow"
         android:onClick="checkLogin"/>
 
+
+
     <!--  <com.facebook.login.widget.LoginButton
           android:id="@+id/login_button"
           android:layout_width="wrap_content"
