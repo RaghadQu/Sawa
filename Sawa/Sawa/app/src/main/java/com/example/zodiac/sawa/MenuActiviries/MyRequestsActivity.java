@@ -91,8 +91,10 @@ public class MyRequestsActivity extends Activity {
 
 
         if (isOnline == false) {
+            progressBar.setVisibility(View.INVISIBLE);
             Toast.makeText(this, "no internet connection!",
                     Toast.LENGTH_LONG).show();
+
         } else {
             LayoutFriendsList.clear();
 

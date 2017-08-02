@@ -47,6 +47,7 @@ import com.example.zodiac.sawa.Spring.Models.AboutUserRequestModel;
 import com.example.zodiac.sawa.Spring.Models.AboutUserResponseModel;
 import com.example.zodiac.sawa.Spring.Models.UserModel;
 import com.example.zodiac.sawa.SpringApi.AboutUserInterface;
+import com.example.zodiac.sawa.SpringApi.ImageInterface;
 import com.example.zodiac.sawa.YoutubePlayerDialogActivity;
 import com.google.android.youtube.player.YouTubeBaseActivity;
 import com.google.android.youtube.player.YouTubeInitializationResult;
@@ -87,11 +88,9 @@ public class MyProfileActivity extends YouTubeBaseActivity implements YouTubePla
     int image2 = R.drawable.friends_icon;
     int image3 = R.drawable.friends_icon;
     int image4 = R.drawable.image1;
-
     static TextView userName;
     TextView editBio;
     static Context context;
-
 
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
@@ -100,7 +99,7 @@ public class MyProfileActivity extends YouTubeBaseActivity implements YouTubePla
     int[] images = {image1, image2, image3, image4};
     ProgressBar coverProgressBar;
 
-    private ProgressBar progressBar;
+    private static ProgressBar progressBar;
     public static ObjectAnimator anim;
 
     @Override
@@ -135,14 +134,14 @@ public class MyProfileActivity extends YouTubeBaseActivity implements YouTubePla
             Toast.makeText(this, "no internet connection!",
                     Toast.LENGTH_LONG).show();
         } else {
-            progressBar = (ProgressBar) findViewById(R.id.circular_progress_bar);
+            progressBar = (ProgressBar) findViewById(R.id.profilePictureProgressBar);
             progressBar.setProgress(0);
             progressBar.setMax(100);
             anim = ObjectAnimator.ofInt(progressBar, "progress", 0, 100);
             anim.setDuration(2000);
             anim.setInterpolator(new DecelerateInterpolator());
             anim.start();
-
+            progressBar.setVisibility(View.VISIBLE);
             imgClick = new Dialog(this);
             imgClick.setContentView(R.layout.profile_picture_dialog);
 
@@ -259,7 +258,7 @@ public class MyProfileActivity extends YouTubeBaseActivity implements YouTubePla
                     RemovePic.setOnClickListener(new View.OnClickListener() {
                         public void onClick(View v) {
                             imgClick.dismiss();
-                            img.setImageResource(R.drawable.default_profile);
+                            removeImage(0);
                             //  imageView.setImageDrawable(img.getDrawable());
                             // ViewImgDialog.show();
 
@@ -303,7 +302,7 @@ public class MyProfileActivity extends YouTubeBaseActivity implements YouTubePla
                     RemovePic.setOnClickListener(new View.OnClickListener() {
                         public void onClick(View v) {
                             imgClick.dismiss();
-                            coverImage.setImageDrawable(null);
+                            removeImage(1);
 
                             //  img.setImageResource(R.drawable.default_profile);
                             //  coverImage.setImageDrawable(img.getDrawable());
@@ -480,16 +479,10 @@ public class MyProfileActivity extends YouTubeBaseActivity implements YouTubePla
                 }
                 ImageConverter imageConverter = new ImageConverter();
                 byte[] image = imageConverter.getBytes(bitmap);
-                DBHandler dbHandler = new DBHandler(this);
-                // dbHandler.updateUserImage(GeneralAppInfo.getUserID(), image);
                 String encodedImage = Base64.encodeToString(image, Base64.DEFAULT);
                 uploadImage uploadImage = new uploadImage();
                 Log.d("XX", "arrive");
-
-
-                uploadImage.uploadImagetoDB(GeneralAppInfo.getUserID(), encodedImage, path, bitmap, requestCode, coverProgressBar);
-
-
+                uploadImage.uploadImagetoDB(path, bitmap, requestCode, coverProgressBar);
             } catch (Exception e) {
                 Toast toast = Toast.makeText(this, "Image is large", Toast.LENGTH_SHORT);
                 toast.show();
@@ -613,6 +606,7 @@ public class MyProfileActivity extends YouTubeBaseActivity implements YouTubePla
                     String imageUrl = GeneralAppInfo.SPRING_URL + "/" + userInfo.getImage();
                     Log.d("InfoUser", " " + imageUrl);
 
+                    progressBar.setVisibility(View.INVISIBLE);
                     Picasso.with(context).load(imageUrl).into(img);
                     String coverUrl = GeneralAppInfo.SPRING_URL + "/" + userInfo.getCover_image();
                     Picasso.with(context).load(coverUrl).into(coverImage);
@@ -701,6 +695,29 @@ public class MyProfileActivity extends YouTubeBaseActivity implements YouTubePla
 
     @Override
     public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
+
+    }
+    public void removeImage (int profileOrCover)
+    {
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(GeneralAppInfo.SPRING_URL)
+                .addConverterFactory(GsonConverterFactory.create()).build();
+        ImageInterface imageInterface = retrofit.create(ImageInterface.class);
+        Call<Integer> removeImageResponse= imageInterface.removeImage(GeneralAppInfo.userID,profileOrCover);
+        removeImageResponse.enqueue(new Callback<Integer>() {
+            @Override
+            public void onResponse(Call<Integer> call, Response<Integer> response) {
+                Log.d("ImagesCode ", " " + response.code());
+                MyProfileActivity.getUserInfo();
+            }
+
+            @Override
+            public void onFailure(Call<Integer> call, Throwable t) {
+                Log.d("ImagesCode ", " Error " + t.getMessage());
+
+            }
+        });
 
     }
 }

@@ -76,7 +76,7 @@
 
 
             <ProgressBar
-                android:id="@+id/circular_progress_bar"
+                android:id="@+id/profilePictureProgressBar"
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="50dp"
                 android:layout_height="50dp"

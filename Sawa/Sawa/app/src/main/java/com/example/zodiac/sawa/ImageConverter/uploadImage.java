@@ -42,17 +42,13 @@ public class uploadImage {
 
     }
 
-    public void uploadImagetoDB(int user_id, String encodedImage, String path, Bitmap bitmap, int requestCode, final ProgressBar imageProgressBar) {
-        File file = new File(path);
+    public void uploadImagetoDB(String path, Bitmap bitmap, int requestCode, final ProgressBar imageProgressBar) {
+        File file;
         GeneralFunctions generalFunctions = new GeneralFunctions();
-
+        final MultipartBody.Part body ;
         file = generalFunctions.saveBitmap(bitmap, path);
-
-        // create RequestBody instance from file
-        RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
-
-        final MultipartBody.Part body =
-                MultipartBody.Part.createFormData("uploadfile", file.getName(), requestFile);
+            RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+            body =MultipartBody.Part.createFormData("uploadfile", file.getName(), requestFile);
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(GeneralAppInfo.SPRING_URL)
