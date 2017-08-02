@@ -18,10 +18,9 @@ public class logOut {
     @Expose
     private String device_id;
 
-    public logOut(int user_id , String device_id)
-    {
-        this.user_id=user_id;
-        this.device_id=device_id;
+    public logOut(int user_id, String device_id) {
+        this.user_id = user_id;
+        this.device_id = device_id;
     }
 
     public int getUser_id() {

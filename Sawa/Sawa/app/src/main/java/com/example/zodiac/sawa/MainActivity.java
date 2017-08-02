@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     CircleImageView fb, google;
     GoogleApiClient googleApiClient;
     Dialog LoggingInDialog;
-    Dialog progressDoalog;
+    Dialog progressDialog;
 
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -109,9 +109,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         loginButton.setReadPermissions("email");
         LoggingInDialog = new Dialog(this);
         LoggingInDialog.setContentView(R.layout.logging_in_dialog);
-        progressDoalog = new Dialog(MainActivity.this);
-        progressDoalog.setContentView(R.layout.facebook_progress_dialog);
-        progressDoalog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        progressDialog = new Dialog(MainActivity.this);
+        progressDialog.setContentView(R.layout.facebook_progress_dialog);
+        progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
 
         callbackManager = CallbackManager.Factory.create();
 
@@ -168,6 +168,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             @Override
             public void onError(FacebookException error) {
+                Log.d("FACEBOOK", "facebook " + error.getMessage());
 
 
             }
@@ -249,7 +250,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             finish();
 
 
-                        } else if (response.code() == 404||response.code()==500||response.code()==502||response.code()==400) {
+                        } else if (response.code() == 404 || response.code() == 500 || response.code() == 502 || response.code() == 400) {
 
                             LoggingInDialog.dismiss();
                             generalFunctions.showErrorMesaage(getApplicationContext());
@@ -269,7 +270,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                     @Override
                     public void onFailure(Call<UserModel> call, Throwable t) {
-                        GeneralFunctions generalFunctions=new GeneralFunctions();
+                        GeneralFunctions generalFunctions = new GeneralFunctions();
                         generalFunctions.showErrorMesaage(getApplicationContext());
                         Log.d("----", " Error " + t.getMessage());
 
@@ -333,7 +334,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             handleResult(result);
         } else {
-            progressDoalog.dismiss();
+            progressDialog.dismiss();
             callbackManager.onActivityResult(requestCode, responseCode, data);
         }
 
@@ -347,9 +348,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
         }
         if (v == fb) {
-            progressDoalog.show();
+            progressDialog.show();
             loginButton.performClick();
-
         }
         if (v == google) {
             signInButton.performClick();
@@ -360,6 +360,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        Log.d("FACEBOOKFACEOOK", "facebook  failre onActivityResult");
+
 
     }
 
@@ -407,12 +409,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
                 int statusCode = response.code();
-                Log.d("-----", " enter request " + statusCode);
                 UserModel userModel = response.body();
                 //SharedPreferences sharedPreferences = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
 
                 if (statusCode == 200 || statusCode == 202) {
-                    Log.d("-----", " enter here" + userModel.getId());
 
                     GeneralAppInfo.setUserID(Integer.valueOf(userModel.getId()));
                     //sharedPreferences = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
@@ -429,8 +429,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                     finish();
 
-                } else if (response.code() == 404||response.code()==500||response.code()==502||response.code()==400) {
-                    GeneralFunctions generalFunctions=new GeneralFunctions();
+                } else if (response.code() == 404 || response.code() == 500 || response.code() == 502 || response.code() == 400) {
+                    GeneralFunctions generalFunctions = new GeneralFunctions();
                     generalFunctions.showErrorMesaage(getApplicationContext());
 
                 } else {
@@ -442,7 +442,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             @Override
             public void onFailure(Call<UserModel> call, Throwable t) {
-                GeneralFunctions generalFunctions=new GeneralFunctions();
+                GeneralFunctions generalFunctions = new GeneralFunctions();
                 generalFunctions.showErrorMesaage(getApplicationContext());
                 Log.d("----", " Error " + t.getMessage());
 
@@ -454,10 +454,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void loginWithFacebook(LoginWithFacebookModel loginWithFacebookModel) {
 
-        Log.d("-----", " enter here");
-
         final SharedPreferences sharedPreferences = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
-        Log.d("-----", " enter here");
 
         final Call<UserModel> userModelCall = service.loginWithFacebook(loginWithFacebookModel);
         userModelCall.enqueue(new Callback<UserModel>() {
@@ -486,8 +483,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                     finish();
 
-                } else if (response.code() == 404||response.code()==500||response.code()==502||response.code()==400) {
-                    GeneralFunctions generalFunctions=new GeneralFunctions();
+                } else if (response.code() == 404 || response.code() == 500 || response.code() == 502 || response.code() == 400) {
+                    GeneralFunctions generalFunctions = new GeneralFunctions();
                     generalFunctions.showErrorMesaage(getApplicationContext());
                 } else {
                     emailEditText.setError("Invalid Email or Password");
@@ -498,9 +495,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             @Override
             public void onFailure(Call<UserModel> call, Throwable t) {
-                GeneralFunctions generalFunctions=new GeneralFunctions();
+                GeneralFunctions generalFunctions = new GeneralFunctions();
                 generalFunctions.showErrorMesaage(getApplicationContext());
-                Log.d("----", " Error " + t.getMessage());
+                Log.d("FACEBOOKFACEOOK", "facebook failure " + t.getMessage());
+
 
 
             }

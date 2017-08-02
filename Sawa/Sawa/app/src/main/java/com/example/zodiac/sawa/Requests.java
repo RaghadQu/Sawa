@@ -1,19 +1,5 @@
 package com.example.zodiac.sawa;
 
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.util.Log;
-import android.widget.ProgressBar;
-
-import com.example.zodiac.sawa.Spring.Models.LoginWIthGoogleModel;
-import com.example.zodiac.sawa.Spring.Models.UserModel;
-import com.example.zodiac.sawa.SpringApi.AuthInterface;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
 /**
  * Created by Rabee on 7/18/2017.
  */

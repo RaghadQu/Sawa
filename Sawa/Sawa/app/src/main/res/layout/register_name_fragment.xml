@@ -20,8 +20,7 @@
             android:textColor="@color/purple"
             android:layout_marginLeft="65dp"
             android:textStyle="bold"
-            android:layout_marginTop="70dp"
-            />
+            android:layout_marginTop="70dp" />
 
         <EditText
             android:id="@+id/first_name"
@@ -36,8 +35,8 @@
             android:inputType="text"
             android:textColor="#000"
             android:textSize="45px"
-            android:textColorHint="@color/purple"
-            />
+            android:textColorHint="@color/purple" />
+
         <EditText
             android:layout_marginTop="230dp"
             android:id="@+id/last_name"
@@ -50,8 +49,7 @@
             android:inputType="text"
             android:textColor="#000"
             android:textSize="45px"
-            android:textColorHint="@color/purple"
-            />
+            android:textColorHint="@color/purple" />
 
 
         <Button
@@ -68,18 +66,17 @@
             android:textStyle="bold"
             android:layout_marginBottom="30dp"
             android:background="@drawable/selector_xml_btn_yellow"
-            style="@style/Widget.AppCompat.Button.Colored"
-            />
-<TextView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_below="@+id/nextBtn"
-    android:layout_marginTop="50dp"/>
+            style="@style/Widget.AppCompat.Button.Colored" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/nextBtn"
+            android:layout_marginTop="50dp" />
 
     </RelativeLayout>
 
-</RelativeLayout>
-<!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+</RelativeLayout><!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"

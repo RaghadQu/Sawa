@@ -10,10 +10,6 @@ import com.example.zodiac.sawa.GeneralAppInfo;
 import com.example.zodiac.sawa.MenuActiviries.MyProfileActivity;
 import com.example.zodiac.sawa.Spring.Models.FriendRequestModel;
 import com.example.zodiac.sawa.SpringApi.FriendshipInterface;
-import com.example.zodiac.sawa.interfaces.DeleteFriend;
-import com.example.zodiac.sawa.interfaces.GetFreinds;
-import com.example.zodiac.sawa.models.AuthenticationResponeModel;
-import com.example.zodiac.sawa.models.DeleteFriendRequest;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -26,37 +22,37 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 
 public class FreindsFunctions {
-    public void getFreindShipState(int friend1_id, int friend2_id, final Button button){
+    public void getFreindShipState(int friend1_id, int friend2_id, final Button button) {
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(GeneralAppInfo.SPRING_URL)
                 .addConverterFactory(GsonConverterFactory.create()).build();
         FriendshipInterface friendshipApi = retrofit.create(FriendshipInterface.class);
 
-        Call<Integer> call = friendshipApi.getFriendShipState(friend1_id,friend2_id);
+        Call<Integer> call = friendshipApi.getFriendShipState(friend1_id, friend2_id);
         call.enqueue(new Callback<Integer>() {
             @Override
             public void onResponse(Call<Integer> call, Response<Integer> response) {
                 Integer FriendshipState = response.body();
-                Log.d("stateeee",""+FriendshipState);
-                if(FriendshipState==2){
+                Log.d("stateeee", "" + FriendshipState);
+                if (FriendshipState == 2) {
                     button.setText("Add as freind");
-                }else if(FriendshipState==0){
+                } else if (FriendshipState == 0) {
                     button.setText("Pending");
-                }else if(FriendshipState==1){
+                } else if (FriendshipState == 1) {
                     button.setText("Freind");
                 }
             }
 
             @Override
-                public void onFailure(Call<Integer> call, Throwable t) {
-                Log.d("stateeee"," Failure ");
+            public void onFailure(Call<Integer> call, Throwable t) {
+                Log.d("stateeee", " Failure ");
 
             }
         });
     }
 
-    public void startMyProfile(Context mContext,String mName,int Id) {
+    public void startMyProfile(Context mContext, String mName, int Id) {
         if (Id == GeneralAppInfo.getUserID()) {
             Intent i = new Intent(mContext, MyProfileActivity.class);
             mContext.startActivity(i);
@@ -71,7 +67,7 @@ public class FreindsFunctions {
         }
     }
 
-    public void startFriend(Context mContext,String mName,int Id,String ImageUrl) {
+    public void startFriend(Context mContext, String mName, int Id, String ImageUrl) {
         if (Id == GeneralAppInfo.getUserID()) {
             Intent i = new Intent(mContext, MyFriendProfileActivity.class);
             mContext.startActivity(i);
@@ -89,12 +85,12 @@ public class FreindsFunctions {
     }
 
 
-    public void DeleteFriend(int friend1_id, int friend2_id, final Button button){
+    public void DeleteFriend(int friend1_id, int friend2_id, final Button button) {
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(GeneralAppInfo.SPRING_URL)
                 .addConverterFactory(GsonConverterFactory.create()).build();
-        FriendshipInterface  FriendApi = retrofit.create(FriendshipInterface.class);
+        FriendshipInterface FriendApi = retrofit.create(FriendshipInterface.class);
 
         final FriendRequestModel FriendRequest = new FriendRequestModel();
         FriendRequest.setFriend1_id(friend1_id);

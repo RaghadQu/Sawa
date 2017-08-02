@@ -1,7 +1,6 @@
 package com.example.zodiac.sawa.RegisterPkg;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,7 +32,6 @@ public class BirthDateFragment extends android.app.Fragment {
         birthdatePicker = (DatePicker) view.findViewById(R.id.BirthDatePicker);
 
 
-
         Nextbtn.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -44,7 +42,7 @@ public class BirthDateFragment extends android.app.Fragment {
                 birthdatePicker.getDayOfMonth();
 
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                String stringDate= String.valueOf(birthdatePicker.getYear())+"-"+ String.valueOf(birthdatePicker.getMonth()+1)+"-"+ String.valueOf(birthdatePicker.getDayOfMonth());
+                String stringDate = String.valueOf(birthdatePicker.getYear()) + "-" + String.valueOf(birthdatePicker.getMonth() + 1) + "-" + String.valueOf(birthdatePicker.getDayOfMonth());
                 //String a =dateFormat.format(userBirthDate);
                 try {
                     myDate = dateFormat.parse(stringDate);

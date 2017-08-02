@@ -15,6 +15,7 @@ import retrofit2.http.POST;
 public interface TokenApi {
     @POST("api/token/fcm")
     Call<AuthenticationResponeModel> storeToken(@Body UserTokenModel userTokenModel);
+
     @POST("api/users/saveIdWithDeviceId")
     Call<AuthenticationResponeModel> storeUserIdWithDeviceId(@Body UserIdWithDeviceIdModel userIdWithDeviceIdModel);
 }

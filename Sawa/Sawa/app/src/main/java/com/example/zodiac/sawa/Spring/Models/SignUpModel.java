@@ -1,7 +1,5 @@
 package com.example.zodiac.sawa.Spring.Models;
 
-import java.util.Date;
-
 /**
  * Created by Rabee on 6/27/2017.
  */

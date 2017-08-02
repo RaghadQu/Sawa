@@ -68,8 +68,8 @@ public class MyRequestsActivity extends Activity {
                 .addConverterFactory(GsonConverterFactory.create()).build();
         friendshipApi = retrofit.create(FriendshipInterface.class);
 
-        toolbarText= (TextView) findViewById(R.id.toolBarText);
-        final LinearLayout noRequestsLaout= (LinearLayout) findViewById(R.id.no_request_Layout);
+        toolbarText = (TextView) findViewById(R.id.toolBarText);
+        final LinearLayout noRequestsLaout = (LinearLayout) findViewById(R.id.no_request_Layout);
         final ProgressBar progressBar;
         progressBar = (ProgressBar) findViewById(R.id.ProgressBar);
         progressBar.setProgress(0);
@@ -105,36 +105,37 @@ public class MyRequestsActivity extends Activity {
                     Log.d("GetFriendRequests", " Get friends " + response.code() + LayoutFriendsList.size());
                     if (response.code() == 200) {
                         FreindsList = response.body();
-                    //    LayoutFriendsList.clear();
+                        //    LayoutFriendsList.clear();
                         if (FreindsList != null) {
 
                             if (FreindsList.size() == 0) {
                                 noRequestsLaout.setVisibility(View.VISIBLE);
                                 CircleImageView circle = (CircleImageView) findViewById(R.id.circle);
                                 circle.setImageDrawable(getDrawable(R.drawable.no_requests));
-                            }
-                            else{
+                            } else {
                                 progressBar.setVisibility(View.GONE);
                                 noRequestsLaout.setVisibility(View.GONE);
                                 LayoutFriendsList.clear();
 
                                 for (int i = 0; i < FreindsList.size(); i++) {
-                                LayoutFriendsList.add(new MyRequestsActivity.friend(FreindsList.get(i).getFriend1_id().getId(), FreindsList.get(i).getFriend1_id().getImage(),
-                                        FreindsList.get(i).getFriend1_id().getFirst_name() + " " + FreindsList.get(i).getFriend1_id().getLast_name()));
-                            }
+                                    LayoutFriendsList.add(new MyRequestsActivity.friend(FreindsList.get(i).getFriend1_id().getId(), FreindsList.get(i).getFriend1_id().getImage(),
+                                            FreindsList.get(i).getFriend1_id().getFirst_name() + " " + FreindsList.get(i).getFriend1_id().getLast_name()));
+                                }
 
                             }
-                    }}else if(response.code() == 404||response.code()==500||response.code()==502||response.code()==400){
+                        }
+                    } else if (response.code() == 404 || response.code() == 500 || response.code() == 502 || response.code() == 400) {
                         progressBar.setVisibility(View.INVISIBLE);
 
-                        GeneralFunctions generalFunctions=new GeneralFunctions();
+                        GeneralFunctions generalFunctions = new GeneralFunctions();
                         generalFunctions.showErrorMesaage(getApplicationContext());
                     }
                 }
+
                 @Override
                 public void onFailure(Call<List<FriendResponseModel>> call, Throwable t) {
                     progressBar.setVisibility(View.INVISIBLE);
-                    GeneralFunctions generalFunctions=new GeneralFunctions();
+                    GeneralFunctions generalFunctions = new GeneralFunctions();
                     generalFunctions.showErrorMesaage(getApplicationContext());
                     Log.d("fail to get friends ", "Failure to Get friends");
 
@@ -146,7 +147,7 @@ public class MyRequestsActivity extends Activity {
             public boolean onTouch(View v, MotionEvent event) {
                 final int DRAWABLE_LEFT = 0;
 
-                if (event.getX() <= (toolbarText.getCompoundDrawables()[DRAWABLE_LEFT].getBounds().width()+30)) {
+                if (event.getX() <= (toolbarText.getCompoundDrawables()[DRAWABLE_LEFT].getBounds().width() + 30)) {
                     finish();
                     return true;
                 }
@@ -155,7 +156,6 @@ public class MyRequestsActivity extends Activity {
         });
 
     }
-
 
 
     public class friend {

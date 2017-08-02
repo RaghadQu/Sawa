@@ -12,10 +12,10 @@ import retrofit2.http.POST;
  * Created by zodiac on 05/08/2017.
  */
 
-    public interface  ConfirmFriendRequest {
-        @Headers("Cache-Control: max-age=64000")
-        @POST("api/users/confirmFriendship")
-        Call<AuthenticationResponeModel> getState(@Body DeleteFriendRequest ConfirmRequest);
-    }
+public interface ConfirmFriendRequest {
+    @Headers("Cache-Control: max-age=64000")
+    @POST("api/users/confirmFriendship")
+    Call<AuthenticationResponeModel> getState(@Body DeleteFriendRequest ConfirmRequest);
+}
 
 

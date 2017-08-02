@@ -11,17 +11,15 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.zodiac.sawa.FriendProfile.FreindsFunctions;
 import com.example.zodiac.sawa.GeneralAppInfo;
 import com.example.zodiac.sawa.MenuActiviries.MyProfileActivity;
 import com.example.zodiac.sawa.MenuActiviries.MyRequestsActivity;
-import com.example.zodiac.sawa.FriendProfile.FreindsFunctions;
 import com.example.zodiac.sawa.R;
 import com.example.zodiac.sawa.Spring.Models.FriendRequestModel;
 import com.example.zodiac.sawa.SpringApi.FriendshipInterface;
 import com.example.zodiac.sawa.interfaces.ConfirmFriendRequest;
 import com.example.zodiac.sawa.interfaces.DeleteFriend;
-import com.example.zodiac.sawa.models.AuthenticationResponeModel;
-import com.example.zodiac.sawa.models.DeleteFriendRequest;
 import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView;
 import com.squareup.picasso.Picasso;
 
@@ -79,7 +77,7 @@ public class RequestScroll extends RecyclerView.Adapter<RequestScroll.UserViewHo
                     mContext.startActivity(i);
                 } else {
                     try {
-                        freindsFunctions.startFriend(mContext, user.getUserName(),user.getId(),user.getImageResourceId());
+                        freindsFunctions.startFriend(mContext, user.getUserName(), user.getId(), user.getImageResourceId());
                     } catch (MalformedURLException e) {
                         e.printStackTrace();
                     }
@@ -97,7 +95,7 @@ public class RequestScroll extends RecyclerView.Adapter<RequestScroll.UserViewHo
                     mContext.startActivity(i);
                 } else {
                     try {
-                        freindsFunctions.startFriend(mContext, user.getUserName(),user.getId(),user.getImageResourceId());
+                        freindsFunctions.startFriend(mContext, user.getUserName(), user.getId(), user.getImageResourceId());
                     } catch (MalformedURLException e) {
                         e.printStackTrace();
                     }
@@ -106,7 +104,7 @@ public class RequestScroll extends RecyclerView.Adapter<RequestScroll.UserViewHo
         });
         try {
             image = user.getImageResourceId();
-            String imageUrl = GeneralAppInfo.SPRING_URL +"/"+ image;
+            String imageUrl = GeneralAppInfo.SPRING_URL + "/" + image;
             Picasso.with(mContext).load(imageUrl).into(holder.ivProfile);
         } catch (MalformedURLException e) {
             holder.ivProfile.setImageResource(R.drawable.account);
@@ -161,16 +159,16 @@ public class RequestScroll extends RecyclerView.Adapter<RequestScroll.UserViewHo
                             MyRequestsActivity.recyclerView.removeViewAt(position);
                             MyRequestsActivity.FreindsList.remove(position);
                             MyRequestsActivity.LayoutFriendsList.remove(position);
-            }
+                        }
 
-            @Override
-            public void onFailure(Call<Integer> call, Throwable t) {
-                Log.d("fail to get friends ", "Failure to Get friends");
+                        @Override
+                        public void onFailure(Call<Integer> call, Throwable t) {
+                            Log.d("fail to get friends ", "Failure to Get friends");
 
-            }
+                        }
 
 
-        });
+                    });
 
 
                 }
@@ -200,7 +198,7 @@ public class RequestScroll extends RecyclerView.Adapter<RequestScroll.UserViewHo
                         @Override
                         public void onResponse(Call<Integer> call, Response<Integer> response) {
 
-                        //    MyRequestsActivity.recyclerView.removeViewAt(position);
+                            //    MyRequestsActivity.recyclerView.removeViewAt(position);
                             MyRequestsActivity.FreindsList.remove(position);
                             MyRequestsActivity.LayoutFriendsList.remove(position);
                             notifyItemRemoved(position);
@@ -208,18 +206,17 @@ public class RequestScroll extends RecyclerView.Adapter<RequestScroll.UserViewHo
 
                         }
 
-                    @Override
-                    public void onFailure(Call<Integer> call, Throwable t) {
-                        Log.d("fail to get friends ", "Failure to Get friends");
+                        @Override
+                        public void onFailure(Call<Integer> call, Throwable t) {
+                            Log.d("fail to get friends ", "Failure to Get friends");
 
-                    }
-
-
-                });
+                        }
 
 
+                    });
 
-            }
+
+                }
             });
         }
     }

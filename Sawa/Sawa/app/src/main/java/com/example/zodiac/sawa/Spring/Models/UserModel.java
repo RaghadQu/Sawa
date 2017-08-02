@@ -1,13 +1,11 @@
 package com.example.zodiac.sawa.Spring.Models;
 
-import java.util.Date;
-
 /**
  * Created by Rabee on 6/26/2017.
  */
 
 public class UserModel {
-    int id ;
+    int id;
     String first_name;
     String last_name;
     String email;
@@ -116,7 +114,6 @@ public class UserModel {
     public void setGender(String gender) {
         this.gender = gender;
     }
-
 
 
 }

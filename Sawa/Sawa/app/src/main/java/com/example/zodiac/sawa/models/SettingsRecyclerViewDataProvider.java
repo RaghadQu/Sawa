@@ -7,9 +7,10 @@ package com.example.zodiac.sawa.models;
 public class SettingsRecyclerViewDataProvider {
     int image;
     String text;
-    public SettingsRecyclerViewDataProvider(int image,String text){
-        this.image=image;
-        this.text=text;
+
+    public SettingsRecyclerViewDataProvider(int image, String text) {
+        this.image = image;
+        this.text = text;
     }
 
     public void setImage(int image) {

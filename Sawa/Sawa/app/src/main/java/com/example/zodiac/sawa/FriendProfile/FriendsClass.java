@@ -12,9 +12,6 @@ import com.example.zodiac.sawa.GeneralAppInfo;
 import com.example.zodiac.sawa.R;
 import com.example.zodiac.sawa.Spring.Models.FriendRequestModel;
 import com.example.zodiac.sawa.SpringApi.FriendshipInterface;
-import com.example.zodiac.sawa.interfaces.ConfirmFriendRequest;
-import com.example.zodiac.sawa.models.AuthenticationResponeModel;
-import com.example.zodiac.sawa.models.DeleteFriendRequest;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -169,7 +166,7 @@ public class FriendsClass {
                 confirmCall.enqueue(new Callback<Integer>() {
                     @Override
                     public void onResponse(Call<Integer> call, Response<Integer> response) {
-                       // Integer ConfirmFriendshipResponse = response.body();
+                        // Integer ConfirmFriendshipResponse = response.body();
                         Log.d("Confirm FriendShip", " state is " + response.code());
                     }
 

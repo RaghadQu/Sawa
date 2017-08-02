@@ -89,7 +89,7 @@ public class AddPostActivity extends YouTubeBaseActivity implements YouTubePlaye
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        postProgress=(ProgressBar)findViewById(R.id.postProgress);
+        postProgress = (ProgressBar) findViewById(R.id.postProgress);
         setContentView(R.layout.add_post_activity);
         youTubePlayerView = (YouTubePlayerView) findViewById(R.id.youtube);
         youTubePlayerView.setVisibility(View.GONE);
@@ -122,10 +122,10 @@ public class AddPostActivity extends YouTubeBaseActivity implements YouTubePlaye
 
                     addContentView(youTubePlayerView, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
 
-                      youTubePlayerView.setVisibility(View.VISIBLE);
+                    youTubePlayerView.setVisibility(View.VISIBLE);
                     youTubePlayerView.initialize(api_key, AddPostActivity.this);
-                    youtubeFlag=1;
-                } else if(i==-1&&youtubeFlag==0) {
+                    youtubeFlag = 1;
+                } else if (i == -1 && youtubeFlag == 0) {
                     youTubePlayerView.setVisibility(View.INVISIBLE);
 
                 }
@@ -133,7 +133,7 @@ public class AddPostActivity extends YouTubeBaseActivity implements YouTubePlaye
 
             }
         });
-        PostImage=(ImageView)findViewById(R.id.PostImage);
+        PostImage = (ImageView) findViewById(R.id.PostImage);
         postProgress = (ProgressBar) findViewById(R.id.postProgress);
         anonymousBtn = (CircleButton) findViewById(R.id.anonymous);
         Cancelbtn = (Button) findViewById(R.id.CancelBtn);
@@ -143,7 +143,7 @@ public class AddPostActivity extends YouTubeBaseActivity implements YouTubePlaye
         AddImage = (TextView) findViewById(R.id.AddImage);
         DeletePostImage = (TextView) findViewById(R.id.cross);
         Log.d("DeletePostImage", " " + DeletePostImage);
-       DeletePostImage.setVisibility(View.INVISIBLE);
+        DeletePostImage.setVisibility(View.INVISIBLE);
         uploadImage uploadImage = new uploadImage();
         uploadImage.getUserImageFromDB(GeneralAppInfo.getUserID(), senderImage, AddPostActivity.this, 0, null);
 
@@ -204,17 +204,18 @@ public class AddPostActivity extends YouTubeBaseActivity implements YouTubePlaye
             @Override
             public void onResponse(Call<List<getFriendsResponse>> call, Response<List<getFriendsResponse>> response) {
                 Log.d("AddPostActivity", " Add post after request with code " + response.code());
-                if(response.body()!= null){
-                FreindsList = response.body();
-                Log.d("AddPostActivity", " Add post after request with size " + FreindsList.size());
+                if (response.body() != null) {
+                    FreindsList = response.body();
+                    Log.d("AddPostActivity", " Add post after request with size " + FreindsList.size());
 
-                FriendPostList.clear();
-                for (int i = 0; i < FreindsList.size(); i++) {
-                    FriendPostList.add(new MyFriendsActivity.friend(Integer.valueOf(FreindsList.get(i).getId()), FreindsList.get(i).getUser_image(),
-                            FreindsList.get(i).getFirstName() + " " + FreindsList.get(i).getLast_name()));
-                    recyclerView.setAdapter(new AddPostImagesAdapter(AddPostActivity.this, FriendPostList));
+                    FriendPostList.clear();
+                    for (int i = 0; i < FreindsList.size(); i++) {
+                        FriendPostList.add(new MyFriendsActivity.friend(Integer.valueOf(FreindsList.get(i).getId()), FreindsList.get(i).getUser_image(),
+                                FreindsList.get(i).getFirstName() + " " + FreindsList.get(i).getLast_name()));
+                        recyclerView.setAdapter(new AddPostImagesAdapter(AddPostActivity.this, FriendPostList));
+                    }
                 }
-            }}
+            }
 
             @Override
             public void onFailure(Call<List<getFriendsResponse>> call, Throwable t) {
@@ -232,7 +233,7 @@ public class AddPostActivity extends YouTubeBaseActivity implements YouTubePlaye
         if (resultCode == RESULT_OK && requestCode == SELECTED_PICTURE) {
             Uri imageuri = data.getData();
             try {
-               Bitmap bitmap= setPostImage(imageuri);
+                Bitmap bitmap = setPostImage(imageuri);
                /*  Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageuri);
 
                 int newWidth = (int) (bitmap.getWidth());
@@ -252,7 +253,7 @@ public class AddPostActivity extends YouTubeBaseActivity implements YouTubePlaye
                     }
                 }*/
                 //Bitmap resized = Bitmap.createScaledBitmap(bitmap, newWidth, newHeight, true);
-                PostImage.setImageBitmap(bitmap );
+                PostImage.setImageBitmap(bitmap);
 
                 //  PostImage.setImageBitmap(bitmap);
                 DeletePostImage.setVisibility(View.VISIBLE);
@@ -274,8 +275,8 @@ public class AddPostActivity extends YouTubeBaseActivity implements YouTubePlaye
                     }
                 });
 
-          } catch (IOException e) {
-               e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
             // PostImage.setImageURI(imageuri);
 
@@ -352,7 +353,7 @@ public class AddPostActivity extends YouTubeBaseActivity implements YouTubePlaye
        // dbHandler.updateUserImage(GeneralAppInfo.getUserID(), image);
         String encodedImage = Base64.encodeToString(image, Base64.DEFAULT);
         postImage = encodedImage;*/
-       return  bitmap;
+        return bitmap;
 
     }
 

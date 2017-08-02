@@ -44,7 +44,7 @@ public class FastScrollAdapter extends RecyclerView.Adapter<FastScrollAdapter.Us
     public FastScrollAdapter(Context mContext, ArrayList<MyFriendsActivity.friend> userList, int removeButtonFlag) {
         this.mContext = mContext;
         this.userList = userList;
-        this.removeButtonFlag=removeButtonFlag;
+        this.removeButtonFlag = removeButtonFlag;
     }
 
 
@@ -70,7 +70,7 @@ public class FastScrollAdapter extends RecyclerView.Adapter<FastScrollAdapter.Us
         String image;
         try {
             image = user.getImageResourceId();
-            String imageUrl = GeneralAppInfo.SPRING_URL +"/"+ image;
+            String imageUrl = GeneralAppInfo.SPRING_URL + "/" + image;
             Picasso.with(mContext).load(imageUrl).into(holder.ivProfile);
 
         } catch (MalformedURLException e) {
@@ -104,14 +104,13 @@ public class FastScrollAdapter extends RecyclerView.Adapter<FastScrollAdapter.Us
                     mContext.startActivity(i);
                 } else {
                     try {
-                        freindsFunctions.startFriend(mContext, user.getUserName(),user.getId(), user.getImageResourceId());
+                        freindsFunctions.startFriend(mContext, user.getUserName(), user.getId(), user.getImageResourceId());
                     } catch (MalformedURLException e) {
                         e.printStackTrace();
                     }
                 }
             }
         });
-
 
 
     }
@@ -134,15 +133,13 @@ public class FastScrollAdapter extends RecyclerView.Adapter<FastScrollAdapter.Us
         Button remove;
 
 
-
         public UserViewHolder(View itemView) {
             super(itemView);
             ivProfile = (CircleImageView) itemView.findViewById(R.id.image);
             tvName = (TextView) itemView.findViewById(R.id.Name);
-             remove = (Button) view.findViewById(R.id.Remove);
+            remove = (Button) view.findViewById(R.id.Remove);
 
-            if(removeButtonFlag==1)
-            {
+            if (removeButtonFlag == 1) {
                 remove.setVisibility(View.INVISIBLE);
             }
 
@@ -157,7 +154,7 @@ public class FastScrollAdapter extends RecyclerView.Adapter<FastScrollAdapter.Us
                     final DeleteFriendRequest request = new DeleteFriendRequest();
 
                     FreindsFunctions friendFunction = new FreindsFunctions();
-                    friendFunction.DeleteFriend(GeneralAppInfo.getUserID(),userList.get(position).getId(),remove);
+                    friendFunction.DeleteFriend(GeneralAppInfo.getUserID(), userList.get(position).getId(), remove);
 
                 /*    Log.d("------ Y ", "  :  " + Integer.valueOf(userList.get(position).getId()));
                     request.setFriend1_id(GeneralAppInfo.getUserID());
@@ -190,7 +187,6 @@ public class FastScrollAdapter extends RecyclerView.Adapter<FastScrollAdapter.Us
 
 
         }
-
 
 
     }

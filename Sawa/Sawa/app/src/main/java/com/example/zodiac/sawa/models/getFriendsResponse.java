@@ -3,8 +3,6 @@ package com.example.zodiac.sawa.models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.net.URL;
-
 /**
  * Created by zodiac on 04/18/2017.
  */
@@ -26,7 +24,7 @@ public class getFriendsResponse {
 
     @SerializedName("user_image")
     @Expose
-    private  String user_image;
+    private String user_image;
 
     public String getId() {
         return Id;

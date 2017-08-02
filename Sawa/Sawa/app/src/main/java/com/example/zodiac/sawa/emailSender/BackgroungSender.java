@@ -3,24 +3,22 @@ package com.example.zodiac.sawa.emailSender;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.example.zodiac.sawa.emailSender.GMailSender;
-
 /**
  * Created by zodiac on 03/25/2017.
  */
 
 
-    public class BackgroungSender extends AsyncTask<String, String,String> {
+public class BackgroungSender extends AsyncTask<String, String, String> {
 
     static String uniqueID;
     static String recievedEmail;
 
 
-    String sentEmail="SawaTeamG@gmail.com";
-    String sentPassword="SawaTeam2017";
+    String sentEmail = "SawaTeamG@gmail.com";
+    String sentPassword = "SawaTeam2017";
 
-   // String sentEmail="Ibrahim.zahra.166@gmail.com";
-   // String sentPassword="hfvhidlogdg1";
+    // String sentEmail="Ibrahim.zahra.166@gmail.com";
+    // String sentPassword="hfvhidlogdg1";
 
     protected String doInBackground(String... urls) {
 
@@ -33,7 +31,7 @@ import com.example.zodiac.sawa.emailSender.GMailSender;
         mailsender.setBody("\nDear user,\n\n" +
                 "We recieved a request to reset your password for Sawa account.\n\n" +
                 "You can reset your password by entering the following code and then change a new password for your account.\n" +
-                "The code is :" +this.getUniqueID()+
+                "The code is :" + this.getUniqueID() +
                 "\n\n\n\n" +
                 "If you did not request a password reset, please ignore this email and your current password will continue to work.\n\n" +
                 "Sincerely,\n" +
@@ -47,7 +45,7 @@ import com.example.zodiac.sawa.emailSender.GMailSender;
         }
 
 
-    return "";
+        return "";
 
     }
 

@@ -1,9 +1,6 @@
 package com.example.zodiac.sawa.RecoverPassword;
 
-import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,11 +9,9 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 
 import com.example.zodiac.sawa.GeneralAppInfo;
 import com.example.zodiac.sawa.GeneralFunctions;
-import com.example.zodiac.sawa.HomeTabbedActivity;
 import com.example.zodiac.sawa.R;
 import com.example.zodiac.sawa.Spring.Models.SignInModel;
 import com.example.zodiac.sawa.Spring.Models.UserModel;
@@ -72,32 +67,31 @@ public class SendEmailFragment extends android.app.Fragment {
                         userModelCall.enqueue(new Callback<UserModel>() {
                             @Override
                             public void onResponse(Call<UserModel> call, Response<UserModel> response) {
-                                if(response.code()!=204){
-                                BackgroungSender BS = new BackgroungSender();
-                                BS.setRecievedEmail(recievedEmail.getText().toString());
-                                BS.setUniqueID(uniqueID);
-                                BS.execute("");
-                                ((RecoverPass) getActivity()).setUniqueID(uniqueID);
-                                android.app.Fragment f = new CheckCodeFragment();
-                                ((RecoverPass) getActivity()).replaceFragmnets(f);
+                                if (response.code() != 204) {
+                                    BackgroungSender BS = new BackgroungSender();
+                                    BS.setRecievedEmail(recievedEmail.getText().toString());
+                                    BS.setUniqueID(uniqueID);
+                                    BS.execute("");
+                                    ((RecoverPass) getActivity()).setUniqueID(uniqueID);
+                                    android.app.Fragment f = new CheckCodeFragment();
+                                    ((RecoverPass) getActivity()).replaceFragmnets(f);
 
-                                } else  if (response.code() == 404||response.code()==500||response.code()==502||response.code()==400){
-                                    GeneralFunctions generalFunctions=new GeneralFunctions();
+                                } else if (response.code() == 404 || response.code() == 500 || response.code() == 502 || response.code() == 400) {
+                                    GeneralFunctions generalFunctions = new GeneralFunctions();
                                     generalFunctions.showErrorMesaage(getActivity().getApplicationContext());
-                                }else {
+                                } else {
                                     recievedEmail.setError("Incorrect Email");
                                 }
                             }
 
                             @Override
                             public void onFailure(Call<UserModel> call, Throwable t) {
-                                GeneralFunctions generalFunctions=new GeneralFunctions();
+                                GeneralFunctions generalFunctions = new GeneralFunctions();
                                 generalFunctions.showErrorMesaage(getActivity().getApplicationContext());
                                 Log.d("Email.PassRecover", " Error " + t.getMessage());
                             }
                         });
                     }
-
 
 
                 }

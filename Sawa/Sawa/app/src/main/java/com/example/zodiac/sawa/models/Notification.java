@@ -5,17 +5,16 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 
-
 /**
  * Created by Rabee on 4/5/2017.
  */
 
 public class Notification {
     @SerializedName("sent_notifications")
-     List<NotificationInfo> sent_notifications ;
+    List<NotificationInfo> sent_notifications;
 
     @SerializedName("not_sent_notifications")
-     List<NotificationInfo> not_sent_notifications ;
+    List<NotificationInfo> not_sent_notifications;
 
     public List<NotificationInfo> getSent_notifications() {
         return sent_notifications;
@@ -33,8 +32,7 @@ public class Notification {
         this.not_sent_notifications = not_sent_notifications;
     }
 
-    public class NotificationInfo
-    {
+    public class NotificationInfo {
         @SerializedName("id")
         String id;
 
@@ -120,6 +118,7 @@ public class Notification {
         public void setTimestamp(String timestamp) {
             this.timestamp = timestamp;
         }
+
         public String getUser_image() {
             return user_image;
         }

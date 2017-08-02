@@ -23,7 +23,6 @@ import android.view.animation.Animation;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.FrameLayout;
 import android.widget.TabWidget;
-import android.widget.TextView;
 
 /**
  * A simple text label view that can be applied as a "badge" to any given {@link android.view.View}.
@@ -73,11 +72,11 @@ public class BadgeView extends android.support.v7.widget.AppCompatTextView {
 
     /**
      * Constructor -
-     *
+     * <p>
      * create a new BadgeView instance attached to a target {@link android.view.View}.
      *
      * @param context context for this view.
-     * @param target the View to attach the badge to.
+     * @param target  the View to attach the badge to.
      */
     public BadgeView(Context context, View target) {
         this(context, null, android.R.attr.textViewStyle, target, 0);
@@ -85,13 +84,13 @@ public class BadgeView extends android.support.v7.widget.AppCompatTextView {
 
     /**
      * Constructor -
-     *
+     * <p>
      * create a new BadgeView instance attached to a target {@link android.widget.TabWidget}
      * tab at a given index.
      *
      * @param context context for this view.
-     * @param target the TabWidget to attach the badge to.
-     * @param index the position of the tab within the target.
+     * @param target  the TabWidget to attach the badge to.
+     * @param index   the position of the tab within the target.
      */
     public BadgeView(Context context, TabWidget target, int index) {
         this(context, null, android.R.attr.textViewStyle, target, index);
@@ -181,7 +180,6 @@ public class BadgeView extends android.support.v7.widget.AppCompatTextView {
 
     /**
      * Make the badge visible in the UI.
-     *
      */
     public void show() {
         show(false, null);
@@ -207,7 +205,6 @@ public class BadgeView extends android.support.v7.widget.AppCompatTextView {
 
     /**
      * Make the badge non-visible in the UI.
-     *
      */
     public void hide() {
         hide(false, null);
@@ -233,7 +230,6 @@ public class BadgeView extends android.support.v7.widget.AppCompatTextView {
 
     /**
      * Toggle the badge visibility in the UI.
-     *
      */
     public void toggle() {
         toggle(false, null, null);
@@ -251,7 +247,7 @@ public class BadgeView extends android.support.v7.widget.AppCompatTextView {
     /**
      * Toggle the badge visibility in the UI.
      *
-     * @param animIn Animation to apply to the view when made visible.
+     * @param animIn  Animation to apply to the view when made visible.
      * @param animOut Animation to apply to the view when made non-visible.
      */
     public void toggle(Animation animIn, Animation animOut) {
@@ -326,7 +322,7 @@ public class BadgeView extends android.support.v7.widget.AppCompatTextView {
     private ShapeDrawable getDefaultBackground() {
 
         int r = dipToPixels(DEFAULT_CORNER_RADIUS_DIP);
-        float[] outerR = new float[] {r, r, r, r, r, r, r, r};
+        float[] outerR = new float[]{r, r, r, r, r, r, r, r};
 
         RoundRectShape rr = new RoundRectShape(outerR, null, null);
         ShapeDrawable drawable = new ShapeDrawable(rr);
@@ -371,7 +367,6 @@ public class BadgeView extends android.support.v7.widget.AppCompatTextView {
 
     /**
      * Returns the target View this badge has been attached to.
-     *
      */
     public View getTarget() {
         return target;
@@ -379,7 +374,6 @@ public class BadgeView extends android.support.v7.widget.AppCompatTextView {
 
     /**
      * Is this badge currently visible in the UI?
-     *
      */
     @Override
     public boolean isShown() {
@@ -388,9 +382,8 @@ public class BadgeView extends android.support.v7.widget.AppCompatTextView {
 
     /**
      * Returns the positioning of this badge.
-     *
+     * <p>
      * one of POSITION_TOP_LEFT, POSITION_TOP_RIGHT, POSITION_BOTTOM_LEFT, POSITION_BOTTOM_RIGHT, POSTION_CENTER.
-     *
      */
     public int getBadgePosition() {
         return badgePosition;
@@ -400,7 +393,6 @@ public class BadgeView extends android.support.v7.widget.AppCompatTextView {
      * Set the positioning of this badge.
      *
      * @param layoutPosition one of POSITION_TOP_LEFT, POSITION_TOP_RIGHT, POSITION_BOTTOM_LEFT, POSITION_BOTTOM_RIGHT, POSTION_CENTER.
-     *
      */
     public void setBadgePosition(int layoutPosition) {
         this.badgePosition = layoutPosition;
@@ -408,7 +400,6 @@ public class BadgeView extends android.support.v7.widget.AppCompatTextView {
 
     /**
      * Returns the horizontal margin from the target View that is applied to this badge.
-     *
      */
     public int getHorizontalBadgeMargin() {
         return badgeMarginH;
@@ -416,7 +407,6 @@ public class BadgeView extends android.support.v7.widget.AppCompatTextView {
 
     /**
      * Returns the vertical margin from the target View that is applied to this badge.
-     *
      */
     public int getVerticalBadgeMargin() {
         return badgeMarginV;
@@ -436,7 +426,7 @@ public class BadgeView extends android.support.v7.widget.AppCompatTextView {
      * Set the horizontal/vertical margin from the target View that is applied to this badge.
      *
      * @param horizontal margin in pixels.
-     * @param vertical margin in pixels.
+     * @param vertical   margin in pixels.
      */
     public void setBadgeMargin(int horizontal, int vertical) {
         this.badgeMarginH = horizontal;
@@ -445,7 +435,6 @@ public class BadgeView extends android.support.v7.widget.AppCompatTextView {
 
     /**
      * Returns the color value of the badge background.
-     *
      */
     public int getBadgeBackgroundColor() {
         return badgeColor;

@@ -43,14 +43,14 @@ public class notificationFragment extends Fragment {
     public void onStart() {
         super.onStart();
         active = true;
-        Log.d("Active"," active now");
+        Log.d("Active", " active now");
     }
 
     @Override
     public void onStop() {
         super.onStop();
         active = false;
-        Log.d("Deactive "," deactive now");
+        Log.d("Deactive ", " deactive now");
 
     }
 
@@ -86,8 +86,8 @@ public class notificationFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        GeneralAppInfo.notifications_counter=0;
-        Log.d("Notification_counter",""+ GeneralAppInfo.notifications_counter);
+        GeneralAppInfo.notifications_counter = 0;
+        Log.d("Notification_counter", "" + GeneralAppInfo.notifications_counter);
         return inflater.inflate(R.layout.fragment_notification, container, false);
     }
 
@@ -99,11 +99,10 @@ public class notificationFragment extends Fragment {
     }
 
 
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        Log.d("Notification111 visble","");
+        Log.d("Notification111 visble", "");
 
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
@@ -112,10 +111,10 @@ public class notificationFragment extends Fragment {
                     + " must implement OnFragmentInteractionListener");
         }
     }
+
     @Override
-    public void onHiddenChanged(boolean hidden)
-    {
-        Log.d("Hide","ss");
+    public void onHiddenChanged(boolean hidden) {
+        Log.d("Hide", "ss");
     }
 
     @Override

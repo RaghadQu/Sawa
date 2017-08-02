@@ -13,8 +13,8 @@ import retrofit2.http.POST;
  */
 
 public interface AddPostApi {
-        @Headers("Cache-Control: max-age=64000")
-        @POST("api/post/addNewPost")
-        Call<GeneralStateResponeModel> addPost(@Body AddNewPostModel addNewPost);
+    @Headers("Cache-Control: max-age=64000")
+    @POST("api/post/addNewPost")
+    Call<GeneralStateResponeModel> addPost(@Body AddNewPostModel addNewPost);
 
 }

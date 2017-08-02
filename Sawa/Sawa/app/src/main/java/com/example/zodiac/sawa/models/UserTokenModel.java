@@ -7,9 +7,10 @@ package com.example.zodiac.sawa.models;
 public class UserTokenModel {
     String device_id;
     String token;
-    public UserTokenModel(String device_id,String token){
-        this.device_id=device_id;
-        this.token=token;
+
+    public UserTokenModel(String device_id, String token) {
+        this.device_id = device_id;
+        this.token = token;
     }
 
 

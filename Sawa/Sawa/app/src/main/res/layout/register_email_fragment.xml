@@ -1,5 +1,4 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <!-- TODO: Update blank fragment layout -->
@@ -13,27 +12,29 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-        <EditText
-            android:id="@+id/userEmail"
-            android:focusableInTouchMode="true"
-            android:drawableLeft="@mipmap/email"
-            android:drawablePadding="7dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Email"
-            android:padding="10dp"
-            android:textColor="@color/purple"
-            android:textColorHint="@color/purple"
-            android:textSize="15dp" />
-           <ProgressBar
-               android:layout_width="20dp"
-               android:layout_height="20dp"
-               android:id="@+id/checkEmailProgress"
-               android:visibility="invisible"
-               android:layout_gravity="right"
-               android:layout_marginRight="10dp"
-               android:layout_marginTop="10dp"
-               android:indeterminateTint="@color/purple"/>
+
+            <EditText
+                android:id="@+id/userEmail"
+                android:focusableInTouchMode="true"
+                android:drawableLeft="@mipmap/email"
+                android:drawablePadding="7dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Email"
+                android:padding="10dp"
+                android:textColor="@color/purple"
+                android:textColorHint="@color/purple"
+                android:textSize="15dp" />
+
+            <ProgressBar
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:id="@+id/checkEmailProgress"
+                android:visibility="invisible"
+                android:layout_gravity="right"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:indeterminateTint="@color/purple" />
         </FrameLayout>
 
         <Button

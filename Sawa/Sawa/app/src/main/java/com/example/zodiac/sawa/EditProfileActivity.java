@@ -20,8 +20,6 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-import static com.facebook.FacebookSdk.getApplicationContext;
-
 public class EditProfileActivity extends Activity {
 
     TextView backEdit, saveEdit;
@@ -55,8 +53,8 @@ public class EditProfileActivity extends Activity {
         saveEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                editProfileModle= new EditProfileModel();
-                String stringDate= String.valueOf(birthDate.getYear())+"-"+ String.valueOf(birthDate.getMonth()+1)+"-"+ String.valueOf(birthDate.getDayOfMonth());
+                editProfileModle = new EditProfileModel();
+                String stringDate = String.valueOf(birthDate.getYear()) + "-" + String.valueOf(birthDate.getMonth() + 1) + "-" + String.valueOf(birthDate.getDayOfMonth());
                 String gender = "";
                 if (maleBtn.isChecked()) gender = "male";
                 if (femaleBtn.isChecked()) gender = "female";
@@ -64,8 +62,8 @@ public class EditProfileActivity extends Activity {
                 editProfileModle.setFirst_name(firstName.getText().toString());
                 editProfileModle.setLast_name(lastName.getText().toString());
                 editProfileModle.setBirthdate(stringDate);
-                Log.d("stringDate",stringDate);
-                Log.d("stringDate",GeneralAppInfo.getUserID()+"");
+                Log.d("stringDate", stringDate);
+                Log.d("stringDate", GeneralAppInfo.getUserID() + "");
 
                 editProfileModle.setGender(gender);
 
@@ -78,17 +76,17 @@ public class EditProfileActivity extends Activity {
                 call.enqueue(new Callback<Integer>() {
                     @Override
                     public void onResponse(Call<Integer> call, Response<Integer> response) {
-                        if(response.code() == 404||response.code()==500||response.code()==502||response.code()==400)
-                        {
-                            GeneralFunctions generalFunctions=new GeneralFunctions();
+                        if (response.code() == 404 || response.code() == 500 || response.code() == 502 || response.code() == 400) {
+                            GeneralFunctions generalFunctions = new GeneralFunctions();
                             generalFunctions.showErrorMesaage(getApplicationContext());
                         }
                         Log.d("AboutProfileUpdate", "Done successfully " + response.code() + " " + response.body());
                         finish();
                     }
+
                     @Override
                     public void onFailure(Call<Integer> call, Throwable t) {
-                        GeneralFunctions generalFunctions=new GeneralFunctions();
+                        GeneralFunctions generalFunctions = new GeneralFunctions();
                         generalFunctions.showErrorMesaage(getApplicationContext());
                         Log.d("AboutProfileUpdate", "Failure " + t.getMessage());
                     }
@@ -113,24 +111,25 @@ public class EditProfileActivity extends Activity {
                     userModel = response.body();
                     firstName.setText(userModel.getFirst_name());
                     lastName.setText(userModel.getLast_name());
-                    if(userModel.getGender().equals("female"))
-                    femaleBtn.setChecked(true);
-                    else if(userModel.getGender().equals("male"))
-                    maleBtn.setChecked(true);
+                    if (userModel.getGender().equals("female"))
+                        femaleBtn.setChecked(true);
+                    else if (userModel.getGender().equals("male"))
+                        maleBtn.setChecked(true);
 
                     String userBirthdate = userModel.getBirthdate();
                     String[] separated = userBirthdate.split("-");
-                    Log.d("Birthdate", " String is  "+ userBirthdate);
-                    String year= separated[0];
-                    String month= separated[1];
-                    String day= separated[2];
-                    birthDate.updateDate(Integer.valueOf(year),Integer.valueOf(month)-1,Integer.valueOf(day));
+                    Log.d("Birthdate", " String is  " + userBirthdate);
+                    String year = separated[0];
+                    String month = separated[1];
+                    String day = separated[2];
+                    birthDate.updateDate(Integer.valueOf(year), Integer.valueOf(month) - 1, Integer.valueOf(day));
                 }
             }
 
-           @Override
-            public void onFailure(Call<UserModel> call, Throwable t) {    GeneralFunctions generalFunctions = new GeneralFunctions();
-               generalFunctions.showErrorMesaage(getApplicationContext());
+            @Override
+            public void onFailure(Call<UserModel> call, Throwable t) {
+                GeneralFunctions generalFunctions = new GeneralFunctions();
+                generalFunctions.showErrorMesaage(getApplicationContext());
                 Log.d("----", " Error " + t.getMessage());
             }
         });

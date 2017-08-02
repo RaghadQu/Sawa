@@ -1,21 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_pressed="true">
-        <shape
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            android:shape="rectangle"
+        <shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle"
 
 
             >
 
-            <corners
-                android:bottomRightRadius="5dp"
-                android:topRightRadius="5dp"
-                />
+            <corners android:bottomRightRadius="5dp" android:topRightRadius="5dp" />
 
-            <solid
-                android:color="#eee"
-                />
+            <solid android:color="#eee" />
 
             <stroke android:width="1dip" android:color="#999"
 
@@ -25,28 +18,21 @@
         </shape>
 
     </item>
-<item>
-<shape
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:shape="rectangle"
+    <item>
+        <shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle"
 
 
-    >
+            >
 
-    <corners
-        android:bottomRightRadius="5dp"
-        android:topRightRadius="5dp"
-        />
+            <corners android:bottomRightRadius="5dp" android:topRightRadius="5dp" />
 
-    <solid
-        android:color="@android:color/transparent"
-        />
+            <solid android:color="@android:color/transparent" />
 
-    <stroke android:width="1dip" android:color="#999"
+            <stroke android:width="1dip" android:color="#999"
 
-        />
+                />
 
 
-</shape>
-</item>
-    </selector>
+        </shape>
+    </item>
+</selector>

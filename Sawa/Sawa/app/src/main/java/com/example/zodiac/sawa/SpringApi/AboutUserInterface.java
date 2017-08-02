@@ -1,7 +1,7 @@
 package com.example.zodiac.sawa.SpringApi;
 
-import com.example.zodiac.sawa.Spring.Models.AboutUserResponseModel;
 import com.example.zodiac.sawa.Spring.Models.AboutUserRequestModel;
+import com.example.zodiac.sawa.Spring.Models.AboutUserResponseModel;
 import com.example.zodiac.sawa.Spring.Models.EditProfileModel;
 import com.example.zodiac.sawa.Spring.Models.UserModel;
 

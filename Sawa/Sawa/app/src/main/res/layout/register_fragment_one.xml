@@ -12,64 +12,61 @@
         android:layout_height="wrap_content"
         android:gravity="center">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Sign Up"
-        android:textSize="50dp"
-        android:fontFamily="cursive"
-        android:textColor="#7c017c"
-        android:layout_marginLeft="65dp"
-        android:textStyle="bold"
-        android:layout_marginTop="70dp"
-        />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sign Up"
+            android:textSize="50dp"
+            android:fontFamily="cursive"
+            android:textColor="#7c017c"
+            android:layout_marginLeft="65dp"
+            android:textStyle="bold"
+            android:layout_marginTop="70dp" />
 
-    <EditText
-        android:id="@+id/first_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="170dp"
-        android:drawableLeft="@mipmap/account"
-        android:drawablePadding="5dp"
-        android:ems="20"
-        android:hint="Frist Name"
-        android:inputType="text"
-        android:textColor="#000"
-        android:textSize="45px"
-        android:textColorHint="#7c017c"
-        />
-    <EditText
-        android:layout_marginTop="230dp"
-        android:id="@+id/last_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:drawableLeft="@mipmap/account"
-        android:drawablePadding="5dp"
-        android:ems="20"
-        android:hint="Last Name"
-        android:inputType="text"
-        android:textColor="#000"
-        android:textSize="45px"
-        android:textColorHint="#7c017c"
-        />
+        <EditText
+            android:id="@+id/first_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="170dp"
+            android:drawableLeft="@mipmap/account"
+            android:drawablePadding="5dp"
+            android:ems="20"
+            android:hint="Frist Name"
+            android:inputType="text"
+            android:textColor="#000"
+            android:textSize="45px"
+            android:textColorHint="#7c017c" />
+
+        <EditText
+            android:layout_marginTop="230dp"
+            android:id="@+id/last_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@mipmap/account"
+            android:drawablePadding="5dp"
+            android:ems="20"
+            android:hint="Last Name"
+            android:inputType="text"
+            android:textColor="#000"
+            android:textSize="45px"
+            android:textColorHint="#7c017c" />
 
 
-    <Button
-        android:id="@+id/signUpBtn"
-        android:layout_width="150dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="350dp"
-        android:padding="3dp"
-        android:text="Next"
-        android:layout_marginLeft="60dp"
-       android:textAllCaps="false"
-        android:textColor="#fff"
-        android:textSize="17sp"
-        android:textStyle="bold"
-        android:layout_marginBottom="20dp"
-        android:background="@drawable/selector_xml_btn_yellow"
-        style="@style/Widget.AppCompat.Button.Colored"
-        />
+        <Button
+            android:id="@+id/signUpBtn"
+            android:layout_width="150dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="350dp"
+            android:padding="3dp"
+            android:text="Next"
+            android:layout_marginLeft="60dp"
+            android:textAllCaps="false"
+            android:textColor="#fff"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/selector_xml_btn_yellow"
+            style="@style/Widget.AppCompat.Button.Colored" />
 
 
     </RelativeLayout>

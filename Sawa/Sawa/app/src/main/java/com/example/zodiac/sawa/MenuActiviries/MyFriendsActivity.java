@@ -94,46 +94,46 @@ public class MyFriendsActivity extends Activity {
                 progressBar.setVisibility(View.INVISIBLE);
 
                 Log.d("GetFriends", " Get friends " + response.code());
-                if(response.code() == 404||response.code()==500||response.code()==502||response.code()==400){
-                    GeneralFunctions generalFunctions=new GeneralFunctions();
+                if (response.code() == 404 || response.code() == 500 || response.code() == 502 || response.code() == 400) {
+                    GeneralFunctions generalFunctions = new GeneralFunctions();
                     generalFunctions.showErrorMesaage(getApplicationContext());
-                }else {
+                } else {
 
 
-                FreindsList = response.body();
-                LayoutFriendsList.clear();
-                if (FreindsList != null) {
+                    FreindsList = response.body();
+                    LayoutFriendsList.clear();
+                    if (FreindsList != null) {
 
-                    if (FreindsList.size() == 0) {
+                        if (FreindsList.size() == 0) {
 
-                        noFriendsLayout.setVisibility(View.VISIBLE);
-                        CircleImageView circle = (CircleImageView) findViewById(R.id.circle);
-                        circle.setImageDrawable(getDrawable(R.drawable.no_friends));
+                            noFriendsLayout.setVisibility(View.VISIBLE);
+                            CircleImageView circle = (CircleImageView) findViewById(R.id.circle);
+                            circle.setImageDrawable(getDrawable(R.drawable.no_friends));
 
-                    } else {
-                        Log.d("GetFriends", " Friends are : " + FreindsList.size());
-                        progressBar.setVisibility(View.GONE);
-                        noFriendsLayout.setVisibility(View.GONE);
-                        for (int i = 0; i < FreindsList.size(); i++) {
-                            if (FreindsList.get(i).getFriend2_id().getId() == GeneralAppInfo.getUserID()) {
-                                LayoutFriendsList.add(new friend(FreindsList.get(i).getFriend1_id().getId(), FreindsList.get(i).getFriend1_id().getImage(),
-                                        FreindsList.get(i).getFriend1_id().getFirst_name() + " " + FreindsList.get(i).getFriend1_id().getLast_name()));
-                            } else {
-                                LayoutFriendsList.add(new friend(FreindsList.get(i).getFriend2_id().getId(), FreindsList.get(i).getFriend2_id().getImage(),
-                                        FreindsList.get(i).getFriend2_id().getFirst_name() + " " + FreindsList.get(i).getFriend2_id().getLast_name()));
+                        } else {
+                            Log.d("GetFriends", " Friends are : " + FreindsList.size());
+                            progressBar.setVisibility(View.GONE);
+                            noFriendsLayout.setVisibility(View.GONE);
+                            for (int i = 0; i < FreindsList.size(); i++) {
+                                if (FreindsList.get(i).getFriend2_id().getId() == GeneralAppInfo.getUserID()) {
+                                    LayoutFriendsList.add(new friend(FreindsList.get(i).getFriend1_id().getId(), FreindsList.get(i).getFriend1_id().getImage(),
+                                            FreindsList.get(i).getFriend1_id().getFirst_name() + " " + FreindsList.get(i).getFriend1_id().getLast_name()));
+                                } else {
+                                    LayoutFriendsList.add(new friend(FreindsList.get(i).getFriend2_id().getId(), FreindsList.get(i).getFriend2_id().getImage(),
+                                            FreindsList.get(i).getFriend2_id().getFirst_name() + " " + FreindsList.get(i).getFriend2_id().getLast_name()));
+                                }
+                                recyclerView.setAdapter(new FastScrollAdapter(MyFriendsActivity.this, LayoutFriendsList, 0));
+
                             }
-                            recyclerView.setAdapter(new FastScrollAdapter(MyFriendsActivity.this, LayoutFriendsList, 0));
-
                         }
                     }
                 }
-            }
             }
 
             @Override
             public void onFailure(Call<List<FriendResponseModel>> call, Throwable t) {
                 progressBar.setVisibility(View.INVISIBLE);
-                GeneralFunctions generalFunctions=new GeneralFunctions();
+                GeneralFunctions generalFunctions = new GeneralFunctions();
                 generalFunctions.showErrorMesaage(getApplicationContext());
                 Log.d("fail to get friends ", "Failure to Get friends");
 

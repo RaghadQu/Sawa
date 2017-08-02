@@ -7,9 +7,10 @@ package com.example.zodiac.sawa.models;
 public class UserImage {
     int user_id;
     String user_image;
-    public UserImage(int user_id,String user_image){
-        this.user_id=user_id;
-        this.user_image=user_image;
+
+    public UserImage(int user_id, String user_image) {
+        this.user_id = user_id;
+        this.user_image = user_image;
     }
 
     public void setUser_id(int user_id) {

@@ -67,7 +67,7 @@ public class DBHandler extends SQLiteOpenHelper {
         values.put(USER_STATUS, aboutUserResponeModel.getUser_status());
         values.put(USER_SONG, aboutUserResponeModel.getUser_song());
         // Inserting Row
-                db.insert(TABLE_ABOUT, null, values);
+        db.insert(TABLE_ABOUT, null, values);
         db.close(); // Closing database connection
     }
 
@@ -77,7 +77,7 @@ public class DBHandler extends SQLiteOpenHelper {
                         USER_BIO, USER_STATUS, USER_SONG}, USER_ID + "=?",
                 new String[]{String.valueOf(id)}, null, null, null, null);
         if (cursor != null && cursor.moveToFirst()) {
-            Log.d("user found","ss");
+            Log.d("user found", "ss");
             cursor.moveToFirst();
             AboutUserResponeModelOld aboutUserResponeModel = new AboutUserResponeModelOld(Integer.parseInt(cursor.getString(0)),
                     cursor.getString(1), cursor.getString(2), cursor.getString(3));
@@ -114,19 +114,19 @@ public class DBHandler extends SQLiteOpenHelper {
         ContentValues cv = new ContentValues();
         cv.put(USER_IMAGE, image);
         db.update(TABLE_IMAGES, cv, "USER_ID" + "= ?", new String[]{String.valueOf(1)});
-        Log.d("Updated","s");
+        Log.d("Updated", "s");
         db.close();
     }
 
     public Bitmap getUserImage(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
-        String selectQuery = "SELECT * FROM " + TABLE_IMAGES+ " WHERE " + USER_ID + " = " + id;
+        String selectQuery = "SELECT * FROM " + TABLE_IMAGES + " WHERE " + USER_ID + " = " + id;
         Log.d("database", selectQuery);
 
         Cursor cursor = db.rawQuery(selectQuery, null);
         if (cursor != null && cursor.moveToFirst()) {
             cursor.moveToFirst();
-                byte[] image = cursor.getBlob(cursor.getColumnIndex(USER_IMAGE));
+            byte[] image = cursor.getBlob(cursor.getColumnIndex(USER_IMAGE));
 
 
             Bitmap img = BitmapFactory.decodeByteArray(image, 0, image.length);

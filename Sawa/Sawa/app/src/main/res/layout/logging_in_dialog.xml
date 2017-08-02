@@ -19,14 +19,12 @@
         android:textAllCaps="false"
         android:textColor="#000"
         android:textStyle="bold" />
- <ProgressBar
-     android:layout_width="30dp"
-     android:layout_gravity="center"
-     android:indeterminateTint="@color/purple"
-          android:layout_height="30dp" />
 
-
-
+    <ProgressBar
+        android:layout_width="30dp"
+        android:layout_gravity="center"
+        android:indeterminateTint="@color/purple"
+        android:layout_height="30dp" />
 
 
 </LinearLayout>

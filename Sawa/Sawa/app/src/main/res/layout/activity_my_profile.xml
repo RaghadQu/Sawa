@@ -1,6 +1,5 @@
 <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#fff">
@@ -70,7 +69,7 @@
                     android:layout_gravity="center"
                     android:indeterminateTint="@color/purple"
                     android:visibility="invisible"
-                    android:layout_marginTop="-20dp"/>
+                    android:layout_marginTop="-20dp" />
 
 
             </FrameLayout>
@@ -165,36 +164,38 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Friends"
-            android:layout_marginLeft="28dp"
-            android:textSize="14dp"
-            android:textColor="@color/purple"
-            android:textAllCaps="false"
-            android:clickable="true"
-            android:id="@+id/friendsTxt"
-            android:padding="10dp"
-            />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Friends"
+                android:layout_marginLeft="28dp"
+                android:textSize="14dp"
+                android:textColor="@color/purple"
+                android:textAllCaps="false"
+                android:clickable="true"
+                android:id="@+id/friendsTxt"
+                android:padding="10dp" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="invisible">
+
                 <com.google.android.youtube.player.YouTubePlayerView
                     android:id="@+id/youtube"
                     android:layout_height="wrap_content"
                     android:layout_width="match_parent"
-                    android:visibility="invisible"
-                    />
+                    android:visibility="invisible" />
             </LinearLayout>
-        <View
-            android:layout_width="0.1dp"
-            android:layout_height="33dp"
-            android:layout_marginTop="3dp"
-            android:layout_marginLeft="25dp"
-            android:layout_marginBottom="3dp"
-            android:background="#ACACAC" />
+
+            <View
+                android:layout_width="0.1dp"
+                android:layout_height="33dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginLeft="25dp"
+                android:layout_marginBottom="3dp"
+                android:background="#ACACAC" />
 
 
             <TextView

@@ -1,22 +1,15 @@
 package com.example.zodiac.sawa.RegisterPkg;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.zodiac.sawa.R;
-import com.example.zodiac.sawa.RecoverPassword.CheckCodeFragment;
-import com.example.zodiac.sawa.RecoverPassword.RecoverPass;
-import com.example.zodiac.sawa.emailSender.BackgroungSender;
-
-import java.util.UUID;
 
 /**
  * Created by zodiac on 07/10/2017.
@@ -52,7 +45,7 @@ public class NameFragment extends android.app.Fragment {
 
                         ((RegisterActivity) getActivity()).setFirstName(FirstName.getText().toString());
                         ((RegisterActivity) getActivity()).setLastName(LastName.getText().toString());
-                         android.app.Fragment f = new EmailFragment();
+                        android.app.Fragment f = new EmailFragment();
                         ((RegisterActivity) getActivity()).replaceFragmnets(f);
                     }
 

@@ -11,15 +11,15 @@
         android:layout_height="55dp"
         android:background="@drawable/friend_picture"
         android:layout_marginLeft="18dp"
-        android:layout_marginTop="15dp"
-        />
+        android:layout_marginTop="15dp" />
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/image"
         android:layout_alignBottom="@+id/image"
-        android:layout_marginBottom="17dp"
-        >
+        android:layout_marginBottom="17dp">
+
         <TextView
             android:layout_marginLeft="18dp"
             android:layout_width="135dp"
@@ -27,8 +27,7 @@
             android:layout_gravity="center_vertical"
             android:textColor="#000"
             android:textSize="16dp"
-            android:id="@+id/Name"
-            />
+            android:id="@+id/Name" />
 
         <Button
             android:layout_width="40dp"
@@ -37,8 +36,8 @@
             android:id="@+id/ConfirmRequest"
             android:background="@drawable/left_corners"
             android:drawableLeft="@mipmap/checkmark2"
-            android:paddingLeft="10dp"
-            />
+            android:paddingLeft="10dp" />
+
         <Button
             android:layout_width="40dp"
             android:layout_height="30dp"
@@ -46,10 +45,10 @@
             android:layout_marginLeft="-2dp"
             android:background="@drawable/rigth_corners"
             android:drawableLeft="@mipmap/deletemark2"
-            android:paddingLeft="10dp"
-            />
+            android:paddingLeft="10dp" />
 
     </LinearLayout>
+
     <View
         android:layout_marginTop="10dp"
         android:layout_width="fill_parent"
@@ -57,8 +56,7 @@
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:background="#a5999999"
-        android:layout_below="@+id/image"
-        />
+        android:layout_below="@+id/image" />
 
 </RelativeLayout>
 

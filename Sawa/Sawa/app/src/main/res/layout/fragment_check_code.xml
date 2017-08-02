@@ -11,29 +11,16 @@
         android:padding="40dp"
         android:gravity="center">
 
-            <EditText
-                android:id="@+id/code"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:hint="Code"
-                android:textColorHint="@color/purple"
-                android:textColor="@color/purple"
-                android:textSize="15dp"
-                />
-            <!--      <EditText
-                      android:id="@+id/newPass"
-                      android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
-                      android:layout_marginTop="-2dp"
-                      android:padding="10dp"
-                      android:hint="New Password"
-                      android:inputType="textPassword"
-                      android:textColorHint="@color/purple"
-                      android:textColor="@color/purple"
-                      android:textSize="15dp"
-                      android:layout_marginBottom="8dp"
-                      />-->
+        <EditText
+            android:id="@+id/code"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:hint="Code"
+            android:textColorHint="@color/purple"
+            android:textColor="@color/purple"
+            android:textSize="15dp" />
+
         <Button
             android:id="@+id/btn"
             android:layout_width="150dp"

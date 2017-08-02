@@ -9,8 +9,6 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.zodiac.sawa.R;
-import com.example.zodiac.sawa.RecoverPassword.RecoverPass;
-import com.example.zodiac.sawa.RecoverPassword.newPasswordFragment;
 
 public class CheckCodeFragment extends android.app.Fragment {
     Button btn;
@@ -23,10 +21,10 @@ public class CheckCodeFragment extends android.app.Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_check_code, container, false);
-        code=(EditText)view.findViewById(R.id.code);
-        btn=(Button)view.findViewById(R.id.btn);
+        code = (EditText) view.findViewById(R.id.code);
+        btn = (Button) view.findViewById(R.id.btn);
         final String uniqueId = ((RecoverPass) getActivity()).getUniqueID();
-        Log.d("Ibrahim11",uniqueId);
+        Log.d("Ibrahim11", uniqueId);
 
         btn.setOnClickListener(new View.OnClickListener() {
 
@@ -35,11 +33,11 @@ public class CheckCodeFragment extends android.app.Fragment {
                 String codeString = code.getText().toString();
 
                 if (codeString.equals(uniqueId)) {
-                    android.app.Fragment f=new newPasswordFragment();
-                    ((RecoverPass)getActivity()).replaceFragmnets(f);
+                    android.app.Fragment f = new newPasswordFragment();
+                    ((RecoverPass) getActivity()).replaceFragmnets(f);
                 } else {
                     code.setError("Incorrect Code");
-                    Log.d("arrive","not equal");
+                    Log.d("arrive", "not equal");
                     counter++;
                 }
                 if (counter == 3) {

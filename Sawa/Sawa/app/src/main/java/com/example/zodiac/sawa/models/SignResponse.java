@@ -1,8 +1,5 @@
 package com.example.zodiac.sawa.models;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
-
 /**
  * Created by zodiac on 03/21/2017.
  */

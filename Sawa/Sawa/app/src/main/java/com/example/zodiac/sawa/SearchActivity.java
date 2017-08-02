@@ -1,16 +1,16 @@
 package com.example.zodiac.sawa;
 
 import android.os.Build;
+import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
 
-import com.example.zodiac.sawa.RecyclerViewAdapters.FastScrollAdapter;
 import com.example.zodiac.sawa.MenuActiviries.MyFriendsActivity;
+import com.example.zodiac.sawa.RecyclerViewAdapters.FastScrollAdapter;
 import com.example.zodiac.sawa.Spring.Models.UserModel;
 import com.example.zodiac.sawa.SpringApi.SearchInterface;
 import com.example.zodiac.sawa.models.getFriendsResponse;
@@ -94,7 +94,7 @@ public class SearchActivity extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
             public void onResponse(Call<List<UserModel>> call, Response<List<UserModel>> response) {
-                if (response.code() == 404||response.code()==500||response.code()==502||response.code()==400)  {
+                if (response.code() == 404 || response.code() == 500 || response.code() == 502 || response.code() == 400) {
                     GeneralFunctions generalFunctions = new GeneralFunctions();
                     generalFunctions.showErrorMesaage(getApplicationContext());
                 } else {
@@ -128,7 +128,7 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<List<UserModel>> call, Throwable t) {
                 // progressBar.setVisibility(View.GONE);
-                GeneralFunctions generalFunctions=new GeneralFunctions();
+                GeneralFunctions generalFunctions = new GeneralFunctions();
                 generalFunctions.showErrorMesaage(getApplicationContext());
                 Log.d("fail to get friends ", "Failure to Get friends");
 

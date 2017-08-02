@@ -4,16 +4,11 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.text.InputType;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
-import com.example.zodiac.sawa.HomeTabbedActivity;
 import com.example.zodiac.sawa.R;
 
 /**
@@ -36,7 +31,7 @@ public class RecoverPass extends Activity {
         FragmentTransaction ft = fm.beginTransaction();
         ft.replace(R.id.your_placeholder, new SendEmailFragment());
         ft.commit();
-      }
+    }
 
 
     public void setUniqueID(String uniqueID) {
@@ -47,12 +42,13 @@ public class RecoverPass extends Activity {
     public String getUniqueID() {
         return this.uniqueID;
     }
-  public void replaceFragmnets(android.app.Fragment f){
-      FragmentManager fm=getFragmentManager();
 
-      FragmentTransaction ft=fm.beginTransaction();
-      ft.replace(R.id.your_placeholder,f);
-      ft.addToBackStack(null);
-      ft.commit();
-  }
+    public void replaceFragmnets(android.app.Fragment f) {
+        FragmentManager fm = getFragmentManager();
+
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.replace(R.id.your_placeholder, f);
+        ft.addToBackStack(null);
+        ft.commit();
+    }
 }

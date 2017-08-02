@@ -28,10 +28,10 @@ public class MobileFragment extends android.app.Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.register_mobile_fragment, container, false);
-      //  InputMethodManager imgr = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        //  InputMethodManager imgr = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         //imgr.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_IMPLICIT_ONLY);
 
-        InputMethodManager imm =  (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.showSoftInput(userMobile, InputMethodManager.SHOW_IMPLICIT);
 
 
@@ -53,22 +53,22 @@ public class MobileFragment extends android.app.Fragment {
                         String phoneCode = ccp.getSelectedCountryCode();
                         String phoneNumber = userMobile.getText().toString();
                         int phoneNumberInt = Integer.valueOf(phoneNumber);
-                        Log.d("MobileUser", " 1 " + phoneNumberInt );
+                        Log.d("MobileUser", " 1 " + phoneNumberInt);
 
-                        String fullPhoneNumber = phoneCode+String.valueOf(phoneNumberInt);
-                        Log.d("MobileUser", " 2 " + fullPhoneNumber );
+                        String fullPhoneNumber = phoneCode + String.valueOf(phoneNumberInt);
+                        Log.d("MobileUser", " 2 " + fullPhoneNumber);
 
 
-                       // Log.d("MobileUser", " 3 " + Integer.valueOf(fullPhoneNumber) );
+                        // Log.d("MobileUser", " 3 " + Integer.valueOf(fullPhoneNumber) );
 
 
                         try {
                             long IntNumber = Long.parseLong(fullPhoneNumber);
-                           ((RegisterActivity) getActivity()).setMobileNumber(fullPhoneNumber);
+                            ((RegisterActivity) getActivity()).setMobileNumber(fullPhoneNumber);
                             android.app.Fragment f = new BirthDateFragment();
                             ((RegisterActivity) getActivity()).replaceFragmnets(f);
-                        }catch (NumberFormatException e){
-                            Log.d("MobileUser", " not a number " + e.getMessage() );
+                        } catch (NumberFormatException e) {
+                            Log.d("MobileUser", " not a number " + e.getMessage());
                         }
 
                     }

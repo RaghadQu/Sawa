@@ -5,24 +5,19 @@ package com.example.zodiac.sawa.RecyclerViewAdapters;
  */
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.zodiac.sawa.AddPostActivity;
 import com.example.zodiac.sawa.GeneralAppInfo;
-import com.example.zodiac.sawa.MenuActiviries.MyProfileActivity;
-import com.example.zodiac.sawa.FriendProfile.FreindsFunctions;
 import com.example.zodiac.sawa.MenuActiviries.MyFriendsActivity;
+import com.example.zodiac.sawa.R;
 import com.example.zodiac.sawa.interfaces.DeleteFriend;
-import com.example.zodiac.sawa.models.AuthenticationResponeModel;
-import com.example.zodiac.sawa.models.DeleteFriendRequest;
 import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView;
 import com.squareup.picasso.Picasso;
 
@@ -30,15 +25,8 @@ import java.net.MalformedURLException;
 import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-
-import com.example.zodiac.sawa.R;
-
-import static com.example.zodiac.sawa.MenuActiviries.MyFriendsActivity.LayoutFriendsList;
 
 public class AddPostImagesAdapter extends RecyclerView.Adapter<AddPostImagesAdapter.UserViewHolder>
         implements FastScrollRecyclerView.SectionedAdapter {
@@ -111,13 +99,13 @@ public class AddPostImagesAdapter extends RecyclerView.Adapter<AddPostImagesAdap
             ivProfile.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    int  FriendId= Integer.valueOf(AddPostActivity.FriendPostList.get(getAdapterPosition()).getId());
-                    Log.d("AdapterID", " reciever id is : "+ FriendId);
+                    int FriendId = Integer.valueOf(AddPostActivity.FriendPostList.get(getAdapterPosition()).getId());
+                    Log.d("AdapterID", " reciever id is : " + FriendId);
                     AddPostActivity.setRecieverID(FriendId);
                     try {
-                        String recieverImage=AddPostActivity.FriendPostList.get(getAdapterPosition()).getImageResourceId();
-                      //  Picasso.with(mContext).load(recieverImage).into(AddPostActivity.receiverImage);
-                        AddPostActivity.setRecieverImage(recieverImage,mContext);
+                        String recieverImage = AddPostActivity.FriendPostList.get(getAdapterPosition()).getImageResourceId();
+                        //  Picasso.with(mContext).load(recieverImage).into(AddPostActivity.receiverImage);
+                        AddPostActivity.setRecieverImage(recieverImage, mContext);
 
                     } catch (MalformedURLException e) {
                         Log.d("AdapterImage", " error in image");

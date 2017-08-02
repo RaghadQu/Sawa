@@ -75,7 +75,7 @@ public class GMailSender extends javax.mail.Authenticator {
     public boolean send() throws Exception {
         Properties props = _setProperties();
 
-        if(!_user.equals("") && !_pass.equals("") && _to.length > 0 && !_from.equals("") && !_subject.equals("") && !_body.equals("")) {
+        if (!_user.equals("") && !_pass.equals("") && _to.length > 0 && !_from.equals("") && !_subject.equals("") && !_body.equals("")) {
             Session session = Session.getInstance(props, this);
 
             MimeMessage msg = new MimeMessage(session);
@@ -119,7 +119,7 @@ public class GMailSender extends javax.mail.Authenticator {
 
     @Override
     public javax.mail.PasswordAuthentication getPasswordAuthentication() {
-        return  new javax.mail.PasswordAuthentication(_user,_pass);
+        return new javax.mail.PasswordAuthentication(_user, _pass);
     }
 
     private Properties _setProperties() {
@@ -127,11 +127,11 @@ public class GMailSender extends javax.mail.Authenticator {
 
         props.put("mail.smtp.host", _host);
 
-        if(_debuggable) {
+        if (_debuggable) {
             props.put("mail.debug", "true");
         }
 
-        if(_auth) {
+        if (_auth) {
             props.put("mail.smtp.auth", "true");
         }
 

@@ -4,13 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#fff"
-    android:id="@+id/relativeRequest"
-    >
+    android:id="@+id/relativeRequest">
+
     <Toolbar
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:background="@color/purple"
-        android:focusableInTouchMode="true"            >
+        android:focusableInTouchMode="true">
 
         <TextView
             android:layout_width="wrap_content"
@@ -35,21 +35,21 @@
             android:textStyle="bold" />
 
     </Toolbar>
- <!--   <TextView
-        android:drawableLeft="@mipmap/left"
-        android:drawablePadding="10dp"
-        android:id="@+id/toolBarText"
-        android:layout_width="match_parent"
-        android:gravity="center_vertical"
-        android:layout_height="55dp"
-        android:background="@color/purple"
-        android:paddingLeft="10dp"
-        android:text="Friend Requests"
-        android:textColor="#fff"
-        android:textSize="19dp"
-        android:layout_marginTop="-2dp"
-        android:focusableInTouchMode="true"
-        />-->
+    <!--   <TextView
+           android:drawableLeft="@mipmap/left"
+           android:drawablePadding="10dp"
+           android:id="@+id/toolBarText"
+           android:layout_width="match_parent"
+           android:gravity="center_vertical"
+           android:layout_height="55dp"
+           android:background="@color/purple"
+           android:paddingLeft="10dp"
+           android:text="Friend Requests"
+           android:textColor="#fff"
+           android:textSize="19dp"
+           android:layout_marginTop="-2dp"
+           android:focusableInTouchMode="true"
+           />-->
 
 
     <LinearLayout
@@ -66,7 +66,8 @@
             android:layout_height="40dp" />
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:orientation="vertical" android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="#ffffff"
             android:visibility="invisible"
@@ -80,8 +81,8 @@
                 android:layout_marginTop="110dp"
                 android:layout_gravity="center_vertical|center_horizontal"
                 android:id="@+id/circle"
-                android:src="@drawable/no_friends"
-                />
+                android:src="@drawable/no_friends" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -92,8 +93,7 @@
                 android:layout_marginTop="-1dp"
                 android:textAlignment="center"
                 android:fontFamily="cursive"
-                android:text="   No Requests To Show"
-                />
+                android:text="   No Requests To Show" />
 
         </LinearLayout>
 

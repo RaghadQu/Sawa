@@ -4,8 +4,7 @@
     android:layout_marginTop="20dp"
     android:layout_marginLeft="15dp"
     android:layout_marginRight="35dp"
-    android:layout_marginBottom="10dp"
-    >
+    android:layout_marginBottom="10dp">
 
 
     <TextView
@@ -17,7 +16,7 @@
         android:text="Change Profile Picture"
         android:textColor="#000"
         android:textStyle="bold"
-        android:id="@+id/EditPic"/>
+        android:id="@+id/EditPic" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -29,7 +28,7 @@
         android:text="View Profile Picture"
         android:textColor="#000"
         android:textStyle="bold"
-        android:layout_below="@+id/EditPic"/>
+        android:layout_below="@+id/EditPic" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -41,6 +40,6 @@
         android:text="Remove Profile Picture"
         android:textColor="#000"
         android:textStyle="bold"
-        android:layout_below="@+id/ViewPic"/>
+        android:layout_below="@+id/ViewPic" />
 
 </RelativeLayout>

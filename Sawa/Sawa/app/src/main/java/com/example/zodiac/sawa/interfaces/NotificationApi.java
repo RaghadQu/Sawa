@@ -9,7 +9,7 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 
-public interface  NotificationApi {
+public interface NotificationApi {
 
     @GET("api/users/getNotifications/{user_id}")
     Call<Notification> getNotification(@Path("user_id") int user_id);

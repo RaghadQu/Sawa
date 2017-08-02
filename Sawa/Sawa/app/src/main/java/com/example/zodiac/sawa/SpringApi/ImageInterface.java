@@ -10,7 +10,6 @@ import retrofit2.http.Headers;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
-import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 /**
@@ -22,11 +21,13 @@ public interface ImageInterface {
     @Multipart
     @POST("/api/v1/uploadFile")
     Call<ResponseBody> postImage(@Part MultipartBody.Part image, @Part("name") RequestBody name);
+
     @Multipart
     @POST("/api/v1/uploadProfilePic")
-    Call<UserModel> uploadProfileImage(@Part MultipartBody.Part file,@Query("id") int id );
+    Call<UserModel> uploadProfileImage(@Part MultipartBody.Part file, @Query("id") int id);
+
     @Multipart
     @POST("/api/v1/uploadCoverPic")
-    Call<UserModel> uploadCoverImage(@Part MultipartBody.Part file,@Query("id") int id );
+    Call<UserModel> uploadCoverImage(@Part MultipartBody.Part file, @Query("id") int id);
 
 }

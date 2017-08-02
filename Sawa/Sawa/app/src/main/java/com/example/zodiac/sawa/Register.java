@@ -10,14 +10,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
-import com.example.zodiac.sawa.GeneralAppInfo;
-import com.example.zodiac.sawa.HomeTabbedActivity;
 import com.example.zodiac.sawa.MenuActiviries.aboutUserActivity;
-import com.example.zodiac.sawa.R;
 import com.example.zodiac.sawa.Spring.Models.SignUpModel;
 import com.example.zodiac.sawa.Spring.Models.UserModel;
 import com.example.zodiac.sawa.SpringApi.AuthInterface;
-import com.example.zodiac.sawa.Validation;
 
 import java.io.ByteArrayOutputStream;
 
@@ -49,9 +45,9 @@ public class Register extends Activity {
         first_name = (EditText) findViewById(R.id.first_name);
         last_name = (EditText) findViewById(R.id.last_name);
 
-      //  emailEditText = (EditText) findViewById(R.id.userEmailId);
-      //  mobileEditText = (EditText) findViewById(R.id.mobileNumber);
-       // passEditText = (EditText) findViewById(R.id.password);
+        //  emailEditText = (EditText) findViewById(R.id.userEmailId);
+        //  mobileEditText = (EditText) findViewById(R.id.mobileNumber);
+        // passEditText = (EditText) findViewById(R.id.password);
         //confPassEditText = (EditText) findViewById(R.id.confirmPassword);
 
         Retrofit retrofit = new Retrofit.Builder()
@@ -90,29 +86,28 @@ public class Register extends Activity {
                     // add the user in the backend with empty recode
                     if (response.code() == 200) {
 
-                        aboutUserActivity.updateAbout("","","");
+                        aboutUserActivity.updateAbout("", "", "");
                         aboutUserActivity about = new aboutUserActivity();
 
-                       // about.addNewAboutUserInDB(Integer.parseInt(FinalRespone.getUser_id()));
-                        Bitmap bitmap= BitmapFactory.decodeResource(getResources(), R.drawable.profileimage);
-                        ByteArrayOutputStream stream=new ByteArrayOutputStream();
+                        // about.addNewAboutUserInDB(Integer.parseInt(FinalRespone.getUser_id()));
+                        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.profileimage);
+                        ByteArrayOutputStream stream = new ByteArrayOutputStream();
                         bitmap.compress(Bitmap.CompressFormat.PNG, 90, stream); // what 90 does ??
-                        byte[] image=stream.toByteArray();
-                       // dbHandler.insertUserImage(Integer.parseInt(userModel.getId()), image);
+                        byte[] image = stream.toByteArray();
+                        // dbHandler.insertUserImage(Integer.parseInt(userModel.getId()), image);
                         Intent i = new Intent(getApplicationContext(), HomeTabbedActivity.class);
-                         startActivity(i);
-                    } else if(response.code() == 404||response.code()==500||response.code()==502||response.code()==400) {
-                        GeneralFunctions generalFunctions=new GeneralFunctions();
+                        startActivity(i);
+                    } else if (response.code() == 404 || response.code() == 500 || response.code() == 502 || response.code() == 400) {
+                        GeneralFunctions generalFunctions = new GeneralFunctions();
                         generalFunctions.showErrorMesaage(getApplicationContext());
 
-                    }
-                    else Log.d("valid", "already added11");
+                    } else Log.d("valid", "already added11");
 
                 }
 
                 @Override
                 public void onFailure(Call<UserModel> call, Throwable t) {
-                    GeneralFunctions generalFunctions=new GeneralFunctions();
+                    GeneralFunctions generalFunctions = new GeneralFunctions();
                     generalFunctions.showErrorMesaage(getApplicationContext());
                     Log.d("notvalid", "valid");
                 }

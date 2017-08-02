@@ -5,7 +5,7 @@ package com.example.zodiac.sawa.Spring.Models;
  */
 
 public class EditProfileModel {
-    int id ;
+    int id;
     String first_name;
     String last_name;
     String gender;

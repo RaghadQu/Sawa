@@ -1,21 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-    <RelativeLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/purple"
+    android:id="@+id/RelativeLayout">
+
+    <ImageView
+        android:id="@+id/header_cover_image"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/purple"
-        android:id="@+id/RelativeLayout">
-          <ImageView
-            android:id="@+id/header_cover_image"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
+        android:layout_height="200dp"
 
-            android:scaleType="centerCrop"
-            />
+        android:scaleType="centerCrop" />
 
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/user_profile_photo"
         android:layout_width="120dp"
         android:layout_height="120dp"
@@ -26,64 +25,57 @@
         android:src="@drawable/profile"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="12dp"
-        />
+        android:layout_marginTop="12dp" />
 
-        <RelativeLayout
-            android:id="@+id/profile_layout"
-            android:layout_width="match_parent"
+    <RelativeLayout
+        android:id="@+id/profile_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/user_profile_photo"
+        android:background="@android:color/transparent">
+
+
+        <TextView
+            android:id="@+id/user_profile_name"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/user_profile_photo"
-            android:background="@android:color/transparent"
+            android:text="Username"
+            android:textColor="#fff"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:layout_centerHorizontal="true" />
+
+        <RelativeLayout android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:layout_marginTop="30dp"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+
             >
 
-
-
-
-
-            <TextView
-                android:id="@+id/user_profile_name"
-                android:layout_width="wrap_content"
+            <android.support.design.widget.TabLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Username"
-                android:textColor="#fff"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                android:layout_centerHorizontal="true" />
-
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:id="@+id/tabLayout"
                 android:layout_centerHorizontal="true"
-                android:gravity="center"
-                android:layout_marginTop="30dp"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:background="@color/purple"
+                app:tabMode="fixed"
+                app:tabGravity="fill"
+                app:tabTextColor="#9b8"
+                app:tabIndicatorColor="#fff"
+                app:tabSelectedTextColor="#fff" />
 
-                >
+            <android.support.v4.view.ViewPager
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/viewPager"
+                android:layout_below="@+id/tabLayout"
+                android:layout_centerHorizontal="true"
 
-                <android.support.design.widget.TabLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/tabLayout"
-                    android:layout_centerHorizontal="true"
-                    android:background="@color/purple"
-                    app:tabMode="fixed"
-                    app:tabGravity="fill"
-                    app:tabTextColor="#9b8"
-                    app:tabIndicatorColor="#fff"
-                    app:tabSelectedTextColor="#fff"
-                    />
-
-                <android.support.v4.view.ViewPager
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/viewPager"
-                    android:layout_below="@+id/tabLayout"
-                    android:layout_centerHorizontal="true"
-
-                    />
-
-            </RelativeLayout>
+                />
 
         </RelativeLayout>
+
     </RelativeLayout>
+</RelativeLayout>

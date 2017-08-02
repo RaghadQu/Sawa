@@ -13,15 +13,15 @@
         android:background="@drawable/friend_picture"
         android:layout_marginLeft="15dp"
         android:layout_marginTop="10dp"
-        android:src="@mipmap/three"
-        />
+        android:src="@mipmap/three" />
+
     <LinearLayout
         android:id="@+id/notificationMsgLayout"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
         android:layout_toRightOf="@+id/image"
-        android:layout_alignBottom="@+id/image"
-        >
+        android:layout_alignBottom="@+id/image">
+
         <TextView
             android:layout_marginLeft="15dp"
             android:layout_marginRight="5dp"
@@ -31,17 +31,16 @@
             android:textColor="#000"
             android:textSize="14dp"
             android:id="@+id/text"
-            android:text="Notification"
-            />
+            android:text="Notification" />
 
-      </LinearLayout>
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="20dp"
         android:layout_toRightOf="@+id/image"
-        android:layout_below="@+id/notificationMsgLayout"
-        >
+        android:layout_below="@+id/notificationMsgLayout">
+
         <TextView
             android:layout_marginLeft="15dp"
             android:layout_marginTop="6dp"
@@ -51,10 +50,10 @@
             android:textColor="@color/purple"
             android:textSize="13dp"
             android:id="@+id/time"
-            android:text="1 hour ago"
-            />
+            android:text="1 hour ago" />
 
     </LinearLayout>
+
     <View
         android:layout_marginTop="23dp"
         android:layout_marginRight="15dp"
@@ -62,8 +61,7 @@
         android:layout_height="1dp"
         android:background="#d6d6d6"
         android:layout_marginLeft="40dp"
-        android:layout_below="@+id/image"
-        />
+        android:layout_below="@+id/image" />
 
 </RelativeLayout>
 

@@ -19,6 +19,7 @@ import retrofit2.http.Path;
 public interface UserImageApi {
     @POST("api/users/saveUserImage")
     Call<AuthenticationResponeModel> saveImageUser(@Body UserImage userImage);
+
     @GET("api/users/getUserImage/{user_id}")
     Call<List<userImageFromDb>> getUserImageFromDb(@Path("user_id") int user_id);
 }

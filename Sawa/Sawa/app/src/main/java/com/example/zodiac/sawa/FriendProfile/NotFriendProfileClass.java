@@ -10,9 +10,6 @@ import com.example.zodiac.sawa.GeneralAppInfo;
 import com.example.zodiac.sawa.Spring.Models.FriendRequestModel;
 import com.example.zodiac.sawa.Spring.Models.FriendResponseModel;
 import com.example.zodiac.sawa.SpringApi.FriendshipInterface;
-import com.example.zodiac.sawa.interfaces.GetFreinds;
-import com.example.zodiac.sawa.models.AuthenticationResponeModel;
-import com.example.zodiac.sawa.models.DeleteFriendRequest;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -34,7 +31,6 @@ public class NotFriendProfileClass {
             public void onClick(View view) {
                 if (view == friendStatus && friendStatus.getText().equals("Add")) {
                     friendStatus.setText("Pending");
-
 
 
                     addNewFriendShip(GeneralAppInfo.getUserID(), Id);
@@ -65,7 +61,7 @@ public class NotFriendProfileClass {
             @Override
             public void onResponse(Call<FriendResponseModel> call, Response<FriendResponseModel> response) {
                 FriendResponseModel FriendshipResponse = response.body();
-                Log.d("AddFriendShip", "" + FriendshipResponse +" " + response.code());
+                Log.d("AddFriendShip", "" + FriendshipResponse + " " + response.code());
 
             }
 

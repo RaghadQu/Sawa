@@ -12,8 +12,6 @@ import android.view.ViewGroup;
 import com.example.zodiac.sawa.RecyclerViewAdapters.NotificationAdapter;
 import com.example.zodiac.sawa.Spring.Models.NotificationModel;
 import com.example.zodiac.sawa.SpringApi.NotificationInterface;
-import com.example.zodiac.sawa.interfaces.NotificationApi;
-import com.example.zodiac.sawa.models.Notification;
 import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView;
 
 import java.util.ArrayList;
@@ -110,7 +108,7 @@ public class NotificationTab extends AppCompatDialogFragment {
             @Override
             public void onResponse(Call<NotificationModel> call, Response<NotificationModel> response) {
                 Log.d("NotificationSpring", " Notification code " + response.code());
-                if (response.code() == 404||response.code()==500||response.code()==502||response.code()==400)  {
+                if (response.code() == 404 || response.code() == 500 || response.code() == 502 || response.code() == 400) {
                     GeneralFunctions generalFunctions = new GeneralFunctions();
                     generalFunctions.showErrorMesaage(getApplicationContext());
                 } else {
@@ -142,7 +140,7 @@ public class NotificationTab extends AppCompatDialogFragment {
 
             @Override
             public void onFailure(Call<NotificationModel> call, Throwable t) {
-                GeneralFunctions generalFunctions=new GeneralFunctions();
+                GeneralFunctions generalFunctions = new GeneralFunctions();
                 generalFunctions.showErrorMesaage(getApplicationContext());
                 Log.d("NotificationFail", t.getMessage());
             }

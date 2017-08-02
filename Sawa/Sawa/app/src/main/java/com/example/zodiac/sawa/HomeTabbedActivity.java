@@ -52,7 +52,6 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 import static com.example.zodiac.sawa.R.id.container;
-import static com.facebook.FacebookSdk.getApplicationContext;
 
 
 public class HomeTabbedActivity extends AppCompatActivity {
@@ -445,7 +444,7 @@ public class HomeTabbedActivity extends AppCompatActivity {
         logOutnResponse.enqueue(new Callback<Integer>() {
             @Override
             public void onResponse(Call<Integer> call, Response<Integer> response) {
-                if (response.code() == 404||response.code()==500||response.code()==502||response.code()==400)  {
+                if (response.code() == 404 || response.code() == 500 || response.code() == 502 || response.code() == 400) {
                     GeneralFunctions generalFunctions = new GeneralFunctions();
                     generalFunctions.showErrorMesaage(HomeTabbedActivity.context);
                 } else {
@@ -496,7 +495,7 @@ public class HomeTabbedActivity extends AppCompatActivity {
                     Log.d("InfoUser", " " + userInfo.getFirst_name());
                     userName.setText((userInfo.getFirst_name() + " " + userInfo.getLast_name()));
 
-                } else if (response.code() == 404||response.code()==500||response.code()==502||response.code()==400)  {
+                } else if (response.code() == 404 || response.code() == 500 || response.code() == 502 || response.code() == 400) {
                     GeneralFunctions generalFunctions = new GeneralFunctions();
                     generalFunctions.showErrorMesaage(HomeTabbedActivity.context);
                 }

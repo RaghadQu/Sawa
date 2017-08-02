@@ -47,15 +47,11 @@ import com.example.zodiac.sawa.Spring.Models.AboutUserRequestModel;
 import com.example.zodiac.sawa.Spring.Models.AboutUserResponseModel;
 import com.example.zodiac.sawa.Spring.Models.UserModel;
 import com.example.zodiac.sawa.SpringApi.AboutUserInterface;
-import com.google.android.youtube.player.YouTubeBaseActivity;
-import com.google.android.youtube.player.YouTubeInitializationResult;
-import com.google.android.youtube.player.YouTubePlayer;
-import com.google.android.youtube.player.YouTubePlayerView;
-
 import com.example.zodiac.sawa.YoutubePlayerDialogActivity;
 import com.google.android.youtube.player.YouTubeBaseActivity;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
+import com.google.android.youtube.player.YouTubePlayerView;
 import com.squareup.picasso.Picasso;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -534,7 +530,7 @@ public class MyProfileActivity extends YouTubeBaseActivity implements YouTubePla
             @Override
             public void onResponse(Call<AboutUserResponseModel> call, Response<AboutUserResponseModel> response) {
                 if (response.code() == 404 || response.code() == 500 || response.code() == 502 || response.code() == 400) {
-                    GeneralFunctions generalFunctions=new GeneralFunctions();
+                    GeneralFunctions generalFunctions = new GeneralFunctions();
                     generalFunctions.showErrorMesaage(getApplicationContext());
                 } else {
 
@@ -573,7 +569,7 @@ public class MyProfileActivity extends YouTubeBaseActivity implements YouTubePla
             @Override
             public void onResponse(Call<AboutUserResponseModel> call, Response<AboutUserResponseModel> response) {
                 if (response.code() == 404 || response.code() == 500 || response.code() == 502 || response.code() == 400) {
-                    GeneralFunctions generalFunctions=new GeneralFunctions();
+                    GeneralFunctions generalFunctions = new GeneralFunctions();
                     generalFunctions.showErrorMesaage(getApplicationContext());
                 } else {
 
@@ -623,7 +619,7 @@ public class MyProfileActivity extends YouTubeBaseActivity implements YouTubePla
 
 
                 } else if (response.code() == 404 || response.code() == 500 || response.code() == 502 || response.code() == 400) {
-                    GeneralFunctions generalFunctions=new GeneralFunctions();
+                    GeneralFunctions generalFunctions = new GeneralFunctions();
                     generalFunctions.showErrorMesaage(MyProfileActivity.context);
                 }
             }

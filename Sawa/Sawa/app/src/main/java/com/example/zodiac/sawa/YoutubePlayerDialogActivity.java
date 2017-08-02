@@ -18,18 +18,18 @@ public class YoutubePlayerDialogActivity extends YouTubeBaseActivity implements
         YouTubePlayer.OnInitializedListener {
     public static String api_key = "AIzaSyAa3QEuITB2WLRgtRVtM3jZwziz9Fc5EV4";
     public static final String API_KEY = "your api kery from google";
-    public String video_id ;
+    public String video_id;
     private YouTubePlayer youTubePlayer;
     private YouTubePlayerView youTubePlayerFragment;
     private static final int RQS_ErrorDialog = 1;
     String log = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.youtube_activity_dialog);
         video_id = "LwLABSm0yYc";
-
 
 
         youTubePlayerFragment = (YouTubePlayerView) findViewById(R.id.youtubeplayerfragment);
@@ -39,11 +39,7 @@ public class YoutubePlayerDialogActivity extends YouTubeBaseActivity implements
         youTubePlayerFragment.setVisibility(View.VISIBLE);
 
 
-
     }
-
-
-
 
 
     @Override
@@ -52,7 +48,6 @@ public class YoutubePlayerDialogActivity extends YouTubeBaseActivity implements
         youTubePlayer.setPlayerStateChangeListener(playerStateChangeListener);
         youTubePlayer.setPlaybackEventListener(playbackEventListener);
         youTubePlayer.cueVideo(video_id);
-
 
 
     }

@@ -42,11 +42,11 @@ public class uploadImage {
 
     }
 
-    public void uploadImagetoDB(int user_id, String encodedImage, String path, Bitmap bitmap , int requestCode , final ProgressBar imageProgressBar) {
+    public void uploadImagetoDB(int user_id, String encodedImage, String path, Bitmap bitmap, int requestCode, final ProgressBar imageProgressBar) {
         File file = new File(path);
-        GeneralFunctions generalFunctions=new GeneralFunctions();
+        GeneralFunctions generalFunctions = new GeneralFunctions();
 
-        file=generalFunctions.saveBitmap(bitmap,path);
+        file = generalFunctions.saveBitmap(bitmap, path);
 
         // create RequestBody instance from file
         RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
@@ -59,20 +59,19 @@ public class uploadImage {
                 .addConverterFactory(GsonConverterFactory.create()).build();
         ImageInterface imageInterface = retrofit.create(ImageInterface.class);
         Call<UserModel> userImageResponse;
-        if(requestCode==100) {
+        if (requestCode == 100) {
             userImageResponse = imageInterface.uploadProfileImage(body, GeneralAppInfo.userID);
-            Log.d("images","  Profile");
-        }
-        else {
+            Log.d("images", "  Profile");
+        } else {
             userImageResponse = imageInterface.uploadCoverImage(body, GeneralAppInfo.userID);
-            Log.d("images","  Cover");
+            Log.d("images", "  Cover");
 
         }
 
         userImageResponse.enqueue(new Callback<UserModel>() {
             @Override
             public void onResponse(Call<UserModel> call, Response<UserModel> response) {
-                Log.d("ImagesCode ", " " + response.code() );
+                Log.d("ImagesCode ", " " + response.code());
                 MyProfileActivity.getUserInfo();
                 imageProgressBar.setVisibility(View.INVISIBLE);
 
@@ -80,7 +79,7 @@ public class uploadImage {
 
             @Override
             public void onFailure(Call<UserModel> call, Throwable t) {
-                Log.d("ImagesCode ", " Error " +t.getMessage() );
+                Log.d("ImagesCode ", " Error " + t.getMessage());
 
             }
         });
@@ -116,8 +115,8 @@ public class uploadImage {
                 List<userImageFromDb> userImageFromDbs;
                 userImageFromDbs = response.body();
 //     here  //
-                Log.d("ImageUpload"," "+ response.code());
-      //  imageUrl = userImageFromDbs.get(0).getUser_image();
+                Log.d("ImageUpload", " " + response.code());
+                //  imageUrl = userImageFromDbs.get(0).getUser_image();
                 Log.d("Arrive to ge fro Db11", "s" + imageUrl);
                 imageUrl = GeneralAppInfo.IMAGE_URL + imageUrl;
                 Log.d("imageYtl", imageUrl);

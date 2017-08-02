@@ -44,10 +44,8 @@
         android:minHeight="120dp">
 
 
-
         <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
-            xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
@@ -132,8 +130,7 @@
                         android:paddingLeft="10dp"
                         android:text="Birth Date"
                         android:textColor="@color/purple"
-                        android:textStyle="bold"
-                        />
+                        android:textStyle="bold" />
 
                     <DatePicker
                         android:layout_width="wrap_content"
@@ -156,8 +153,7 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    >
+                    android:layout_height="match_parent">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -185,8 +181,9 @@
 
 
                         >
+
                         <RadioButton
-                         android:buttonTint="@color/purple"
+                            android:buttonTint="@color/purple"
                             android:id="@+id/radioM"
                             android:layout_width="wrap_content"
                             android:layout_height="0dp"
@@ -195,8 +192,8 @@
                             android:textSize="14dp"
                             android:text="Male"
                             android:scaleX="0.9"
-                            android:scaleY="0.9"
-                            />
+                            android:scaleY="0.9" />
+
                         <RadioButton
                             android:buttonTint="@color/purple"
 
@@ -209,8 +206,7 @@
                             android:textSize="14dp"
                             android:scaleX="0.9"
                             android:scaleY="0.9"
-                            android:text="Female"
-                            />
+                            android:text="Female" />
                     </RadioGroup>
                 </RelativeLayout>
             </LinearLayout>

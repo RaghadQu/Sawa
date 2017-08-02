@@ -50,6 +50,7 @@ public class aboutUserActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
+
     public static void updateAbout(final String bioText, final String statusText, final String songText) {
         AboutUserRequestModel aboutUserModel = new AboutUserRequestModel(GeneralAppInfo.getUserID(), bioText, statusText, songText);
         Retrofit retrofit = new Retrofit.Builder()
@@ -61,11 +62,12 @@ public class aboutUserActivity extends AppCompatActivity {
         call.enqueue(new Callback<AboutUserResponseModel>() {
             @Override
             public void onResponse(Call<AboutUserResponseModel> call, Response<AboutUserResponseModel> response) {
-                Log.d("AboutUserUpdate","Done successfully");
+                Log.d("AboutUserUpdate", "Done successfully");
             }
+
             @Override
             public void onFailure(Call<AboutUserResponseModel> call, Throwable t) {
-                Log.d("AboutUserUpdate","Failure "+ t.getMessage());
+                Log.d("AboutUserUpdate", "Failure " + t.getMessage());
             }
         });
 

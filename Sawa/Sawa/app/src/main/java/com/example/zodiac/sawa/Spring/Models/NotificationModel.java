@@ -13,10 +13,10 @@ import java.util.List;
 
 public class NotificationModel {
     @SerializedName("sent_notification")
-     List<Notification> sent_notification ;
+    List<Notification> sent_notification;
 
     @SerializedName("not_sent_notification")
-     List<Notification> not_sent_notification ;
+    List<Notification> not_sent_notification;
 
     public List<Notification> getSent_notifications() {
         return sent_notification;

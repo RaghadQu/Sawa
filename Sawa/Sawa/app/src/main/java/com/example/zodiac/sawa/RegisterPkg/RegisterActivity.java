@@ -20,7 +20,6 @@ import com.example.zodiac.sawa.Spring.Models.UserModel;
 import com.example.zodiac.sawa.SpringApi.AuthInterface;
 
 import java.io.ByteArrayOutputStream;
-import java.util.Date;
 
 import retrofit2.Call;
 import retrofit2.Callback;

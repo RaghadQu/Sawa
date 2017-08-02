@@ -41,15 +41,15 @@ public class EmailFragment extends android.app.Fragment {
                              Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
-       // InputMethodManager imgr = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-     //   imgr.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_IMPLICIT_ONLY);
-        InputMethodManager imm =  (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        // InputMethodManager imgr = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        //   imgr.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_IMPLICIT_ONLY);
+        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.showSoftInput(email, InputMethodManager.SHOW_IMPLICIT);
         View view = inflater.inflate(R.layout.register_email_fragment, container, false);
-        email=(EditText)view.findViewById(R.id.userEmail);
+        email = (EditText) view.findViewById(R.id.userEmail);
         email.setFocusable(true);
-        nextbtn=(Button)view.findViewById(R.id.nextBtn);
-        final ProgressBar checkEmailProgress =(ProgressBar) view.findViewById(R.id.checkEmailProgress);
+        nextbtn = (Button) view.findViewById(R.id.nextBtn);
+        final ProgressBar checkEmailProgress = (ProgressBar) view.findViewById(R.id.checkEmailProgress);
 
         nextbtn.setOnClickListener(new View.OnClickListener() {
 
@@ -60,10 +60,7 @@ public class EmailFragment extends android.app.Fragment {
                     email.setError("Email is required");
                 } else if (!(Validation.isEmailValid(email.getText().toString()))) {
                     email.setError("Email is not valid");
-                }
-
-                else
-                {
+                } else {
                     checkEmailProgress.setVisibility(View.VISIBLE);
                     Retrofit retrofit = new Retrofit.Builder()
                             .baseUrl(GeneralAppInfo.SPRING_URL)
@@ -79,28 +76,27 @@ public class EmailFragment extends android.app.Fragment {
                             checkEmailProgress.setVisibility(View.INVISIBLE);
 
                             Log.d("EmailChecker", " " + response.code());
-                            if(response.code()==204){
+                            if (response.code() == 204) {
                                 ((RegisterActivity) getActivity()).setUserEmail(email.getText().toString());
-                                android.app.Fragment f=new MobileFragment();
-                                ((RegisterActivity)getActivity()).replaceFragmnets(f);
-                            } else if(response.code()==409 || response.code() ==200) {
+                                android.app.Fragment f = new MobileFragment();
+                                ((RegisterActivity) getActivity()).replaceFragmnets(f);
+                            } else if (response.code() == 409 || response.code() == 200) {
                                 email.setError("Email is already used!");
-                            }else if(response.code() == 404||response.code()==500||response.code()==502||response.code()==400){
-                                GeneralFunctions generalFunctions=new GeneralFunctions();
+                            } else if (response.code() == 404 || response.code() == 500 || response.code() == 502 || response.code() == 400) {
+                                GeneralFunctions generalFunctions = new GeneralFunctions();
                                 generalFunctions.showErrorMesaage(getActivity().getApplicationContext());
                             }
                         }
 
                         @Override
                         public void onFailure(Call<UserModel> call, Throwable t) {
-                            GeneralFunctions generalFunctions=new GeneralFunctions();
+                            GeneralFunctions generalFunctions = new GeneralFunctions();
                             generalFunctions.showErrorMesaage(getActivity().getApplicationContext());
                             checkEmailProgress.setVisibility(View.INVISIBLE);
                             Log.d("Email.Register", " Error " + t.getMessage());
                         }
                     });
                 }
-
 
 
             }

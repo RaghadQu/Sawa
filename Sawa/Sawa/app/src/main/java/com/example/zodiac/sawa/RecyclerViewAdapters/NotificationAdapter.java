@@ -10,8 +10,8 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.example.zodiac.sawa.GeneralAppInfo;
 import com.example.zodiac.sawa.FriendProfile.FreindsFunctions;
+import com.example.zodiac.sawa.GeneralAppInfo;
 import com.example.zodiac.sawa.NotificationTab;
 import com.example.zodiac.sawa.R;
 import com.example.zodiac.sawa.Spring.Models.updateNotificationModel;
@@ -50,7 +50,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     public void onBindViewHolder(RecyclerViewHolder holder, int position) {
         NotificationRecyclerViewDataProvider dataProvider = notificationRecyclerViewDataProviders.get(position);
 
-        String imageUrl =GeneralAppInfo.SPRING_URL +"/"+  dataProvider.getImage();
+        String imageUrl = GeneralAppInfo.SPRING_URL + "/" + dataProvider.getImage();
         Picasso.with(dataProvider.getContext()).load(imageUrl).into(holder.image);
         holder.text.setText(dataProvider.getText() + " sent you a friend request.");
         holder.time.setText(dataProvider.getTime());
@@ -94,7 +94,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
             layout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Log.d("Success","updateReadFlag " +getAdapterPosition());
+                    Log.d("Success", "updateReadFlag " + getAdapterPosition());
 
                     position = getAdapterPosition();
                     updateNotificationModel notificationModel = new updateNotificationModel();
@@ -105,18 +105,18 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                     notificationResponse.enqueue(new Callback<Integer>() {
                         @Override
                         public void onResponse(Call<Integer> call, Response<Integer> response) {
-                            Log.d("Success","updateReadFlag " + response.code());
+                            Log.d("Success", "updateReadFlag " + response.code());
 
                         }
 
                         @Override
                         public void onFailure(Call<Integer> call, Throwable t) {
-                            Log.d("Fail","updateReadFlag : "+ t.getMessage());
+                            Log.d("Fail", "updateReadFlag : " + t.getMessage());
                         }
                     });
 
 
-                    if (NotificationTab.NotificationList.get(position).getType()==3) {
+                    if (NotificationTab.NotificationList.get(position).getType() == 3) {
                         String name = NotificationTab.NotificationList.get(position).getText();
                         String image = NotificationTab.NotificationList.get(position).getImage();
                         int friend_id = NotificationTab.NotificationList.get(position).getFriend_id();

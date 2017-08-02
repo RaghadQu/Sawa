@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
 
     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <!-- TODO: Update blank fragment layout -->
@@ -24,8 +24,7 @@
                 android:textAllCaps="false"
                 android:textSize="18dp"
                 android:gravity="center_horizontal"
-                android:textColor="@color/purple"
-                />
+                android:textColor="@color/purple" />
 
             <RadioGroup
                 android:id="@+id/radioGrp"
@@ -36,6 +35,7 @@
 
 
                 >
+
                 <RadioButton
                     android:id="@+id/radioM"
                     android:layout_width="wrap_content"
@@ -43,8 +43,8 @@
                     android:checked="false"
                     android:layout_weight="1"
                     android:textSize="16dp"
-                    android:text="Male"
-                    />
+                    android:text="Male" />
+
                 <RadioButton
                     android:id="@+id/radioF"
                     android:layout_width="wrap_content"
@@ -53,8 +53,7 @@
                     android:layout_marginTop="10dp"
                     android:layout_weight="1"
                     android:textSize="16dp"
-                    android:text="Female"
-                    />
+                    android:text="Female" />
             </RadioGroup>
 
             <Button

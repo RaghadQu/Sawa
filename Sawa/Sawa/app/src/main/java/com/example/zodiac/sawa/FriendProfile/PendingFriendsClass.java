@@ -21,15 +21,15 @@ public class PendingFriendsClass {
     FreindsFunctions friendFunction;
 
 
-    public void SetFriendButtn(final Button friendStatus, Context context, final int Id){
+    public void SetFriendButtn(final Button friendStatus, Context context, final int Id) {
         friendStatus.setText("Pending");
 
         friendFunction = new FreindsFunctions();
         ConfirmDeletion = new Dialog(context);
         ConfirmDeletion.setContentView(R.layout.confirm_delete_friend_or_request_dialog);
-        NoBtn = (Button) ConfirmDeletion.findViewById(R.id.NoBtn) ;
-        YesBtn = (Button) ConfirmDeletion.findViewById(R.id.YesBtn) ;
-        textMsg = (TextView) ConfirmDeletion.findViewById(R.id.TextMsg) ;
+        NoBtn = (Button) ConfirmDeletion.findViewById(R.id.NoBtn);
+        YesBtn = (Button) ConfirmDeletion.findViewById(R.id.YesBtn);
+        textMsg = (TextView) ConfirmDeletion.findViewById(R.id.TextMsg);
         textMsg.setText("Are you sure you want to delete this request ?");
         friendStatus.setOnClickListener(new View.OnClickListener() {
 
@@ -51,7 +51,7 @@ public class PendingFriendsClass {
                     @Override
                     public void onClick(View view) {
                         ConfirmDeletion.dismiss();
-                        friendFunction.DeleteFriend(GeneralAppInfo.getUserID(),Id,friendStatus);
+                        friendFunction.DeleteFriend(GeneralAppInfo.getUserID(), Id, friendStatus);
 
 
                     }

@@ -5,18 +5,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.example.zodiac.sawa.R;
 import com.example.zodiac.sawa.models.SettingsRecyclerViewDataProvider;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
-
-import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by Rabee on 4/24/2017.

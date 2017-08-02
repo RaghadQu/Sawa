@@ -3,6 +3,7 @@ package com.example.zodiac.sawa.models;
 /**
  * Created by zodiac on 03/21/2017.
  */
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
