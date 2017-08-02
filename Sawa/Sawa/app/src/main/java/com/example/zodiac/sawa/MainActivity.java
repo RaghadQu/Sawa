@@ -250,6 +250,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
                         } else if (response.code() == 404||response.code()==500||response.code()==502||response.code()==400) {
+
                             LoggingInDialog.dismiss();
                             generalFunctions.showErrorMesaage(getApplicationContext());
                         } else {
@@ -263,11 +264,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                     .repeat(0)
                                     .playOn(findViewById(R.id.password));
                             emailEditText.setError("Invalid Email or Password");
-
-
                         }
-
-
                     }
 
                     @Override

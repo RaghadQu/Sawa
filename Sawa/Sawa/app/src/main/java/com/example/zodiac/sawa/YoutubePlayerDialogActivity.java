@@ -27,7 +27,7 @@ public class YoutubePlayerDialogActivity extends YouTubeBaseActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.test_test);
+        setContentView(R.layout.youtube_activity_dialog);
         video_id = "LwLABSm0yYc";
 
 
