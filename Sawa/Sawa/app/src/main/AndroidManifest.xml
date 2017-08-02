@@ -82,7 +82,6 @@
         <activity android:name=".EditProfileActivity" />
 
         <activity android:name=".SearchActivity" />
-        <activity android:name=".YoutubePlayerActivity"></activity>
 
         <activity
             android:name=".YoutubePlayerDialogActivity"

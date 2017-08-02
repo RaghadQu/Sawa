@@ -13,7 +13,6 @@ import com.example.zodiac.sawa.RecyclerViewAdapters.FastScrollAdapter;
 import com.example.zodiac.sawa.MenuActiviries.MyFriendsActivity;
 import com.example.zodiac.sawa.Spring.Models.UserModel;
 import com.example.zodiac.sawa.SpringApi.SearchInterface;
-import com.example.zodiac.sawa.interfaces.SerachApi;
 import com.example.zodiac.sawa.models.getFriendsResponse;
 import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView;
 
