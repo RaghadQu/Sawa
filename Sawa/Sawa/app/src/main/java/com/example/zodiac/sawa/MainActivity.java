@@ -74,6 +74,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         System.gc();
         super.onCreate(savedInstanceState);
+        GeneralFunctions generalFunctions = new GeneralFunctions();
         FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_main);
         YoYo.with(Techniques.SlideInLeft)
@@ -88,7 +89,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .duration(700)
                 .repeat(0)
                 .playOn(findViewById(R.id.loginWithGoogleBtn));
-              GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .build();
         googleApiClient = new GoogleApiClient.Builder(this)
@@ -125,7 +126,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             loginWithFacebookModel.setEmail(object.getString("email"));
                             loginWithFacebookModel.setFirstName(object.getString("first_name"));
                             loginWithFacebookModel.setLastName(object.getString("last_name"));
-                          //  loginWithFacebookModel.(object.getString("gender"));
+                            //  loginWithFacebookModel.(object.getString("gender"));
                             loginWithFacebookModel.setId(loginResult.getAccessToken().getUserId());
                             loginWithFacebookModel.setAccessToken(loginResult.getAccessToken().getToken());
                             loginWithFacebookModel.setImage("");
@@ -134,9 +135,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             Log.d("Facebook email", "" + object.getString("email"));
                             Log.d("Facebook email", "" + object.getString("first_name"));
                             Log.d("Facebook gender", "" + object.getString("gender"));
-                          //  Log.d("Facebook gender", "" + object.getString("user_birthday"));
-
-
+                            //  Log.d("Facebook gender", "" + object.getString("user_birthday"));
 
 
                         } catch (JSONException e) {
@@ -167,7 +166,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         GoogleSignInOptions signInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().requestProfile()
                 .requestIdToken(getString(R.string.default_web_client_id)).
-                requestServerAuthCode(getString(R.string.default_web_client_id)).requestScopes(new Scope(Scopes.PLUS_LOGIN)).build();
+                        requestServerAuthCode(getString(R.string.default_web_client_id)).requestScopes(new Scope(Scopes.PLUS_LOGIN)).build();
 
         //end section
 
@@ -197,7 +196,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     public void checkLogin(View arg0) {
 
-        GeneralFunctions generalFunctions = new GeneralFunctions();
+        final GeneralFunctions generalFunctions = new GeneralFunctions();
         boolean isOnline = generalFunctions.isOnline(getApplicationContext());
 
 
@@ -239,11 +238,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                             finish();
 
-                        }
-                     else if( response.code() == 404) {
+                        } else if (response.code() == 404||response.code()==500||response.code()==502||response.code()==400) {
                             LoggingInDialog.dismiss();
-                            emailEditText.setError("Oops. Server is down");
-
+                            generalFunctions.showErrorMesaage(getApplicationContext());
                         } else {
                             LoggingInDialog.dismiss();
                             YoYo.with(Techniques.Shake)
@@ -257,13 +254,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             emailEditText.setError("Invalid Email or Password");
 
 
-                    }
+                        }
 
 
                     }
 
                     @Override
                     public void onFailure(Call<UserModel> call, Throwable t) {
+                        GeneralFunctions generalFunctions=new GeneralFunctions();
+                        generalFunctions.showErrorMesaage(getApplicationContext());
                         Log.d("----", " Error " + t.getMessage());
 
 
@@ -415,8 +414,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                     finish();
 
-                } else if (response.code() == 404) {
-                    emailEditText.setError("Oops. Server is down");
+                } else if (response.code() == 404||response.code()==500||response.code()==502||response.code()==400) {
+                    GeneralFunctions generalFunctions=new GeneralFunctions();
+                    generalFunctions.showErrorMesaage(getApplicationContext());
 
                 } else {
                     emailEditText.setError("Invalid Email or Password");
@@ -427,6 +427,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             @Override
             public void onFailure(Call<UserModel> call, Throwable t) {
+                GeneralFunctions generalFunctions=new GeneralFunctions();
+                generalFunctions.showErrorMesaage(getApplicationContext());
                 Log.d("----", " Error " + t.getMessage());
 
 
@@ -468,8 +470,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                     finish();
 
-                } else if (response.code() == 404) {
-                    emailEditText.setError("Oops. Server is down");
+                } else if (response.code() == 404||response.code()==500||response.code()==502||response.code()==400) {
+                    GeneralFunctions generalFunctions=new GeneralFunctions();
+                    generalFunctions.showErrorMesaage(getApplicationContext());
                 } else {
                     emailEditText.setError("Invalid Email or Password");
                 }
@@ -479,6 +482,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             @Override
             public void onFailure(Call<UserModel> call, Throwable t) {
+                GeneralFunctions generalFunctions=new GeneralFunctions();
+                generalFunctions.showErrorMesaage(getApplicationContext());
                 Log.d("----", " Error " + t.getMessage());
 
 

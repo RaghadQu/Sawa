@@ -24,6 +24,8 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import static com.facebook.FacebookSdk.getApplicationContext;
+
 /**
  * Created by zodiac on 05/22/2017.
  */
@@ -31,7 +33,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class NotificationTab extends AppCompatDialogFragment {
 
     View view;
-    Context context=getContext();
+    Context context = getContext();
     public static ArrayList<NotificationAdapter.NotificationRecyclerViewDataProvider> NotificationList = new ArrayList<>();
     public static FastScrollRecyclerView recyclerView;
     public static NotificationAdapter adapter;
@@ -50,7 +52,7 @@ public class NotificationTab extends AppCompatDialogFragment {
 
         adapter = new NotificationAdapter(NotificationList);
         view = inflater.inflate(R.layout.notification_tab, container, false);
-        recyclerView=(FastScrollRecyclerView)view.findViewById(R.id.recyclerNotification);
+        recyclerView = (FastScrollRecyclerView) view.findViewById(R.id.recyclerNotification);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         getUserNotifications(context);
 
@@ -108,37 +110,46 @@ public class NotificationTab extends AppCompatDialogFragment {
             @Override
             public void onResponse(Call<NotificationModel> call, Response<NotificationModel> response) {
                 Log.d("NotificationSpring", " Notification code " + response.code());
-                NotificationModel UserNotification;
-                UserNotification = response.body();
-                NotificationList.clear();
-                if(UserNotification!= null){
-                    Log.d("NotificationSpring", UserNotification.getNot_sent_notifications().size() + " " +  UserNotification.getSent_notifications().size());
+                if (response.code() == 404||response.code()==500||response.code()==502||response.code()==400)  {
+                    GeneralFunctions generalFunctions = new GeneralFunctions();
+                    generalFunctions.showErrorMesaage(getApplicationContext());
+                } else {
 
-                    for (int i = 0; i < UserNotification.getNot_sent_notifications().size(); i++) {
-                        NotificationModel.Notification notificationOne=UserNotification.getNot_sent_notifications().get(i);
-                        NotificationList.add(new NotificationAdapter.NotificationRecyclerViewDataProvider(context,notificationOne.getFriend1_id().getId(),notificationOne.getFriend1_id().getImage(),(notificationOne.getFriend1_id().getFirst_name()+" "+notificationOne.getFriend1_id().getLast_name()),String.valueOf(notificationOne.getTimestamp()),Integer.valueOf(notificationOne.getRead_flag())));
-                        NotificationList.get(i).setType(notificationOne.getType());
-                        NotificationList.get(i).setNotificatioId(notificationOne.getFriend1_id().getId());
+
+                    NotificationModel UserNotification;
+                    UserNotification = response.body();
+                    NotificationList.clear();
+                    if (UserNotification != null) {
+                        Log.d("NotificationSpring", UserNotification.getNot_sent_notifications().size() + " " + UserNotification.getSent_notifications().size());
+
+                        for (int i = 0; i < UserNotification.getNot_sent_notifications().size(); i++) {
+                            NotificationModel.Notification notificationOne = UserNotification.getNot_sent_notifications().get(i);
+                            NotificationList.add(new NotificationAdapter.NotificationRecyclerViewDataProvider(context, notificationOne.getFriend1_id().getId(), notificationOne.getFriend1_id().getImage(), (notificationOne.getFriend1_id().getFirst_name() + " " + notificationOne.getFriend1_id().getLast_name()), String.valueOf(notificationOne.getTimestamp()), Integer.valueOf(notificationOne.getRead_flag())));
+                            NotificationList.get(i).setType(notificationOne.getType());
+                            NotificationList.get(i).setNotificatioId(notificationOne.getFriend1_id().getId());
+                        }
+
+                        for (int i = 0; i < UserNotification.getSent_notifications().size(); i++) {
+                            NotificationModel.Notification notificationOne = UserNotification.getSent_notifications().get(i);
+                            NotificationList.add(new NotificationAdapter.NotificationRecyclerViewDataProvider(context, notificationOne.getFriend1_id().getId(), notificationOne.getFriend1_id().getImage(), (notificationOne.getFriend1_id().getFirst_name() + " " + notificationOne.getFriend1_id().getLast_name()), String.valueOf(notificationOne.getTimestamp()), Integer.valueOf(notificationOne.getRead_flag())));
+                            NotificationList.get(i).setType(notificationOne.getType());
+                            NotificationList.get(i).setNotificatioId(notificationOne.getId());
+                        }
                     }
-
-                    for (int i = 0; i < UserNotification.getSent_notifications().size(); i++) {
-                        NotificationModel.Notification notificationOne=UserNotification.getSent_notifications().get(i);
-                        NotificationList.add(new NotificationAdapter.NotificationRecyclerViewDataProvider(context,notificationOne.getFriend1_id().getId(),notificationOne.getFriend1_id().getImage(),(notificationOne.getFriend1_id().getFirst_name()+" "+notificationOne.getFriend1_id().getLast_name()),String.valueOf(notificationOne.getTimestamp()),Integer.valueOf(notificationOne.getRead_flag())));
-                        NotificationList.get(i).setType(notificationOne.getType());
-                        NotificationList.get(i).setNotificatioId(notificationOne.getId());
-                    }}
-                recyclerView.setAdapter( new NotificationAdapter(NotificationList));
+                    recyclerView.setAdapter(new NotificationAdapter(NotificationList));
+                }
             }
 
             @Override
             public void onFailure(Call<NotificationModel> call, Throwable t) {
+                GeneralFunctions generalFunctions=new GeneralFunctions();
+                generalFunctions.showErrorMesaage(getApplicationContext());
                 Log.d("NotificationFail", t.getMessage());
             }
 
         });
 
     }
-
 
 
 }

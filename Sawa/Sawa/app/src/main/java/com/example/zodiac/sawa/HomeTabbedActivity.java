@@ -52,6 +52,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 import static com.example.zodiac.sawa.R.id.container;
+import static com.facebook.FacebookSdk.getApplicationContext;
 
 
 public class HomeTabbedActivity extends AppCompatActivity {
@@ -78,7 +79,7 @@ public class HomeTabbedActivity extends AppCompatActivity {
     static TabLayout tabLayout;
     public static Handler UIHandler;
     static TextView userName;
-    static Context context ;
+    static Context context;
     public static Activity activity = null;
 
     @Override
@@ -99,13 +100,15 @@ public class HomeTabbedActivity extends AppCompatActivity {
         PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putInt("isRunning",
                 0).commit();
     }
+
     @Override
-    protected  void onDestroy(){
+    protected void onDestroy() {
         super.onDestroy();
         PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putInt("isRunning",
                 0).commit();
     }
-    protected  void onStop(){
+
+    protected void onStop() {
         super.onStop();
         PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putInt("isRunning",
                 0).commit();
@@ -116,8 +119,8 @@ public class HomeTabbedActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         UIHandler = new Handler(Looper.getMainLooper());
         setContentView(R.layout.activity_home_tabbed2);
-        context = getApplicationContext();
-        activity= this;
+        HomeTabbedActivity.context = getApplicationContext();
+        activity = this;
         //set As logined for badge number
         PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putInt("isRunning",
                 1).commit();
@@ -175,14 +178,13 @@ public class HomeTabbedActivity extends AppCompatActivity {
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 if (position == GeneralAppInfo.notifications_tab_position) {
 
-                    if(sharedPreferences.getInt("notifications_counter",0)>0)
-                    {
+                    if (sharedPreferences.getInt("notifications_counter", 0) > 0) {
                         NotificationTab.getUserNotifications(getApplicationContext());
                     }
 
                     PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putInt("notifications_counter",
                             0).commit();
-                    Log.d("notifications_counter","set to zero");
+                    Log.d("notifications_counter", "set to zero");
 
                 }
                 showBadge(getApplicationContext());
@@ -297,7 +299,7 @@ public class HomeTabbedActivity extends AppCompatActivity {
             if (getArguments().getInt(ARG_SECTION_NUMBER) == 1) {
                 GeneralFunctions.getSharedPreferences(getContext());
                 View rootView = inflater.inflate(R.layout.fragment_home, container, false);
-                FloatingActionButton addPost=  (FloatingActionButton) rootView.findViewById(R.id.fab);
+                FloatingActionButton addPost = (FloatingActionButton) rootView.findViewById(R.id.fab);
 
 
                 addPost.setOnClickListener(new View.OnClickListener() {
@@ -325,9 +327,9 @@ public class HomeTabbedActivity extends AppCompatActivity {
                 View rootView = inflater.inflate(R.layout.fragment_settings, container, false);
                 userName = (TextView) rootView.findViewById(R.id.userName);
                 getUserInfo();
-                CircleImageView friendsIcon , requestsIcon , savedPostsIcon , settingsIcon, logoutIcon;
+                CircleImageView friendsIcon, requestsIcon, savedPostsIcon, settingsIcon, logoutIcon;
                 friendsIcon = (CircleImageView) rootView.findViewById(R.id.friendsIcon);
-                requestsIcon =(CircleImageView) rootView.findViewById(R.id.requestsIcon);
+                requestsIcon = (CircleImageView) rootView.findViewById(R.id.requestsIcon);
                 savedPostsIcon = (CircleImageView) rootView.findViewById(R.id.savedPostsIcon);
                 settingsIcon = (CircleImageView) rootView.findViewById(R.id.settingsIcon);
                 logoutIcon = (CircleImageView) rootView.findViewById(R.id.logoutIcon);
@@ -407,9 +409,9 @@ public class HomeTabbedActivity extends AppCompatActivity {
     }
 
 
-    public static void showBadge( Context c) {
+    public static void showBadge(Context c) {
 
-        final int count =PreferenceManager.getDefaultSharedPreferences(c).getInt("notifications_counter",
+        final int count = PreferenceManager.getDefaultSharedPreferences(c).getInt("notifications_counter",
                 0);
         Log.d("enter", " count is :" + count);
         UIHandler.post(new Runnable() {
@@ -426,7 +428,7 @@ public class HomeTabbedActivity extends AppCompatActivity {
         });
     }
 
-    public static void logout(){
+    public static void logout() {
 
         String android_id = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
         Retrofit retrofit = new Retrofit.Builder()
@@ -443,22 +445,30 @@ public class HomeTabbedActivity extends AppCompatActivity {
         logOutnResponse.enqueue(new Callback<Integer>() {
             @Override
             public void onResponse(Call<Integer> call, Response<Integer> response) {
-                Log.d("SignOut", " "  +response.code());
-                SharedPreferences preferences = context.getSharedPreferences("userInfo", Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = preferences.edit();
-                editor.clear();
-                editor.commit();
-                Intent i = new Intent(context, MainActivity.class);
-                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity(i);
-                HomeTabbedActivity.activity.finish();
+                if (response.code() == 404||response.code()==500||response.code()==502||response.code()==400)  {
+                    GeneralFunctions generalFunctions = new GeneralFunctions();
+                    generalFunctions.showErrorMesaage(HomeTabbedActivity.context);
+                } else {
+
+
+                    Log.d("SignOut", " " + response.code());
+                    SharedPreferences preferences = context.getSharedPreferences("userInfo", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = preferences.edit();
+                    editor.clear();
+                    editor.commit();
+                    Intent i = new Intent(context, MainActivity.class);
+                    i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(i);
+                    HomeTabbedActivity.activity.finish();
 
 //                ActivityCompat.finishAffinity((Activity) context);
-
+                }
             }
 
             @Override
             public void onFailure(Call<Integer> call, Throwable t) {
+                GeneralFunctions generalFunctions = new GeneralFunctions();
+                generalFunctions.showErrorMesaage(HomeTabbedActivity.context);
                 Log.d("Fail", t.getMessage());
             }
 
@@ -484,14 +494,19 @@ public class HomeTabbedActivity extends AppCompatActivity {
                 if (statusCode == 200) {
                     userInfo = response.body();
                     Log.d("InfoUser", " " + userInfo.getFirst_name());
-                    userName.setText((userInfo.getFirst_name()+ " "+userInfo.getLast_name()));
+                    userName.setText((userInfo.getFirst_name() + " " + userInfo.getLast_name()));
 
+                } else if (response.code() == 404||response.code()==500||response.code()==502||response.code()==400)  {
+                    GeneralFunctions generalFunctions = new GeneralFunctions();
+                    generalFunctions.showErrorMesaage(HomeTabbedActivity.context);
                 }
+
             }
 
             @Override
             public void onFailure(Call<UserModel> call, Throwable t) {
-                Log.d("----", " Error " + t.getMessage());
+                GeneralFunctions generalFunctions = new GeneralFunctions();
+                generalFunctions.showErrorMesaage(HomeTabbedActivity.context);
             }
         });
 

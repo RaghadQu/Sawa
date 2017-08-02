@@ -101,12 +101,19 @@ public class Register extends Activity {
                        // dbHandler.insertUserImage(Integer.parseInt(userModel.getId()), image);
                         Intent i = new Intent(getApplicationContext(), HomeTabbedActivity.class);
                          startActivity(i);
-                    } else Log.d("valid", "already added11");
+                    } else if(response.code() == 404||response.code()==500||response.code()==502||response.code()==400) {
+                        GeneralFunctions generalFunctions=new GeneralFunctions();
+                        generalFunctions.showErrorMesaage(getApplicationContext());
+
+                    }
+                    else Log.d("valid", "already added11");
 
                 }
 
                 @Override
                 public void onFailure(Call<UserModel> call, Throwable t) {
+                    GeneralFunctions generalFunctions=new GeneralFunctions();
+                    generalFunctions.showErrorMesaage(getApplicationContext());
                     Log.d("notvalid", "valid");
                 }
             });

@@ -17,7 +17,6 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -52,6 +51,11 @@ import com.google.android.youtube.player.YouTubeBaseActivity;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerView;
+
+import com.example.zodiac.sawa.YoutubePlayerDialogActivity;
+import com.google.android.youtube.player.YouTubeBaseActivity;
+import com.google.android.youtube.player.YouTubeInitializationResult;
+import com.google.android.youtube.player.YouTubePlayer;
 import com.squareup.picasso.Picasso;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -98,6 +102,7 @@ public class MyProfileActivity extends YouTubeBaseActivity implements YouTubePla
     private RecyclerView.LayoutManager mLayoutManager;
     String[] myDataset = {"Profile", "Friends", "Friend Requests", "Log out"};
     int[] images = {image1, image2, image3, image4};
+    ProgressBar coverProgressBar;
 
     private ProgressBar progressBar;
     public static ObjectAnimator anim;
@@ -127,6 +132,7 @@ public class MyProfileActivity extends YouTubeBaseActivity implements YouTubePla
         coverImage = (ImageView) findViewById(R.id.coverImage);
         profileBio = (TextView) findViewById(R.id.profileBio);
         userName = (TextView) findViewById(R.id.user_profile_name);
+        coverProgressBar = (ProgressBar) findViewById(R.id.coverProgressBar);
 
 
         if (isOnline == false) {
@@ -386,8 +392,10 @@ public class MyProfileActivity extends YouTubeBaseActivity implements YouTubePla
 
             editSong.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-
-                    editMySong.show();
+                    Log.d("EditSong", " Edit Song youtubePlayer");
+                    Intent i = new Intent(getApplicationContext(), YoutubePlayerDialogActivity.class);
+                    startActivity(i);
+                    //  editMySong.show();
 
                 }
             });
@@ -482,8 +490,8 @@ public class MyProfileActivity extends YouTubeBaseActivity implements YouTubePla
                 uploadImage uploadImage = new uploadImage();
                 Log.d("XX", "arrive");
 
-                uploadImage.uploadImagetoDB(GeneralAppInfo.getUserID(), encodedImage, path, bitmap, requestCode
-                );
+
+                uploadImage.uploadImagetoDB(GeneralAppInfo.getUserID(), encodedImage, path, bitmap, requestCode, coverProgressBar);
 
 
             } catch (Exception e) {
@@ -525,19 +533,28 @@ public class MyProfileActivity extends YouTubeBaseActivity implements YouTubePla
         call.enqueue(new Callback<AboutUserResponseModel>() {
             @Override
             public void onResponse(Call<AboutUserResponseModel> call, Response<AboutUserResponseModel> response) {
-                if (response != null) {
-                    if (response.body() != null) {
-                        profileBio.setText(response.body().getUserBio());
-                        bioTxt.setText(response.body().getUserBio());
-                        statusTxt.setText(response.body().getUserStatus());
-                        songTxt.setText(response.body().getUserSong());
+                if (response.code() == 404 || response.code() == 500 || response.code() == 502 || response.code() == 400) {
+                    GeneralFunctions generalFunctions=new GeneralFunctions();
+                    generalFunctions.showErrorMesaage(getApplicationContext());
+                } else {
 
+
+                    if (response != null) {
+                        if (response.body() != null) {
+                            profileBio.setText(response.body().getUserBio());
+                            bioTxt.setText(response.body().getUserBio());
+                            statusTxt.setText(response.body().getUserStatus());
+                            songTxt.setText(response.body().getUserSong());
+
+                        }
                     }
                 }
             }
 
             @Override
             public void onFailure(Call<AboutUserResponseModel> call, Throwable t) {
+                GeneralFunctions generalFunctions = new GeneralFunctions();
+                generalFunctions.showErrorMesaage(MyProfileActivity.context);
                 Log.d("AboutUserFill", "Failure " + t.getMessage());
             }
         });
@@ -555,12 +572,21 @@ public class MyProfileActivity extends YouTubeBaseActivity implements YouTubePla
         call.enqueue(new Callback<AboutUserResponseModel>() {
             @Override
             public void onResponse(Call<AboutUserResponseModel> call, Response<AboutUserResponseModel> response) {
-                Log.d("AboutUserUpdate", "Done successfully");
-                fillAbout();
+                if (response.code() == 404 || response.code() == 500 || response.code() == 502 || response.code() == 400) {
+                    GeneralFunctions generalFunctions=new GeneralFunctions();
+                    generalFunctions.showErrorMesaage(getApplicationContext());
+                } else {
+
+
+                    Log.d("AboutUserUpdate", "Done successfully");
+                    fillAbout();
+                }
             }
 
             @Override
             public void onFailure(Call<AboutUserResponseModel> call, Throwable t) {
+                GeneralFunctions generalFunctions = new GeneralFunctions();
+                generalFunctions.showErrorMesaage(getApplicationContext());
                 Log.d("AboutUserUpdate", "Failure " + t.getMessage());
             }
         });
@@ -596,11 +622,16 @@ public class MyProfileActivity extends YouTubeBaseActivity implements YouTubePla
                     Picasso.with(context).load(coverUrl).into(coverImage);
 
 
+                } else if (response.code() == 404 || response.code() == 500 || response.code() == 502 || response.code() == 400) {
+                    GeneralFunctions generalFunctions=new GeneralFunctions();
+                    generalFunctions.showErrorMesaage(MyProfileActivity.context);
                 }
             }
 
             @Override
             public void onFailure(Call<UserModel> call, Throwable t) {
+                GeneralFunctions generalFunctions = new GeneralFunctions();
+                generalFunctions.showErrorMesaage(MyProfileActivity.context);
                 Log.d("----", " Error " + t.getMessage());
             }
         });

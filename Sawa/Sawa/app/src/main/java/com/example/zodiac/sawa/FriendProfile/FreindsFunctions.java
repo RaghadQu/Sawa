@@ -49,7 +49,7 @@ public class FreindsFunctions {
             }
 
             @Override
-            public void onFailure(Call<Integer> call, Throwable t) {
+                public void onFailure(Call<Integer> call, Throwable t) {
                 Log.d("stateeee"," Failure ");
 
             }

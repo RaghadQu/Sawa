@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.zodiac.sawa.GeneralAppInfo;
+import com.example.zodiac.sawa.GeneralFunctions;
 import com.example.zodiac.sawa.MainActivity;
 import com.example.zodiac.sawa.MenuActiviries.MyProfileActivity;
 import com.example.zodiac.sawa.MenuActiviries.MyFriendsActivity;
@@ -116,6 +117,9 @@ public class MyAdapter extends FastScrollRecyclerView.Adapter<MyAdapter.ViewHold
                         logOutnResponse.enqueue(new Callback<Void>() {
                             @Override
                             public void onResponse(Call<Void> call, Response<Void> response) {
+                                if (response.code() == 404||response.code()==500||response.code()==502||response.code()==400){
+                                    GeneralFunctions generalFunctions=new GeneralFunctions();
+                                }
                                 Intent i = new Intent(contexts, MainActivity.class);
                                 contexts.startActivity(i);
                                 ActivityCompat.finishAffinity((Activity) contexts);
